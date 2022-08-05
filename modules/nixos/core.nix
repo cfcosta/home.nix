@@ -34,7 +34,6 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       bash
-      ctop
       curl
       fd
       file
