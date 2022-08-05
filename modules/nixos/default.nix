@@ -6,6 +6,7 @@
     ./gnome.nix
     ./icognito.nix
     ./sound.nix
+    ./tailscale.nix
     ./virtualisation.nix
   ];
 }

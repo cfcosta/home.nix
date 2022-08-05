@@ -13,7 +13,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ docker-compose ];
+    environment.systemPackages = with pkgs; [ docker-compose ctop ];
 
     virtualisation.docker.enable = true;
 

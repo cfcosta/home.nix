@@ -1,6 +1,6 @@
 { lib, pkgs, config, ... }:
 with lib;
-let cfg = config.devos;
+let cfg = config.devos.sound;
 in {
   imports = [ ./common.nix ];
 
@@ -28,6 +28,6 @@ in {
     };
 
     environment.systemPackages = with pkgs;
-      mkDefault config.devos.gnome.enable [ easyeffects helvum ];
+      optionals config.devos.gnome.enable [ easyeffects helvum ];
   };
 }

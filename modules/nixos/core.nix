@@ -34,11 +34,14 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       bash
+      ctop
       curl
       fd
       file
+      gitFull
       ncdu
       neofetch
+      python3Full
       ripgrep
       wget
     ];
@@ -59,14 +62,31 @@ in {
 
     networking.networkmanager.enable = true;
 
-    nixpkgs.config.allowUnfree = true;
-
     services.printing.enable = true;
 
     services.openssh = {
       enable = true;
       permitRootLogin = "no";
       passwordAuthentication = false;
+    };
+
+    programs.gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+      pinentryFlavor = "gnome3";
+    };
+
+    services.pcscd.enable = true;
+
+    # Fix some weirdness with gnome and pinentry
+    services.gnome.gnome-online-accounts.enable = mkForce false;
+    services.gnome.gnome-keyring.enable = mkForce false;
+    programs.seahorse.enable = mkForce false;
+
+    users.users.${config.devos.user} = {
+      isNormalUser = true;
+      extraGroups = [ "networkmanager" "wheel" ];
+      initialPassword = "Burning722";
     };
   };
 }
