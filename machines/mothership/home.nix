@@ -1,26 +1,13 @@
 { config, lib, pkgs, ... }: {
   devos.home = {
+    name = "Cainã Costa";
     username = "cfcosta";
     email = "me@cfcosta.com";
+    githubUser = "cfcosta";
 
     alacritty.enable = true;
     emacs.enable = true;
-  };
 
-  programs.git = {
-    enable = true;
-
-    userName = "Cainã Costa";
-    userEmail = "me@cfcosta.com";
-
-    signing = {
-      key = null;
-      signByDefault = false;
-    };
-
-    extraConfig = {
-      init.defaultBranch = "main";
-      github.user = "cfcosta";
-    };
+    git = { enable = true; };
   };
 }

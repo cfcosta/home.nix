@@ -2,13 +2,14 @@
 with lib;
 let cfg = config.devos.home;
 in {
-  imports = [ ./alacritty.nix ./emacs.nix ./neovim.nix ./tmux.nix ];
+  imports = [ ./alacritty.nix ./emacs.nix ./neovim.nix ./tmux.nix ./git.nix ];
 
   options = {
     devos.home = {
-      username = mkOption { type = types.str; };
-
+      name = mkOption { type = types.str; };
       email = mkOption { type = types.str; };
+      username = mkOption { type = types.str; };
+      githubUser = mkOption { type = types.str; };
 
       homeDirectory = mkOption {
         type = types.str;
