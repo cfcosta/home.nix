@@ -68,9 +68,5 @@ in {
       (setq doom-font (font-spec :family "${fonts.fixed.family}" :weight '${fonts.fixed.weight} :size ${fonts.fixed.size})
             doom-variable-pitch-font (font-spec :family "${fonts.variable.family}" :weight '${fonts.variable.weight} :size ${fonts.variable.size}))
     '';
-
-    # home.file.".authinfo".text = with personal.accounts; mkIf config.devos.home.secrets.github_token ''
-    #   machine api.github.com login ${github.userName}^forge password ${github.token}
-    # '';
   };
 }

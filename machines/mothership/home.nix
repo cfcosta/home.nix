@@ -6,7 +6,11 @@
     githubUser = "cfcosta";
 
     alacritty.enable = true;
-    emacs.enable = true;
+
+    emacs = {
+      enable = true;
+      theme = "doom-homage-black";
+    };
 
     git = { enable = true; };
   };
