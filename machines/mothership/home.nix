@@ -9,7 +9,7 @@
 
     emacs = {
       enable = true;
-      theme = "doom-homage-black";
+      theme = "doom-ir-black";
     };
 
     git = { enable = true; };

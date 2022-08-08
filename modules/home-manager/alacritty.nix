@@ -22,7 +22,7 @@ in {
 
         size = mkOption {
           type = types.str;
-          default = "16";
+          default = "14";
         };
       };
     };
@@ -47,32 +47,39 @@ in {
           style: Bold Italic
         size: ${cfg.font.size}.0
 
-      # Moonlight theme
+      # Colors (IR Black)
       colors:
+        # Default colors
         primary:
-          background: '#212337'
-          foreground: '#b4c2f0'
+          background: '#000000'
+          foreground: '#eeeeee'
+
         cursor:
-          text:   '#7f85a3'
-          cursor: '#808080'
+          text: '#ffffff'
+          cursor: '#ffffff'
+
+        # Normal colors
         normal:
-          black:   '#191a2a'
-          red:     '#ff5370'
-          green:   '#4fd6be'
-          yellow:  '#ffc777'
-          blue:    '#3e68d7'
-          magenta: '#fc7b7b'
-          cyan:    '#86e1fc'
-          white:   '#d0d0d0'
+          black:   '#4e4e4e'
+          red:     '#ff6c60'
+          green:   '#a8ff60'
+          yellow:  '#ffffb6'
+          blue:    '#96cbfe'
+          magenta: '#ff73fd'
+          cyan:    '#c6c5fe'
+          white:   '#eeeeee'
+
+        # Bright colors
         bright:
-          black:   '#828bb8'
-          red:     '#ff98a4'
-          green:   '#c3e88d'
-          yellow:  '#ffc777'
-          blue:    '#82aaff'
-          magenta: '#ff966c'
-          cyan:    '#b4f9f8'
-          white:   '#5f8787'
+          black:   '#7c7c7c'
+          red:     '#ffb6b0'
+          green:   '#ceffab'
+          yellow:  '#ffffcb'
+          blue:    '#b5dcfe'
+          magenta: '#ff9cfe'
+          cyan:    '#dfdffe'
+          white:   '#ffffff'
+
         indexed_colors: []
     '';
   };
