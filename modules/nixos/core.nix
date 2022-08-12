@@ -77,11 +77,6 @@ in {
 
     services.pcscd.enable = true;
 
-    # Fix some weirdness with gnome and pinentry
-    services.gnome.gnome-online-accounts.enable = mkForce false;
-    services.gnome.gnome-keyring.enable = mkForce false;
-    programs.seahorse.enable = mkForce false;
-
     users.users.${config.devos.user} = {
       isNormalUser = true;
       extraGroups = [ "networkmanager" "wheel" ];
