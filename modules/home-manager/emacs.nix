@@ -54,13 +54,14 @@ in {
     programs.doom-emacs = {
       enable = true;
       doomPrivateDir = ../../templates/doom-emacs;
+      emacsPackage = pkgs.emacsNativeComp;
     };
 
     home.packages = with pkgs; [ nodePackages.mermaid-cli ];
 
     home.file.".doom.d/nix.init.el".text = with cfg; ''
-      (setq user-full-name "Cainã Costa"
-            user-mail-address "me@cfcosta.com")
+      (setq user-full-name "${config.devos.home.name}"
+            user-mail-address "${config.devos.home.email}")
 
       (setq auth-sources '("~/.authinfo"))
 
@@ -68,5 +69,7 @@ in {
       (setq doom-font (font-spec :family "${fonts.fixed.family}" :weight '${fonts.fixed.weight} :size ${fonts.fixed.size})
             doom-variable-pitch-font (font-spec :family "${fonts.variable.family}" :weight '${fonts.variable.weight} :size ${fonts.variable.size}))
     '';
+
+    services.emacs.enable = true;
   };
 }
