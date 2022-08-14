@@ -35,13 +35,10 @@ in {
     environment.systemPackages = with pkgs; [
       bash
       curl
-      fd
       file
       gitFull
-      ncdu
       neofetch
       python3Full
-      ripgrep
       wget
     ];
 

@@ -37,8 +37,13 @@ in {
 
     home.sessionVariables = { COLORTERM = "truecolor"; };
 
-    home.packages = with pkgs;
-      [ (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; }) ];
+    home.packages = with pkgs; [
+      fd
+      ncdu
+      neofetch
+      ripgrep
+      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    ];
 
     programs.bat.enable = true;
     programs.bottom.enable = true;
