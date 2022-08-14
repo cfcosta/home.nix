@@ -2,7 +2,14 @@
 with lib;
 let cfg = config.devos.home;
 in {
-  imports = [ ./alacritty.nix ./emacs.nix ./neovim.nix ./tmux.nix ./git.nix ];
+  imports = [
+    ./alacritty.nix
+    ./emacs.nix
+    ./git.nix
+    ./neovim.nix
+    ./tmux.nix
+    ./vscode.nix
+  ];
 
   options = {
     devos.home = {

@@ -12,6 +12,11 @@
       theme = "doom-ir-black";
     };
 
+    vscode = {
+      enable = true;
+      vimMode = false;
+    };
+
     git = { enable = true; };
   };
 }
