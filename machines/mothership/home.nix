@@ -14,7 +14,7 @@
 
     vscode = {
       enable = true;
-      vimMode = false;
+      vimMode = true;
     };
 
     git = { enable = true; };

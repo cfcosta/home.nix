@@ -13,6 +13,11 @@ in {
         type = types.bool;
         default = false;
       };
+
+      fontSize = mkOption {
+        type = types.int;
+        default = 16;
+      };
     };
   };
 
@@ -23,12 +28,19 @@ in {
     programs.vscode.enable = true;
 
     programs.vscode.extensions = with pkgs.vscode-extensions;
-      [ dracula-theme.theme-dracula jnoortheen.nix-ide matklad.rust-analyzer ]
-      ++ optionals cfg.vimMode [ vscodevim.vim ];
+      [
+        dracula-theme.theme-dracula
+        jnoortheen.nix-ide
+        matklad.rust-analyzer
+        eamodio.gitlens
+        kamikillerto.vscode-colorize
+      ] ++ optionals cfg.vimMode [ vscodevim.vim ];
 
     programs.vscode.userSettings = {
       "workbench.colorTheme" = "Dracula";
       "editor.semanticHighlighting.enabled" = true;
+      "window.menuBarVisibility" = "toggle";
+      "editor.fontSize" = cfg.fontSize;
     };
   };
 }
