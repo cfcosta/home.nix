@@ -20,8 +20,4 @@ with lib; {
 
     git = { enable = true; };
   };
-
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (getName pkg) [ "teams" "vscode" ];
-  home.packages = with pkgs; [ teams ];
 }
