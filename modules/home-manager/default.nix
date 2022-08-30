@@ -42,6 +42,7 @@ in {
       ncdu
       neofetch
       ripgrep
+      watchexec
       (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     ];
 
