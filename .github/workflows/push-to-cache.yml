@@ -1,0 +1,21 @@
+name: "Build and push to cachix"
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2.4.0
+      - name: Install nix
+        uses: cachix/install-nix-action@v16
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Enable cachix
+        uses: cachix/cachix-action@v10
+        with:
+          name: cfcosta-home
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - name: Build cfcosta@mothership home-manager config
+        run: nix build .#homeConfigurations.cfcosta@mothership.activationPackage
