@@ -17,7 +17,7 @@ in {
       fonts.fixed = {
         family = mkOption {
           type = types.str;
-          default = "FuraCode Nerd Font";
+          default = "FiraCode Nerd Font";
         };
 
         weight = mkOption {
@@ -34,7 +34,7 @@ in {
       fonts.variable = {
         family = mkOption {
           type = types.str;
-          default = "FuraCode Nerd Font";
+          default = "FiraCode Nerd Font";
         };
 
         weight = mkOption {
