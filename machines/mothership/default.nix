@@ -21,7 +21,7 @@
     containers.enable = true;
     gaming.enable = true;
     gnome.enable = true;
-    icognito.enable = true;
+    icognito.enable = false;
     sound.enable = true;
     tailscale.enable = true;
     virtualisation.enable = true;
