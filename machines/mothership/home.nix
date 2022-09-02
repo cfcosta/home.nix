@@ -10,7 +10,7 @@ with lib; {
 
     emacs = {
       enable = true;
-      theme = "doom-ir-black";
+      theme = "doom-tokyo-night";
     };
 
     vscode = {
