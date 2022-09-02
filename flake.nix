@@ -17,6 +17,9 @@
     with nixpkgs.lib;
     let system = "x86_64-linux";
     in {
+      home-manager.useUserPackages = true;
+      home-manager.useGlobalPkgs = true;
+
       homeConfigurations = {
         "cfcosta@mothership" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
