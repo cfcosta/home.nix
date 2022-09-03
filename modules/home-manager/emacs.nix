@@ -54,7 +54,7 @@ in {
     programs.doom-emacs = {
       enable = true;
       doomPrivateDir = ../../templates/doom-emacs;
-      emacsPackage = pkgs.emacsNativeComp;
+      emacsPackage = pkgs.emacs;
     };
 
     home.packages = with pkgs; [ nodePackages.mermaid-cli ];
