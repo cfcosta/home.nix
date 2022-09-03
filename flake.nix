@@ -45,7 +45,13 @@
 
       devShell = {
         "${system}" = let pkgs = nixpkgs.legacyPackages.${system}.pkgs;
-        in pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp ]; };
+        in pkgs.mkShell {
+          nativeBuildInputs = with pkgs; [
+            nixfmt
+            rnix-lsp
+            nodePackages.yaml-language-server
+          ];
+        };
       };
     };
 }
