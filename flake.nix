@@ -1,10 +1,9 @@
 {
   description = "Entrypoint for my user config";
 
-  nixConfig.extra-substituters =
-    "https://cfcosta-home.cachix.org https://nix-community.cachix.org";
+  nixConfig.extra-substituters = "https://cfcosta-home.cachix.org";
   nixConfig.extra-trusted-public-keys =
-    "cfcosta-home.cachix.org-1:Ly4J9QkKf/WGbnap33TG0o5mG5Sa/rcKQczLbH6G66I= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=";
+    "cfcosta-home.cachix.org-1:Ly4J9QkKf/WGbnap33TG0o5mG5Sa/rcKQczLbH6G66I=";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
