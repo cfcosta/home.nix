@@ -31,14 +31,18 @@ in {
     environment.systemPackages = with pkgs; [
       alacritty
       bitwarden
+      bloomrpc
       brave
       cawbird
       chromium
       discord
       element-desktop
       firefox
+      gimp
       gnome.polari
       gnomeExtensions.gsconnect
+      inkscape
+      krita
       obs-studio
       obsidian
       rnote
@@ -46,9 +50,6 @@ in {
       tdesktop
       thunderbird
       todoist-electron
-      inkscape
-      krita
-      gimp
     ];
 
     hardware.opengl.enable = true;
