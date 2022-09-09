@@ -36,11 +36,11 @@
     "emacs-overlay": {
       "flake": false,
       "locked": {
-        "lastModified": 1662056744,
-        "narHash": "sha256-DSVel5s2LajK2F+bxKwenfbDis63GprQLJjAfpfWgfU=",
+        "lastModified": 1662654452,
+        "narHash": "sha256-mrr161UOnVNx2pzR9ePmhVlxapzQ57ZDSLb9BRgW0bo=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "6b4445aa659fa26b4f36d9975b34632312699a85",
+        "rev": "70e241d5b189982dabc1fe55829475c5c483c89d",
         "type": "github"
       },
       "original": {
@@ -216,11 +216,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1662583828,
-        "narHash": "sha256-5rlP4RhAJX+n2Jd1S6vlDksOu9Wsodzv+DeKHTI/m9o=",
+        "lastModified": 1662659484,
+        "narHash": "sha256-+uanOaNQCOkwZhzdtLEce1L8IZcGhTgEw8mXKVLGVxQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "22113a3ae3c8410c682324e1ac3d0b995ceaf82a",
+        "rev": "4cfc0a1e02c6374f66acdfd2ff8ae3e87c80c818",
         "type": "github"
       },
       "original": {
@@ -234,7 +234,9 @@
       "inputs": {
         "doom-emacs": "doom-emacs",
         "doom-snippets": "doom-snippets",
-        "emacs-overlay": "emacs-overlay",
+        "emacs-overlay": [
+          "emacs-overlay"
+        ],
         "emacs-so-long": "emacs-so-long",
         "evil-escape": "evil-escape",
         "evil-markdown": "evil-markdown",
@@ -261,11 +263,11 @@
         "ws-butler": "ws-butler"
       },
       "locked": {
-        "lastModified": 1662238434,
-        "narHash": "sha256-kizN1H6cJqu7TCt+QQxoWw0f1WdO1hU4myhUiETpHsk=",
+        "lastModified": 1662665437,
+        "narHash": "sha256-Aksr5xArGPbyrqEa/jxXn0/d9hc639SvpgUqfkdPLCY=",
         "owner": "nix-community",
         "repo": "nix-doom-emacs",
-        "rev": "7b8c1c53537840f2656cacce267697eca7032727",
+        "rev": "a62512125de85c81fa8d1bb77ba8c8fe96d5b390",
         "type": "github"
       },
       "original": {
@@ -420,6 +422,7 @@
     },
     "root": {
       "inputs": {
+        "emacs-overlay": "emacs-overlay",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "nix-doom-emacs": "nix-doom-emacs",

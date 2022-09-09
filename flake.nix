@@ -13,11 +13,18 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      flake = false;
+    };
+
     nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
     nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
+    nix-doom-emacs.inputs.emacs-overlay.follows = "emacs-overlay";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, nix-doom-emacs, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, emacs-overlay
+    , nix-doom-emacs, ... }:
     with nixpkgs.lib;
     let system = "x86_64-linux";
     in {
