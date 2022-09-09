@@ -37,14 +37,7 @@ in {
 
     home.sessionVariables = { COLORTERM = "truecolor"; };
 
-    home.packages = with pkgs; [
-      fd
-      ncdu
-      neofetch
-      ripgrep
-      watchexec
-      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-    ];
+    home.packages = with pkgs; [ fd ncdu neofetch nerdfonts ripgrep watchexec ];
 
     programs.bat.enable = true;
     programs.bottom.enable = true;
