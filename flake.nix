@@ -1,10 +1,8 @@
 {
   description = "Entrypoint for my user config";
 
-  nixConfig.substituters = [
-    "https://cfcosta-home.cachix.org"
-    "https://cache.nixos.org"
-  ];
+  nixConfig.substituters =
+    [ "https://cfcosta-home.cachix.org" "https://cache.nixos.org" ];
 
   nixConfig.trusted-public-keys = [
     "cfcosta-home.cachix.org-1:Ly4J9QkKf/WGbnap33TG0o5mG5Sa/rcKQczLbH6G66I="
@@ -19,10 +17,7 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      flake = false;
-    };
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
 
     nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
     nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +27,9 @@
   outputs = inputs@{ nixpkgs, home-manager, flake-utils, emacs-overlay
     , nix-doom-emacs, ... }:
     with nixpkgs.lib;
-    let system = "x86_64-linux";
+    let
+      system = "x86_64-linux";
+      overlays = [ inputs.emacs-overlay.overlay ];
     in {
       home-manager.useUserPackages = true;
       home-manager.useGlobalPkgs = true;
@@ -40,7 +37,9 @@
       homeConfigurations = {
         "cfcosta@mothership" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
+
           modules = [
+            { nixpkgs.overlays = overlays; }
             nix-doom-emacs.hmModule
             ./modules/home-manager
             ./machines/mothership/home.nix
