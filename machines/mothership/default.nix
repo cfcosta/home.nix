@@ -19,7 +19,7 @@
     user = "cfcosta";
 
     containers.enable = true;
-    gaming.enable = true;
+    gaming.enable = false;
     gnome.enable = true;
     icognito.enable = false;
     sound.enable = true;
