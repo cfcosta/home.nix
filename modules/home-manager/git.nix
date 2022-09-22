@@ -36,9 +36,6 @@ in {
       extraConfig = {
         init.defaultBranch = cfg.git.defaultBranch;
         github.user = cfg.githubUser;
-
-        # Make it play nice with go get on private modules
-        "url \"ssh://git@github.com\"".insteadOf = "https://github.com";
       };
     };
   };
