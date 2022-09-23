@@ -28,6 +28,8 @@ in {
       userName = cfg.name;
       userEmail = cfg.email;
 
+      delta.enable = true;
+
       signing = {
         key = null;
         signByDefault = cfg.git.signByDefault;
