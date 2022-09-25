@@ -41,6 +41,7 @@ in {
       gimp
       gnome.polari
       gnomeExtensions.gsconnect
+      gnomeExtensions.freon
       inkscape
       krita
       obs-studio
