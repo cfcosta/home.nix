@@ -57,7 +57,10 @@ in {
       emacsPackage = pkgs.emacsPgtkNativeComp;
     };
 
-    home.packages = with pkgs; [ nodePackages.mermaid-cli ];
+    home.packages = with pkgs; [
+      nodePackages.bash-language-server
+      nodePackages.mermaid-cli
+    ];
 
     home.file.".doom.d/nix.init.el".text = with cfg; ''
       (setq user-full-name "${config.devos.home.name}"
