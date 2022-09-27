@@ -11,6 +11,8 @@ with lib; {
     emacs = {
       enable = true;
       theme = "doom-nord-light";
+      fonts.fixed.family = "Inconsolata";
+      fonts.variable.family = "Inconsolata";
     };
 
     vscode = {

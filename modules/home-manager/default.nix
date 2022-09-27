@@ -37,7 +37,15 @@ in {
 
     home.sessionVariables = { COLORTERM = "truecolor"; };
 
-    home.packages = with pkgs; [ fd ncdu neofetch nerdfonts ripgrep watchexec ];
+    home.packages = with pkgs; [
+      fd
+      inconsolata
+      ncdu
+      neofetch
+      nerdfonts
+      ripgrep
+      watchexec
+    ];
 
     programs.bat.enable = true;
     programs.bottom.enable = true;
