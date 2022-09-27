@@ -60,6 +60,9 @@ in {
     home.packages = with pkgs; [
       nodePackages.bash-language-server
       nodePackages.mermaid-cli
+      nodePackages.vscode-json-languageserver
+      nodePackages.yaml-language-server
+      nixfmt
     ];
 
     home.file.".doom.d/nix.init.el".text = with cfg; ''
