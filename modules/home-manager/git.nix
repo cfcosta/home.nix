@@ -22,6 +22,10 @@ in {
   };
 
   config = mkIf cfg.git.enable {
+    home.packages = with pkgs; [ gitg ];
+
+    programs.bash.shellAliases = { gg = "gitg"; };
+
     programs.git = {
       enable = true;
 
