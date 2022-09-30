@@ -8,9 +8,14 @@ with lib; {
 
     alacritty.enable = true;
 
+    gnome = {
+      enable = true;
+      darkTheme = true;
+    };
+
     emacs = {
       enable = true;
-      theme = "doom-nord-light";
+      theme = "doom-vibrant";
       fonts.fixed.family = "Inconsolata";
       fonts.variable.family = "Inconsolata";
     };

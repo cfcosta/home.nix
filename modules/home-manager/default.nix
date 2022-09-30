@@ -9,6 +9,7 @@ in {
     ./neovim.nix
     ./tmux.nix
     ./vscode.nix
+    ./gnome.nix
   ];
 
   options = {

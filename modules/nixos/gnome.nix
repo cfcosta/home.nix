@@ -29,6 +29,7 @@ in {
     };
 
     environment.systemPackages = with pkgs; [
+      adw-gtk3
       alacritty
       bitwarden
       bloomrpc
