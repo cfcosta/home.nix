@@ -32,6 +32,21 @@ in {
 
         clock-show-weekday = true;
       };
+
+      "org/gnome/desktop/wm/keybindings" = {
+        close = [ "<Super>q" ];
+        move-to-workspace-1 = [ "<Shift><Super>exclam" ];
+        move-to-workspace-2 = [ "<Shift><Super>at" ];
+        move-to-workspace-3 = [ "<Shift><Super>numbersign" ];
+        move-to-workspace-4 = [ "<Shift><Super>dollar" ];
+        switch-input-source = [ "<Super>Tab" ];
+        switch-input-source-backward = [ "<Shift><Super>Tab" ];
+        switch-to-workspace-1 = [ "<Super>1" ];
+        switch-to-workspace-2 = [ "<Super>2" ];
+        switch-to-workspace-3 = [ "<Super>3" ];
+        switch-to-workspace-4 = [ "<Super>4" ];
+        toggle-fullscreen = [ "<Super>f" ];
+      };
     };
   };
 }
