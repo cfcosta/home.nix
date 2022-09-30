@@ -38,7 +38,8 @@ in {
       file
       gitFull
       neofetch
-      python3Full
+      python310Full
+      python310Packages.yt-dlp
       wget
     ];
 
