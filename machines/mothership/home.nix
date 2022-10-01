@@ -15,9 +15,17 @@ with lib; {
 
     emacs = {
       enable = true;
-      theme = "doom-vibrant";
-      fonts.fixed.family = "Inconsolata";
-      fonts.variable.family = "Inconsolata";
+      theme = "doom-moonlight";
+
+      fonts.fixed = {
+        family = "Inconsolata";
+        size = "24";
+      };
+
+      fonts.variable = {
+        family = "Inconsolata";
+        size = "24";
+      };
     };
 
     vscode = {
