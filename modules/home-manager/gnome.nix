@@ -19,6 +19,11 @@ in {
   config = mkIf cfg.gnome.enable {
     home.packages = with pkgs; [ adw-gtk3 ];
 
+    home.sessionVariables = {
+      GTK_IM_MODULE = "cedilla";
+      QT_IM_MODULE = "cedilla";
+    };
+
     qt.enable = true;
     qt.platformTheme = "gnome";
     qt.style.package = pkgs.adwaita-qt;
