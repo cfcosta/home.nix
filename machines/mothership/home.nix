@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
-with lib; {
+let inherit (lib.hm.gvariant) mkTuple;
+in with lib; {
   devos.home = {
     name = "Cainã Costa";
     username = "cfcosta";
@@ -34,5 +35,9 @@ with lib; {
     };
 
     git = { enable = true; };
+  };
+
+  dconf.settings."org/gnome/desktop/input-sources" = {
+    sources = [ (mkTuple [ "xkb" "us" ]) (mkTuple [ "xkb" "us+intl" ]) ];
   };
 }
