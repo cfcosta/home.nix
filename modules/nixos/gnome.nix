@@ -13,6 +13,27 @@ in {
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [
+      adw-gtk3
+      alacritty
+      bitwarden
+      brave
+      cawbird
+      discord
+      element-desktop
+      firefox
+      gnomeExtensions.gsconnect
+      gnomeExtensions.freon
+      obs-studio
+      obsidian
+      rnote
+      spot
+      tdesktop
+      todoist-electron
+    ];
+
+    hardware.opengl.enable = true;
+
     services.xserver = {
       enable = true;
 
@@ -23,43 +44,20 @@ in {
         enable = true;
         wayland = true;
       };
+
       desktopManager.gnome.enable = true;
 
       libinput.enable = true;
     };
 
-    environment.systemPackages = with pkgs; [
-      adw-gtk3
-      alacritty
-      bitwarden
-      bloomrpc
-      brave
-      cawbird
-      chromium
-      discord
-      element-desktop
-      firefox
-      gimp
-      gnome.polari
-      gnomeExtensions.gsconnect
-      gnomeExtensions.freon
-      inkscape
-      krita
-      obs-studio
-      obsidian
-      rnote
-      spot
-      tdesktop
-      thunderbird
-      todoist-electron
-    ];
-
-    hardware.opengl.enable = true;
-
     services.avahi = {
       enable = true;
-      publish.enable = true;
-      publish.userServices = true;
+
+      publish = {
+        enable = true;
+        userServices = true;
+      };
+
       nssmdns = true;
     };
 
