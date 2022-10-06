@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.devos.home;
+let
+  cfg = config.devos.home;
+  inherit (lib.hm.gvariant) mkTuple;
 in {
   options = {
     devos.home.gnome = {
@@ -12,6 +14,11 @@ in {
       darkTheme = mkOption {
         type = types.bool;
         default = false;
+      };
+
+      keymaps = mkOption {
+        type = types.listOf types.string;
+        default = [ "us" ];
       };
     };
   };
@@ -80,6 +87,10 @@ in {
           command = "alacritty";
           name = "Launch Terminal";
         };
+
+      "org/gnome/desktop/input-sources" = {
+        sources = map (x: (mkTuple [ "xkb" x ])) cfg.gnome.keymaps;
+      };
     };
   };
 }
