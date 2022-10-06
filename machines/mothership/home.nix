@@ -19,12 +19,12 @@ with lib; {
 
       fonts.fixed = {
         family = "Inconsolata";
-        size = "24";
+        size = "18";
       };
 
       fonts.variable = {
         family = "Inconsolata";
-        size = "24";
+        size = "18";
       };
     };
 

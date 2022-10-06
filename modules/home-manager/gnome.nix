@@ -39,14 +39,42 @@ in {
         move-to-workspace-2 = [ "<Shift><Super>at" ];
         move-to-workspace-3 = [ "<Shift><Super>numbersign" ];
         move-to-workspace-4 = [ "<Shift><Super>dollar" ];
+        move-to-workspace-5 = [ "<Shift><Super>percent" ];
+        move-to-workspace-6 = [ "<Shift><Super>dead_circumflex" ];
         switch-input-source = [ "<Super>Tab" ];
         switch-input-source-backward = [ "<Shift><Super>Tab" ];
         switch-to-workspace-1 = [ "<Super>1" ];
         switch-to-workspace-2 = [ "<Super>2" ];
         switch-to-workspace-3 = [ "<Super>3" ];
         switch-to-workspace-4 = [ "<Super>4" ];
+        switch-to-workspace-5 = [ "<Super>5" ];
+        switch-to-workspace-6 = [ "<Super>6" ];
         toggle-fullscreen = [ "<Super>f" ];
       };
+
+      "org/gnome/settings-daemon/plugins/media-keys" = {
+        # Lock Screen
+        screensaver = [ "Pause" ];
+
+        custom-keybindings = [
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        ];
+      };
+
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
+        {
+          binding = "<Super>b";
+          command = "firefox";
+          name = "Launch Browser";
+        };
+
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" =
+        {
+          binding = "<Super>Return";
+          command = "alacritty";
+          name = "Launch Terminal";
+        };
     };
   };
 }
