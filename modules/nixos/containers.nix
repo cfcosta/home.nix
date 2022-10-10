@@ -7,16 +7,19 @@ in {
       type = types.bool;
       default = false;
       description = ''
-        Whether or not to enable Docker
+        Whether or not to enable podman
       '';
     };
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ docker-compose ctop ];
+    environment.systemPackages = with pkgs; [ podman-tui podman-compose ];
 
-    virtualisation.docker.enable = true;
+    virtualisation.podman = {
+      enable = true;
+      dockerCompat = true;
 
-    users.users.${config.devos.user}.extraGroups = [ "docker" ];
+      defaultNetwork.dnsname.enable = true;
+    };
   };
 }
