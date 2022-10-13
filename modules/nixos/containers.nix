@@ -21,5 +21,7 @@ in {
 
       defaultNetwork.dnsname.enable = true;
     };
+
+    users.users.${config.devos.user}.extraGroups = [ "podman" ];
   };
 }
