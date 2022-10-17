@@ -5,6 +5,7 @@
     ./gaming.nix
     ./gnome.nix
     ./icognito.nix
+    ./nvidia.nix
     ./sound.nix
     ./tailscale.nix
     ./virtualisation.nix

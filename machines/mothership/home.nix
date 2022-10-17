@@ -6,7 +6,10 @@ with lib; {
     email = "me@cfcosta.com";
     githubUser = "cfcosta";
 
-    alacritty.enable = true;
+    alacritty = {
+      enable = true;
+      font.family = "Inconsolata";
+    };
 
     gnome = {
       enable = true;

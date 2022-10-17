@@ -19,17 +19,21 @@
 
   time.timeZone = "America/Sao_Paulo";
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-
   devos = {
     enable = true;
 
     user = "cfcosta";
 
+    nvidia = {
+      enable = true;
+      wayland = true;
+    };
+
     containers.enable = true;
     gaming.enable = false;
     gnome.enable = true;
     icognito.enable = false;
+
     sound.enable = true;
     tailscale.enable = true;
     virtualisation.enable = true;
