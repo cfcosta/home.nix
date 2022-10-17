@@ -23,7 +23,5 @@ in {
     hardware.nvidia.modesetting.enable = cfg.wayland;
     services.xserver.videoDrivers = [ "nvidia" ];
     environment.variables.GBM_BACKEND = lib.optionals cfg.wayland "nvidia-drm";
-    environment.variables.__GLX_VENDOR_LIBRARY_NAME =
-      lib.optionals cfg.wayland "nvidia";
   };
 }
