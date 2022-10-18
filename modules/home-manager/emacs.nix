@@ -58,11 +58,13 @@ in {
     };
 
     home.packages = with pkgs; [
+      nixfmt
       nodePackages.bash-language-server
+      nodePackages.dockerfile-language-server-nodejs
       nodePackages.mermaid-cli
+      nodePackages.typescript-language-server
       nodePackages.vscode-json-languageserver
       nodePackages.yaml-language-server
-      nixfmt
     ];
 
     home.file.".doom.d/nix.init.el".text = with cfg; ''
