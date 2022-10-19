@@ -10,6 +10,7 @@ in {
     ./tmux.nix
     ./vscode.nix
     ./gnome.nix
+    ./firefox.nix
   ];
 
   options = {
