@@ -78,7 +78,6 @@ in {
     users.users.${config.devos.user} = {
       isNormalUser = true;
       extraGroups = [ "networkmanager" "wheel" ];
-      initialPassword = "Burning722";
     };
   };
 }
