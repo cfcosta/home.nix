@@ -29,6 +29,14 @@ in {
         User name of the main user of the system
       '';
     };
+
+    initialPassword = mkOption {
+      type = types.str;
+      description = ''
+        Initial password for the created user in the system
+      '';
+      default = "devos";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -78,6 +86,7 @@ in {
     users.users.${config.devos.user} = {
       isNormalUser = true;
       extraGroups = [ "networkmanager" "wheel" ];
+      initialPassword = config.devos.initialPassword;
     };
   };
 }
