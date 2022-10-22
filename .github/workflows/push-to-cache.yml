@@ -50,5 +50,5 @@ jobs:
         with:
           name: cfcosta-home
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      - name: Build cfcosta@mothership home-manager config
+      - name: Build Virtual Machine
         run: nix build .#testVM.config.system.build.vm
