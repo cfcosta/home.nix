@@ -49,6 +49,15 @@ in {
       watchexec
     ];
 
+    # Bash history
+    programs.atuin = {
+      enable = true;
+      settings = {
+        auto_sync = false;
+        search_mode = "prefix";
+      };
+    };
+
     programs.bat.enable = true;
     programs.bottom.enable = true;
     programs.exa.enable = true;
