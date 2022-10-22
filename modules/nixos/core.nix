@@ -71,7 +71,7 @@ in {
 
     services.openssh = {
       enable = true;
-      permitRootLogin = "no";
+      permitRootLogin = lib.mkForce "no";
       passwordAuthentication = false;
     };
 

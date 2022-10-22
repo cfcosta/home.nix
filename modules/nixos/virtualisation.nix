@@ -13,6 +13,8 @@ in {
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [ virt-manager ];
+
     virtualisation.libvirtd.enable = true;
 
     users.users.${config.devos.user}.extraGroups = [ "libvirtd" ];
