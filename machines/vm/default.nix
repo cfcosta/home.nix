@@ -16,7 +16,7 @@
   hardware.opengl.enable = true;
 
   virtualisation.memorySize = 8192;
-  virtualisation.cores = 2;
+  virtualisation.cores = 4;
 
   devos = {
     enable = true;
