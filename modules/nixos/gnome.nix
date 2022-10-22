@@ -22,8 +22,11 @@ in {
       discord
       element-desktop
       firefox
-      gnomeExtensions.gsconnect
+      foliate
+      gnome.polari
       gnomeExtensions.freon
+      gnomeExtensions.gsconnect
+      newsflash
       obs-studio
       obsidian
       rnote

@@ -59,6 +59,27 @@
         };
       };
 
+      testVM = nixpkgs.lib.nixosSystem {
+        inherit system;
+
+        modules = [
+          ./modules/nixos
+          ./machines/vm
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.users.devos = {
+              imports = [
+                { nixpkgs.overlays = overlays; }
+
+                nix-doom-emacs.hmModule
+                ./modules/home-manager
+                ./machines/vm/home.nix
+              ];
+            };
+          }
+        ];
+      };
+
       devShell = {
         "${system}" = let pkgs = nixpkgs.legacyPackages.${system}.pkgs;
         in pkgs.mkShell {
