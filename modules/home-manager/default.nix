@@ -55,6 +55,7 @@ in {
       settings = {
         auto_sync = false;
         search_mode = "prefix";
+        style = "compact";
       };
     };
 
