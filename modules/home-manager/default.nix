@@ -71,7 +71,7 @@ in {
     programs.bash.enable = true;
     programs.bash.shellAliases = {
       ack = "rg";
-      cat = "bat -n";
+      cat = "bat --decorations=never";
       g = "git status --short";
       gc = "git commit";
       gca = "git commit -a";
