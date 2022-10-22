@@ -9,7 +9,7 @@
 
   boot.loader.systemd-boot.enable = true;
 
-  networking.hostName = "mothership";
+  networking.hostName = "devos";
 
   time.timeZone = "America/Sao_Paulo";
 
