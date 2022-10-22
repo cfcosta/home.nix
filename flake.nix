@@ -63,6 +63,8 @@
         inherit system;
 
         modules = [
+          "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
+          "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
           ./modules/nixos
           ./machines/vm
           home-manager.nixosModules.home-manager

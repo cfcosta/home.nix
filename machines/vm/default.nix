@@ -13,6 +13,11 @@
 
   time.timeZone = "America/Sao_Paulo";
 
+  hardware.opengl.enable = true;
+
+  virtualisation.memorySize = 8192;
+  virtualisation.cores = 2;
+
   devos = {
     enable = true;
 
