@@ -24,8 +24,7 @@ in {
       firefox
       foliate
       gnome.polari
-      gnomeExtensions.freon
-      gnomeExtensions.gsconnect
+      gnomeExtensions.blur-my-shell
       newsflash
       obs-studio
       obsidian

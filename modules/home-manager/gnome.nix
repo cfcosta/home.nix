@@ -91,6 +91,11 @@ in {
       "org/gnome/desktop/input-sources" = {
         sources = map (x: (mkTuple [ "xkb" x ])) cfg.gnome.keymaps;
       };
+
+      "org/gnome/shell" = {
+        enabled-extensions = [ "blur-my-shell@aunetx" ];
+        disabled-extensions = [ ];
+      };
     };
   };
 }
