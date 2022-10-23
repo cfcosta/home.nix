@@ -15,11 +15,6 @@ in {
           default = "FiraCode Nerd Font";
         };
 
-        weight = mkOption {
-          type = types.str;
-          default = "medium";
-        };
-
         size = mkOption {
           type = types.str;
           default = "14";
@@ -35,7 +30,7 @@ in {
       font:
         normal:
           family: ${cfg.font.family}
-          style: Medium
+          style: Regular
         bold:
           family: ${cfg.font.family}
           style: Bold
@@ -47,38 +42,34 @@ in {
           style: Bold Italic
         size: ${cfg.font.size}.0
 
-      # Colors (IR Black)
       colors:
-        # Default colors
         primary:
-          background: '#000000'
-          foreground: '#eeeeee'
+          background: '#191a2a'
+          foreground: '#7f85a3'
 
         cursor:
-          text: '#ffffff'
-          cursor: '#ffffff'
+          text:   '#7f85a3'
+          cursor: '#808080'
 
-        # Normal colors
         normal:
-          black:   '#4e4e4e'
-          red:     '#ff6c60'
-          green:   '#a8ff60'
-          yellow:  '#ffffb6'
-          blue:    '#96cbfe'
-          magenta: '#ff73fd'
-          cyan:    '#c6c5fe'
-          white:   '#eeeeee'
+          black:   '#444a73'
+          red:     '#ff5370'
+          green:   '#4fd6be'
+          yellow:  '#ffc777'
+          blue:    '#3e68d7'
+          magenta: '#fc7b7b'
+          cyan:    '#86e1fc'
+          white:   '#d0d0d0'
 
-        # Bright colors
         bright:
-          black:   '#7c7c7c'
-          red:     '#ffb6b0'
-          green:   '#ceffab'
-          yellow:  '#ffffcb'
-          blue:    '#b5dcfe'
-          magenta: '#ff9cfe'
-          cyan:    '#dfdffe'
-          white:   '#ffffff'
+          black:   '#828bb8'
+          red:     '#ff98a4'
+          green:   '#c3e88d'
+          yellow:  '#ffc777'
+          blue:    '#82aaff'
+          magenta: '#ff966c'
+          cyan:    '#b4f9f8'
+          white:   '#5f8787'
 
         indexed_colors: []
     '';
