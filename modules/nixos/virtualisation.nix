@@ -13,7 +13,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ virt-manager ];
+    environment.systemPackages = with pkgs; [ virt-manager gnome.gnome-boxes ];
 
     virtualisation.libvirtd.enable = true;
 

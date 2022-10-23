@@ -15,7 +15,12 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ lutris mangohud retroarchFull ];
+    environment.systemPackages = with pkgs; [
+      bottles
+      lutris
+      mangohud
+      retroarchFull
+    ];
 
     hardware.opengl.enable = true;
 

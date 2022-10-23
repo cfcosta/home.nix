@@ -29,6 +29,7 @@ in {
       newsflash
       obs-studio
       obsidian
+      pocket-casts
       rnote
       spot
       tdesktop
