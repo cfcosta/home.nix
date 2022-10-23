@@ -1,6 +1,16 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.devos.home.vscode;
+let
+  cfg = config.devos.home.vscode;
+  moonlight-theme = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      name = "moonlight";
+      publisher = "atomiks";
+      version = "0.10.6";
+      sha256 = "2Du/2rLWZUMo746rVWnngj0f0/H/94bt3rF+G+3Ipqw=";
+    };
+    meta = { license = lib.licenses.mit; };
+  };
 in {
   options = {
     devos.home.vscode = {
@@ -27,15 +37,15 @@ in {
 
     programs.vscode.extensions = with pkgs.vscode-extensions;
       [
-        dracula-theme.theme-dracula
         jnoortheen.nix-ide
         matklad.rust-analyzer
         eamodio.gitlens
         kamikillerto.vscode-colorize
+        moonlight-theme
       ] ++ optionals cfg.vimMode [ vscodevim.vim ];
 
     programs.vscode.userSettings = {
-      "workbench.colorTheme" = "Dracula";
+      "workbench.colorTheme" = "Moonlight II";
       "editor.semanticHighlighting.enabled" = true;
       "window.menuBarVisibility" = "toggle";
       "editor.fontSize" = cfg.fontSize;
