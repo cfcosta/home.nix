@@ -11,6 +11,15 @@ let
     };
     meta = { license = lib.licenses.mit; };
   };
+  direnv-vscode = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      name = "direnv";
+      publisher = "mkhl";
+      version = "0.6.1";
+      sha256 = "5/Tqpn/7byl+z2ATflgKV1+rhdqj+XMEZNbGwDmGwLQ=";
+    };
+    meta = { license = lib.licenses.bsd0; };
+  };
 in {
   options = {
     devos.home.vscode = {
@@ -37,11 +46,13 @@ in {
 
     programs.vscode.extensions = with pkgs.vscode-extensions;
       [
+        moonlight-theme
+        direnv-vscode
+
         jnoortheen.nix-ide
         matklad.rust-analyzer
         eamodio.gitlens
         kamikillerto.vscode-colorize
-        moonlight-theme
       ] ++ optionals cfg.vimMode [ vscodevim.vim ];
 
     programs.vscode.userSettings = {
