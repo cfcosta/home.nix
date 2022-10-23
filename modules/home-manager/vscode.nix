@@ -24,6 +24,7 @@ in {
   config = mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (getName pkg) [ "vscode" ];
+    nixpkgs.config.permittedInsecurePackages = [ "electron-14.2.9" ];
 
     programs.vscode.enable = true;
 
