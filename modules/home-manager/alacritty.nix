@@ -45,7 +45,7 @@ in {
       colors:
         primary:
           background: '#191a2a'
-          foreground: '#7f85a3'
+          foreground: '#c8d3f5'
 
         cursor:
           text:   '#7f85a3'
