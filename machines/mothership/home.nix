@@ -13,6 +13,8 @@ with lib; {
       font.family = "Inconsolata";
     };
 
+    cloud.enable = true;
+
     gnome = {
       enable = true;
       darkTheme = true;

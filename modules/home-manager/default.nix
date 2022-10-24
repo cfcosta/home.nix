@@ -4,13 +4,14 @@ let cfg = config.devos.home;
 in {
   imports = [
     ./alacritty.nix
+    ./cloud.nix
     ./emacs.nix
+    ./firefox.nix
     ./git.nix
+    ./gnome.nix
     ./neovim.nix
     ./tmux.nix
     ./vscode.nix
-    ./gnome.nix
-    ./firefox.nix
   ];
 
   options = {
