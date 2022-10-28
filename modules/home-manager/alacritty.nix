@@ -16,8 +16,8 @@ in {
         };
 
         size = mkOption {
-          type = types.str;
-          default = "14";
+          type = types.int;
+          default = 14;
         };
       };
     };
@@ -40,7 +40,7 @@ in {
         bold_italic:
           family: ${cfg.font.family}
           style: Bold Italic
-        size: ${cfg.font.size}.0
+        size: ${toString cfg.font.size}.0
 
       colors:
         primary:
