@@ -95,6 +95,10 @@ in {
       "org/gnome/shell" = {
         enabled-extensions = [ "blur-my-shell@aunetx" ];
         disabled-extensions = [ ];
+
+        # Disable gnome tour when starting for the first time by setting a
+        # really high version.
+        welcome-dialog-last-shown-version = "4294967295";
       };
     };
   };
