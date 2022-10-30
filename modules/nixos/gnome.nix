@@ -21,7 +21,7 @@ in {
       cawbird
       discord
       element-desktop
-      firefox
+      (firefox.override { cfg = { enableGnomeExtensions = true; }; })
       foliate
       gnome.polari
       gnomeExtensions.blur-my-shell
