@@ -93,6 +93,8 @@ in {
       };
 
       "org/gnome/shell" = {
+        disable-user-extensions = false;
+
         enabled-extensions =
           [ "blur-my-shell@aunetx" "dash-to-dock@micxgx.gmail.com" ];
         disabled-extensions = [ ];
