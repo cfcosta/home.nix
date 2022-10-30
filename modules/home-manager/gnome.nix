@@ -103,6 +103,15 @@ in {
         # really high version.
         welcome-dialog-last-shown-version = "4294967295";
       };
+
+      # Make dash-to-dock look nice using blur-my-shell
+      "org/gnome/shell/extensions/blur-my-shell/dash-to-dock" = {
+        blur = true;
+        customize = false;
+        override-background = true;
+        style-dash-to-dock = 0;
+        unblur-in-overview = false;
+      };
     };
   };
 }
