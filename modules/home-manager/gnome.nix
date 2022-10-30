@@ -93,7 +93,8 @@ in {
       };
 
       "org/gnome/shell" = {
-        enabled-extensions = [ "blur-my-shell@aunetx" ];
+        enabled-extensions =
+          [ "blur-my-shell@aunetx" "dash-to-dock@micxgx.gmail.com" ];
         disabled-extensions = [ ];
 
         # Disable gnome tour when starting for the first time by setting a

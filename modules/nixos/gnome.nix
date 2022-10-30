@@ -25,6 +25,7 @@ in {
       foliate
       gnome.polari
       gnomeExtensions.blur-my-shell
+      gnomeExtensions.dash-to-dock
       newsflash
       obs-studio
       obsidian
