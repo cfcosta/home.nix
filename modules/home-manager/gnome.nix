@@ -104,6 +104,8 @@ in {
         welcome-dialog-last-shown-version = "4294967295";
       };
 
+      "org/gnome/shell/extensions/dash-to-dock" = { hot-keys = false; };
+
       # Make dash-to-dock look nice using blur-my-shell
       "org/gnome/shell/extensions/blur-my-shell/dash-to-dock" = {
         blur = true;
