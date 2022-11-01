@@ -11,26 +11,41 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
-    home-manager.url = "github:nix-community/home-manager/master";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
     flake-utils.url = "github:numtide/flake-utils";
 
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
-    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
-    nix-doom-emacs.inputs.emacs-overlay.follows = "emacs-overlay";
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-doom-emacs = {
+      url = "github:nix-community/nix-doom-emacs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        emacs-overlay.follows = "emacs-overlay";
+      };
+    };
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, emacs-overlay
-    , nix-doom-emacs, ... }:
+  outputs = { nixpkgs, home-manager, flake-utils, emacs-overlay, nix-doom-emacs
+    , rust-overlay, ... }:
     with nixpkgs.lib;
     let
       system = "x86_64-linux";
-      overlays = [ inputs.emacs-overlay.overlay ];
+      overlays = [ emacs-overlay.overlay rust-overlay.overlays.default ];
     in {
       home-manager.useUserPackages = true;
       home-manager.useGlobalPkgs = true;

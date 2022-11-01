@@ -42,5 +42,7 @@ with lib; {
     };
 
     git = { enable = true; };
+
+    runtimes = { rust.enable = true; };
   };
 }
