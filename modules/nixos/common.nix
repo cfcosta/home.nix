@@ -2,7 +2,7 @@
   nixpkgs.config.allowUnfree = true;
 
   nix.extraOptions = ''
-    experimental-features = nix-command flakes ca-derivations
+    experimental-features = nix-command flakes
   '';
 
   system.stateVersion = "22.11";
