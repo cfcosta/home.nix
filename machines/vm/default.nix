@@ -30,6 +30,5 @@
 
     sound.enable = true;
     tailscale.enable = true;
-    virtualisation.enable = true;
   };
 }

@@ -1,27 +1,23 @@
 { lib, pkgs, config, ... }:
-with lib;
 let cfg = config.devos.nvidia;
 in {
-  options = {
-    devos.nvidia.enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        Whether or not to enable the NVIDIA driver
-      '';
-    };
-    devos.nvidia.wayland = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        Whether or not to enable wayland support for the NVIDIA driver
-      '';
-    };
-  };
+  options.devos.nvidia.enable = lib.mkEnableOption "nvidia";
 
-  config = mkIf cfg.enable {
-    hardware.nvidia.modesetting.enable = cfg.wayland;
+  config = lib.mkIf cfg.enable {
+    hardware.nvidia.modesetting.enable = true;
     services.xserver.videoDrivers = [ "nvidia" ];
-    environment.variables.GBM_BACKEND = lib.optionals cfg.wayland "nvidia-drm";
+
+    hardware.opengl = {
+      enable = true;
+      driSupport = true;
+    };
+
+    environment.variables = {
+      GBM_BACKEND = "nvidia-drm";
+      LIBVA_DRIVER_NAME = "nvidia";
+      WLR_NO_HARDWARE_CURSORS = "1";
+      WLR_RENDERER = "vulkan";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    };
   };
 }

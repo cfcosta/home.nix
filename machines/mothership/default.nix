@@ -24,18 +24,17 @@
 
     user = "cfcosta";
 
-    nvidia = {
-      enable = true;
-      wayland = true;
-    };
+    nvidia.enable = true;
 
-    containers.enable = true;
     gaming.enable = false;
     gnome.enable = true;
     icognito.enable = false;
 
+    containers.enable = true;
+    libvirt.enable = true;
+    virtualbox.enable = true;
+
     sound.enable = true;
     tailscale.enable = true;
-    virtualisation.enable = true;
   };
 }

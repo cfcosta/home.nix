@@ -8,6 +8,7 @@
     ./nvidia.nix
     ./sound.nix
     ./tailscale.nix
-    ./virtualisation.nix
+    ./virtualbox.nix
+    ./libvirt.nix
   ];
 }
