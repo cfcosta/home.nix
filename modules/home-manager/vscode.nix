@@ -46,13 +46,18 @@ in {
 
     programs.vscode.extensions = with pkgs.vscode-extensions;
       [
+        # Theme
         moonlight-theme
-        direnv-vscode
 
-        jnoortheen.nix-ide
-        matklad.rust-analyzer
+        # Environment Setup
+        direnv-vscode
         eamodio.gitlens
         kamikillerto.vscode-colorize
+
+        # Language Support
+        jnoortheen.nix-ide
+        bungcip.better-toml
+        matklad.rust-analyzer
       ] ++ optionals cfg.vimMode [ vscodevim.vim ];
 
     programs.vscode.userSettings = {
