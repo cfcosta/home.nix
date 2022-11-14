@@ -22,8 +22,6 @@ in {
       discord
       element-desktop
       (firefox.override { cfg = { enableGnomeExtensions = true; }; })
-      foliate
-      gnome.polari
       gnomeExtensions.blur-my-shell
       gnomeExtensions.dash-to-dock
       gnomeExtensions.wifi-qrcode
@@ -33,7 +31,6 @@ in {
       rnote
       spot
       tdesktop
-      todoist-electron
     ];
 
     hardware.opengl.enable = true;
