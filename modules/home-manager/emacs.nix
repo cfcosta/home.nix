@@ -14,6 +14,8 @@ in {
         default = "doom-moonlight";
       };
 
+      wayland = mkEnableOption "wayland";
+
       fonts.fixed = {
         family = mkOption {
           type = types.str;
@@ -54,7 +56,8 @@ in {
     programs.doom-emacs = {
       enable = true;
       doomPrivateDir = ../../templates/doom-emacs;
-      emacsPackage = pkgs.emacsPgtkNativeComp;
+      emacsPackage =
+        if cfg.wayland then pkgs.emacsPgtkNativeComp else pkgs.emacsNativeComp;
     };
 
     home.packages = with pkgs; [

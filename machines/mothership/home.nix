@@ -24,6 +24,7 @@ with lib; {
     emacs = {
       enable = true;
       theme = "doom-moonlight";
+      wayland = false;
 
       fonts.fixed = {
         family = "Inconsolata";
