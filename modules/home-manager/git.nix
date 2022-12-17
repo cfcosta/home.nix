@@ -40,8 +40,11 @@ in {
       };
 
       extraConfig = {
-        init.defaultBranch = cfg.git.defaultBranch;
         github.user = cfg.githubUser;
+        init.defaultBranch = cfg.git.defaultBranch;
+
+        pull.ff = "only";
+        push.autoSetupRemote = true;
       };
     };
   };
