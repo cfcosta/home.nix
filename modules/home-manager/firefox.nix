@@ -1,13 +1,28 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.devos.home.firefox;
+let
+  cfg = config.devos.home.firefox;
+  themeConfig = {
+    profile = {
+      settings = {
+        # For Firefox GNOME theme:
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "browser.uidensity" = 0;
+        "svg.context-properties.content.enabled" = true;
+      };
+      userChrome = ''
+        @import "firefox-gnome-theme/userChrome.css";
+      '';
+      userContent = ''
+        @import "firefox-gnome-theme/userContent.css";
+      '';
+    };
+  };
 in {
   options = {
     devos.home.firefox = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
+      enable = mkEnableOption "firefox";
+      gnomeTheme = mkEnableOption "firefox";
     };
   };
 
@@ -15,24 +30,13 @@ in {
     programs.firefox = {
       enable = true;
 
-      profiles.default = {
-        name = "Default";
-        settings = {
-          # For Firefox GNOME theme:
-          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-          "browser.uidensity" = 0;
-          "svg.context-properties.content.enabled" = true;
-        };
-        userChrome = ''
-          @import "firefox-gnome-theme/userChrome.css";
-        '';
-        userContent = ''
-          @import "firefox-gnome-theme/userContent.css";
-        '';
-      };
+      profiles.default = mkMerge [
+        { name = "Default"; }
+        (mkIf cfg.gnomeTheme themeConfig.profile)
+      ];
     };
 
-    home.file."firefox-gnome-theme" = {
+    home.file."firefox-gnome-theme" = mkIf cfg.gnomeTheme {
       target = ".mozilla/firefox/default/chrome/firefox-gnome-theme";
       source = pkgs.fetchFromGitHub {
         owner = "rafaelmardojai";

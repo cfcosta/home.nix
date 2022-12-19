@@ -6,7 +6,10 @@ with lib; {
     email = "me@cfcosta.com";
     githubUser = "cfcosta";
 
-    firefox.enable = true;
+    firefox = {
+      enable = true;
+      gnomeTheme = false;
+    };
 
     alacritty = {
       enable = true;
