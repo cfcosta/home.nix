@@ -28,6 +28,7 @@ with lib; {
       enable = true;
       theme = "doom-moonlight";
       wayland = false;
+      graphical = true;
 
       fonts.fixed = {
         family = "Inconsolata";
