@@ -62,8 +62,8 @@ in {
     programs.doom-emacs = {
       enable = true;
       doomPrivateDir = ../../templates/doom-emacs;
-      emacsPackage = if (cfg.wayland or cfg.graphical) then
-        (if (cfg.wayland) then pkgs.emacsPgtk else pkgs.emacsUnstable)
+      emacsPackage = if cfg.graphical then
+        (if cfg.wayland then pkgs.emacsPgtk else pkgs.emacsUnstable)
       else
         pkgs.emacsUnstable-nox;
     };
