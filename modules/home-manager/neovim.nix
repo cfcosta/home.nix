@@ -1,24 +1,28 @@
 { config, pkgs, ... }: {
   home.sessionVariables = { EDITOR = "nvim"; };
 
-  programs.neovim = {
-    enable = true;
-    extraConfig = builtins.readFile ../../templates/neovim/init.vim;
+  home.packages = with pkgs; [
+    sumneko-lua-language-server
+    tree-sitter
+    clang
+    neovide # TODO: Do a global graphical flag to install those, use same flag as emacs
+  ];
 
-    plugins = with pkgs.vimPlugins; [
-      fugitive
-      vim-surround
-      neovim-sensible
-      vim-nix
-      dracula-vim
-      nvim-treesitter
-      nvim-tree-lua
-      nvim-web-devicons
-      auto-pairs
-      nvim-comment
-      telescope-nvim
-      plenary-nvim
-      neogit
-    ];
+  programs.neovim.enable = true;
+
+  xdg.configFile."nvim" = {
+    source = ../../templates/neovim;
+    recursive = true;
+  };
+
+  home.file.nvim-packer = {
+    target = ".local/share/nvim/site/pack/packer/start/packer.nvim";
+
+    source = pkgs.fetchFromGitHub {
+      owner = "wbthomason";
+      repo = "packer.nvim";
+      rev = "master";
+      sha256 = "sha256-IIokssVOGFf5/pZQ4gRCPV5ktWPDfCCKJb5Ux1DrKok=";
+    };
   };
 }
