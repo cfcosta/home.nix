@@ -28,7 +28,7 @@
 
     gaming.enable = false;
     gnome.enable = true;
-    icognito.enable = false;
+    icognito.enable = true;
 
     containers.enable = true;
     libvirt.enable = true;

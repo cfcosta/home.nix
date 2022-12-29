@@ -1,5 +1,4 @@
-{ config, lib, pkgs, ... }:
-with lib; {
+{ config, lib, pkgs, ... }: {
   devos.home = {
     name = "Cainã Costa";
     username = "cfcosta";

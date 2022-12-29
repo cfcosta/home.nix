@@ -15,8 +15,12 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ tor-browser-bundle-bin ];
+    environment.systemPackages = with pkgs; [
+      mullvad-vpn
+      tor-browser-bundle-bin
+    ];
 
     services.i2p.enable = true;
+    services.mullvad-vpn.enable = true;
   };
 }
