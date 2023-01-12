@@ -2,6 +2,7 @@
   home.sessionVariables = { EDITOR = "nvim"; };
 
   home.packages = with pkgs; [
+    rnix-lsp
     sumneko-lua-language-server
     tree-sitter
     clang

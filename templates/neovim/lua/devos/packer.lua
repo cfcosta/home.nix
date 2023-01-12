@@ -59,13 +59,34 @@ return require('packer').startup(function(use)
       }
     }
 
+    use({
+      "windwp/nvim-autopairs",
+      config = function() require("nvim-autopairs").setup {} end
+    })
+
     use("direnv/direnv.vim")
     use("github/copilot.vim")
     use('jeffkreeftmeijer/neovim-sensible')
-    use('kylechui/nvim-surround')
+    use({
+      'kylechui/nvim-surround',
+      config = function()
+        require("nvim-surround").setup({})
+      end
+    })
     use('mbbill/undotree')
     use('nvim-treesitter/playground')
     use({'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'})
     use('terrortylor/nvim-comment')
     use('tpope/vim-fugitive')
+    use({
+      'sbdchd/neoformat',
+      config = function()
+        vim.cmd([[
+        augroup fmt
+          autocmd!
+          autocmd BufWritePre * undojoin | Neoformat
+        augroup END
+        ]])
+      end
+  })
 end)
