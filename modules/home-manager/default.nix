@@ -12,6 +12,7 @@ in {
     ./neovim.nix
     ./tmux.nix
     ./vscode.nix
+    ./lsp.nix
     ./runtimes
   ];
 

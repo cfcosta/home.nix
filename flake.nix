@@ -38,24 +38,46 @@
         flake-utils.follows = "flake-utils";
       };
     };
+
+    cargo2nix = {
+      url = "github:cfcosta/cargo2nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "rust-overlay";
+      };
+    };
   };
 
   outputs = { nixpkgs, home-manager, flake-utils, emacs-overlay, nix-doom-emacs
-    , rust-overlay, ... }:
+    , rust-overlay, cargo2nix, ... }:
     with nixpkgs.lib;
     let
       system = "x86_64-linux";
-      overlays = [ emacs-overlay.overlay rust-overlay.overlays.default ];
+
+      customPackages = (_: _: {
+        devos = let rust = pkgs.rust-bin.stable.latest;
+        in {
+          rust-full = rust.default.override {
+            extensions = [ "rust-src" "clippy" "rustfmt" "rust-analyzer" ];
+          };
+
+          rust-analyzer = rust.rust-analyzer;
+          cargo2nix = cargo2nix.packages.${system}.cargo2nix;
+        };
+      });
+
+      overlays =
+        [ emacs-overlay.overlay rust-overlay.overlays.default customPackages ];
+      pkgs = import nixpkgs { inherit system overlays; };
     in {
       home-manager.useUserPackages = true;
       home-manager.useGlobalPkgs = true;
 
       homeConfigurations = {
         "cfcosta@mothership" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${system};
+          inherit pkgs;
 
           modules = [
-            { nixpkgs.overlays = overlays; }
             nix-doom-emacs.hmModule
             ./modules/home-manager
             ./machines/mothership/home.nix
@@ -65,7 +87,7 @@
 
       nixosConfigurations = {
         mothership = nixpkgs.lib.nixosSystem {
-          inherit system;
+          inherit system pkgs;
 
           modules = [
             ./modules/nixos
@@ -76,7 +98,7 @@
       };
 
       testVM = nixpkgs.lib.nixosSystem {
-        inherit system;
+        inherit system pkgs;
 
         modules = [
           "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
@@ -87,8 +109,6 @@
           {
             home-manager.users.devos = {
               imports = [
-                { nixpkgs.overlays = overlays; }
-
                 nix-doom-emacs.hmModule
                 ./modules/home-manager
                 ./machines/vm/home.nix
@@ -99,8 +119,7 @@
       };
 
       devShell = {
-        "${system}" = let pkgs = nixpkgs.legacyPackages.${system}.pkgs;
-        in pkgs.mkShell {
+        "${system}" = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             nixfmt
             rnix-lsp

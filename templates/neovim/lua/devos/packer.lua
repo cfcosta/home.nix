@@ -14,7 +14,7 @@ return require('packer').startup(function(use)
     use {
       'nvim-tree/nvim-tree.lua',
       requires = {
-        'nvim-tree/nvim-devicons'
+        'ryanoasis/vim-devicons'
       },
       config = function()
         vim.keymap.set('n', '<space>op', ':NvimTreeToggle<cr>', opts)
@@ -29,10 +29,10 @@ return require('packer').startup(function(use)
     }
 
     use({
-        'shaunsingh/moonlight.nvim',
-        as = 'moonlight',
+        'dracula/vim',
+        as = 'dracula',
         config = function()
-          vim.cmd('colorscheme moonlight')
+          vim.cmd('colorscheme dracula')
         end
     })
 
