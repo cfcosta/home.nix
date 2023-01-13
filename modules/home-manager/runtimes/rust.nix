@@ -13,16 +13,13 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
+      cargo-audit
       cargo-watch
-      crate2nix
-      clang
-      mold
+      cargo-nextest
       clang
       (rust-bin.stable.latest.default.override {
         extensions = [ "rust-src" "clippy" "rustfmt" "rust-analyzer" ];
       })
     ];
-
-    home.sessionVariables.RUSTFLAGS = "-C link-arg=-fuse-ld=mold";
   };
 }
