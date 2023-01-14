@@ -19,7 +19,6 @@ in {
       bitwarden
       brave
       cawbird
-      discord
       element-desktop
       (firefox.override { cfg = { enableGnomeExtensions = true; }; })
       gnomeExtensions.blur-my-shell
