@@ -68,7 +68,10 @@
 
       overlays =
         [ emacs-overlay.overlay rust-overlay.overlays.default customPackages ];
-      pkgs = import nixpkgs { inherit system overlays; };
+      pkgs = import nixpkgs {
+        inherit system overlays;
+        config.allowUnfree = true;
+      };
     in {
       home-manager.useUserPackages = true;
       home-manager.useGlobalPkgs = true;
