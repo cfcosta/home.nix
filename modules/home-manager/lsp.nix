@@ -11,7 +11,7 @@ in {
 
       # Autoformatting
       nixfmt # nix
-      devos.rust-analyzer # rust
+      devos.rustfmt
 
       # Language Servers
       rnix-lsp # nix
@@ -20,6 +20,7 @@ in {
       nodePackages.typescript-language-server # Typescript
       nodePackages.vscode-json-languageserver # JSON
       nodePackages.yaml-language-server # YAML
+      devos.rust-analyzer # rust
     ];
   };
 }

@@ -13,7 +13,6 @@ in {
     ./tmux.nix
     ./vscode.nix
     ./lsp.nix
-    ./runtimes
   ];
 
   options = {

@@ -62,6 +62,7 @@
           };
 
           rust-analyzer = rust.rust-analyzer;
+          rustfmt = rust.rustfmt;
           cargo2nix = cargo2nix.packages.${system}.cargo2nix;
         };
       });

@@ -48,6 +48,5 @@
     git = { enable = true; };
 
     lsp.enable = true;
-    runtimes.rust.enable = true;
   };
 }
