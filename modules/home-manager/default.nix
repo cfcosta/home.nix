@@ -42,12 +42,14 @@ in {
     home.sessionVariables = { COLORTERM = "truecolor"; };
 
     home.packages = with pkgs; [
+      eva
       fd
       inconsolata
       ncdu
       neofetch
       nerdfonts
       ripgrep
+      tree
       watchexec
     ];
 
