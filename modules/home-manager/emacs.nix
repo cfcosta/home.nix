@@ -1,11 +1,6 @@
 { pkgs, lib, config, ... }:
 with lib;
-let
-  cfg = config.devos.home.emacs;
-  emacsPackage = if cfg.graphical then
-    (if cfg.wayland then pkgs.emacsPgtk else pkgs.emacsUnstable)
-  else
-    pkgs.emacsUnstable-nox;
+let cfg = config.devos.home.emacs;
 in {
   options = {
     devos.home.emacs = {
@@ -19,7 +14,6 @@ in {
         default = "doom-moonlight";
       };
 
-      wayland = mkEnableOption "wayland";
       graphical = mkEnableOption "graphical";
 
       fonts.fixed = {
@@ -62,10 +56,7 @@ in {
     programs.doom-emacs = {
       enable = true;
       doomPrivateDir = ../../templates/doom-emacs;
-      emacsPackage = if cfg.graphical then
-        (if cfg.wayland then pkgs.emacsPgtk else pkgs.emacsUnstable)
-      else
-        pkgs.emacsUnstable-nox;
+      emacsPackage = if cfg.graphical then pkgs.emacs else pkgs.emacs-nox;
     };
 
     home.packages = with pkgs; [
