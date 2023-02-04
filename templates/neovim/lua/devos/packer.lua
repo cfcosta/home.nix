@@ -23,8 +23,20 @@ return require('packer').startup(function(use)
 
     use {
       'TimUntersberger/neogit',
+      requires = {
+        'nvim-lua/plenary.nvim',
+        'sindrets/diffview.nvim'
+      },
       config = function()
         vim.keymap.set('n', '<space>gg', ':Neogit<cr>', opts)
+        local neogit = require("neogit")
+
+        neogit.setup({
+          use_magit_keybindings = true,
+          integrations = {
+            diffview = true
+          }
+        })
       end
     }
 
