@@ -9,7 +9,6 @@ in {
     ./firefox.nix
     ./git.nix
     ./gnome.nix
-    ./neovim.nix
     ./tmux.nix
     ./vscode.nix
     ./lsp.nix
@@ -52,6 +51,8 @@ in {
       tree
       watchexec
     ];
+
+    programs.devos.neovim = true;
 
     programs.bat.enable = true;
     programs.bottom.enable = true;
