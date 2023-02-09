@@ -47,14 +47,14 @@
       };
     };
 
-    nvim-nix = {
-      url = "github:cfcosta/nvim.nix";
+    nvchad = {
+      url = "github:cfcosta/nvchad";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs = { nixpkgs, home-manager, flake-utils, emacs-overlay, nix-doom-emacs
-    , rust-overlay, cargo2nix, nvim-nix, ... }:
+    , rust-overlay, cargo2nix, nvchad, ... }:
     with nixpkgs.lib;
     let
       system = "x86_64-linux";
@@ -88,7 +88,7 @@
 
           modules = [
             nix-doom-emacs.hmModule
-            nvim-nix.hmModule
+            nvchad.hmModule
             ./modules/home-manager
             ./machines/mothership/home.nix
           ];

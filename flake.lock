@@ -66,11 +66,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1675937476,
-        "narHash": "sha256-DPd4/LjcaVouSTbLSnUa2oig+teH1bFGOvBIDw2MESA=",
+        "lastModified": 1675962557,
+        "narHash": "sha256-tHel6AybT7/7dVgPqb31IV6OjJ/OwfaMo2Z0Kuxv4m8=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "b70f136e1c59d3733684d9bd9893d9153f810be3",
+        "rev": "5efe11646cbbd9c16c70cdf738104714252848b0",
         "type": "github"
       },
       "original": {
@@ -400,23 +400,23 @@
         "type": "github"
       }
     },
-    "nvim-nix": {
+    "nvchad": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1675940718,
-        "narHash": "sha256-6J0FwDXfu/pWWCNxYmSL5/qhuYvHftqm2DPRdCNW6xs=",
+        "lastModified": 1675970940,
+        "narHash": "sha256-mK4UuH4jPmDE6J/UyNSMWMfSW2/RKL7l1kG4p3mcR08=",
         "owner": "cfcosta",
-        "repo": "nvim.nix",
-        "rev": "72c27aae75d7bcf716bb3a7f1dbb80c18190883e",
+        "repo": "nvchad",
+        "rev": "bf8849d7bb696d7248dd191b9252f89bf3a603f9",
         "type": "github"
       },
       "original": {
         "owner": "cfcosta",
-        "repo": "nvim.nix",
+        "repo": "nvchad",
         "type": "github"
       }
     },
@@ -524,7 +524,7 @@
         "home-manager": "home-manager",
         "nix-doom-emacs": "nix-doom-emacs",
         "nixpkgs": "nixpkgs",
-        "nvim-nix": "nvim-nix",
+        "nvchad": "nvchad",
         "rust-overlay": "rust-overlay"
       }
     },
