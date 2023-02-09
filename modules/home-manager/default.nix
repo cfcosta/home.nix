@@ -52,7 +52,7 @@ in {
       watchexec
     ];
 
-    programs.devos.neovim = true;
+    programs.devos.neovim.enable = true;
 
     programs.bat.enable = true;
     programs.bottom.enable = true;
