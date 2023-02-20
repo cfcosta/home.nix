@@ -71,8 +71,10 @@ in {
 
     services.openssh = {
       enable = true;
-      permitRootLogin = lib.mkForce "no";
-      passwordAuthentication = false;
+      settings = {
+        PermitRootLogin = lib.mkForce "no";
+        PasswordAuthentication = false;
+      };
     };
 
     programs.gnupg.agent = {
