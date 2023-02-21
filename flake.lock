@@ -423,11 +423,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1676771787,
-        "narHash": "sha256-JJjs4XE4NqpgP0Zg4e9gNAsnnC9dJ5PWL3+WrM7Uq2I=",
+        "lastModified": 1676909982,
+        "narHash": "sha256-AYcj1Zn+oWkxj026JKP4xoaLNw2Mp6GjMLlwfzESiRM=",
         "owner": "cfcosta",
         "repo": "nvchad",
-        "rev": "53a47da79a70028b76650051a81d1b026190e446",
+        "rev": "0c1479a723d1cf3d0eef75a5ecc88637621ed71c",
         "type": "github"
       },
       "original": {
