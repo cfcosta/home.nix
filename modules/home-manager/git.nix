@@ -40,9 +40,9 @@ in {
       };
 
       extraConfig = {
+        commit.verbose = true;
         github.user = cfg.githubUser;
         init.defaultBranch = cfg.git.defaultBranch;
-
         pull.ff = "only";
         push.autoSetupRemote = true;
       };
