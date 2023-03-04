@@ -95,11 +95,7 @@ in {
       "org/gnome/shell" = {
         disable-user-extensions = false;
 
-        enabled-extensions = [
-          "blur-my-shell@aunetx"
-          "dash-to-dock@micxgx.gmail.com"
-          "wifiqrcode@glerro.pm.me"
-        ];
+        enabled-extensions = [ ];
         disabled-extensions = [ ];
 
         # Disable gnome tour when starting for the first time by setting a
@@ -120,15 +116,6 @@ in {
 
         # Do not show the dock over windows
         intellihide-mode = "ALL_WINDOWS";
-      };
-
-      # Make dash-to-dock look nice using blur-my-shell
-      "org/gnome/shell/extensions/blur-my-shell/dash-to-dock" = {
-        blur = true;
-        customize = false;
-        override-background = true;
-        style-dash-to-dock = 0;
-        unblur-in-overview = false;
       };
     };
   };
