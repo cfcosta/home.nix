@@ -37,7 +37,10 @@ in {
     # Let home-manager manage itself
     programs.home-manager.enable = true;
 
-    home.sessionVariables = { COLORTERM = "truecolor"; };
+    home.sessionVariables = {
+      COLORTERM = "truecolor";
+      EDITOR = "nvim";
+    };
 
     home.packages = with pkgs; [
       eva
