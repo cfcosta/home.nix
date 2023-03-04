@@ -18,19 +18,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-doom-emacs = {
-      url = "github:nix-community/nix-doom-emacs";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        emacs-overlay.follows = "emacs-overlay";
-      };
-    };
-
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs = {
@@ -53,8 +40,8 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, flake-utils, emacs-overlay, nix-doom-emacs
-    , rust-overlay, cargo2nix, nvchad, ... }:
+  outputs = { nixpkgs, home-manager, flake-utils, rust-overlay, cargo2nix
+    , nvchad, ... }:
     with nixpkgs.lib;
     let
       system = "x86_64-linux";
@@ -73,7 +60,7 @@
       };
 
       overlays =
-        [ emacs-overlay.overlay rust-overlay.overlays.default customPackages ];
+        [ rust-overlay.overlays.default customPackages ];
       pkgs = import nixpkgs {
         inherit system overlays;
         config.allowUnfree = true;
@@ -87,7 +74,6 @@
           inherit pkgs;
 
           modules = [
-            nix-doom-emacs.hmModule
             nvchad.hmModule
             ./modules/home-manager
             ./machines/mothership/home.nix
@@ -119,7 +105,6 @@
           {
             home-manager.users.devos = {
               imports = [
-                nix-doom-emacs.hmModule
                 ./modules/home-manager
                 ./machines/vm/home.nix
               ];

@@ -23,22 +23,6 @@
       keymaps = [ "us" "us+intl" ];
     };
 
-    emacs = {
-      enable = true;
-      theme = "doom-moonlight";
-      graphical = true;
-
-      fonts.fixed = {
-        family = "Inconsolata";
-        size = "18";
-      };
-
-      fonts.variable = {
-        family = "Inconsolata";
-        size = "18";
-      };
-    };
-
     vscode = {
       enable = true;
       vimMode = true;
