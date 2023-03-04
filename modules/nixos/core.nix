@@ -88,7 +88,7 @@ in {
     users.users.${config.devos.user} = {
       isNormalUser = true;
       extraGroups = [ "networkmanager" "wheel" ];
-      initialPassword = config.devos.initialPassword;
+      inherit (config.devos) initialPassword;
     };
   };
 }

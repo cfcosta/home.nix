@@ -36,7 +36,7 @@ in {
 
       signing = {
         key = null;
-        signByDefault = cfg.git.signByDefault;
+        inherit (cfg.git) signByDefault;
       };
 
       extraConfig = {

@@ -59,18 +59,18 @@
     let
       system = "x86_64-linux";
 
-      customPackages = (_: _: {
+      customPackages = _: _: {
         devos = let rust = pkgs.rust-bin.stable.latest;
         in {
           rust-full = rust.default.override {
             extensions = [ "rust-src" "clippy" "rustfmt" "rust-analyzer" ];
           };
 
-          rust-analyzer = rust.rust-analyzer;
-          rustfmt = rust.rustfmt;
-          cargo2nix = cargo2nix.packages.${system}.cargo2nix;
+          inherit (rust) rust-analyzer;
+          inherit (rust) rustfmt;
+          inherit (cargo2nix.packages.${system}) cargo2nix;
         };
-      });
+      };
 
       overlays =
         [ emacs-overlay.overlay rust-overlay.overlays.default customPackages ];
