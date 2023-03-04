@@ -9,9 +9,13 @@ in {
       # Syntax and Parsing
       tree-sitter
 
-      # Autoformatting
-      nixfmt # nix
-      devos.rustfmt
+      # Format
+      nixfmt # bash
+      shfmt # shell
+      devos.rustfmt # rust
+
+      # Diagnostics
+      shellcheck # bash
 
       # Language Servers
       rnix-lsp # nix
