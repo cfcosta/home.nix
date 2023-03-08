@@ -11,6 +11,7 @@ in {
     ./tmux.nix
     ./vscode.nix
     ./lsp.nix
+    ./notes.nix
   ];
 
   options = {
