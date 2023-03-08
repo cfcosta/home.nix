@@ -8,19 +8,19 @@ let
   today = pkgs.writeShellApplication {
     name = "today";
     text = ''
-      $EDITOR "${directory}/$(date +%Y-%M-%d).md"  
+      $EDITOR "${directory}/$(date +%Y-%m-%d).md"  
     '';
   };
   yesterday = pkgs.writeShellApplication {
     name = "yesterday";
     text = ''
-      $EDITOR "${directory}/$(date -d "yesterday" +%Y-%M-%d).md"  
+      $EDITOR "${directory}/$(date -d "yesterday" +%Y-%m-%d).md"  
     '';
   };
   tomorrow = pkgs.writeShellApplication {
     name = "tomorrow";
     text = ''
-      $EDITOR "${directory}/$(date -d "tomorrow" +%Y-%M-%d).md"  
+      $EDITOR "${directory}/$(date -d "tomorrow" +%Y-%m-%d).md"  
     '';
   };
 in {
