@@ -9,7 +9,6 @@ in {
     ./git.nix
     ./gnome.nix
     ./tmux.nix
-    ./vscode.nix
     ./lsp.nix
     ./notes.nix
   ];

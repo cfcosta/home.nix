@@ -23,11 +23,6 @@
       keymaps = [ "us" "us+intl" ];
     };
 
-    vscode = {
-      enable = true;
-      vimMode = true;
-    };
-
     git = { enable = true; };
 
     lsp.enable = true;
