@@ -8,7 +8,7 @@ in {
     ./firefox.nix
     ./git.nix
     ./gnome.nix
-    ./tmux.nix
+    ./zellij.nix
     ./lsp.nix
     ./notes.nix
   ];
