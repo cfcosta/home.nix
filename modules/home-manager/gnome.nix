@@ -45,6 +45,14 @@ in {
         clock-show-weekday = true;
       };
 
+      "org/gnome/desktop/wm/preferences" = {
+        focus-mode = "sloppy";
+      };
+
+      "org/gnome/mutter" = {
+        focus-change-on-pointer-rest = false;
+      };
+
       "org/gnome/desktop/wm/keybindings" = {
         close = [ "<Super>q" ];
         move-to-workspace-1 = [ "<Shift><Super>exclam" ];
