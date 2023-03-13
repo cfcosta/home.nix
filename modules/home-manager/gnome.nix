@@ -102,21 +102,6 @@ in {
         # really high version.
         welcome-dialog-last-shown-version = "4294967295";
       };
-
-      # Dock configuration
-      "org/gnome/shell/extensions/dash-to-dock" = {
-        # Do not overwrite our keybindings
-        hot-keys = false;
-
-        # Fix problem where first letter is being input twice on the activities
-        # panel.
-        #
-        # https://github.com/micheleg/dash-to-dock/issues/1855
-        disable-overview-on-startup = true;
-
-        # Do not show the dock over windows
-        intellihide-mode = "ALL_WINDOWS";
-      };
     };
   };
 }
