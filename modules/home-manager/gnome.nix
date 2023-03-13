@@ -62,6 +62,8 @@ in {
         switch-to-workspace-5 = [ "<Super>5" ];
         switch-to-workspace-6 = [ "<Super>6" ];
         toggle-fullscreen = [ "<Super>f" ];
+        switch-applications = [];
+        switch-applications-backward = [];
       };
 
       "org/gnome/settings-daemon/plugins/media-keys" = {
