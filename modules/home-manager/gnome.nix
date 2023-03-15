@@ -51,6 +51,7 @@ in {
 
       "org/gnome/mutter" = {
         focus-change-on-pointer-rest = false;
+        edge-tiling = true;
       };
 
       "org/gnome/desktop/wm/keybindings" = {
