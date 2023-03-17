@@ -28,6 +28,9 @@ in {
       rnote
       spot
       tdesktop
+
+      # TODO: Find a way to install this only if wayland is not enabled
+      xclip
     ];
 
     hardware.opengl.enable = true;

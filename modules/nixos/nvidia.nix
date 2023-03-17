@@ -18,6 +18,12 @@ in {
       WLR_NO_HARDWARE_CURSORS = "1";
       WLR_RENDERER = "vulkan";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+
+      # Fix problems related to WebKit Applications on NVIDIA cards
+      # See https://github.com/tauri-apps/tauri/issues/4315#issuecomment-1207755694
+      # 
+      # This should fix both Tauri applications, as well as Gnome Online Accounts login screen.
+      WEBKIT_DISABLE_COMPOSITING_MODE = "1";
     };
   };
 }
