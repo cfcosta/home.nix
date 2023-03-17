@@ -20,6 +20,11 @@ in {
         type = types.listOf types.string;
         default = [ "us" ];
       };
+
+      numberOfWorkspaces = mkOption {
+        type = types.int;
+        default = 6;
+      };
     };
   };
 
@@ -46,12 +51,22 @@ in {
       };
 
       "org/gnome/desktop/wm/preferences" = {
+        # Disable delay on changing window focus (for mouse to focus)
         focus-mode = "sloppy";
+
+        # Set a fixed number of workspaces
+        num-workspaces = cfg.gnome.numberOfWorkspaces;
       };
 
       "org/gnome/mutter" = {
+        # Enable mouse to focus
         focus-change-on-pointer-rest = false;
+
+        # Enable edge tiling (drag window to screen corners to fill the space)
         edge-tiling = true;
+
+        # Disable dynamic workspaces
+        dynamic-workspaces = false;
       };
 
       "org/gnome/desktop/wm/keybindings" = {
