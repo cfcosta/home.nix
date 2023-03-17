@@ -23,6 +23,12 @@ let
       $EDITOR "${directory}/$(date -d "tomorrow" +%Y-%m-%d).md"  
     '';
   };
+  next-week = pkgs.writeShellApplication {
+    name = "next-week";
+    text = ''
+      $EDITOR "${directory}/$(date -d "next Monday" +%Y-%m-%d).md"  
+    '';
+  };
 in {
   options.devos.home.notes = {
     enable = mkEnableOption "notes";
@@ -35,6 +41,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ today yesterday tomorrow ];
+    home.packages = with pkgs; [ today yesterday tomorrow next-week ];
   };
 }
