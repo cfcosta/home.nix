@@ -91,7 +91,7 @@
               modules = [
                 nvchad.hmModule
                 ./modules/home-manager
-                ./machines/mothership/home.nix
+                ./machines/darwin.nix
               ];
             };
           };
