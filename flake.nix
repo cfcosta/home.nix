@@ -63,7 +63,7 @@
 
       homeConfigurations = {
         "cfcosta@mothership" = home-manager.lib.homeManagerConfiguration {
-          inherit system pkgs;
+          inherit pkgs;
 
           modules = [
             nvchad.hmModule
