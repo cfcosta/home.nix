@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 get_system() {
   if [[ "$(uname)" == "Linux" ]]; then
     echo "${ARCH}-linux"
