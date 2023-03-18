@@ -18,6 +18,7 @@ in {
       alacritty
       bitwarden
       brave
+      microsoft-edge
       cawbird
       discord
       element-desktop
