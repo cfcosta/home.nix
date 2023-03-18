@@ -2,9 +2,7 @@
 with lib;
 let
   cfg = config.devos.home.notes;
-  directory =
-    builtins.replaceStrings [ "~" ] [ "$HOME" ]
-    cfg.directory;
+  directory = builtins.replaceStrings [ "~" ] [ "$HOME" ] cfg.directory;
   today = pkgs.writeShellApplication {
     name = "today";
     text = ''
