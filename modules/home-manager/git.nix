@@ -41,7 +41,7 @@ in {
 
       extraConfig = {
         commit.verbose = true;
-        github.user = cfg.githubUser;
+        github.user = cfg.accounts.github;
         init.defaultBranch = cfg.git.defaultBranch;
         pull.ff = "only";
         push.autoSetupRemote = true;

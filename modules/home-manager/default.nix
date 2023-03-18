@@ -17,26 +17,28 @@ in {
       name = mkOption { type = types.str; };
       email = mkOption { type = types.str; };
       username = mkOption { type = types.str; };
-      githubUser = mkOption { type = types.str; };
+      accounts.github = mkOption { type = types.str; };
 
-      projectFolders = mkOption {
-        type = types.listOf types.str;
-        default = [ ];
-      };
+      folders = {
+        code = mkOption {
+          type = types.str;
+          default = "~/Code";
+        };
 
-      homeDirectory = mkOption {
-        type = types.str;
-        default = if pkgs.stdenv.isLinux then
-          "/home/${cfg.username}"
-        else
-          "/Users/${cfg.username}";
+        home = mkOption {
+          type = types.str;
+          default = if pkgs.stdenv.isLinux then
+            "/home/${cfg.username}"
+          else
+            "/Users/${cfg.username}";
+        };
       };
     };
   };
 
   config = {
     home.username = cfg.username;
-    home.homeDirectory = cfg.homeDirectory;
+    home.homeDirectory = cfg.folders.home;
 
     # Let home-manager manage itself
     programs.home-manager.enable = true;
@@ -44,7 +46,7 @@ in {
     home.sessionVariables = {
       COLORTERM = "truecolor";
       EDITOR = "nvim";
-      CDPATH = concatStringsSep ":" ([ "." ] ++ cfg.projectFolders);
+      CDPATH = concatStrings [ ".:" cfg.folders.code ];
     };
 
     home.packages = with pkgs; [

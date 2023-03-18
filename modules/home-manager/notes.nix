@@ -1,8 +1,8 @@
 { pkgs, lib, config, ... }:
 with lib;
 let
-  cfg = config.devos.home.notes;
-  directory = builtins.replaceStrings [ "~" ] [ "$HOME" ] cfg.directory;
+  cfg = config.devos.home;
+  directory = builtins.replaceStrings [ "~" ] [ "$HOME" ] cfg.folders.notes;
   today = pkgs.writeShellApplication {
     name = "today";
     text = ''
@@ -28,17 +28,16 @@ let
     '';
   };
 in {
-  options.devos.home.notes = {
-    enable = mkEnableOption "notes";
+  options.devos.home = {
+    notes.enable = mkEnableOption "notes";
 
-    directory = mkOption {
+    folders.notes = mkOption {
       type = types.str;
       default = "~/Notes";
-      description = "Where the notes should be contained";
     };
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf cfg.notes.enable {
     home.packages = with pkgs; [ today yesterday tomorrow next-week ];
   };
 }

@@ -12,7 +12,7 @@ in {
       font = {
         family = mkOption {
           type = types.str;
-          default = "FiraCode Nerd Font";
+          default = "Inconsolata";
         };
 
         size = mkOption {

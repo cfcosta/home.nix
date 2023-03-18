@@ -3,30 +3,18 @@
     name = "Cainã Costa";
     username = "cfcosta";
     email = "me@cfcosta.com";
-    githubUser = "cfcosta";
+    accounts.github = "cfcosta";
 
-    projectFolders = [ "~/Code" ];
-
-    alacritty = {
-      enable = true;
-      font.family = "Inconsolata";
-    };
-
+    alacritty.enable = true;
     cloud.enable = true;
+    git.enable = true;
+    lsp.enable = true;
+    notes.enable = true;
 
     gnome = {
       enable = true;
       darkTheme = true;
       keymaps = [ "us" "us+intl" ];
-    };
-
-    git = { enable = true; };
-
-    lsp.enable = true;
-
-    notes = {
-      enable = true;
-      directory = "~/Projects";
     };
   };
 }
