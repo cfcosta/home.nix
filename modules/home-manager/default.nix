@@ -5,7 +5,6 @@ in {
   imports = [
     ./alacritty.nix
     ./cloud.nix
-    ./firefox.nix
     ./git.nix
     ./gnome.nix
     ./zellij.nix

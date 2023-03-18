@@ -7,11 +7,6 @@
 
     projectFolders = [ "~/Code" ];
 
-    firefox = {
-      enable = true;
-      gnomeTheme = false;
-    };
-
     alacritty = {
       enable = true;
       font.family = "Inconsolata";
