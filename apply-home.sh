@@ -21,6 +21,6 @@ SYSTEM="$(get_arch)-$(get_system)"
 
 nix build \
   --extra-experimental-features nix-command --extra-experimental-features flakes \
-  "${ROOT}#homeConfigurations.${SYSTEM}.$(whoami)@$(hostname).activation-script"
+  "${ROOT}#profiles.${SYSTEM}.$(hostname).home.activation-script"
 
 exec "${ROOT}/result/activate"

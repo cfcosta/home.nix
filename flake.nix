@@ -38,54 +38,66 @@
 
   outputs = { nixpkgs, home-manager, flake-utils, rust-overlay, nvchad, ... }:
     flake-utils.lib.eachDefaultSystem (system:
-    with nixpkgs.lib;
-    let
-      customPackages = _: _: {
-        devos = let rust = pkgs.rust-bin.stable.latest;
-        in {
-          rust-full = rust.default.override {
-            extensions = [ "rust-src" "clippy" "rustfmt" "rust-analyzer" ];
+      with nixpkgs.lib;
+      let
+        customPackages = _: _: {
+          devos = let rust = pkgs.rust-bin.stable.latest;
+          in {
+            rust-full = rust.default.override {
+              extensions = [ "rust-src" "clippy" "rustfmt" "rust-analyzer" ];
+            };
+
+            inherit (rust) rust-analyzer;
+            inherit (rust) rustfmt;
+          };
+        };
+
+        overlays = [ rust-overlay.overlays.default customPackages ];
+        pkgs = import nixpkgs {
+          inherit system overlays;
+          config.allowUnfree = true;
+        };
+      in {
+        home-manager.useUserPackages = true;
+        home-manager.useGlobalPkgs = true;
+
+        profiles = {
+          mothership = {
+            home = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+
+              modules = [
+                nvchad.hmModule
+                ./modules/home-manager
+                ./machines/mothership/home.nix
+              ];
+            };
+
+            system = nixpkgs.lib.nixosSystem {
+              inherit system pkgs;
+
+              modules = [
+                ./modules/nixos
+                ./machines/mothership
+                home-manager.nixosModules.home-manager
+              ];
+            };
           };
 
-          inherit (rust) rust-analyzer;
-          inherit (rust) rustfmt;
+          darwin = {
+            home = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+
+              modules = [
+                nvchad.hmModule
+                ./modules/home-manager
+                ./machines/mothership/home.nix
+              ];
+            };
+          };
         };
-      };
 
-      overlays = [ rust-overlay.overlays.default customPackages ];
-      pkgs = import nixpkgs {
-        inherit system overlays;
-        config.allowUnfree = true;
-      };
-    in {
-      home-manager.useUserPackages = true;
-      home-manager.useGlobalPkgs = true;
-
-      homeConfigurations = {
-        "cfcosta@mothership" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-
-          modules = [
-            nvchad.hmModule
-            ./modules/home-manager
-            ./machines/mothership/home.nix
-          ];
-        };
-      };
-
-      nixosConfigurations = {
-        mothership = nixpkgs.lib.nixosSystem {
-          inherit system pkgs;
-
-          modules = [
-            ./modules/nixos
-            ./machines/mothership
-            home-manager.nixosModules.home-manager
-          ];
-        };
-      };
-
-      devShell = 
-        pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp ]; };
-    });
+        devShell =
+          pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp ]; };
+      });
 }
