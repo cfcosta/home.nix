@@ -29,6 +29,8 @@ in {
       rnote
       spot
       tdesktop
+      meld
+      gitg
 
       # TODO: Find a way to install this only if wayland is not enabled
       xclip
