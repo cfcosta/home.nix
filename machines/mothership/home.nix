@@ -5,6 +5,8 @@
     email = "me@cfcosta.com";
     githubUser = "cfcosta";
 
+    projectFolders = [ "~/Code" ];
+
     firefox = {
       enable = true;
       gnomeTheme = false;

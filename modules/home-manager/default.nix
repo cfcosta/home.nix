@@ -20,6 +20,11 @@ in {
       username = mkOption { type = types.str; };
       githubUser = mkOption { type = types.str; };
 
+      projectFolders = mkOption {
+        type = types.listOf types.str;
+        default = [ ];
+      };
+
       homeDirectory = mkOption {
         type = types.str;
         default = if pkgs.stdenv.isLinux then
@@ -40,6 +45,7 @@ in {
     home.sessionVariables = {
       COLORTERM = "truecolor";
       EDITOR = "nvim";
+      CDPATH = concatStringsSep ":" ([ "." ] ++ cfg.projectFolders);
     };
 
     home.packages = with pkgs; [
