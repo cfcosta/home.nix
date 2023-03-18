@@ -1,5 +1,5 @@
 { config, pkgs, ... }: {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ ./hardware.nix ];
 
   nix.settings.substituters =
     [ "https://cfcosta-home.cachix.org" "https://cache.nixos.org" ];
