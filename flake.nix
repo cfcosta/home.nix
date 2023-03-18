@@ -30,26 +30,16 @@
       };
     };
 
-    cargo2nix = {
-      url = "github:cfcosta/cargo2nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        rust-overlay.follows = "rust-overlay";
-      };
-    };
-
     nvchad = {
       url = "github:cfcosta/nvchad";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, home-manager, flake-utils, rust-overlay, cargo2nix
-    , nvchad, ... }:
+  outputs = { nixpkgs, home-manager, flake-utils, rust-overlay, nvchad, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
     with nixpkgs.lib;
     let
-      system = "x86_64-linux";
-
       customPackages = _: _: {
         devos = let rust = pkgs.rust-bin.stable.latest;
         in {
@@ -59,7 +49,6 @@
 
           inherit (rust) rust-analyzer;
           inherit (rust) rustfmt;
-          inherit (cargo2nix.packages.${system}) cargo2nix;
         };
       };
 
@@ -74,7 +63,7 @@
 
       homeConfigurations = {
         "cfcosta@mothership" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          inherit system pkgs;
 
           modules = [
             nvchad.hmModule
@@ -96,9 +85,7 @@
         };
       };
 
-      devShell = {
-        "${system}" =
-          pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp ]; };
-      };
-    };
+      devShell = 
+        pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp ]; };
+    });
 }
