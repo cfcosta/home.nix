@@ -46,20 +46,12 @@ in {
     home.sessionVariables = {
       COLORTERM = "truecolor";
       EDITOR = "nvim";
-      CDPATH = concatStrings [ ".:" cfg.folders.code ];
+      CDPATH = ".:${cfg.folders.code}";
     };
 
-    home.packages = with pkgs; [
-      eva
-      fd
-      inconsolata
-      ncdu
-      neofetch
-      nerdfonts
-      ripgrep
-      tree
-      watchexec
-    ];
+    home.packages = with pkgs;
+      [ eva fd inconsolata ncdu neofetch nerdfonts ripgrep tree watchexec ]
+      ++ optionals pkgs.stdenv.isDarwin [ bash ];
 
     programs.devos.neovim.enable = true;
 
