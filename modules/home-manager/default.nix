@@ -7,7 +7,7 @@ in {
     ./cloud.nix
     ./git.nix
     ./gnome.nix
-    ./zellij.nix
+    ./tmux.nix
     ./lsp.nix
     ./notes.nix
   ];
