@@ -32,7 +32,6 @@
 
     containers.enable = true;
     libvirt.enable = true;
-    virtualbox.enable = true;
 
     sound.enable = true;
     tailscale.enable = true;
