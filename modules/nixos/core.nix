@@ -40,16 +40,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      bash
-      curl
-      file
-      gitFull
-      neofetch
-      python310Full
-      python310Packages.yt-dlp
-      wget
-    ];
+    environment.systemPackages = with pkgs; [ bash curl file gitFull wget ];
 
     i18n.defaultLocale = cfg.system.locale;
 

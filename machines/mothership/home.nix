@@ -9,6 +9,7 @@
     cloud.enable = true;
     git.enable = true;
     lsp.enable = true;
+    media.enable = true;
     notes.enable = true;
 
     gnome = {

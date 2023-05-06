@@ -7,9 +7,10 @@ in {
     ./cloud.nix
     ./git.nix
     ./gnome.nix
-    ./tmux.nix
     ./lsp.nix
+    ./media.nix
     ./notes.nix
+    ./tmux.nix
   ];
 
   options = {
@@ -49,9 +50,21 @@ in {
       CDPATH = ".:${cfg.folders.code}";
     };
 
-    home.packages = with pkgs;
-      [ eva fd inconsolata ncdu neofetch nerdfonts ripgrep tree watchexec ]
-      ++ optionals pkgs.stdenv.isDarwin [ bash ];
+    home.packages = with pkgs; [
+      bash
+      eva
+      fd
+      git
+      inconsolata
+      ncdu
+      neofetch
+      nerdfonts
+      python310Full
+      ripgrep
+      tree
+      watchexec
+      wget
+    ];
 
     programs.devos.neovim.enable = true;
 
