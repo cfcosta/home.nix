@@ -37,7 +37,38 @@
   };
 
   outputs = { nixpkgs, home-manager, flake-utils, rust-overlay, nvchad, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
+    let
+      system = "x86_64-linux";
+      customPackages = _: _: {
+        devos = let rust = pkgs.rust-bin.stable.latest;
+        in {
+          rust-full = rust.default.override {
+            extensions = [ "rust-src" "clippy" "rustfmt" "rust-analyzer" ];
+          };
+
+          inherit (rust) rust-analyzer;
+          inherit (rust) rustfmt;
+        };
+      };
+
+      overlays = [ rust-overlay.overlays.default customPackages ];
+      pkgs = import nixpkgs {
+        inherit system overlays;
+        config.allowUnfree = true;
+      };
+    in {
+      nixosConfigurations.mothership = nixpkgs.lib.nixosSystem {
+        inherit system pkgs;
+
+        modules = [
+          ./modules/nixos
+          ./machines/mothership
+          home-manager.nixosModules.home-manager
+        ];
+      };
+    }
+
+    // flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.lib;
       let
         customPackages = _: _: {
@@ -70,16 +101,6 @@
                 nvchad.hmModule
                 ./modules/home-manager
                 ./machines/mothership/home.nix
-              ];
-            };
-
-            system = nixpkgs.lib.nixosSystem {
-              inherit system pkgs;
-
-              modules = [
-                ./modules/nixos
-                ./machines/mothership
-                home-manager.nixosModules.home-manager
               ];
             };
           };
