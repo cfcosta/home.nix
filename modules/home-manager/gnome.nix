@@ -6,15 +6,8 @@ let
 in {
   options = {
     devos.home.gnome = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
-
-      darkTheme = mkOption {
-        type = types.bool;
-        default = false;
-      };
+      enable = mkEnableOption "gnome";
+      darkTheme = mkEnableOption "gnome-dark-theme";
 
       keymaps = mkOption {
         type = types.listOf types.string;

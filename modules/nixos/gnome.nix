@@ -2,9 +2,7 @@
 with lib;
 let cfg = config.devos.gnome;
 in {
-  options = {
-    devos.gnome.enable = mkEnableOption "gnome";
-  };
+  options = { devos.gnome.enable = mkEnableOption "gnome"; };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [

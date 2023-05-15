@@ -2,7 +2,7 @@
 with lib;
 let cfg = config.devos.icognito;
 in {
-  options.devos.icognito. enable = mkEnableOption "icognito";
+  options.devos.icognito.enable = mkEnableOption "icognito";
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [

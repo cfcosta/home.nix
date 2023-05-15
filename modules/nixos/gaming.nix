@@ -2,9 +2,7 @@
 with lib;
 let cfg = config.devos.gaming;
 in {
-  options = {
-    devos.gaming.enable = mkEnableOption "gaming";
-  };
+  options = { devos.gaming.enable = mkEnableOption "gaming"; };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
