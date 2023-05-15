@@ -56,6 +56,16 @@
         inherit system overlays;
         config.allowUnfree = true;
       };
+
+      buildFormatScript = pkgs:
+        pkgs.writeShellScriptBin "env-format" ''
+          set -e
+
+          for file in $(find . -name "*.nix"); do
+            echo "Formatting $file..."
+            nixfmt "$file"
+          done
+        '';
     in {
       nixosConfigurations.mothership = nixpkgs.lib.nixosSystem {
         inherit system pkgs;
@@ -66,9 +76,7 @@
           home-manager.nixosModules.home-manager
         ];
       };
-    }
-
-    // flake-utils.lib.eachDefaultSystem (system:
+    } // flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.lib;
       let
         customPackages = _: _: {
@@ -118,7 +126,12 @@
           };
         };
 
-        devShell =
-          pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp ]; };
+        devShell = pkgs.mkShell {
+          nativeBuildInputs = with pkgs; [
+            nixfmt
+            rnix-lsp
+            (buildFormatScript pkgs)
+          ];
+        };
       });
 }
