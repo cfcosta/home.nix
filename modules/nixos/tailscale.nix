@@ -2,17 +2,7 @@
 with lib;
 let cfg = config.devos.tailscale;
 in {
-  imports = [ ./common.nix ];
-
-  options.devos.tailscale = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        Whether or not to enable DevOS
-      '';
-    };
-  };
+  options.devos.tailscale.enable = mkEnableOption "tailscale";
 
   config = mkIf cfg.enable {
     services.tailscale.enable = true;

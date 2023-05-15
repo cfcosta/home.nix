@@ -3,13 +3,7 @@ with lib;
 let cfg = config.devos.gnome;
 in {
   options = {
-    devos.gnome.enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        Whether or not to enable the gnome desktop environment
-      '';
-    };
+    devos.gnome.enable = mkEnableOption "gnome";
   };
 
   config = mkIf cfg.enable {

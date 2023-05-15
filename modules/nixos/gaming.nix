@@ -2,16 +2,8 @@
 with lib;
 let cfg = config.devos.gaming;
 in {
-  imports = [ ./common.nix ];
-
   options = {
-    devos.gaming.enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        Whether or not to enable the gnome desktop environment
-      '';
-    };
+    devos.gaming.enable = mkEnableOption "gaming";
   };
 
   config = mkIf cfg.enable {

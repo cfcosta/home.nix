@@ -2,15 +2,7 @@
 with lib;
 let cfg = config.devos.containers;
 in {
-  options = {
-    devos.containers.enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        Whether or not to enable Docker
-      '';
-    };
-  };
+  options = { devos.containers.enable = mkEnableOption "containers"; };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ docker-compose ctop ];

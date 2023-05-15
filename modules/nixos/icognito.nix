@@ -2,17 +2,7 @@
 with lib;
 let cfg = config.devos.icognito;
 in {
-  imports = [ ./common.nix ];
-
-  options.devos.icognito = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        Whether or not to enable Icognito Mode (i2p, tor)
-      '';
-    };
-  };
+  options.devos.icognito. enable = mkEnableOption "icognito";
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [

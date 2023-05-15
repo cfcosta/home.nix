@@ -2,17 +2,7 @@
 with lib;
 let cfg = config.devos.sound;
 in {
-  imports = [ ./common.nix ];
-
-  options.devos.sound = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        Whether or not to enable sound in DevOS
-      '';
-    };
-  };
+  options.devos.sound.enable = mkEnableOption "sound";
 
   config = mkIf cfg.enable {
     sound.enable = true;
