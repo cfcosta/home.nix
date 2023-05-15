@@ -6,7 +6,6 @@
     accounts.github = "cfcosta";
 
     alacritty.enable = true;
-    cloud.enable = true;
     git.enable = true;
     lsp.enable = true;
     media.enable = true;

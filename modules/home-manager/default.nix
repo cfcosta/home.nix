@@ -4,7 +4,6 @@ let cfg = config.devos.home;
 in {
   imports = [
     ./alacritty.nix
-    ./cloud.nix
     ./git.nix
     ./gnome.nix
     ./lsp.nix
