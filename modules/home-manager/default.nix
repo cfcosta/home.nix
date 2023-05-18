@@ -59,6 +59,7 @@ in {
     home.sessionVariables.EDITOR = "nvim";
 
     home.packages = with pkgs; [
+      bashInteractive
       eva
       fd
       git
@@ -71,6 +72,7 @@ in {
       tree
       watchexec
       wget
+      luajit
     ];
 
     programs.devos.neovim.enable = true;
