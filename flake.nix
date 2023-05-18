@@ -113,14 +113,14 @@
             };
           };
 
-          darwin = {
+          drone = {
             home = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
 
               modules = [
                 nvchad.hmModule
                 ./modules/home-manager
-                ./machines/darwin.nix
+                ./machines/drone.nix
               ];
             };
           };
