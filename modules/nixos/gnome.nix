@@ -1,6 +1,9 @@
 { lib, pkgs, config, ... }:
 with lib;
-let cfg = config.devos.gnome;
+let
+  cfg = config.devos.gnome;
+  browsers =
+    [ (firefox.override { cfg = { enableGnomeExtensions = true; }; }) nyxt ];
 in {
   options = { devos.gnome.enable = mkEnableOption "gnome"; };
 
@@ -14,7 +17,6 @@ in {
       cawbird
       discord
       element-desktop
-      (firefox.override { cfg = { enableGnomeExtensions = true; }; })
       newsflash
       obs-studio
       obsidian
@@ -26,7 +28,7 @@ in {
 
       # TODO: Find a way to install this only if wayland is not enabled
       xclip
-    ];
+    ] ++ browsers;
 
     hardware.opengl.enable = true;
 
