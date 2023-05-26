@@ -30,13 +30,13 @@
       };
     };
 
-    nvchad = {
-      url = "github:cfcosta/nvchad";
+    neovim = {
+      url = "github:cfcosta/neovim.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, home-manager, flake-utils, rust-overlay, nvchad, ... }:
+  outputs = { nixpkgs, home-manager, flake-utils, rust-overlay, neovim, ... }:
     let
       system = "x86_64-linux";
       customPackages = _: _: {
@@ -106,7 +106,7 @@
               inherit pkgs;
 
               modules = [
-                nvchad.hmModule
+                neovim.hmModule
                 ./modules/home-manager
                 ./machines/mothership/home.nix
               ];
@@ -117,11 +117,8 @@
             home = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
 
-              modules = [
-                nvchad.hmModule
-                ./modules/home-manager
-                ./machines/drone.nix
-              ];
+              modules =
+                [ neovim.hmModule ./modules/home-manager ./machines/drone.nix ];
             };
           };
         };
