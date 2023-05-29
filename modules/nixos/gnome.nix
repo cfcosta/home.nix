@@ -3,7 +3,7 @@ with lib;
 let
   cfg = config.devos.gnome;
   browsers =
-    [ (firefox.override { cfg = { enableGnomeExtensions = true; }; }) nyxt ];
+    with pkgs; [ (firefox.override { cfg = { enableGnomeExtensions = true; }; }) nyxt ];
 in {
   options = { devos.gnome.enable = mkEnableOption "gnome"; };
 
