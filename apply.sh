@@ -7,6 +7,7 @@ set -e
 	exit 1
 )
 
-ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+CMD="${1:-switch}"
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
-exec nixos-rebuild switch --flake "${ROOT}#$(hostname)"
+exec nixos-rebuild "${CMD}" --flake "${ROOT}#$(hostname)"

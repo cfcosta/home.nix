@@ -50,7 +50,7 @@ in {
       experimental-features = nix-command flakes
     '';
 
-    system.stateVersion = "22.11";
+    system.stateVersion = "23.05";
 
     environment.systemPackages = with pkgs; [ bash curl file git wget ];
 
