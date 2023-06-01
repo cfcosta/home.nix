@@ -2,33 +2,36 @@
 with lib;
 let
   cfg = config.devos.gnome;
-  browsers =
-    with pkgs; [ (firefox.override { cfg = { enableGnomeExtensions = true; }; }) nyxt ];
+  browsers = with pkgs; [
+    (firefox.override { cfg = { enableGnomeExtensions = true; }; })
+    nyxt
+    brave
+    microsoft-edge
+  ];
 in {
   options = { devos.gnome.enable = mkEnableOption "gnome"; };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      adw-gtk3
-      alacritty
-      bitwarden
-      brave
-      microsoft-edge
-      cawbird
-      discord
-      element-desktop
-      newsflash
-      obs-studio
-      obsidian
-      rnote
-      spot
-      tdesktop
-      meld
-      gitg
+    environment.systemPackages = with pkgs;
+      [
+        adw-gtk3
+        alacritty
+        bitwarden
+        cawbird
+        discord
+        element-desktop
+        newsflash
+        obs-studio
+        obsidian
+        rnote
+        spot
+        tdesktop
+        meld
+        gitg
 
-      # TODO: Find a way to install this only if wayland is not enabled
-      xclip
-    ] ++ browsers;
+        # TODO: Find a way to install this only if wayland is not enabled
+        xclip
+      ] ++ browsers;
 
     hardware.opengl.enable = true;
 
