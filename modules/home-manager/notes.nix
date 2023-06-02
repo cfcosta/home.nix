@@ -3,30 +3,19 @@ with lib;
 let
   cfg = config.devos.home;
   directory = builtins.replaceStrings [ "~" ] [ "$HOME" ] cfg.folders.notes;
-  today = pkgs.writeShellApplication {
-    name = "today";
-    text = ''
-      $EDITOR "${directory}/$(date +%Y-%m-%d).md"  
-    '';
-  };
-  yesterday = pkgs.writeShellApplication {
-    name = "yesterday";
-    text = ''
-      $EDITOR "${directory}/$(date -d "yesterday" +%Y-%m-%d).md"  
-    '';
-  };
-  tomorrow = pkgs.writeShellApplication {
-    name = "tomorrow";
-    text = ''
-      $EDITOR "${directory}/$(date -d "tomorrow" +%Y-%m-%d).md"  
-    '';
-  };
-  next-week = pkgs.writeShellApplication {
-    name = "next-week";
-    text = ''
-      $EDITOR "${directory}/$(date -d "next Monday" +%Y-%m-%d).md"  
-    '';
-  };
+  buildTool = name: cmd:
+    pkgs.writeShellApplication {
+      inherit name;
+      text = ''
+        ROOT="${directory}/journal/$(${cmd} +%Y)/$(${cmd} +%m)"
+        [ -d "$ROOT" ] || mkdir -p "$ROOT"
+        $EDITOR "$ROOT/$(${cmd} +%d).norg"  
+      '';
+    };
+  today = buildTool "today" "date";
+  yesterday = buildTool "yesterday" ''date -d "yesterday"'';
+  tomorrow = buildTool "tomorrow" ''date -d "tomorrow"'';
+  next-week = buildTool "next-week" ''date -d "next monday"'';
 in {
   options.devos.home = {
     notes.enable = mkEnableOption "notes";
