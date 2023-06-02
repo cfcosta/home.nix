@@ -1,13 +1,11 @@
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.devos.home;
-in
-{
+in {
   imports = [
     ./alacritty.nix
     ./git.nix
     ./gnome.nix
-    ./lsp.nix
     ./media.nix
     ./notes.nix
     ./tmux.nix
@@ -40,11 +38,10 @@ in
 
         home = mkOption {
           type = types.str;
-          default =
-            if pkgs.stdenv.isLinux then
-              "/home/${cfg.username}"
-            else
-              "/Users/${cfg.username}";
+          default = if pkgs.stdenv.isLinux then
+            "/home/${cfg.username}"
+          else
+            "/Users/${cfg.username}";
           description = "Your home folder";
         };
       };

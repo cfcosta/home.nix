@@ -62,14 +62,15 @@
         "flake-utils": "flake-utils_2",
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1685717464,
-        "narHash": "sha256-QetkJNTIDLjtWtc/7kGmA93CfLwHfBi0Po1GaZW5px4=",
+        "lastModified": 1685732971,
+        "narHash": "sha256-TR8E4WawDlZ+NU4QyxK0vQo/HQK1Z//AZ/MVeDPfMx0=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "88348ffd4b5bafd91bebba25f4ac92fbbe1f8e28",
+        "rev": "26bf809580f4a433a11c798bc873584ce7f5c451",
         "type": "github"
       },
       "original": {
@@ -99,16 +100,17 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "neovim": "neovim",
-        "nixpkgs": "nixpkgs",
-        "rust-overlay": "rust-overlay"
+        "nixpkgs": "nixpkgs"
       }
     },
     "rust-overlay": {
       "inputs": {
         "flake-utils": [
+          "neovim",
           "flake-utils"
         ],
         "nixpkgs": [
+          "neovim",
           "nixpkgs"
         ]
       },

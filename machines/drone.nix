@@ -7,7 +7,6 @@
 
     alacritty.enable = true;
     git.enable = true;
-    lsp.enable = true;
     notes.enable = true;
   };
 }

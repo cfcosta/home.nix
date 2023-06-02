@@ -22,36 +22,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-      };
-    };
-
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, home-manager, flake-utils, rust-overlay, neovim, ... }:
+  outputs = { nixpkgs, home-manager, flake-utils, neovim, ... }:
     let
       system = "x86_64-linux";
-      customPackages = _: _: {
-        devos = let rust = pkgs.rust-bin.stable.latest;
-        in {
-          rust-full = rust.default.override {
-            extensions = [ "rust-src" "clippy" "rustfmt" "rust-analyzer" ];
-          };
-
-          inherit (rust) rust-analyzer;
-          inherit (rust) rustfmt;
-        };
-      };
-
-      overlays = [ rust-overlay.overlays.default customPackages ];
+      overlays = [ ];
       pkgs = import nixpkgs {
         inherit system overlays;
         config.allowUnfree = true;
@@ -79,19 +59,7 @@
     } // flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.lib;
       let
-        customPackages = _: _: {
-          devos = let rust = pkgs.rust-bin.stable.latest;
-          in {
-            rust-full = rust.default.override {
-              extensions = [ "rust-src" "clippy" "rustfmt" "rust-analyzer" ];
-            };
-
-            inherit (rust) rust-analyzer;
-            inherit (rust) rustfmt;
-          };
-        };
-
-        overlays = [ rust-overlay.overlays.default customPackages ];
+        overlays = [ ];
         pkgs = import nixpkgs {
           inherit system overlays;
           config.allowUnfree = true;
