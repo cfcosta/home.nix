@@ -1,7 +1,8 @@
 { lib, pkgs, config, ... }:
 with lib;
 let cfg = config.devos;
-in {
+in
+{
   imports = [
     ./containers.nix
     ./gaming.nix
@@ -79,6 +80,8 @@ in {
         PasswordAuthentication = false;
       };
     };
+
+    programs.mosh.enable = true;
 
     programs.gnupg.agent = {
       enable = true;

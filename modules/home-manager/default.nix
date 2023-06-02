@@ -1,7 +1,8 @@
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.devos.home;
-in {
+in
+{
   imports = [
     ./alacritty.nix
     ./git.nix
@@ -39,10 +40,11 @@ in {
 
         home = mkOption {
           type = types.str;
-          default = if pkgs.stdenv.isLinux then
-            "/home/${cfg.username}"
-          else
-            "/Users/${cfg.username}";
+          default =
+            if pkgs.stdenv.isLinux then
+              "/home/${cfg.username}"
+            else
+              "/Users/${cfg.username}";
           description = "Your home folder";
         };
       };
@@ -64,6 +66,8 @@ in {
       fd
       git
       inconsolata
+      luajit
+      mosh
       ncdu
       neofetch
       nerdfonts
@@ -72,7 +76,6 @@ in {
       tree
       watchexec
       wget
-      luajit
     ];
 
     programs.devos.neovim.enable = true;
