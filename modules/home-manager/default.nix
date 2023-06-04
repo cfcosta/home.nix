@@ -73,9 +73,8 @@ in {
       tree
       watchexec
       wget
+      libiconv
     ];
-
-    programs.devos.neovim.enable = true;
 
     programs.bat.enable = true;
     programs.bottom.enable = true;

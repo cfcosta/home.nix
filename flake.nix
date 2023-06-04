@@ -22,13 +22,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    neovim = {
-      url = "github:cfcosta/neovim.nix";
+    nightvim = {
+      url = "github:cfcosta/nightvim?dir=examples/full";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, home-manager, flake-utils, neovim, ... }:
+  outputs = { nixpkgs, home-manager, flake-utils, nightvim, ... }:
     let
       system = "x86_64-linux";
       overlays = [ ];
@@ -74,7 +74,7 @@
               inherit pkgs;
 
               modules = [
-                neovim.hmModule
+                nightvim.hmModule
                 ./modules/home-manager
                 ./machines/mothership/home.nix
               ];
@@ -85,8 +85,11 @@
             home = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
 
-              modules =
-                [ neovim.hmModule ./modules/home-manager ./machines/drone.nix ];
+              modules = [
+                nightvim.hmModule
+                ./modules/home-manager
+                ./machines/drone.nix
+              ];
             };
           };
         };
