@@ -204,7 +204,7 @@
     "home-manager_2": {
       "inputs": {
         "nixpkgs": [
-          "nightvim",
+          "neovim",
           "nixpkgs"
         ]
       },
@@ -226,7 +226,7 @@
     "home-manager_3": {
       "inputs": {
         "nixpkgs": [
-          "nightvim",
+          "neovim",
           "nightvim",
           "nixpkgs"
         ]
@@ -262,6 +262,22 @@
         "type": "github"
       }
     },
+    "neo-tree": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1684546521,
+        "narHash": "sha256-lsqONdSgloKgty0UN61+oIhKxzmI1m8Jxw64W0sLGyY=",
+        "owner": "nvim-neo-tree",
+        "repo": "neo-tree.nvim",
+        "rev": "8c89efb93b8383666a6f989762c2f610f5f2c930",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-neo-tree",
+        "repo": "neo-tree.nvim",
+        "type": "github"
+      }
+    },
     "neogit": {
       "flake": false,
       "locked": {
@@ -294,23 +310,7 @@
         "type": "github"
       }
     },
-    "neotree": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1684546521,
-        "narHash": "sha256-lsqONdSgloKgty0UN61+oIhKxzmI1m8Jxw64W0sLGyY=",
-        "owner": "nvim-neo-tree",
-        "repo": "neo-tree.nvim",
-        "rev": "8c89efb93b8383666a6f989762c2f610f5f2c930",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvim-neo-tree",
-        "repo": "neo-tree.nvim",
-        "type": "github"
-      }
-    },
-    "nightvim": {
+    "neovim": {
       "inputs": {
         "cmp-buffer": "cmp-buffer",
         "cmp-cmdline": "cmp-cmdline",
@@ -324,10 +324,10 @@
         "gitsigns": "gitsigns",
         "home-manager": "home-manager_2",
         "lualine": "lualine",
+        "neo-tree": "neo-tree",
         "neogit": "neogit",
         "neorg": "neorg",
-        "neotree": "neotree",
-        "nightvim": "nightvim_2",
+        "nightvim": "nightvim",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -350,39 +350,37 @@
         "trouble": "trouble"
       },
       "locked": {
-        "dir": "examples/full",
-        "lastModified": 1685904668,
-        "narHash": "sha256-yQn7zaUIawgcoM0FlUod7V435WUu2Dto8Xmg7ajhd38=",
+        "lastModified": 1685913667,
+        "narHash": "sha256-DtsVJsnwNZDGw0WDD36qXxQuJPQab9uRoDC0RKTTgA8=",
         "owner": "cfcosta",
-        "repo": "nightvim",
-        "rev": "11166ac01a5f7e012b50c4c857ab1d1f6d89773d",
+        "repo": "neovim.nix",
+        "rev": "28af849cdc00383db53ced48c3b83f8dfed9eb21",
         "type": "github"
       },
       "original": {
-        "dir": "examples/full",
         "owner": "cfcosta",
-        "repo": "nightvim",
+        "repo": "neovim.nix",
         "type": "github"
       }
     },
-    "nightvim_2": {
+    "nightvim": {
       "inputs": {
         "flake-utils": [
-          "nightvim",
+          "neovim",
           "flake-utils"
         ],
         "home-manager": "home-manager_3",
         "nixpkgs": [
-          "nightvim",
+          "neovim",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1685904406,
-        "narHash": "sha256-8NBodYZxW25gY1c/skosUFNtXnp235fAvIIb6kp7/3I=",
+        "lastModified": 1685912659,
+        "narHash": "sha256-rI4eYU1Gb7agvOTOQmpkZStnzLSj2sq+za8sBSQY8CA=",
         "owner": "cfcosta",
         "repo": "nightvim",
-        "rev": "6e01ba0f64937fa399076edb08473d8bd2289e8a",
+        "rev": "bf2b00490bdd151a2bb44d0b610e7d75ce51f615",
         "type": "github"
       },
       "original": {
@@ -603,7 +601,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
-        "nightvim": "nightvim",
+        "neovim": "neovim",
         "nixpkgs": "nixpkgs"
       }
     },
