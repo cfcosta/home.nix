@@ -7,6 +7,6 @@
     keyMode = "vi";
     terminal = "xterm-256color";
     plugins = with pkgs.tmuxPlugins; [ dracula ];
-    extraConfig = builtins.readFile ../../templates/tmux/config.tmux;
+    extraConfig = builtins.readFile ./tmux/config;
   };
 }
