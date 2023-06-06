@@ -1,8 +1,8 @@
 { lib, pkgs, config, ... }:
 with lib;
-let cfg = config.devos.tailscale;
+let cfg = config.dusk.tailscale;
 in {
-  options.devos.tailscale.enable = mkEnableOption "tailscale";
+  options.dusk.tailscale.enable = mkEnableOption "tailscale";
 
   config = mkIf cfg.enable {
     services.tailscale.enable = true;

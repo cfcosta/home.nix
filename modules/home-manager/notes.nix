@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 with lib;
 let
-  cfg = config.devos.home;
+  cfg = config.dusk.home;
   directory = builtins.replaceStrings [ "~" ] [ "$HOME" ] cfg.folders.notes;
   buildTool = name: cmd:
     pkgs.writeShellApplication {
@@ -17,7 +17,7 @@ let
   tomorrow = buildTool "tomorrow" ''date -d "tomorrow"'';
   next-week = buildTool "next-week" ''date -d "next monday"'';
 in {
-  options.devos.home = {
+  options.dusk.home = {
     notes.enable = mkEnableOption "notes";
 
     folders.notes = mkOption {

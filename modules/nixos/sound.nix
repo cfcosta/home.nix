@@ -1,8 +1,8 @@
 { lib, pkgs, config, ... }:
 with lib;
-let cfg = config.devos.sound;
+let cfg = config.dusk.sound;
 in {
-  options.devos.sound.enable = mkEnableOption "sound";
+  options.dusk.sound.enable = mkEnableOption "sound";
 
   config = mkIf cfg.enable {
     sound.enable = true;
@@ -18,6 +18,6 @@ in {
     };
 
     environment.systemPackages = with pkgs;
-      optionals config.devos.gnome.enable [ easyeffects helvum ];
+      optionals config.dusk.gnome.enable [ easyeffects helvum ];
   };
 }

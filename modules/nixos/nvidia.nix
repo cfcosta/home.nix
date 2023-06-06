@@ -1,7 +1,7 @@
 { lib, pkgs, config, ... }:
-let cfg = config.devos.nvidia;
+let cfg = config.dusk.nvidia;
 in {
-  options.devos.nvidia.enable = lib.mkEnableOption "nvidia";
+  options.dusk.nvidia.enable = lib.mkEnableOption "nvidia";
 
   config = lib.mkIf cfg.enable {
     hardware.nvidia.modesetting.enable = true;

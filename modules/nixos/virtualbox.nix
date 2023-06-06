@@ -1,11 +1,11 @@
 { lib, pkgs, config, ... }:
 with lib;
-let cfg = config.devos.virtualbox;
+let cfg = config.dusk.virtualbox;
 in {
-  options.devos.virtualbox.enable = mkEnableOption "virtualbox";
+  options.dusk.virtualbox.enable = mkEnableOption "virtualbox";
 
   config = mkIf cfg.enable {
     virtualisation.virtualbox.host.enable = true;
-    users.users.${config.devos.user}.extraGroups = [ "vboxusers" ];
+    users.users.${config.dusk.user}.extraGroups = [ "vboxusers" ];
   };
 }

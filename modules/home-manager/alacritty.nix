@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.devos.home.alacritty;
+let cfg = config.dusk.home.alacritty;
 in {
   options = {
-    devos.home.alacritty = {
+    dusk.home.alacritty = {
       enable = mkOption {
         type = types.bool;
         default = false;

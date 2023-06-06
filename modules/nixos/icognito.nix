@@ -1,8 +1,8 @@
 { lib, pkgs, config, ... }:
 with lib;
-let cfg = config.devos.icognito;
+let cfg = config.dusk.icognito;
 in {
-  options.devos.icognito.enable = mkEnableOption "icognito";
+  options.dusk.icognito.enable = mkEnableOption "icognito";
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [

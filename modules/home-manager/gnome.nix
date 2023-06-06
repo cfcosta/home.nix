@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.devos.home;
+  cfg = config.dusk.home;
   inherit (lib.hm.gvariant) mkTuple;
 in {
   options = {
-    devos.home.gnome = {
+    dusk.home.gnome = {
       enable = mkEnableOption "gnome";
       darkTheme = mkEnableOption "gnome-dark-theme";
 

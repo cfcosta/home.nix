@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.devos.home;
+let cfg = config.dusk.home;
 in {
   imports = [
     ./alacritty.nix
@@ -12,7 +12,7 @@ in {
   ];
 
   options = {
-    devos.home = {
+    dusk.home = {
       name = mkOption { type = types.str; };
       email = mkOption { type = types.str; };
       username = mkOption { type = types.str; };
@@ -21,7 +21,7 @@ in {
       shell = {
         environmentFile = mkOption {
           type = types.str;
-          default = "${cfg.folders.home}/devos-env.sh";
+          default = "${cfg.folders.home}/dusk-env.sh";
           description = ''
             A bash file that is loaded by the shell on each run.
             This is used to set secrets or credentials that we don't want on the repo.

@@ -1,8 +1,8 @@
 { lib, pkgs, config, ... }:
 with lib;
-let cfg = config.devos.gaming;
+let cfg = config.dusk.gaming;
 in {
-  options = { devos.gaming.enable = mkEnableOption "gaming"; };
+  options = { dusk.gaming.enable = mkEnableOption "gaming"; };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [

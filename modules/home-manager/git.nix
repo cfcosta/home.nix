@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.devos.home;
+let cfg = config.dusk.home;
 in {
   options = {
-    devos.home.git = {
+    dusk.home.git = {
       enable = mkOption {
         type = types.bool;
         default = false;

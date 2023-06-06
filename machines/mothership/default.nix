@@ -19,7 +19,7 @@
 
   time.timeZone = "America/Sao_Paulo";
 
-  devos = {
+  dusk = {
     enable = true;
 
     user = "cfcosta";

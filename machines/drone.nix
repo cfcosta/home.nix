@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }: {
-  devos.home = {
+  dusk.home = {
     name = "Cainã Costa";
     username = "cfcosta";
     email = "me@cfcosta.com";

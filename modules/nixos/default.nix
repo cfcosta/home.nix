@@ -1,6 +1,6 @@
 { lib, pkgs, config, ... }:
 with lib;
-let cfg = config.devos;
+let cfg = config.dusk;
 in
 {
   imports = [
@@ -15,8 +15,8 @@ in
     ./virtualbox.nix
   ];
 
-  options.devos = {
-    enable = mkEnableOption "devos-core";
+  options.dusk = {
+    enable = mkEnableOption "dusk-core";
 
     system = {
       locale = mkOption {
@@ -40,7 +40,7 @@ in
       description = ''
         Initial password for the created user in the system
       '';
-      default = "devos";
+      default = "dusk";
     };
   };
 
@@ -91,10 +91,10 @@ in
 
     services.pcscd.enable = true;
 
-    users.users.${config.devos.user} = {
+    users.users.${config.dusk.user} = {
       isNormalUser = true;
       extraGroups = [ "networkmanager" "wheel" ];
-      inherit (config.devos) initialPassword;
+      inherit (config.dusk) initialPassword;
     };
   };
 }

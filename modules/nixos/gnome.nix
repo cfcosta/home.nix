@@ -1,7 +1,7 @@
 { lib, pkgs, config, ... }:
 with lib;
 let
-  cfg = config.devos.gnome;
+  cfg = config.dusk.gnome;
   browsers = with pkgs; [
     (firefox.override { cfg = { enableGnomeExtensions = true; }; })
     nyxt
@@ -9,7 +9,7 @@ let
     microsoft-edge
   ];
 in {
-  options = { devos.gnome.enable = mkEnableOption "gnome"; };
+  options = { dusk.gnome.enable = mkEnableOption "gnome"; };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs;
