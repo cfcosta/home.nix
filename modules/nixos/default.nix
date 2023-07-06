@@ -1,8 +1,7 @@
 { lib, pkgs, config, ... }:
 with lib;
 let cfg = config.dusk;
-in
-{
+in {
   imports = [
     ./containers.nix
     ./gaming.nix
