@@ -22,16 +22,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    aiken = {
+      url = "github:aiken-lang/aiken";
+      inputs.nixpgks.follows = "nixpkgs";
+    };
+
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, home-manager, flake-utils, neovim, ... }:
+  outputs = { nixpkgs, home-manager, flake-utils, neovim, aiken, ... }:
     let
       system = "x86_64-linux";
-      overlays = [ ];
+      overlays = [ (final: prev: { aiken = aiken.packages.default; }) ];
       pkgs = import nixpkgs {
         inherit system overlays;
         config.allowUnfree = true;

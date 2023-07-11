@@ -4,6 +4,7 @@ let cfg = config.dusk.home;
 in {
   imports = [
     ./alacritty.nix
+    ./crypto.nix
     ./git.nix
     ./gnome.nix
     ./media.nix
