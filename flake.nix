@@ -22,10 +22,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    aiken = {
-      url = "github:aiken-lang/aiken";
-      inputs.nixpgks.follows = "nixpkgs";
-    };
+    aiken.url = "github:aiken-lang/aiken";
 
     neovim = {
       url = "github:cfcosta/neovim.nix";
