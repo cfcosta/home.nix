@@ -4,6 +4,8 @@ in {
   options.dusk.nvidia.enable = lib.mkEnableOption "nvidia";
 
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [ nvtop-nvidia ];
+
     hardware.nvidia.modesetting.enable = true;
     services.xserver.videoDrivers = [ "nvidia" ];
 
