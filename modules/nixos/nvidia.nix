@@ -10,6 +10,12 @@ in {
     hardware.opengl = {
       enable = true;
       driSupport = true;
+      driSupport32Bit = true;
+    };
+
+    virtualisation = lib.optionals config.dusk.containers.enable {
+      docker.enableNvidia = true;
+      podman.enableNvidia = true;
     };
 
     environment.variables = {
