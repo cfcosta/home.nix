@@ -7,7 +7,17 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ docker-compose ctop ];
 
-    virtualisation.docker.enable = true;
+    virtualisation = {
+      docker = {
+        enable = true;
+        autoPrune.enable = true;
+      };
+
+      podman = {
+        enable = true;
+        autoPrune.enable = true;
+      };
+    };
 
     users.users.${config.dusk.user}.extraGroups = [ "docker" ];
   };
