@@ -30,6 +30,8 @@ in {
 
       delta.enable = true;
 
+      ignores = [ ".direnv" "result" "result-bin" ];
+
       signing = {
         key = null;
         inherit (cfg.git) signByDefault;
