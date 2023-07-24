@@ -27,15 +27,15 @@
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.aiken.follows = "aiken";
     };
   };
 
   outputs = { nixpkgs, home-manager, flake-utils, neovim, aiken, ... }:
     let
       system = "x86_64-linux";
-      overlays = [ (final: prev: { aiken = aiken.packages.default; }) ];
       pkgs = import nixpkgs {
-        inherit system overlays;
+        inherit system;
         config.allowUnfree = true;
       };
 
@@ -61,7 +61,8 @@
     } // flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.lib;
       let
-        overlays = [ ];
+        overlays =
+          [ (final: prev: { aiken = aiken.packages.${system}.default; }) ];
         pkgs = import nixpkgs {
           inherit system overlays;
           config.allowUnfree = true;

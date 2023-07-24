@@ -9,6 +9,7 @@
     git.enable = true;
     media.enable = true;
     notes.enable = true;
+    crypto.enable = true;
 
     gnome = {
       enable = true;
