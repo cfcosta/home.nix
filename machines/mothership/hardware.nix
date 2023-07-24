@@ -40,6 +40,6 @@
   swapDevices = [ ];
   networking.useDHCP = lib.mkDefault true;
 
-  hardware.cpu.amd.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableRedistributableFirmware = true;
+  hardware.cpu.amd.updateMicrocode = true;
 }
