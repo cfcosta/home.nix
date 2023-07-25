@@ -81,6 +81,16 @@ in {
       '';
     };
 
+    programs.readline = {
+      enable = true;
+
+      extraConfig = ''
+        # If there's more than one completion for an input, list all options immediately 
+        # instead of waiting for a second input.
+        set show-all-if-ambiguous on
+      '';
+    };
+
     # Make ctrl-r much more powerful
     # https://github.com/ellie/atuin
     programs.atuin = {
