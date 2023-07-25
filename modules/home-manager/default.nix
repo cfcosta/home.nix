@@ -144,9 +144,13 @@ in {
         "shift_verbose" # Let me know if I shift stupidly.
       ];
 
-      initExtra = builtins.concatStringsSep "\n"
+      initExtra = ''
+        . ${pkgs.complete-alias}/bin/complete_alias
+
+        ${builtins.concatStringsSep "\n"
         (builtins.map (alias: "complete -F _complete_alias ${alias}")
-          (builtins.attrNames config.programs.bash.shellAliases));
+          (builtins.attrNames config.programs.bash.shellAliases))}
+      '';
 
       bashrcExtra = ''
         [ -f "${cfg.shell.environmentFile}" ] && source "${cfg.shell.environmentFile}"
