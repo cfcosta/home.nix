@@ -22,12 +22,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    aiken.url = "github:aiken-lang/aiken";
+    aiken = {
+      url = "github:aiken-lang/aiken";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
 
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.aiken.follows = "aiken";
+      inputs.home-manager.follows = "home-manager";
+      inputs.flake-utils.follows = "flake-utils";
     };
   };
 
