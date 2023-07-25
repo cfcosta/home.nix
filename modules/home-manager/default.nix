@@ -60,10 +60,12 @@ in {
 
     home.packages = with pkgs; [
       bashInteractive
+      complete-alias
       eva
       fd
       git
       inconsolata
+      libiconv
       luajit
       mosh
       ncdu
@@ -74,7 +76,6 @@ in {
       tree
       watchexec
       wget
-      libiconv
     ];
 
     programs.bat.enable = true;
@@ -142,6 +143,10 @@ in {
         "no_empty_cmd_completion" # Don't complete when I haven't typed anything.
         "shift_verbose" # Let me know if I shift stupidly.
       ];
+
+      initExtra = builtins.concatStringsSep "\n"
+        (builtins.map (alias: "complete -F _complete_alias ${alias}")
+          (builtins.attrNames config.programs.bash.shellAliases));
 
       bashrcExtra = ''
         [ -f "${cfg.shell.environmentFile}" ] && source "${cfg.shell.environmentFile}"
