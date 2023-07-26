@@ -28,6 +28,7 @@ in {
         gc = "git commit";
         gca = "git commit -a";
         gco = "git checkout";
+        gcp = "git cherry-pick";
         gd = "git diff";
         gf = "git fetch -a";
         gl = "git log --graph";
