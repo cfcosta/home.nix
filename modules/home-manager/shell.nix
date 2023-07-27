@@ -49,7 +49,7 @@ in {
       historySize = 1000000;
 
       # Ignore common transaction commands and the aliases we've set.
-      historyIgnore = [ "exit" "pwd" "reset" ]
+      historyIgnore = [ "exit" "pwd" "reset" "fg" "jobs" ]
         ++ (mapAttrsToList (key: _: key) config.programs.bash.shellAliases);
 
       shellOptions = [
@@ -103,7 +103,7 @@ in {
         style = "compact";
         show_help = false;
 
-        history_filter = [ "^ls" "^cd" "^cat" ]
+        history_filter = [ "^ls" "^cd" "^cat" "^fg" "^jobs" ]
           ++ (builtins.map (alias: ''"^${alias}"'')
             (builtins.attrNames config.programs.bash.shellAliases));
       };
