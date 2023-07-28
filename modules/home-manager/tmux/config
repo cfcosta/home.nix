@@ -1,6 +1,7 @@
-set -g mouse on
+# Enable OSC 52 clipboard handling
+set -as terminal-features ',xterm-256color:clipboard'
 
-set -g default-terminal "xterm-256color"
+# True-color support for terminal
 set -sa terminal-features ",*256col*:RGB"
 set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
 set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
