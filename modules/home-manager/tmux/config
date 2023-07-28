@@ -14,14 +14,10 @@ bind-key -r l select-pane -R
 bind-key = select-layout tiled
 bind-key | select-layout even-horizontal
 bind-key - select-layout even-vertical
-bind-key -r Up resize-pane -U 5
-bind-key -r Down resize-pane -D 5
-bind-key -r Left resize-pane -L 5
-bind-key -r Right resize-pane -R 5
-bind-key -r M-Up resize-pane -U 1
-bind-key -r M-Down resize-pane -D 1
-bind-key -r M-Left resize-pane -L 1
-bind-key -r M-Right resize-pane -R 1
+bind-key -r M-Up resize-pane -U 5
+bind-key -r M-Down resize-pane -D 5
+bind-key -r M-Left resize-pane -L 5
+bind-key -r M-Right resize-pane -R 5
 
 bind-key -r S-h swap-window -t -1
 bind-key -r S-l swap-window -t +1
