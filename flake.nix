@@ -31,7 +31,6 @@
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.aiken.follows = "aiken";
       inputs.home-manager.follows = "home-manager";
       inputs.flake-utils.follows = "flake-utils";
     };

@@ -382,14 +382,16 @@
         "telescope": "telescope",
         "toggleterm": "toggleterm",
         "treesj": "treesj",
-        "trouble": "trouble"
+        "trouble": "trouble",
+        "wakatime": "wakatime",
+        "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1690634423,
-        "narHash": "sha256-5Bny9LnQp/FQpHVF/gBHz5mW1KF6+5n1ar+NNOmwnfA=",
+        "lastModified": 1690733121,
+        "narHash": "sha256-aYPYsp+NbQKMAT4cdGafjmHld7fWuvUJLxLPxoETPRA=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "cff9b96fefa5327f3d4f8e891fa9a5eeefda9e2b",
+        "rev": "c0af867a206f5f06098842550afdb82ec4c3021e",
         "type": "github"
       },
       "original": {
@@ -802,6 +804,38 @@
       "original": {
         "owner": "folke",
         "repo": "trouble.nvim",
+        "type": "github"
+      }
+    },
+    "wakatime": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1686179824,
+        "narHash": "sha256-fTjTIoO2uI9iDfXVkYDLgeY0l3Fm1pGH1Zd5cXaT/sI=",
+        "owner": "wakatime",
+        "repo": "vim-wakatime",
+        "rev": "018fa9a80c27ccf2a8967b9e27890372e5c2fb4f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "wakatime",
+        "repo": "vim-wakatime",
+        "type": "github"
+      }
+    },
+    "which-key": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1690570286,
+        "narHash": "sha256-B1+EHd2eH/EbD5Kip9PfhdPyyGfIkD6rsx0Z3rXvb5w=",
+        "owner": "folke",
+        "repo": "which-key.nvim",
+        "rev": "7ccf476ebe0445a741b64e36c78a682c1c6118b7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "which-key.nvim",
         "type": "github"
       }
     }
