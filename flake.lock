@@ -406,11 +406,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1690898854,
-        "narHash": "sha256-wpV8SdD7o844tZB9oUUKgTASJfG/2OLnYZ1HHLlBYGM=",
+        "lastModified": 1690903273,
+        "narHash": "sha256-KQrDDweh+HCUfVJr0+KIvR7JTsFk8XqaU46LmA1Vb6o=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "945c3ad6a77375fc7ad5d9d43ae4c01a984d8677",
+        "rev": "5553c7d12e3fa575ec34fd73e4b086f77047d4ce",
         "type": "github"
       },
       "original": {
