@@ -22,6 +22,19 @@ in {
   };
 
   config = mkIf cfg.git.enable {
+    home.packages = with pkgs; [ git-bug ];
+
+    programs.jujutsu = {
+      enable = true;
+      settings = {
+        user = {
+          name = cfg.name;
+          email = cfg.email;
+        };
+        ui.default-command = "status";
+      };
+    };
+
     programs.git = {
       enable = true;
 

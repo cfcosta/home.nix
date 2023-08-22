@@ -35,6 +35,8 @@ in {
         gp = "git push";
         gs = "git stash";
         gsp = "git stash pop";
+        jd = "jj diff";
+        jl = "jj log";
         ls = "exa -l";
         vi = "nvim";
         vim = "nvim";
