@@ -56,7 +56,6 @@ in {
       libiconv
       luajit
       mosh
-      ncdu
       neofetch
       nerdfonts
       python310Full
@@ -64,6 +63,7 @@ in {
       tree
       watchexec
       wget
+      yt-dlp
     ];
 
     programs.bat.enable = true;
