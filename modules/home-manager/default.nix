@@ -8,6 +8,7 @@ in {
     ./git.nix
     ./gnome.nix
     ./media.nix
+    ./mutt.nix
     ./notes.nix
     ./shell.nix
     ./tmux.nix

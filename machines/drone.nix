@@ -8,5 +8,6 @@
     alacritty.enable = true;
     git.enable = true;
     notes.enable = true;
+    mutt.enable = true;
   };
 }
