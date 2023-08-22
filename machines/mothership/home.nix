@@ -10,6 +10,7 @@
     media.enable = true;
     notes.enable = true;
     crypto.enable = true;
+    mutt.enable = true;
 
     gnome = {
       enable = true;
