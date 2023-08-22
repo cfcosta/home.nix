@@ -49,6 +49,9 @@ set beep_new
 set pipe_decode
 set thorough_search
 set sidebar_visible = yes
+set send_charset = "utf-8"
+set edit_headers = yes
+set signature = "~/.mutt/signature"
 
 # Index Key Bindings ---------------------------------
 bind index g noop

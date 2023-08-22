@@ -57,6 +57,10 @@ in {
       set sendmail="${pkgs.msmtp}/bin/msmtp"
     '';
     home.file.".muttrc".text = builtins.readFile ./mutt/muttrc;
+    home.file.".mutt/signature".text = ''
+      Cheers,
+      ${config.dusk.home.name}
+    '';
 
     programs.bash.shellAliases.mutt = "neomutt";
 
