@@ -2,6 +2,8 @@
 with lib;
 let
   cfg = config.dusk.home.mutt;
+  macLogFile = name:
+    "${config.dusk.home.folders.home}/Library/Logs/${name}.log";
   services = rec {
     linux = {
       services.offlineimap = {
@@ -23,7 +25,18 @@ let
         Install = { WantedBy = [ "timers.target" ]; };
       };
     };
-    darwin = { };
+    darwin = {
+      offlineimap = {
+        enable = true;
+        config = {
+          ProgramArguments = [ "${pkgs.offlineimap}/bin/offlineimap" ];
+          UserName = config.dusk.home.username;
+          StartInterval = 180;
+          StandardOutPath = macLogFile "offlineimap";
+          StandardErrorPath = macLogFile "offlineimap";
+        };
+      };
+    };
   };
 in {
   options = {
@@ -48,5 +61,6 @@ in {
     programs.bash.shellAliases.mutt = "neomutt";
 
     systemd.user = mkIf pkgs.stdenv.isLinux services.linux;
+    launchd.agents = mkIf pkgs.stdenv.isDarwin services.darwin;
   };
 }
