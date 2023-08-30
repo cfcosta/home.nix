@@ -43,7 +43,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs;
-      [ offlineimap neomutt msmtp ]
+      [ offlineimap neomutt msmtp notmuch ]
       ++ optionals pkgs.stdenv.isLinux [ mailutils ];
 
     home.file.".mailrc".text = ''
