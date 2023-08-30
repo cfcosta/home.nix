@@ -20,6 +20,7 @@ in {
         extraConfig = ''
           set -g @dracula-show-powerline true
           set -g @dracula-show-fahrenheit false
+          set -g @dracula-show-location false
           set -g @dracula-show-battery ${
             if cfg.showBattery then "true" else "false"
           }
