@@ -24,7 +24,7 @@
     user = "cfcosta";
 
     containers.enable = true;
-    gaming.enable = false;
+    gaming.enable = true;
     gnome.enable = true;
     icognito.enable = true;
     libvirt.enable = true;
