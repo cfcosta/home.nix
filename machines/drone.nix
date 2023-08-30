@@ -9,6 +9,10 @@
     git.enable = true;
     mutt.enable = true;
     notes.enable = true;
-    tmux.enable = true;
+
+    tmux = {
+      enable = true;
+      showBattery = true;
+    };
   };
 }

@@ -2,7 +2,10 @@
 with lib;
 let cfg = config.dusk.home.tmux;
 in {
-  options.dusk.home.tmux.enable = mkEnableOption "tmux";
+  options.dusk.home.tmux = {
+    enable = mkEnableOption "tmux";
+    showBattery = mkEnableOption "tmux show battery level";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [ tmux tmuxp ];
@@ -17,7 +20,7 @@ in {
         extraConfig = ''
           set -g @dracula-show-powerline true
           set -g @dracula-show-fahrenheit false
-          set -g @dracula-show-battery false
+          set -g @dracula-show-battery ${toString cfg.showBattery}
         '';
       })];
       extraConfig = builtins.readFile ./tmux/config;
