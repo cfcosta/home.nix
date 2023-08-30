@@ -10,6 +10,7 @@
       plugin = dracula;
       extraConfig = ''
         set -g @dracula-show-powerline true
+        set -g @dracula-show-fahrenheit false
       '';
     })];
     extraConfig = builtins.readFile ./tmux/config;
