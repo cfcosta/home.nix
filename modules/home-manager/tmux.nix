@@ -20,7 +20,9 @@ in {
         extraConfig = ''
           set -g @dracula-show-powerline true
           set -g @dracula-show-fahrenheit false
-          set -g @dracula-show-battery ${toString cfg.showBattery}
+          set -g @dracula-show-battery ${
+            if cfg.showBattery then "true" else "false"
+          }
         '';
       })];
       extraConfig = builtins.readFile ./tmux/config;
