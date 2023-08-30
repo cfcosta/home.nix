@@ -39,14 +39,7 @@ let
     };
   };
 in {
-  options = {
-    dusk.home.mutt = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
-    };
-  };
+  options.dusk.home.mutt.enable = mkEnableOption "mutt";
 
   config = mkIf cfg.enable {
     home.packages = with pkgs;

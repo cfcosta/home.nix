@@ -6,11 +6,12 @@
     accounts.github = "cfcosta";
 
     alacritty.enable = true;
+    crypto.enable = true;
     git.enable = true;
     media.enable = true;
-    notes.enable = true;
-    crypto.enable = true;
     mutt.enable = true;
+    notes.enable = true;
+    tmux.enable = true;
 
     gnome = {
       enable = true;

@@ -21,18 +21,14 @@
 
   dusk = {
     enable = true;
-
     user = "cfcosta";
 
-    nvidia.enable = true;
-
+    containers.enable = true;
     gaming.enable = false;
     gnome.enable = true;
     icognito.enable = true;
-
-    containers.enable = true;
     libvirt.enable = true;
-
+    nvidia.enable = true;
     sound.enable = true;
     tailscale.enable = true;
   };
