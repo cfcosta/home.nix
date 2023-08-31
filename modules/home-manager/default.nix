@@ -61,6 +61,8 @@ in {
       nerdfonts
       python310Full
       ripgrep
+      scc
+      tokei
       tree
       watchexec
       wget
