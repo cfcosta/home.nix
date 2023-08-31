@@ -17,7 +17,7 @@ let
 
         Timer = {
           Unit = "offlineimap.service";
-          OnCalendar = "*:0/3"; # Every 3 minutes
+          OnCalendar = "*:0/2"; # Every 2 minutes
           # start immediately after computer is started:
           Persistent = "true";
         };
@@ -31,7 +31,7 @@ let
         config = {
           ProgramArguments = [ "${pkgs.offlineimap}/bin/offlineimap" ];
           UserName = config.dusk.home.username;
-          StartInterval = 180;
+          StartInterval = 120;
           StandardOutPath = macLogFile "offlineimap";
           StandardErrorPath = macLogFile "offlineimap";
         };
