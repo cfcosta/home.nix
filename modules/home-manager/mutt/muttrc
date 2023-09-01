@@ -108,5 +108,10 @@ set sendmail = "msmtp"
 set sendmail_wait = 0 # Do wait until msmtp finishes before sending
 unset record
 
+# Mail View Options -----------------------------------
+# List URLs inside the e-mail to open on a browser
+macro index \cu   "|urlview\n"
+macro pager \cu   "|urlview\n"
+
 # Load our local configuration
 source ~/.muttrc.local

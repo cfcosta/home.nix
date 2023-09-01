@@ -38,14 +38,19 @@ let
       };
     };
   };
+  scripts = {
+    openUrl = pkgs.writeShellScriptBin "open-url"
+      (builtins.readFile ./mutt/mutt-open-url.sh);
+  };
 in {
   options.dusk.home.mutt.enable = mkEnableOption "mutt";
 
   config = mkIf cfg.enable {
     home.packages = with pkgs;
-      [ offlineimap neomutt msmtp notmuch ]
+      [ abook msmtp neomutt notmuch offlineimap scripts.openUrl urlview ]
       ++ optionals pkgs.stdenv.isLinux [ mailutils ];
 
+    home.file.".urlview".text = "COMMAND open-url ";
     home.file.".mailrc".text = ''
       set sendmail="${pkgs.msmtp}/bin/msmtp"
     '';
