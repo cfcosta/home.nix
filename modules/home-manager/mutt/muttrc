@@ -108,10 +108,15 @@ set sendmail = "msmtp"
 set sendmail_wait = 0 # Do wait until msmtp finishes before sending
 unset record
 
+# Pipe Options
+set pipe_decode # Clean up email before piping it to a command
+
 # Mail View Options -----------------------------------
 # List URLs inside the e-mail to open on a browser
 macro index \cu   "|urlview\n"
 macro pager \cu   "|urlview\n"
+# Save message into a todoist task
+macro index,pager F "|cat > /tmp/mutt-todoist-message<enter>!mutt-add-todoist<enter>" "Add message as a task on Todoist"
 
 # Load our local configuration
 source ~/.muttrc.local
