@@ -62,6 +62,7 @@ in {
       python310Full
       ripgrep
       scc
+      streamlink
       tokei
       tree
       watchexec
