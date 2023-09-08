@@ -58,7 +58,7 @@
         inherit system pkgs;
 
         modules = [
-          ./modules/nixos
+          ./nixos
           ./machines/mothership
           home-manager.nixosModules.home-manager
         ];
@@ -88,7 +88,7 @@
 
               modules = [
                 neovim.hmModule
-                ./modules/home-manager
+                ./home-manager
                 ./machines/mothership/home.nix
               ];
             };
@@ -98,8 +98,7 @@
             home = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
 
-              modules =
-                [ neovim.hmModule ./modules/home-manager ./machines/drone.nix ];
+              modules = [ neovim.hmModule ./home-manager ./machines/drone.nix ];
             };
           };
         };
