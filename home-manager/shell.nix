@@ -37,8 +37,8 @@ in {
         gsp = "git stash pop";
         jd = "jj diff";
         jl = "jj log";
-        ls = "lsd -g -l --permission octal --no-symlink";
-        ll = "lsd -g -l --permission octal --no-symlink -A";
+        ls = "lsd -l";
+        ll = "lsd -l -A";
         vi = "nvim";
         vim = "nvim";
       };
@@ -111,5 +111,18 @@ in {
             (builtins.attrNames config.programs.bash.shellAliases));
       };
     };
+
+    programs.lsd = {
+      enable = true;
+
+      settings = {
+        blocks = [ "permission" "user" "size" "git" "name" ];
+        icons.theme = "fancy";
+        permission = "rwx";
+      };
+    };
+
+    home.file.".config/lsd/colors.yaml".text =
+      builtins.readFile ./lsd/colors.yaml;
   };
 }

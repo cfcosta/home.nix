@@ -73,7 +73,6 @@ in {
     programs.bat.enable = true;
     programs.bottom.enable = true;
     programs.btop.enable = true;
-    programs.lsd.enable = true;
     programs.go.enable = true;
     programs.jq.enable = true;
     programs.starship.enable = true;
