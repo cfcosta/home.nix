@@ -37,7 +37,8 @@ in {
         gsp = "git stash pop";
         jd = "jj diff";
         jl = "jj log";
-        ls = "exa -l";
+        ls = "lsd -g -l --permission octal --no-symlink";
+        ll = "lsd -g -l --permission octal --no-symlink -A";
         vi = "nvim";
         vim = "nvim";
       };
