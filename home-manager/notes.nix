@@ -9,7 +9,7 @@ let
       text = ''
         ROOT="${directory}/journal/$(${cmd} +%Y)/$(${cmd} +%m)"
         [ -d "$ROOT" ] || mkdir -p "$ROOT"
-        $EDITOR "$ROOT/$(${cmd} +%d).norg"  
+        $EDITOR "$ROOT/$(${cmd} +%d).md"  
       '';
     };
   today = buildTool "today" "date";
