@@ -118,6 +118,7 @@ in {
       settings = {
         blocks = [ "permission" "user" "size" "git" "name" ];
         icons.theme = "fancy";
+        ignore-globs = [ ".direnv" ".git" ".hg" ".jj" ];
         permission = "rwx";
       };
     };
