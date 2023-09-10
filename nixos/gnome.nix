@@ -17,7 +17,6 @@ in {
         adw-gtk3
         alacritty
         bitwarden
-        cawbird
         discord
         element-desktop
         newsflash
