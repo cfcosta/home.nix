@@ -48,7 +48,15 @@ in {
 
     nix.extraOptions = ''
       experimental-features = nix-command flakes
+      accept-flake-config = true
     '';
+
+    nix.settings = {
+      trusted-substituters =
+        [ "https://cache.nixos.org" "https://cfcosta-home.cachix.org" ];
+      substituters =
+        [ "https://cache.nixos.org" "https://cfcosta-home.cachix.org" ];
+    };
 
     system.stateVersion = "23.05";
 
