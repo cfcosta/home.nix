@@ -19,14 +19,11 @@ in {
         bitwarden
         discord
         element-desktop
-        newsflash
+        gitg
+        meld
         obs-studio
         obsidian
-        rnote
-        spot
         tdesktop
-        meld
-        gitg
 
         # TODO: Find a way to install this only if wayland is not enabled
         xclip
