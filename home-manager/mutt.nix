@@ -75,6 +75,7 @@ in {
       Cheers,
       ${config.dusk.home.name}
     '';
+    home.file.".mutt/theme.mutt".text = builtins.readFile ./mutt/theme.mutt;
 
     programs.bash.shellAliases.mutt = "neomutt";
 
