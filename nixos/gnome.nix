@@ -23,6 +23,7 @@ in {
         meld
         obs-studio
         obsidian
+        signal-desktop
         tdesktop
 
         # TODO: Find a way to install this only if wayland is not enabled
