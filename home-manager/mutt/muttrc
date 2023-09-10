@@ -1,44 +1,24 @@
-# Sanity mutt configs
-set sort = "threads"
-set wait_key = no
-set mbox_type = Maildir
-set timeout = 3
-set mail_check = 0
-unset move
-set delete
-unset confirmappend
-set quit
-unset mark_old
+set auto_tag
 set beep_new
-set pipe_decode
-set thorough_search
-set sidebar_visible = yes
-set send_charset = "utf-8"
+set delete
 set edit_headers = yes
+set mail_check = 0
+set mbox_type = Maildir
+set pipe_decode
+set quit
+set send_charset = "utf-8"
+set sidebar_visible = yes
 set signature = "~/.mutt/signature"
+set sort = "threads"
+set thorough_search
+set timeout = 3
+set wait_key = no
+unset confirmappend
+unset mark_old
+unset move
+set pipe_decode # Clean up email before piping it to a command
 
-# Index Key Bindings ---------------------------------
-bind index g noop
-bind index gg first-entry
-bind index G  last-entry
-
-bind index R group-reply
-bind index <tab> sync-mailbox
-bind index <space> collapse-thread
-
-# Ctrl-R to mark all as read
-macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
-
-# Saner copy/move dialogs
-macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
-macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
-
-# Sidebar Navigation
-bind index,pager <down>   sidebar-next
-bind index,pager <up>     sidebar-prev
-bind index,pager <right>  sidebar-open
-
-# Pager View Options ---------------------------------
+# Pager View Options ----------------------------------------------------------
 set pager_index_lines = 10 # number of index lines to show
 set pager_context = 3      # number of context lines to show
 set pager_stop             # don't go to next message automatically
@@ -46,12 +26,11 @@ set menu_scroll            # scroll in menus
 set tilde                  # show tildes like in vim
 unset markers              # no ugly plus signs
 
-# Compose View Options -------------------------------
+# Compose View Options --------------------------------------------------------
 set envelope_from                    # which from?
 set sig_dashes                       # dashes before sig
 set edit_headers                     # show headers when composing
 set fast_reply                       # skip to compose when replying
-set askcc                            # ask for CC:
 set fcc_attach                       # save attachments with the body
 unset mime_forward                   # forward attachments as part of body
 set forward_format = "Fwd: %s"       # format of subject when forwarding
@@ -61,29 +40,38 @@ set reply_to                         # reply to Reply to: field
 set reverse_name                     # reply as whomever it was to
 set include                          # include message in replies
 set forward_quote
+unset askcc                          # do not ask for CC:
 
 set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
 alternative_order text/plain text/enriched text/html
 
-macro index,pager \\ '<enter-command>toggle sidebar_visible<enter>'
-
-# Sending Options -------------------------------------
-set sendmail = "msmtp"
-set sendmail_wait = 0 # Do wait until msmtp finishes before sending
+# Sending Options -------------------------------------------------------------
+set sendmail_wait = 0 # Wait until sendmail finishes before returning
 unset record
 
 # Pipe Options
-set pipe_decode # Clean up email before piping it to a command
 
-# Mail View Options -----------------------------------
-# List URLs inside the e-mail to open on a browser
-macro index \cu   "|urlview\n"
-macro pager \cu   "|urlview\n"
+# Keybindings ------------------------------------------------------------------
+bind index g noop
+bind index gg first-entry
+bind index G  last-entry
+bind index R group-reply
+bind index <tab> sync-mailbox
+bind index <space> collapse-thread
+# Sidebar Navigation
+bind index,pager <down>   sidebar-next
+bind index,pager <up>     sidebar-prev
+bind index,pager <right>  sidebar-open
 
-# Save message into a todoist task
+# Macros ----------------------------------------------------------------------
 macro index,pager F "|cat > /tmp/mutt-todoist-message<enter>!mutt-add-todoist<enter>" "Add message as a task on Todoist"
-# Archive message
-macro index y ":set confirmappend=no delete=yes auto_tag=yes\n<save-message>$mbox\n:set confirmappend=yes delete=ask-yes\n"
+macro index y "<save-message>$mbox<enter>" "Archive message"
+macro index,pager \cu "|urlview\n" "List URLs inside the email"
+macro index,pager \\ '<enter-command>toggle sidebar_visible<enter>' "Toggle sidebar"
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+# Saner copy/move dialogs
+macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
 # Load theme
 source ~/.mutt/theme.mutt
