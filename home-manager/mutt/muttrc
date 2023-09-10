@@ -79,8 +79,11 @@ set pipe_decode # Clean up email before piping it to a command
 # List URLs inside the e-mail to open on a browser
 macro index \cu   "|urlview\n"
 macro pager \cu   "|urlview\n"
+
 # Save message into a todoist task
 macro index,pager F "|cat > /tmp/mutt-todoist-message<enter>!mutt-add-todoist<enter>" "Add message as a task on Todoist"
+# Archive message
+macro index y ":set confirmappend=no delete=yes auto_tag=yes\n<save-message>$mbox\n:set confirmappend=yes delete=ask-yes\n"
 
 # Load theme
 source ~/.mutt/theme.mutt
