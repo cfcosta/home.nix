@@ -50,14 +50,27 @@
           done
         '';
     in {
-      nixosConfigurations.mothership = nixpkgs.lib.nixosSystem {
-        inherit system pkgs;
 
-        modules = [
-          ./nixos
-          ./machines/mothership
-          home-manager.nixosModules.home-manager
-        ];
+      nixosConfigurations = {
+        battlecruiser = nixpkgs.lib.nixosSystem {
+          inherit system pkgs;
+
+          modules = [
+            ./nixos
+            ./machines/battlecruiser
+            home-manager.nixosModules.home-manager
+          ];
+        };
+
+        mothership = nixpkgs.lib.nixosSystem {
+          inherit system pkgs;
+
+          modules = [
+            ./nixos
+            ./machines/mothership
+            home-manager.nixosModules.home-manager
+          ];
+        };
       };
     } // flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.lib;
@@ -78,6 +91,18 @@
         home-manager.useGlobalPkgs = true;
 
         profiles = {
+          battlecruiser = {
+            home = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+
+              modules = [
+                neovim.hmModule
+                ./home-manager
+                ./machines/mothership/home.nix
+              ];
+            };
+          };
+
           mothership = {
             home = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
