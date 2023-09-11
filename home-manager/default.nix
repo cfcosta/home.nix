@@ -71,12 +71,15 @@ in {
       yt-dlp
     ];
 
-    programs.bat.enable = true;
-    programs.bottom.enable = true;
     programs.go.enable = true;
     programs.jq.enable = true;
     programs.gpg.enable = true;
     programs.direnv.enable = true;
+
+    programs.bat = {
+      enable = true;
+      config.theme = "Dracula";
+    };
 
     programs.starship = {
       enable = true;
