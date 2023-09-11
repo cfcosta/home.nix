@@ -44,32 +44,56 @@ in {
 
       colors:
         primary:
-          background: '#191a2a'
-          foreground: '#c8d3f5'
-
+          background: "#282a36"
+          foreground: "#f8f8f2"
+          bright_foreground: "#ffffff"
         cursor:
-          text:   '#7f85a3'
-          cursor: '#808080'
-
+          text: CellBackground
+          cursor: CellForeground
+        vi_mode_cursor:
+          text: CellBackground
+          cursor: CellForeground
+        search:
+          matches:
+            foreground: "#44475a"
+            background: "#50fa7b"
+          focused_match:
+            foreground: "#44475a"
+            background: "#ffb86c"
+        footer_bar:
+          background: "#282a36"
+          foreground: "#f8f8f2"
+        hints:
+          start:
+            foreground: "#282a36"
+            background: "#f1fa8c"
+          end:
+            foreground: "#f1fa8c"
+            background: "#282a36"
+        line_indicator:
+          foreground: None
+          background: None
+        selection:
+          text: CellForeground
+          background: "#44475a"
         normal:
-          black:   '#444a73'
-          red:     '#ff5370'
-          green:   '#4fd6be'
-          yellow:  '#ffc777'
-          blue:    '#3e68d7'
-          magenta: '#fc7b7b'
-          cyan:    '#86e1fc'
-          white:   '#d0d0d0'
-
+          black: "#21222c"
+          red: "#ff5555"
+          green: "#50fa7b"
+          yellow: "#f1fa8c"
+          blue: "#bd93f9"
+          magenta: "#ff79c6"
+          cyan: "#8be9fd"
+          white: "#f8f8f2"
         bright:
-          black:   '#828bb8'
-          red:     '#ff98a4'
-          green:   '#c3e88d'
-          yellow:  '#ffc777'
-          blue:    '#82aaff'
-          magenta: '#ff966c'
-          cyan:    '#b4f9f8'
-          white:   '#5f8787'
+          black: "#6272a4"
+          red: "#ff6e6e"
+          green: "#69ff94"
+          yellow: "#ffffa5"
+          blue: "#d6acff"
+          magenta: "#ff92df"
+          cyan: "#a4ffff"
+          white: "#ffffff"
 
         indexed_colors: []
     '';
