@@ -6,6 +6,7 @@
     accounts.github = "cfcosta";
 
     alacritty.enable = true;
+    crypto.enable = true;
     git.enable = true;
     mutt.enable = true;
     notes.enable = true;
