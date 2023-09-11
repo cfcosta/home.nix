@@ -41,7 +41,14 @@ in {
       userName = cfg.name;
       userEmail = cfg.email;
 
-      delta.enable = true;
+      delta = {
+        enable = true;
+        options = {
+          theme = "Dracula";
+          line-numbers = true;
+          side-by-side = true;
+        };
+      };
 
       ignores = [ ".direnv" "result" "result-bin" ];
 
