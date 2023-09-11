@@ -34,6 +34,9 @@ in {
     qt.style.package = pkgs.adwaita-qt;
     qt.style.name = if cfg.gnome.darkTheme then "adwaita-dark" else "adwaita";
 
+    home.file.".config/Element/config.json".text =
+      builtins.readFile ./element/config.json;
+
     dconf.settings = {
       "org/gnome/desktop/interface" = {
         color-scheme =

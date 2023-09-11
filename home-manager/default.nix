@@ -7,6 +7,7 @@ in {
     ./crypto.nix
     ./git.nix
     ./gnome.nix
+    ./macos.nix
     ./media.nix
     ./mutt.nix
     ./notes.nix
