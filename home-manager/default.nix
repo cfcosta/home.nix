@@ -73,7 +73,6 @@ in {
 
     programs.bat.enable = true;
     programs.bottom.enable = true;
-    programs.btop.enable = true;
     programs.go.enable = true;
     programs.jq.enable = true;
     programs.gpg.enable = true;
@@ -104,6 +103,16 @@ in {
     programs.htop = {
       enable = true;
       package = pkgs.htop-vim;
+    };
+
+    programs.btop = {
+      enable = true;
+
+      settings = {
+        color_theme = "dracula";
+        true_color = true;
+        vim_keys = true;
+      };
     };
 
     home.stateVersion = "23.05";
