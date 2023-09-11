@@ -184,21 +184,19 @@
         "type": "github"
       }
     },
-    "flake-parts": {
-      "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib"
-      },
+    "dracula": {
+      "flake": false,
       "locked": {
-        "lastModified": 1685662779,
-        "narHash": "sha256-cKDDciXGpMEjP1n6HlzKinN0H+oLmNpgeCTzYnsA2po=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "71fb97f0d875fd4de4994dfb849f2c75e17eb6c3",
+        "lastModified": 1690594744,
+        "narHash": "sha256-gblqxRTphGBpEOx57/4oU/B50O0OguIm1bFtd4LXuQ4=",
+        "owner": "Mofiqul",
+        "repo": "dracula.nvim",
+        "rev": "9fe831e685a76e1a1898a694623b33247c4d036c",
         "type": "github"
       },
       "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
+        "owner": "Mofiqul",
+        "repo": "dracula.nvim",
         "type": "github"
       }
     },
@@ -307,22 +305,6 @@
         "type": "github"
       }
     },
-    "moonlight": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1621189154,
-        "narHash": "sha256-wydCYXsQZyojiUf4CAi15pSysFxZjdRk8x3r668bPFU=",
-        "owner": "shaunsingh",
-        "repo": "moonlight.nvim",
-        "rev": "e24e4218ec680b6396532808abf57ca0ada82e66",
-        "type": "github"
-      },
-      "original": {
-        "owner": "shaunsingh",
-        "repo": "moonlight.nvim",
-        "type": "github"
-      }
-    },
     "neo-tree": {
       "flake": false,
       "locked": {
@@ -367,6 +349,7 @@
         "comment": "comment",
         "dash-nvim": "dash-nvim",
         "diffview": "diffview",
+        "dracula": "dracula",
         "flake-utils": [
           "flake-utils"
         ],
@@ -376,11 +359,9 @@
         ],
         "indent-blankline": "indent-blankline",
         "lualine": "lualine",
-        "moonlight": "moonlight",
         "neo-tree": "neo-tree",
         "neogit": "neogit",
         "nightvim": "nightvim",
-        "nixd": "nixd",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -399,6 +380,7 @@
         "plenary": "plenary",
         "rust-tools": "rust-tools",
         "telescope": "telescope",
+        "telescope-zf-native": "telescope-zf-native",
         "toggleterm": "toggleterm",
         "treesj": "treesj",
         "trouble": "trouble",
@@ -406,11 +388,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1694380057,
-        "narHash": "sha256-tiaAMlvWfpVdTtA7J7x3klG6D8ogj6SAze/ix1AIlMQ=",
+        "lastModified": 1694438239,
+        "narHash": "sha256-bMKN9tgeJ/92Y7gOgmWrlA5dCQ9/aymn0C0MSLjaQl4=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "27bfbe05377052a3d49f2f4ea20ab66165dc8af6",
+        "rev": "d8f421b47b6d96527837fd89e196d5bf9753a5e7",
         "type": "github"
       },
       "original": {
@@ -448,28 +430,6 @@
         "type": "github"
       }
     },
-    "nixd": {
-      "inputs": {
-        "flake-parts": "flake-parts",
-        "nixpkgs": [
-          "neovim",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1694335106,
-        "narHash": "sha256-Zm6wlWsq48sWmx+IJkeRTbO/ORTgilbRRW8gOC7z9fI=",
-        "owner": "nix-community",
-        "repo": "nixd",
-        "rev": "abd261601d265f2571fade4a92da548c4d017e01",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixd",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1681358109,
@@ -482,24 +442,6 @@
       "original": {
         "owner": "NixOS",
         "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-lib": {
-      "locked": {
-        "dir": "lib",
-        "lastModified": 1685564631,
-        "narHash": "sha256-8ywr3AkblY4++3lIVxmrWZFzac7+f32ZEhH/A8pNscI=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "4f53efe34b3a8877ac923b9350c874e3dcd5dc0a",
-        "type": "github"
-      },
-      "original": {
-        "dir": "lib",
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -815,6 +757,22 @@
       "original": {
         "owner": "nvim-telescope",
         "repo": "telescope.nvim",
+        "type": "github"
+      }
+    },
+    "telescope-zf-native": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1678918435,
+        "narHash": "sha256-KpODXemfksWQ0PjjQrpC6E4tBVmQtcUnRyapX0PTQD4=",
+        "owner": "natecraddock",
+        "repo": "telescope-zf-native.nvim",
+        "rev": "beb34b6c48154ec117930180f257a5592606d48f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "natecraddock",
+        "repo": "telescope-zf-native.nvim",
         "type": "github"
       }
     },
