@@ -65,7 +65,6 @@ bind index,pager <right>  sidebar-open
 
 # Macros ----------------------------------------------------------------------
 macro index,pager F "|cat > /tmp/mutt-todoist-message<enter>!mutt-add-todoist<enter>" "Add message as a task on Todoist"
-macro index y "<save-message>$mbox<enter>" "Archive message"
 macro index,pager \cu "|urlview\n" "List URLs inside the email"
 macro index,pager \\ '<enter-command>toggle sidebar_visible<enter>' "Toggle sidebar"
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
