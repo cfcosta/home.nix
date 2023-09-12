@@ -8,25 +8,20 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  boot.initrd.secrets = { "/crypto_keyfile.bin" = null; };
-  boot.initrd.availableKernelModules =
-    [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "nvme" "ahci" "thunderbolt" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/74a0dddd-276e-4c8b-9f61-a10d7adc1782";
-    fsType = "ext4";
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/267a2e89-f17c-4ae8-ba84-709fda2a95aa";
+      fsType = "ext4";
+    };
 
-  boot.initrd.luks.devices."luks-5faf3f90-a835-4d76-9121-05ee876a3649".device =
-    "/dev/disk/by-uuid/5faf3f90-a835-4d76-9121-05ee876a3649";
-
-  fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-uuid/0595-97A8";
-    fsType = "vfat";
-  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/0B55-0450";
+      fsType = "vfat";
+    };
 
   swapDevices = [ ];
   networking.useDHCP = lib.mkDefault true;
