@@ -389,11 +389,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1694450423,
-        "narHash": "sha256-awyioE4cIHK9lVzMD4yBzD+BlbSPJ7hjGeAH4mv17TA=",
+        "lastModified": 1694524362,
+        "narHash": "sha256-/UnwyJJI7AaVVFpKpfEM2QProq5o5KQluDBxV6Jkgc4=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "8580e2d8f062fbd6167f9d0273a7c61fcfd9c120",
+        "rev": "fe32df7efac792662df4c351bbb9f2e975adcc90",
         "type": "github"
       },
       "original": {
