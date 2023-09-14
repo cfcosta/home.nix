@@ -27,6 +27,7 @@ in {
         slack
         tdesktop
         todoist-electron
+        vial
 
         # TODO: Find a way to install this only if wayland is not enabled
         xclip
