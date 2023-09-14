@@ -60,7 +60,7 @@ in {
 
     system.stateVersion = "23.05";
 
-    environment.systemPackages = with pkgs; [ bash curl file git wget ];
+    environment.systemPackages = with pkgs; [ bash curl file git wget src-cli ];
 
     i18n.defaultLocale = cfg.system.locale;
 
