@@ -51,13 +51,13 @@ in {
     home.sessionVariables.EDITOR = "nvim";
 
     home.packages = with pkgs; [
+      eternal-terminal
       eva
       fd
       git
       inconsolata
       libiconv
       luajit
-      mosh
       neofetch
       nerdfonts
       python310Full

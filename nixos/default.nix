@@ -88,7 +88,7 @@ in {
       };
     };
 
-    programs.mosh.enable = true;
+    services.eternal-terminal.enable = true;
 
     programs.gnupg.agent = {
       enable = true;
