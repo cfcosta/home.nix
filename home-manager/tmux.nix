@@ -15,6 +15,8 @@ in {
       escapeTime = 0;
       keyMode = "vi";
       terminal = "tmux-256color";
+      newSession = true;
+
       plugins = with pkgs.tmuxPlugins; [({
         plugin = dracula;
         extraConfig = ''
@@ -26,6 +28,7 @@ in {
           }
         '';
       })];
+
       extraConfig = builtins.readFile ./tmux/config;
     };
 
