@@ -46,16 +46,19 @@ in {
   config = mkIf cfg.enable {
     nixpkgs.config.allowUnfree = true;
 
-    nix.extraOptions = ''
-      experimental-features = nix-command flakes
-      accept-flake-config = true
-    '';
+    nix = {
+      gc.automatic = true;
 
-    nix.settings = {
-      trusted-substituters =
-        [ "https://cache.nixos.org" "https://cfcosta-home.cachix.org" ];
-      substituters =
-        [ "https://cache.nixos.org" "https://cfcosta-home.cachix.org" ];
+      settings = {
+        accept-flake-config = true;
+        auto-optimise-store = true;
+        experimental-features = [ "nix-command" "flakes" ];
+
+        trusted-substituters =
+          [ "https://cache.nixos.org" "https://cfcosta-home.cachix.org" ];
+        substituters =
+          [ "https://cache.nixos.org" "https://cfcosta-home.cachix.org" ];
+      };
     };
 
     system.stateVersion = "23.05";
