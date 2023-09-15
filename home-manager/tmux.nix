@@ -14,7 +14,7 @@ in {
       enable = true;
       escapeTime = 0;
       keyMode = "vi";
-      terminal = "xterm-256color";
+      terminal = "tmux-256color";
       plugins = with pkgs.tmuxPlugins; [({
         plugin = dracula;
         extraConfig = ''
@@ -27,6 +27,11 @@ in {
         '';
       })];
       extraConfig = builtins.readFile ./tmux/config;
+    };
+
+    home.file = mkIf (pkgs.stdenv.isDarwin) {
+      ".terminfo/74/tmux-256color".source =
+        mkIf pkgs.stdenv.isDarwin ./tmux/terminfo;
     };
   };
 }

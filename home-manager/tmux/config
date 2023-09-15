@@ -1,5 +1,5 @@
 # Enable OSC 52 clipboard handling
-set -as terminal-features ',xterm-256color:clipboard'
+set -as terminal-features ',tmux-256color:clipboard'
 
 # True-color support for terminal
 set -sa terminal-features ",*256col*:RGB"
@@ -27,3 +27,5 @@ unbind s
 unbind %
 bind e split-window -h
 bind v split-window -v
+
+# vim: syntax=tmux
