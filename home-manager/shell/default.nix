@@ -142,5 +142,7 @@ in {
 
     home.file.".config/lsd/colors.yaml".text =
       builtins.readFile ./lsd/colors.yaml;
+
+    programs.zoxide.enable = true;
   };
 }
