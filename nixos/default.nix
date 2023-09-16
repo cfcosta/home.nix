@@ -88,6 +88,14 @@ in {
       settings = {
         PermitRootLogin = lib.mkForce "no";
         PasswordAuthentication = false;
+        ChallengeResponseAuthentication = false;
+        GSSAPIAuthentication = false;
+        KerberosAuthentication = false;
+        X11Forwarding = false;
+        PermitUserEnvironment = false;
+        AllowAgentForwarding = false;
+        AllowTcpForwarding = false;
+        PermitTunnel = false;
       };
     };
 
