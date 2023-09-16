@@ -14,11 +14,13 @@ in {
       };
     };
   };
+
   config = rec {
     home.packages = with pkgs; [ bashInteractive complete-alias ];
 
     programs.bash = {
       enable = true;
+      enableCompletion = true;
 
       shellAliases = {
         ack = "rg";
@@ -82,6 +84,11 @@ in {
       '';
 
       bashrcExtra = ''
+        ${if pkgs.stdenv.isDarwin then
+          (builtins.readFile ./shell/macos.sh)
+        else
+          ""}
+
         # Man-pages coloring with Dracula theme
         export LESS_TERMCAP_mb=$'\e[1;31m'      # begin bold
         export LESS_TERMCAP_md=$'\e[1;34m'      # begin blink
