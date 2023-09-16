@@ -50,6 +50,8 @@ in {
 
     home.sessionVariables.EDITOR = "nvim";
 
+    programs.ssh.hashKnownHosts = true;
+
     home.packages = with pkgs; [
       eternal-terminal
       eva
