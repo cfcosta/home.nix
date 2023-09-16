@@ -3,16 +3,17 @@ with lib;
 let cfg = config.dusk.home;
 in {
   imports = [
+    ./mutt
+    ./shell
+    ./tmux
+
     ./alacritty.nix
     ./crypto.nix
     ./git.nix
     ./gnome.nix
     ./macos.nix
     ./media.nix
-    ./mutt.nix
     ./notes.nix
-    ./shell.nix
-    ./tmux.nix
   ];
 
   options = {

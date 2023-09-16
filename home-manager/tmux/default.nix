@@ -29,12 +29,12 @@ in {
         '';
       })];
 
-      extraConfig = builtins.readFile ./tmux/config;
+      extraConfig = builtins.readFile ./config;
     };
 
     home.file = mkIf (pkgs.stdenv.isDarwin) {
       ".terminfo/74/tmux-256color".source =
-        mkIf pkgs.stdenv.isDarwin ./tmux/terminfo;
+        mkIf pkgs.stdenv.isDarwin ./terminfo;
     };
   };
 }

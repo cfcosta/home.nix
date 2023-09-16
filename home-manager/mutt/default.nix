@@ -54,9 +54,9 @@ let
   scripts = [
     todoist
     (pkgs.writeShellScriptBin "mutt-open-url"
-      (builtins.readFile ./mutt/mutt-open-url.sh))
+      (builtins.readFile ./mutt-open-url.sh))
     (pkgs.writeShellScriptBin "mutt-add-todoist"
-      (builtins.readFile ./mutt/mutt-add-todoist.sh))
+      (builtins.readFile ./mutt-add-todoist.sh))
   ];
 in {
   options.dusk.home.mutt.enable = mkEnableOption "mutt";
@@ -70,12 +70,12 @@ in {
     home.file.".mailrc".text = ''
       set sendmail="${pkgs.msmtp}/bin/msmtp"
     '';
-    home.file.".muttrc".text = builtins.readFile ./mutt/muttrc;
+    home.file.".muttrc".text = builtins.readFile ./muttrc;
     home.file.".mutt/signature".text = ''
       Cheers,
       ${config.dusk.home.name}
     '';
-    home.file.".mutt/theme.mutt".text = builtins.readFile ./mutt/theme.mutt;
+    home.file.".mutt/theme.mutt".text = builtins.readFile ./theme.mutt;
 
     programs.bash.shellAliases.mutt = "neomutt";
 
