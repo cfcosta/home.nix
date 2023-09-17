@@ -20,6 +20,7 @@
     enable = true;
     user = "cfcosta";
 
+    amd.enable = true;
     containers.enable = true;
     gaming.enable = true;
     gnome.enable = true;

@@ -3,6 +3,7 @@ with lib;
 let cfg = config.dusk;
 in {
   imports = [
+    ./amd.nix
     ./containers.nix
     ./gaming.nix
     ./gnome.nix
