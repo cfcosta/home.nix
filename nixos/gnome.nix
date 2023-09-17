@@ -64,5 +64,21 @@ in {
 
     services.flatpak.enable = true;
     services.packagekit.enable = true;
+
+    environment.gnome.excludePackages = with pkgs; [
+      gnome-photos
+      gnome-tour
+      gnome.gnome-music
+      gnome.gnome-terminal
+      gnome.gedit # text editor
+      gnome.geary # email reader
+      gnome.evince # document viewer
+      gnome.gnome-characters
+      gnome.totem # video player
+      gnome.tali # poker game
+      gnome.iagno # go game
+      gnome.hitori # sudoku game
+      gnome.atomix # puzzle game
+    ];
   };
 }
