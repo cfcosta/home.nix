@@ -16,13 +16,7 @@ in {
     environment.systemPackages = with pkgs; [ nvtop-nvidia ];
 
     hardware.nvidia.modesetting.enable = true;
-    services.xserver = {
-      videoDrivers = [ "nvidia" ];
-
-      deviceSection = ''
-        Options "Coolbits" "4"
-      '';
-    };
+    services.xserver.videoDrivers = [ "nvidia" ];
 
     hardware.opengl = {
       enable = true;
