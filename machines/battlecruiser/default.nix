@@ -25,9 +25,13 @@
     gnome.enable = true;
     icognito.enable = true;
     libvirt.enable = true;
-    nvidia.enable = true;
     sound.enable = true;
     tailscale.enable = true;
+
+    nvidia = {
+      enable = true;
+      powerLimit = 150;
+    };
   };
 
   # Workaround fix for nm-online-service from stalling on Wireguard interface.
