@@ -4,6 +4,7 @@ let cfg = config.dusk;
 in {
   imports = [
     ./amd.nix
+    ./benchmarking.nix
     ./containers.nix
     ./gaming.nix
     ./gnome.nix

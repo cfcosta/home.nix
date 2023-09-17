@@ -21,6 +21,7 @@
     user = "cfcosta";
 
     amd.enable = true;
+    benchmarking.enable = true;
     containers.enable = true;
     gaming.enable = true;
     gnome.enable = true;
