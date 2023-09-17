@@ -45,8 +45,9 @@ in {
         enable = true;
         options = {
           theme = "Dracula";
+
           line-numbers = true;
-          side-by-side = true;
+          navigate = true;
         };
       };
 
@@ -58,9 +59,12 @@ in {
       };
 
       extraConfig = {
+        blame.pager = "delta";
         commit.verbose = true;
+        diff.colorMoved = "default";
         github.user = cfg.accounts.github;
         init.defaultBranch = cfg.git.defaultBranch;
+        merge.conflictstyle = "diff3";
         pull.ff = "only";
         push.autoSetupRemote = true;
       };
