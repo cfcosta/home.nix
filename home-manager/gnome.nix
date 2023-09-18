@@ -1,8 +1,18 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.dusk.home;
   inherit (lib.hm.gvariant) mkTuple;
+  cfg = config.dusk.home;
+
+  match = v: l:
+    builtins.elemAt
+    (lib.lists.findFirst (x: (if_let v (builtins.elemAt x 0)) != null) null l)
+    1;
+
+  defaultBrowser = match cfg.defaults [
+    [ { browser = "firefox"; } "firefox.desktop" ]
+    [ { browser = "brave"; } "brave-browser.desktop" ]
+  ];
 in {
   options = {
     dusk.home.gnome = {
@@ -17,6 +27,11 @@ in {
       numberOfWorkspaces = mkOption {
         type = types.int;
         default = 6;
+      };
+
+      defaults.browser = mkOption {
+        type = types.enum [ "firefox" "brave" ];
+        default = "firefox";
       };
     };
   };
@@ -124,6 +139,19 @@ in {
         # really high version.
         welcome-dialog-last-shown-version = "4294967295";
       };
+    };
+
+    xdg.mimeApps.defaultApplications = {
+      "x-scheme-handler/http" = [ defaultBrowser ];
+      "x-scheme-handler/https" = [ defaultBrowser ];
+      "x-scheme-handler/chrome" = [ defaultBrowser ];
+      "text/html" = [ defaultBrowser ];
+      "application/x-extension-htm" = [ defaultBrowser ];
+      "application/x-extension-html" = [ defaultBrowser ];
+      "application/x-extension-shtml" = [ defaultBrowser ];
+      "application/xhtml+xml" = [ defaultBrowser ];
+      "application/x-extension-xhtml" = [ defaultBrowser ];
+      "application/x-extension-xht" = [ defaultBrowser ];
     };
   };
 }
