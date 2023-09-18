@@ -4,10 +4,14 @@ let
   cfg = config.dusk.gnome;
   browsers = with pkgs; [
     (firefox.override { cfg = { enableGnomeExtensions = true; }; })
-    nyxt
     brave
     microsoft-edge
   ];
+
+  copyGdmMonitorConfig = pkgs.writeShellScriptBin "gdm-copy-monitor-config" ''
+    FILE="/home/${config.dusk.user}/.config/monitors.xml"
+    [ -f "$FILE" ] && cp "$FILE" "/run/gdm/.config/monitors.xml"
+  '';
 in {
   options = { dusk.gnome.enable = mkEnableOption "gnome"; };
 
@@ -80,5 +84,17 @@ in {
       gnome.hitori # sudoku game
       gnome.atomix # puzzle game
     ];
+
+    systemd.services.gdm-set-monitor-config = {
+      enable = true;
+      description = "Copy the user's monitor config to GDM";
+
+      serviceConfig = {
+        ExecStart = "${copyGdmMonitorConfig}/bin/gdm-copy-monitor-config";
+        Type = "oneshot";
+      };
+
+      before = [ "display-manager.service" ];
+    };
   };
 }
