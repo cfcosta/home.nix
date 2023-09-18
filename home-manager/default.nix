@@ -77,6 +77,7 @@ in {
     programs.go.enable = true;
     programs.jq.enable = true;
     programs.gpg.enable = true;
+    programs.nix-index.enable = true;
 
     programs.direnv = {
       enable = true;
