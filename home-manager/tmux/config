@@ -1,3 +1,6 @@
+# Enable mouse support
+set mouse
+
 # Enable OSC 52 clipboard handling
 set -as terminal-features ',tmux-256color:clipboard'
 
@@ -18,9 +21,6 @@ bind-key -r M-Up resize-pane -U 5
 bind-key -r M-Down resize-pane -D 5
 bind-key -r M-Left resize-pane -L 5
 bind-key -r M-Right resize-pane -R 5
-
-bind-key -r S-h swap-window -t -1
-bind-key -r S-l swap-window -t +1
 
 # More straightforward splitting
 unbind s
