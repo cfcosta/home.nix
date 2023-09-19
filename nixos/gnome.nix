@@ -24,6 +24,7 @@ in {
         discord
         element-desktop
         gitg
+        guvcview
         meld
         obs-studio
         obsidian
