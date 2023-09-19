@@ -73,17 +73,18 @@ in {
     environment.gnome.excludePackages = with pkgs; [
       gnome-photos
       gnome-tour
-      gnome.gnome-music
-      gnome.gnome-terminal
-      gnome.gedit # text editor
-      gnome.geary # email reader
-      gnome.evince # document viewer
-      gnome.gnome-characters
-      gnome.totem # video player
-      gnome.tali # poker game
-      gnome.iagno # go game
-      gnome.hitori # sudoku game
       gnome.atomix # puzzle game
+      gnome.evince # document viewer
+      gnome.geary # email reader
+      gnome.gedit # text editor
+      gnome.gnome-characters # character map
+      gnome.gnome-music # music player
+      gnome.gnome-software # software center
+      gnome.gnome-terminal
+      gnome.hitori # sudoku game
+      gnome.iagno # go game
+      gnome.tali # poker game
+      gnome.totem # video player
     ];
 
     systemd.services.gdm-set-monitor-config = {
