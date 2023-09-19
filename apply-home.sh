@@ -16,12 +16,23 @@ get_system() {
 	esac
 }
 
-ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-SYSTEM="$(get_arch)-$(get_system)"
+build() {
+	ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+	SYSTEM="$(get_arch)-$(get_system)"
 
-nix build \
-	--extra-experimental-features nix-command --extra-experimental-features flakes \
-	"${ROOT}#profiles.${SYSTEM}.$(hostname -s).home.activation-script" \
-	--show-trace
+	nix build \
+		--extra-experimental-features nix-command --extra-experimental-features flakes \
+		"${ROOT}#profiles.${SYSTEM}.$(hostname -s).home.activation-script" \
+		--show-trace
+}
 
-exec "${ROOT}/result/activate"
+ACTION="${1:-switch}"
+
+case "${ACTION}" in
+"build") build ;;
+"switch") build && exec "${ROOT}/result/activate" ;;
+*)
+	echo "Unknown action: ${ACTION}"
+	exit 1
+	;;
+esac
