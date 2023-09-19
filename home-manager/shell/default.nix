@@ -16,7 +16,7 @@ in {
   };
 
   config = rec {
-    home.packages = with pkgs; [ bashInteractive complete-alias ];
+    home.packages = with pkgs; [ bashInteractive complete-alias whiz ];
 
     programs.bash = {
       enable = true;

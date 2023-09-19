@@ -1,4 +1,20 @@
 final: prev: {
+  # A CLI Tool to generate commands using OpenAI
+  # https://github.com/searchableguy/whiz
+  whiz = prev.buildNpmPackage rec {
+    pname = "whiz_cli";
+    version = "0.0.6-alpha.0";
+
+    src = prev.fetchFromGitHub {
+      owner = "searchableguy";
+      repo = "whiz";
+      rev = "249c2045e3ba81d1a9cda1d9c3a670c7767df69c";
+      hash = "sha256-cgSFhAKwwE2fzr4Bl5Fw1agmAoa/ySgt4j/f/NY46ZY=";
+    };
+
+    npmDepsHash = "sha256-NW/Sa/TSI5v/MkEUStQWkDFl0G3odWWKNswrdh50wAk=";
+  };
+
   # A fork of todoist CLI that allows to set descriptions for tasks
   # Taken from https://github.com/sachaos/todoist/pull/238
   todoist-cli = prev.buildGoModule rec {
