@@ -79,8 +79,10 @@
     } // flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.lib;
       let
-        overlays =
-          [ (final: prev: { aiken = aiken.packages.${system}.default; }) ];
+        overlays = [
+          (final: prev: { aiken = aiken.packages.${system}.default; })
+          (import ./packages)
+        ];
         pkgs = import nixpkgs {
           inherit system overlays;
           config.allowUnfree = true;
