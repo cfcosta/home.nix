@@ -727,7 +727,9 @@
         "flake-utils": "flake-utils_2",
         "home-manager": "home-manager",
         "neovim": "neovim",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_2",
+        "todoist-cli": "todoist-cli",
+        "whiz-cli": "whiz-cli"
       }
     },
     "rust-overlay": {
@@ -827,6 +829,23 @@
         "type": "github"
       }
     },
+    "todoist-cli": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1691263252,
+        "narHash": "sha256-cFnGIJty0c4iOMNeMt+pev75aWcd7HKkvVowd5XbsXs=",
+        "owner": "psethwick",
+        "repo": "todoist",
+        "rev": "2f80bdc65de44581c4497107a092c73f39ae0b62",
+        "type": "github"
+      },
+      "original": {
+        "owner": "psethwick",
+        "repo": "todoist",
+        "rev": "2f80bdc65de44581c4497107a092c73f39ae0b62",
+        "type": "github"
+      }
+    },
     "toggleterm": {
       "flake": false,
       "locked": {
@@ -904,6 +923,22 @@
       "original": {
         "owner": "folke",
         "repo": "which-key.nvim",
+        "type": "github"
+      }
+    },
+    "whiz-cli": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1695289581,
+        "narHash": "sha256-t1Aa2MYk13XMXn3RnTxkGAyY+mlHAoB57j5T9kdPpog=",
+        "owner": "searchableguy",
+        "repo": "whiz",
+        "rev": "d186164c927eecfe67eb41b382861d5b057cff3c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "searchableguy",
+        "repo": "whiz",
         "type": "github"
       }
     }

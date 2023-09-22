@@ -30,9 +30,20 @@
       inputs.home-manager.follows = "home-manager";
       inputs.flake-utils.follows = "flake-utils";
     };
+
+    whiz-cli = {
+      url = "github:searchableguy/whiz";
+      flake = false;
+    };
+
+    todoist-cli = {
+      url =
+        "github:psethwick/todoist?rev=2f80bdc65de44581c4497107a092c73f39ae0b62";
+      flake = false;
+    };
   };
 
-  outputs = { nixpkgs, home-manager, flake-utils, neovim, aiken, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, neovim, aiken, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -70,7 +81,7 @@
       let
         overlays = [
           (final: prev: { aiken = aiken.packages.${system}.default; })
-          (import ./packages)
+          (import ./packages inputs)
         ];
         pkgs = import nixpkgs {
           inherit system overlays;
