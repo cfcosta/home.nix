@@ -128,6 +128,11 @@ in {
       };
     };
 
+    home.file = mkIf pkgs.stdenv.isLinux {
+      ".cache/nix-index".source =
+        config.lib.file.mkOutOfStoreSymlink "/var/db/nix-index";
+    };
+
     home.stateVersion = "23.05";
   };
 }

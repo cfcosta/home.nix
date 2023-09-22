@@ -10,6 +10,7 @@ in {
     ./gnome.nix
     ./icognito.nix
     ./libvirt.nix
+    ./nix-index.nix
     ./nvidia.nix
     ./sound.nix
     ./tailscale.nix
