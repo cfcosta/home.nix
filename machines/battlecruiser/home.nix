@@ -5,6 +5,7 @@
     email = "me@cfcosta.com";
     accounts.github = "cfcosta";
 
+    android.enable = true;
     alacritty.enable = true;
     crypto.enable = true;
     git.enable = true;

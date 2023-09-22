@@ -99,7 +99,7 @@
               modules = [
                 neovim.hmModule
                 ./home-manager
-                ./machines/mothership/home.nix
+                ./machines/battlecruiser/home.nix
               ];
             };
           };

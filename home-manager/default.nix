@@ -7,6 +7,7 @@ in {
     ./shell
     ./tmux
 
+    ./android.nix
     ./alacritty.nix
     ./crypto.nix
     ./git.nix
