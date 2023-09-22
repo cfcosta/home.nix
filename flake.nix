@@ -44,30 +44,13 @@
   };
 
   outputs = inputs@{ nixpkgs, home-manager, flake-utils, neovim, aiken, ... }:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
-      devScripts = pkgs: [
-        (pkgs.writeShellScriptBin "env-update-input"
-          "nix flake lock --update-input $@")
-
-        (pkgs.writeShellScriptBin "env-format" ''
-          set -e
-
-          for file in $(find . -name "*.nix"); do
-            echo "Formatting $file..."
-            nixfmt "$file"
-          done
-        '')
-      ];
-    in {
+    {
       nixosConfigurations = {
         battlecruiser = nixpkgs.lib.nixosSystem {
-          inherit system pkgs;
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
 
           modules = [
             ./nixos
@@ -113,8 +96,7 @@
           };
         };
 
-        devShell = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp (devScripts pkgs) ];
-        };
+        devShells.default =
+          pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp ]; };
       });
 }
