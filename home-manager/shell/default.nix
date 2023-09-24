@@ -16,7 +16,27 @@ in {
   };
 
   config = rec {
-    home.packages = with pkgs; [ bashInteractive complete-alias whiz ];
+    home.packages = with pkgs; [
+      bashInteractive
+      complete-alias
+      eternal-terminal
+      eva
+      fd
+      git
+      neofetch
+      ripgrep
+      scc
+      streamlink
+      tokei
+      tree
+      watchexec
+      wget
+      whiz
+      yt-dlp
+    ];
+
+    programs.jq.enable = true;
+    programs.zoxide.enable = true;
 
     programs.bash = {
       enable = true;
@@ -37,10 +57,11 @@ in {
         gp = "git push";
         gs = "git stash";
         gsp = "git stash pop";
+        htop = "btop";
         jd = "jj diff";
         jl = "jj log";
-        ls = "lsd -l";
         ll = "lsd -l -A";
+        ls = "lsd -l";
         vi = "nvim";
         vim = "nvim";
       };
@@ -99,16 +120,6 @@ in {
       '';
     };
 
-    programs.readline = {
-      enable = true;
-
-      extraConfig = ''
-        # If there's more than one completion for an input, list all options immediately 
-        # instead of waiting for a second input.
-        set show-all-if-ambiguous on
-      '';
-    };
-
     # Make ctrl-r much more powerful
     # https://github.com/ellie/atuin
     programs.atuin = {
@@ -126,6 +137,28 @@ in {
       };
     };
 
+    programs.bat = {
+      enable = true;
+      config.theme = "Dracula";
+    };
+
+    programs.btop = {
+      enable = true;
+
+      settings = {
+        color_theme = "dracula";
+        true_color = true;
+        vim_keys = true;
+      };
+    };
+
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+
+      config.global.load_dotenv = true;
+    };
+
     programs.lsd = {
       enable = true;
 
@@ -137,9 +170,39 @@ in {
       };
     };
 
+    programs.readline = {
+      enable = true;
+
+      extraConfig = ''
+        # If there's more than one completion for an input, list all options immediately 
+        # instead of waiting for a second input.
+        set show-all-if-ambiguous on
+      '';
+    };
+
+    programs.starship = {
+      enable = true;
+      enableBashIntegration = true;
+
+      settings = {
+        aws.style = "bold #ffb86c";
+        cmd_duration.style = "bold #f1fa8c";
+        directory.style = "bold #50fa7b";
+        hostname.style = "bold #ff5555";
+        git_branch.style = "bold #ff79c6";
+        git_status.style = "bold #ff5555";
+        username = {
+          format = "[$user]($style) on ";
+          style_user = "bold #bd93f9";
+        };
+        character = {
+          success_symbol = "[❯](bold #50fa7b)";
+          error_symbol = "[❯](bold #ff5555)";
+        };
+      };
+    };
+
     home.file.".config/lsd/colors.yaml".text =
       builtins.readFile ./lsd/colors.yaml;
-
-    programs.zoxide.enable = true;
   };
 }

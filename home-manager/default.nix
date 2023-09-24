@@ -47,87 +47,20 @@ in {
     home.username = cfg.username;
     home.homeDirectory = cfg.folders.home;
 
-    # Let home-manager manage itself
-    programs.home-manager.enable = true;
-
-    home.sessionVariables.EDITOR = "nvim";
-
-    programs.ssh.hashKnownHosts = true;
-
     home.packages = with pkgs; [
-      eternal-terminal
-      eva
-      fd
       git
       inconsolata
-      libiconv
-      luajit
       neofetch
       nerdfonts
       python310Full
-      ripgrep
-      scc
-      streamlink
-      tokei
-      tree
-      watchexec
-      wget
-      yt-dlp
     ];
 
-    programs.go.enable = true;
-    programs.jq.enable = true;
+    # Let home-manager manage itself
+    programs.home-manager.enable = true;
+
+    programs.ssh.hashKnownHosts = true;
     programs.gpg.enable = true;
     programs.nix-index.enable = true;
-
-    programs.direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-
-      config.global.load_dotenv = true;
-    };
-
-    programs.bat = {
-      enable = true;
-      config.theme = "Dracula";
-    };
-
-    programs.starship = {
-      enable = true;
-      enableBashIntegration = true;
-
-      settings = {
-        aws.style = "bold #ffb86c";
-        cmd_duration.style = "bold #f1fa8c";
-        directory.style = "bold #50fa7b";
-        hostname.style = "bold #ff5555";
-        git_branch.style = "bold #ff79c6";
-        git_status.style = "bold #ff5555";
-        username = {
-          format = "[$user]($style) on ";
-          style_user = "bold #bd93f9";
-        };
-        character = {
-          success_symbol = "[❯](bold #50fa7b)";
-          error_symbol = "[❯](bold #ff5555)";
-        };
-      };
-    };
-
-    programs.htop = {
-      enable = true;
-      package = pkgs.htop-vim;
-    };
-
-    programs.btop = {
-      enable = true;
-
-      settings = {
-        color_theme = "dracula";
-        true_color = true;
-        vim_keys = true;
-      };
-    };
 
     home.file = mkIf pkgs.stdenv.isLinux {
       ".cache/nix-index".source =
