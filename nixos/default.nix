@@ -64,7 +64,6 @@ in {
       };
     };
 
-    system.stateVersion = "23.05";
 
     environment.systemPackages = with pkgs; [ bash curl file git wget ];
 
@@ -127,5 +126,7 @@ in {
 
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;
+
+    system.stateVersion = "23.05";
   };
 }
