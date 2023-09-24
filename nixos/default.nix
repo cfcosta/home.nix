@@ -64,6 +64,9 @@ in {
       };
     };
 
+    # Enable v4l2loopback kernel module for android virtual camera
+    boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+    boot.kernelModules = [ "v4l2loopback" ];
 
     environment.systemPackages = with pkgs; [ bash curl file git wget ];
 
