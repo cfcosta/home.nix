@@ -13,4 +13,4 @@ jobs:
         with:
           name: cfcosta-home
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-      - run: nix build .#profiles.x86_64-linux.mothership.home.activation-script
+      - run: nix build .#profiles.x86_64-linux.battlecruiser.home.activation-script
