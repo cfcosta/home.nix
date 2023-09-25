@@ -84,10 +84,7 @@ in {
       '';
 
       bashrcExtra = ''
-        ${if pkgs.stdenv.isDarwin then
-          (builtins.readFile ./shell/macos.sh)
-        else
-          ""}
+        ${if pkgs.stdenv.isDarwin then (builtins.readFile ./macos.sh) else ""}
 
         # Man-pages coloring with Dracula theme
         export LESS_TERMCAP_mb=$'\e[1;31m'      # begin bold
