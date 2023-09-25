@@ -52,7 +52,7 @@ in {
         gco = "git checkout";
         gcp = "git cherry-pick";
         gd = "git diff";
-        gf = "git fetch -a";
+        gf = "git fetch -a --tags";
         gl = "git log --graph";
         gp = "git push";
         gs = "git stash";
