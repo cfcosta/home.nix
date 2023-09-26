@@ -26,6 +26,11 @@ build() {
 		--show-trace
 }
 
+# If we are on mac and nix is not running (after an update for example), we source it to enable the path correctly.
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+	. '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+
 ACTION="${1:-switch}"
 
 case "${ACTION}" in
