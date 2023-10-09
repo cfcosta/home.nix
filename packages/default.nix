@@ -3,9 +3,9 @@ inputs: final: prev: {
   # https://github.com/searchableguy/whiz
   whiz = prev.buildNpmPackage rec {
     pname = "whiz_cli";
-    version = "0.0.6-alpha.0";
+    version = "0.0.8-alpha.0";
     src = inputs.whiz-cli;
-    npmDepsHash = "sha256-NW/Sa/TSI5v/MkEUStQWkDFl0G3odWWKNswrdh50wAk=";
+    npmDepsHash = "sha256-dmeG6ZqUcE65hnha0BbG/xOGoUWSL0pnhh65XVgniFw";
   };
 
   # A fork of todoist CLI that allows to set descriptions for tasks
