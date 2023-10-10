@@ -49,6 +49,13 @@ in {
     qt.style.package = pkgs.adwaita-qt;
     qt.style.name = if cfg.gnome.darkTheme then "adwaita-dark" else "adwaita";
 
+    home.file.".XCompose".text = ''
+      include "/%L"
+
+      <dead_acute> <c> : "ç"
+      <dead_acute> <C> : "Ç"
+    '';
+
     home.file.".config/Element/config.json".text =
       builtins.readFile ./element/config.json;
 
