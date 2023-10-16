@@ -25,6 +25,7 @@ in {
         element-desktop
         gitg
         guvcview
+        heaptrack
         meld
         obs-studio
         obsidian
