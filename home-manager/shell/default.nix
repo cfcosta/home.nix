@@ -24,6 +24,7 @@ in {
       fd
       git
       neofetch
+      pgcli
       ripgrep
       scc
       streamlink
@@ -204,5 +205,7 @@ in {
 
     home.file.".config/lsd/colors.yaml".text =
       builtins.readFile ./lsd/colors.yaml;
+
+    xdg.configFile."pgcli/config".text = builtins.readFile ./pgcli.conf;
   };
 }
