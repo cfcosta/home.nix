@@ -33,7 +33,6 @@ in {
       watchexec
       wget
       whiz
-      yt-dlp
     ];
 
     programs.jq.enable = true;
