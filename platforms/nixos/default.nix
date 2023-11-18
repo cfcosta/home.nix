@@ -2,51 +2,7 @@
 with lib;
 let cfg = config.dusk;
 in {
-  imports = [
-    ./amd.nix
-    ./benchmarking.nix
-    ./containers.nix
-    ./gaming.nix
-    ./gnome.nix
-    ./icognito.nix
-    ./libvirt.nix
-    ./nix-index.nix
-    ./nvidia.nix
-    ./sound.nix
-    ./tailscale.nix
-    ./virtualbox.nix
-  ];
-
-  options.dusk = {
-    enable = mkEnableOption "dusk-core";
-
-    system = {
-      locale = mkOption {
-        type = types.str;
-        default = "en_US.utf8";
-        description = ''
-          Locale of the system
-        '';
-      };
-    };
-
-    user = mkOption {
-      type = types.str;
-      description = ''
-        User name of the main user of the system
-      '';
-    };
-
-    initialPassword = mkOption {
-      type = types.str;
-      description = ''
-        Initial password for the created user in the system
-      '';
-      default = "dusk";
-    };
-  };
-
-  config = mkIf cfg.enable {
+  config = {
     nix = {
       gc.automatic = true;
 
@@ -68,18 +24,18 @@ in {
 
     environment.systemPackages = with pkgs; [ bash curl file git wget ];
 
-    i18n.defaultLocale = cfg.system.locale;
+    i18n.defaultLocale = dusk.locale;
 
     i18n.extraLocaleSettings = {
-      LC_ADDRESS = cfg.system.locale;
-      LC_IDENTIFICATION = cfg.system.locale;
-      LC_MEASUREMENT = cfg.system.locale;
-      LC_MONETARY = cfg.system.locale;
-      LC_NAME = cfg.system.locale;
-      LC_NUMERIC = cfg.system.locale;
-      LC_PAPER = cfg.system.locale;
-      LC_TELEPHONE = cfg.system.locale;
-      LC_TIME = cfg.system.locale;
+      LC_ADDRESS = dusk.locale;
+      LC_IDENTIFICATION = dusk.locale;
+      LC_MEASUREMENT = dusk.locale;
+      LC_MONETARY = dusk.locale;
+      LC_NAME = dusk.locale;
+      LC_NUMERIC = dusk.locale;
+      LC_PAPER = dusk.locale;
+      LC_TELEPHONE = dusk.locale;
+      LC_TIME = dusk.locale;
     };
 
     networking.networkmanager.enable = true;

@@ -1,7 +1,6 @@
 { lib, pkgs, config, ... }:
 with lib;
 let
-  cfg = config.dusk.gnome;
   browsers = with pkgs; [
     (firefox.override { cfg = { enableGnomeExtensions = true; }; })
     brave
@@ -13,9 +12,7 @@ let
     [ -f "$FILE" ] && cp "$FILE" "/run/gdm/.config/monitors.xml"
   '';
 in {
-  options = { dusk.gnome.enable = mkEnableOption "gnome"; };
-
-  config = mkIf cfg.enable {
+  config = {
     environment.systemPackages = with pkgs;
       [
         adw-gtk3

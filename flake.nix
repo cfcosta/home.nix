@@ -44,21 +44,16 @@
   };
 
   outputs = inputs@{ nixpkgs, home-manager, flake-utils, neovim, aiken, ... }:
-    {
-      nixosConfigurations = {
-        battlecruiser = nixpkgs.lib.nixosSystem {
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-          };
+    let
+      flakeLib = import ./lib;
 
-          modules = [
-            ./nixos
-            ./machines/battlecruiser
-            home-manager.nixosModules.home-manager
-          ];
-        };
+      platforms = import ./platforms {
+        inherit inputs;
+        inherit (flakeLib) mkSystem;
       };
+    in {
+      nixosConfigurations.battlecruiser = platforms.battlecruiser;
+      darwinConfigurations.drone = platforms.drone;
     } // flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.lib;
       let
@@ -66,6 +61,7 @@
           (final: prev: { aiken = aiken.packages.${system}.default; })
           (import ./packages inputs)
         ];
+
         pkgs = import nixpkgs {
           inherit system overlays;
           config.allowUnfree = true;

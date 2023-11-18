@@ -1,9 +1,6 @@
 { lib, pkgs, config, ... }:
-with lib;
-let cfg = config.dusk.nvidia;
-in {
-  options.dusk.nvidia = {
-    enable = mkEnableOption "nvidia";
+with lib; {
+  options = {
     powerLimit = mkOption {
       type = types.int;
       description = ''
@@ -12,7 +9,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     environment.systemPackages = with pkgs; [ nvtop-nvidia ];
 
     hardware.nvidia.modesetting.enable = true;

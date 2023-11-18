@@ -1,10 +1,6 @@
 { lib, pkgs, config, ... }:
-with lib;
-let cfg = config.dusk.icognito;
-in {
-  options.dusk.icognito.enable = mkEnableOption "icognito";
-
-  config = mkIf cfg.enable {
+with lib; {
+  config = {
     environment.systemPackages = with pkgs; [
       mullvad-vpn
       tor-browser-bundle-bin

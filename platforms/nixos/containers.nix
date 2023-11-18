@@ -1,10 +1,6 @@
 { lib, pkgs, config, ... }:
-with lib;
-let cfg = config.dusk.containers;
-in {
-  options = { dusk.containers.enable = mkEnableOption "containers"; };
-
-  config = mkIf cfg.enable {
+with lib; {
+  config = {
     environment.systemPackages = with pkgs; [ docker-compose ctop ];
 
     virtualisation = {
@@ -19,6 +15,7 @@ in {
       };
     };
 
-    users.users.${config.dusk.user}.extraGroups = [ "docker" ];
+    users.users = lib.genAttrs (map (u: u.name) dusk.users)
+      (name: { extraGroups = [ "docker" ]; });
   };
 }

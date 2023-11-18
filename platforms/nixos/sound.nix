@@ -1,10 +1,6 @@
-{ lib, pkgs, config, ... }:
-with lib;
-let cfg = config.dusk.sound;
-in {
-  options.dusk.sound.enable = mkEnableOption "sound";
-
-  config = mkIf cfg.enable {
+{ lib, pkgs, config, dusk, ... }:
+with lib; {
+  config = {
     sound.enable = true;
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
@@ -18,6 +14,6 @@ in {
     };
 
     environment.systemPackages = with pkgs;
-      optionals config.dusk.gnome.enable [ easyeffects helvum ];
+      optionals (elem "gnome" dusk.modules) [ easyeffects helvum ];
   };
 }
