@@ -28,4 +28,9 @@ unbind %
 bind e split-window -h
 bind v split-window -v
 
+# Set window titles (useful for iTerm2)
+set-option -g set-titles on
+set-option -g set-titles-string '#T'
+set -g allow-rename on
+
 # vim: syntax=tmux
