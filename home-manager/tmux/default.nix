@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.dusk.home.tmux;
+let
+  cfg = config.dusk.home.tmux;
+  attachScript = pkgs.writeShellScriptBin "t" ./attach.sh;
 in {
   options.dusk.home.tmux = {
     enable = mkEnableOption "tmux";
@@ -8,7 +10,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ tmux tmuxp ];
+    home.packages = with pkgs; [ attachScript tmux tmuxp ];
 
     programs.tmux = {
       enable = true;
