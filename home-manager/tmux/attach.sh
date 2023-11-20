@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
+[ -z "$TMUX" ] || (
+	echo "Error: you are already inside tmux."
+	exit 1
+)
+
 SESSION_NAME="${1:-main}"
-TMUX="${TMUX:-tmux}"
+FLAGS="${2}"
 
-shift
-
-if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
-	# shellcheck disable=2068
-	${TMUX} new -t "${SESSION_NAME}" $@
-else
-	# shellcheck disable=2068
-	${TMUX} attach -t "${SESSION_NAME}" $@
-fi
+#shellcheck disable=SC2086
+tmux $FLAGS new -A -t "${SESSION_NAME}"
