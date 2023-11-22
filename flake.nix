@@ -18,12 +18,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    aiken = {
-      url = "github:aiken-lang/aiken";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
-
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,11 +37,14 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, neovim, aiken, ... }:
-    {
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, neovim, ... }:
+    let overlays = [ (import ./packages inputs) ];
+    in ({
       nixosConfigurations = {
         battlecruiser = nixpkgs.lib.nixosSystem {
           pkgs = import nixpkgs {
+            inherit overlays;
+
             system = "x86_64-linux";
             config.allowUnfree = true;
           };
@@ -62,12 +59,9 @@
     } // flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.lib;
       let
-        overlays = [
-          (final: prev: { aiken = aiken.packages.${system}.default; })
-          (import ./packages inputs)
-        ];
         pkgs = import nixpkgs {
           inherit system overlays;
+
           config.allowUnfree = true;
         };
       in {
@@ -98,5 +92,5 @@
 
         devShells.default =
           pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp ]; };
-      });
+      }));
 }

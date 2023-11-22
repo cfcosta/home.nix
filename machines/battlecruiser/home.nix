@@ -7,7 +7,6 @@
 
     android.enable = true;
     alacritty.enable = true;
-    crypto.enable = true;
     git.enable = true;
     media.enable = true;
     mutt.enable = true;

@@ -59,6 +59,8 @@ in {
           [ "https://cache.nixos.org" "https://cfcosta-home.cachix.org" ];
         substituters =
           [ "https://cache.nixos.org" "https://cfcosta-home.cachix.org" ];
+
+        system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
       };
     };
 

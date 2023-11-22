@@ -9,7 +9,6 @@ in {
 
     ./android.nix
     ./alacritty.nix
-    ./crypto.nix
     ./git.nix
     ./gnome.nix
     ./macos.nix
