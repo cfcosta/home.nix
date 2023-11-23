@@ -2,11 +2,6 @@
 with lib;
 let
   cfg = config.dusk.gnome;
-  browsers = with pkgs; [
-    (firefox.override { cfg = { enableGnomeExtensions = true; }; })
-    brave
-    microsoft-edge
-  ];
 
   copyGdmMonitorConfig = pkgs.writeShellScriptBin "gdm-copy-monitor-config" ''
     FILE="/home/${config.dusk.user}/.config/monitors.xml"
@@ -16,28 +11,29 @@ in {
   options = { dusk.gnome.enable = mkEnableOption "gnome"; };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs;
-      [
-        adw-gtk3
-        alacritty
-        bitwarden
-        discord
-        element-desktop
-        gitg
-        guvcview
-        heaptrack
-        meld
-        obs-studio
-        obsidian
-        signal-desktop
-        slack
-        tdesktop
-        todoist-electron
-        vial
+    environment.systemPackages = with pkgs; [
+      adw-gtk3
+      alacritty
+      bitwarden
+      brave
+      discord
+      element-desktop
+      firefox
+      gitg
+      guvcview
+      heaptrack
+      meld
+      obs-studio
+      obsidian
+      signal-desktop
+      slack
+      tdesktop
+      todoist-electron
+      vial
 
-        # TODO: Find a way to install this only if wayland is not enabled
-        xclip
-      ] ++ browsers;
+      # TODO: Find a way to install this only if wayland is not enabled
+      xclip
+    ];
 
     hardware.opengl.enable = true;
 
@@ -70,6 +66,8 @@ in {
 
     services.flatpak.enable = true;
     services.packagekit.enable = true;
+
+    services.gnome.gnome-browser-connector.enable = true;
 
     environment.gnome.excludePackages = with pkgs; [
       gnome-photos
