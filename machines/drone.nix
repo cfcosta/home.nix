@@ -8,6 +8,7 @@
     android.enable = true;
     alacritty.enable = true;
     git.enable = true;
+    macos.enable = true;
     mutt.enable = true;
     notes.enable = true;
 

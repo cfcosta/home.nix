@@ -30,6 +30,7 @@ in {
       streamlink
       tokei
       tree
+      unixtools.watch
       watchexec
       wget
       whiz

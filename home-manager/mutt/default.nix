@@ -29,6 +29,7 @@ let
       offlineimap = {
         enable = true;
         config = {
+          Label = "offlineimap";
           ProgramArguments = [ "${pkgs.offlineimap}/bin/offlineimap" ];
           UserName = config.dusk.home.username;
           StartInterval = 120;
