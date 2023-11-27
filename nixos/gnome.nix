@@ -23,8 +23,9 @@ in {
       guvcview
       heaptrack
       meld
-      obs-studio
+      newsflash
       obsidian
+      obs-studio
       signal-desktop
       slack
       tdesktop
