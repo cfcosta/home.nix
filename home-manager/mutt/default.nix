@@ -50,10 +50,9 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs;
-      [ abook msmtp neomutt notmuch offlineimap urlview todoist-cli ] ++ scripts
+      [ abook msmtp neomutt notmuch offlineimap todoist-cli ] ++ scripts
       ++ optionals pkgs.stdenv.isLinux [ mailutils ];
 
-    home.file.".urlview".text = "COMMAND mutt-open-url ";
     home.file.".mailrc".text = ''
       set sendmail="${pkgs.msmtp}/bin/msmtp"
     '';

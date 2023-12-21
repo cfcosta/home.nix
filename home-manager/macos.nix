@@ -28,7 +28,7 @@ in {
         ProcessType = "Interactive";
         ProgramArguments = [
           "${pkgs.prometheus-node-exporter}/bin/node_exporter"
-          "--web.listen-address=:13001"
+          "--web.listen-address=:13005"
         ];
         Label = "com.dusk.prometheus-node-exporter";
         StandardOutPath = macLogFile "node-exporter";
