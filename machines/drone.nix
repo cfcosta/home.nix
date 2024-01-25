@@ -5,10 +5,11 @@
     email = "me@cfcosta.com";
     accounts.github = "cfcosta";
 
-    android.enable = true;
     alacritty.enable = true;
+    android.enable = true;
     git.enable = true;
     macos.enable = true;
+    media.enable = true;
     mutt.enable = true;
     notes.enable = true;
 
