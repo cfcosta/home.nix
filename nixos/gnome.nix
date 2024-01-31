@@ -76,7 +76,6 @@ in {
       gnome.atomix # puzzle game
       gnome.evince # document viewer
       gnome.geary # email reader
-      gnome.gedit # text editor
       gnome.gnome-characters # character map
       gnome.gnome-music # music player
       gnome.gnome-software # software center
