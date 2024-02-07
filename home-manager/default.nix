@@ -48,6 +48,7 @@ in {
 
     home.packages = with pkgs; [
       git
+      imagemagick
       inconsolata
       neofetch
       nerdfonts
