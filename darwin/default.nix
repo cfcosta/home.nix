@@ -13,20 +13,21 @@ with lib; {
     file
     git
     wget
+    mas
   ];
 
   homebrew = {
     enable = true;
 
     masApps = {
-      # "Amphetamine" = 37984704;
-      # "Bitwarden Password Manager" = 1137397744;
-      # "Fantastical Calendar" = 718043190;
-      # "Monodraw" = 920404675;
+      "Amphetamine" = 937984704;
+      "Bitwarden Password Manager" = 1352778147;
+      "Fantastical Calendar" = 975937182;
+      "Monodraw" = 920404675;
       "Reeder 5" = 1529448980;
-      # "Tailscale" = 1470499037;
+      "Tailscale" = 1475387142;
       "Telegram" = 747648890;
-      # "Todoist: To-Do List & Planner" = 572688855;
+      "Todoist: To-Do List & Planner" = 585829637;
       "Whatsapp" = 310633997;
     };
 
