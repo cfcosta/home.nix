@@ -13,6 +13,12 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
+    # Using a fork that is compatible with nixd
+    flake-compat = {
+      url = "github:inclyc/flake-compat";
+      flake = false;
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
