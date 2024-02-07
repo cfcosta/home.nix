@@ -66,6 +66,6 @@ in {
         config.lib.file.mkOutOfStoreSymlink "/var/db/nix-index";
     };
 
-    home.stateVersion = "23.05";
+    home.stateVersion = "23.11";
   };
 }

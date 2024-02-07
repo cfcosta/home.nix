@@ -130,6 +130,6 @@ in {
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;
 
-    system.stateVersion = "23.05";
+    system.stateVersion = "23.11";
   };
 }
