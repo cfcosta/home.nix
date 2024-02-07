@@ -496,6 +496,26 @@
         "type": "github"
       }
     },
+    "nix-darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1706833576,
+        "narHash": "sha256-w7BL0EWRts+nD1lbLECIuz6fRzmmV+z8oWwoY7womR0=",
+        "owner": "lnl7",
+        "repo": "nix-darwin",
+        "rev": "bdbae6ecff8fcc322bf6b9053c0b984912378af7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lnl7",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1707205916,
@@ -761,6 +781,7 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "neovim": "neovim",
+        "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "todoist-cli": "todoist-cli",
         "whiz-cli": "whiz-cli"

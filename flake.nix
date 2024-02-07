@@ -12,6 +12,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Using a fork that is compatible with nixd
     flake-compat = {
@@ -48,7 +52,8 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, neovim, ... }:
+  outputs =
+    inputs@{ nixpkgs, flake-utils, home-manager, neovim, nix-darwin, ... }:
     let
       loadPkgs = system:
         import nixpkgs {
@@ -74,6 +79,13 @@
             ./machines/battlecruiser
             home-manager.nixosModules.home-manager
           ];
+        };
+      };
+
+      darwinConfigurations = {
+        drone = nix-darwin.lib.darwinSystem {
+          pkgs = loadPkgs "aarch64-darwin";
+          modules = [ ./darwin home-manager.darwinModules.home-manager ];
         };
       };
     } // flake-utils.lib.eachDefaultSystem (system:
