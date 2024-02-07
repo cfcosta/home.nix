@@ -230,22 +230,6 @@
         "type": "github"
       }
     },
-    "dracula": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1705994462,
-        "narHash": "sha256-yGV/bA7+Xi+LBi4Iz/SZDVl0KWoo+IO9kgfSIgTk0Ow=",
-        "owner": "Mofiqul",
-        "repo": "dracula.nvim",
-        "rev": "a6cb758d4b182d9f2b7e742910078d94877c1059",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Mofiqul",
-        "repo": "dracula.nvim",
-        "type": "github"
-      }
-    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -413,7 +397,6 @@
         "copilot-cmp": "copilot-cmp",
         "dash-nvim": "dash-nvim",
         "diffview": "diffview",
-        "dracula": "dracula",
         "flake-utils": [
           "flake-utils"
         ],
@@ -448,17 +431,18 @@
         "telescope": "telescope",
         "telescope-zf-native": "telescope-zf-native",
         "toggleterm": "toggleterm",
+        "tokyonight": "tokyonight",
         "treesj": "treesj",
         "trouble": "trouble",
         "wakatime": "wakatime",
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1707259841,
-        "narHash": "sha256-/E2BmoTcjowzQC+YeFTuvCPDP7PBw342dZkYBFQGJ7g=",
+        "lastModified": 1707316355,
+        "narHash": "sha256-PnmNiirNXAsqHuZoRQIiyus6MLhE3qlyc+23ZD82hcM=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "4add9a5bafc91e61bd58dbc1eee1dfe6efb3f170",
+        "rev": "c33fce2c400233279af286b16390033f88a34a80",
         "type": "github"
       },
       "original": {
@@ -858,6 +842,22 @@
       "original": {
         "owner": "akinsho",
         "repo": "toggleterm.nvim",
+        "type": "github"
+      }
+    },
+    "tokyonight": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1706697570,
+        "narHash": "sha256-mzCdcf7FINhhVLUIPv/eLohm4qMG9ndRJ5H4sFU2vO0=",
+        "owner": "folke",
+        "repo": "tokyonight.nvim",
+        "rev": "610179f7f12db3d08540b6cc61434db2eaecbcff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "tokyonight.nvim",
         "type": "github"
       }
     },
