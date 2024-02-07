@@ -18,4 +18,16 @@ with lib; {
       system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
     };
   };
+
+  programs.bash.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    bashInteractive
+    curl
+    file
+    git
+    wget
+  ];
+
+  system.stateVersion = 4;
 }
