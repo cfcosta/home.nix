@@ -18,6 +18,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    alacritty-theme = {
+      url = "github:alexghr/alacritty-theme.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,16 +43,25 @@
   };
 
   outputs = inputs@{ nixpkgs, home-manager, flake-utils, neovim, ... }:
-    let overlays = [ (import ./packages inputs) ];
+    let
+      loadPkgs = system:
+        import nixpkgs {
+          inherit system;
+
+          overlays = [
+            inputs.alacritty-theme.overlays.default
+            (import ./packages inputs)
+          ];
+
+          config = {
+            allowUnfree = true;
+            permittedInsecurePackages = [ "electron-25.9.0" "openssl-1.1.1w" ];
+          };
+        };
     in ({
       nixosConfigurations = {
         battlecruiser = nixpkgs.lib.nixosSystem {
-          pkgs = import nixpkgs {
-            inherit overlays;
-
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-          };
+          pkgs = loadPkgs "x86_64-linux";
 
           modules = [
             ./nixos
@@ -58,12 +72,7 @@
       };
     } // flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.lib;
-      let
-        pkgs = import nixpkgs {
-          inherit system overlays;
-
-          config.allowUnfree = true;
-        };
+      let pkgs = loadPkgs system;
       in {
         home-manager.useUserPackages = true;
         home-manager.useGlobalPkgs = true;
@@ -84,13 +93,13 @@
           drone = {
             home = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
-
               modules = [ neovim.hmModule ./home-manager ./machines/drone.nix ];
             };
           };
         };
 
-        devShells.default =
-          pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt rnix-lsp ]; };
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = with pkgs; [ nixfmt nixd deadnix ];
+        };
       }));
 }
