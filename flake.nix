@@ -75,7 +75,7 @@
           pkgs = loadPkgs "x86_64-linux";
 
           modules = [
-            ./nixos
+            ./modules/nixos
             ./machines/battlecruiser
             home-manager.nixosModules.home-manager
           ];
@@ -85,7 +85,8 @@
       darwinConfigurations = {
         drone = nix-darwin.lib.darwinSystem {
           pkgs = loadPkgs "aarch64-darwin";
-          modules = [ ./darwin home-manager.darwinModules.home-manager ];
+          modules =
+            [ ./modules/darwin home-manager.darwinModules.home-manager ];
         };
       };
     } // flake-utils.lib.eachDefaultSystem (system:
@@ -102,7 +103,7 @@
 
               modules = [
                 neovim.hmModule
-                ./home-manager
+                ./modules/home
                 ./machines/battlecruiser/home.nix
               ];
             };
@@ -111,7 +112,7 @@
           drone = {
             home = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
-              modules = [ neovim.hmModule ./home-manager ./machines/drone.nix ];
+              modules = [ neovim.hmModule ./modules/home ./machines/drone.nix ];
             };
           };
         };
