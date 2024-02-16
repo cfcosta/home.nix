@@ -11,6 +11,10 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
 	exit 1
 fi
 
+if [ ! -f "/nix/var/nix/profiles/default/bin/nix" ]; then
+	curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+fi
+
 if [ ! -f "/opt/homebrew/bin/brew" ]; then
 	echo "Homebrew not found, installing it."
 	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
