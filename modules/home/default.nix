@@ -52,7 +52,7 @@ in {
       inconsolata
       neofetch
       nerdfonts
-      python310Full
+      python311
     ];
 
     # Let home-manager manage itself
