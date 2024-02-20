@@ -34,6 +34,8 @@ in {
       watchexec
       wget
       whiz
+      lsof
+      gist
     ];
 
     programs.jq.enable = true;

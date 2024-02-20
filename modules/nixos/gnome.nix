@@ -63,7 +63,7 @@ in {
         userServices = true;
       };
 
-      nssmdns = true;
+      nssmdns4 = true;
     };
 
     services.flatpak.enable = true;
@@ -97,6 +97,12 @@ in {
       };
 
       before = [ "display-manager.service" ];
+    };
+
+    services.syncthing = {
+      enable = true;
+      user = config.dusk.user;
+      dataDir = "/home/${config.dusk.user}";
     };
   };
 }

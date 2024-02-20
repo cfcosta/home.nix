@@ -62,7 +62,7 @@ in {
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
     boot.kernelModules = [ "v4l2loopback" ];
 
-    environment.systemPackages = with pkgs; [ bash curl file git wget ];
+    environment.systemPackages = with pkgs; [ bash curl file git wget unzip ];
 
     i18n.defaultLocale = cfg.system.locale;
 
