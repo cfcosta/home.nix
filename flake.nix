@@ -1,14 +1,6 @@
 {
   description = "Entrypoint for my user config";
 
-  nixConfig.substituters =
-    [ "https://cache.nixos.org" "https://cfcosta-home.cachix.org" ];
-
-  nixConfig.trusted-public-keys = [
-    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-    "cfcosta-home.cachix.org-1:Ly4J9QkKf/WGbnap33TG0o5mG5Sa/rcKQczLbH6G66I="
-  ];
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";

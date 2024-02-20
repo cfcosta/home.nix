@@ -1,14 +1,6 @@
 { config, pkgs, ... }: {
   imports = [ ./hardware.nix ];
 
-  nix.settings.substituters =
-    [ "https://cfcosta-home.cachix.org" "https://cache.nixos.org" ];
-
-  nix.settings.trusted-public-keys = [
-    "cfcosta-home.cachix.org-1:Ly4J9QkKf/WGbnap33TG0o5mG5Sa/rcKQczLbH6G66I="
-    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-  ];
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
