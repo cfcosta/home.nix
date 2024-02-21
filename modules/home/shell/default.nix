@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.dusk.home;
+let cfg = config.dusk;
 in {
   config = rec {
     home.packages = with pkgs; [

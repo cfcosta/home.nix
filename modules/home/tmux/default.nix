@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.dusk.home.tmux;
+  cfg = config.dusk.tmux;
   attachScript = pkgs.writeShellScriptBin "t" ./attach.sh;
 in {
   config = mkIf cfg.enable {

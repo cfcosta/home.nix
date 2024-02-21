@@ -32,7 +32,7 @@ in {
       folders = {
         code = mkOption {
           type = types.str;
-          default = "${folders.home}/Code";
+          default = "${user.folders.home}/Code";
           description = "Where you host your working projects";
         };
 

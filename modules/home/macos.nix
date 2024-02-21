@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.dusk.home;
+  cfg = config.dusk;
   macLogFile = name:
-    "${config.dusk.home.folders.home}/Library/Logs/${name}.log";
+    "${config.dusk.user.folders.home}/Library/Logs/${name}.log";
 in {
   config = mkIf cfg.macos.enable {
     home.file."Library/Application Support/Element/config.json".text =

@@ -1,5 +1,5 @@
 { ... }: {
-  dusk.home = {
+  dusk = {
     name = "Cainã Costa";
     username = "cfcosta";
     email = "me@cfcosta.com";

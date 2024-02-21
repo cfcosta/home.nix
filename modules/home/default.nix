@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.dusk.home;
+let cfg = config.dusk;
 in {
   imports = [
     ./shell
@@ -16,8 +16,8 @@ in {
   ];
 
   config = rec {
-    home.username = cfg.username;
-    home.homeDirectory = cfg.folders.home;
+    home.username = cfg.user.username;
+    home.homeDirectory = cfg.user.folders.home;
 
     home.packages = with pkgs; [
       git

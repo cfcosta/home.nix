@@ -1,7 +1,7 @@
 { lib, pkgs, config, ... }:
 with lib;
 let
-  cfg = config.dusk.home.android;
+  cfg = config.dusk.android;
 
   scrcpy = if pkgs.stdenv.isLinux then
     (pkgs.scrcpy.override { ffmpeg = pkgs.ffmpeg-full; })

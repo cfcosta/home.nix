@@ -67,6 +67,7 @@
           pkgs = loadPkgs "x86_64-linux";
 
           modules = [
+            ./options
             ./modules/nixos
             ./machines/battlecruiser
             home-manager.nixosModules.home-manager
@@ -78,6 +79,7 @@
         drone = nix-darwin.lib.darwinSystem {
           pkgs = loadPkgs "aarch64-darwin";
           modules = [
+            ./options
             ./modules/darwin
             ./machines/drone
             home-manager.darwinModules.home-manager
@@ -97,6 +99,7 @@
               inherit pkgs;
 
               modules = [
+                ./options
                 neovim.hmModule
                 ./modules/home
                 ./machines/battlecruiser/home.nix
@@ -107,8 +110,12 @@
           drone = {
             home = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
-              modules =
-                [ neovim.hmModule ./modules/home ./machines/drone/home.nix ];
+              modules = [
+                ./options
+                neovim.hmModule
+                ./modules/home
+                ./machines/drone/home.nix
+              ];
             };
           };
         };

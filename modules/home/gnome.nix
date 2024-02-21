@@ -2,7 +2,7 @@
 with lib;
 let
   inherit (lib.hm.gvariant) mkTuple;
-  cfg = config.dusk.home;
+  cfg = config.dusk;
 
   match = v: l:
     builtins.elemAt
