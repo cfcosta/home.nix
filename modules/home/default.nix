@@ -3,7 +3,6 @@ with lib;
 let cfg = config.dusk.home;
 in {
   imports = [
-    ./mutt
     ./shell
     ./tmux
 
