@@ -103,7 +103,7 @@
                 ./options
                 neovim.hmModule
                 ./modules/home
-                ./machines/battlecruiser/home.nix
+                ./machines/battlecruiser
               ];
             };
           };
@@ -111,12 +111,8 @@
           drone = {
             home = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
-              modules = [
-                ./options
-                neovim.hmModule
-                ./modules/home
-                ./machines/drone/home.nix
-              ];
+              modules =
+                [ ./options neovim.hmModule ./modules/home ./machines/drone ];
             };
           };
         };

@@ -12,7 +12,6 @@ in {
     ./gnome.nix
     ./macos.nix
     ./media.nix
-    ./notes.nix
   ];
 
   config = rec {
