@@ -5,6 +5,17 @@ in {
     enable = mkEnableOption "dusk-core";
 
     system = {
+      hostname = mkOption {
+        type = types.str;
+        description = "The name/hostname of the system";
+      };
+
+      tz = mkOption {
+        type = types.str;
+        default = "America/Sao_Paulo";
+        description = "Timezone of the System";
+      };
+
       locale = mkOption {
         type = types.str;
         default = "en_US.utf8";
