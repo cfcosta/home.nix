@@ -10,8 +10,6 @@ let
       "echo powersave | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor")
   ];
 in {
-  options.dusk.amd.enable = mkEnableOption "AMD Config and Optimizations";
-
   config = mkIf cfg.enable {
     environment.systemPackages = scripts;
 

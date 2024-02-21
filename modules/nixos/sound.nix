@@ -2,8 +2,6 @@
 with lib;
 let cfg = config.dusk.sound;
 in {
-  options.dusk.sound.enable = mkEnableOption "sound";
-
   config = mkIf cfg.enable {
     sound.enable = true;
     hardware.pulseaudio.enable = false;

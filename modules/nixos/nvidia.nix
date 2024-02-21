@@ -2,16 +2,6 @@
 with lib;
 let cfg = config.dusk.nvidia;
 in {
-  options.dusk.nvidia = {
-    enable = mkEnableOption "nvidia";
-    powerLimit = mkOption {
-      type = types.int;
-      description = ''
-        Power limit in watts, disabled if null.
-      '';
-    };
-  };
-
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ nvtop-nvidia ];
 

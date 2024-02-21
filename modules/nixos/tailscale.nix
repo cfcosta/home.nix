@@ -18,8 +18,6 @@ let
     '';
   };
 in {
-  options.dusk.tailscale.enable = mkEnableOption "tailscale";
-
   config = mkIf cfg.enable {
     services.tailscale.enable = true;
 

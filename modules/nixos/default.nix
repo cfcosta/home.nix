@@ -17,35 +17,6 @@ in {
     ./virtualbox.nix
   ];
 
-  options.dusk = {
-    enable = mkEnableOption "dusk-core";
-
-    system = {
-      locale = mkOption {
-        type = types.str;
-        default = "en_US.utf8";
-        description = ''
-          Locale of the system
-        '';
-      };
-    };
-
-    user = mkOption {
-      type = types.str;
-      description = ''
-        User name of the main user of the system
-      '';
-    };
-
-    initialPassword = mkOption {
-      type = types.str;
-      description = ''
-        Initial password for the created user in the system
-      '';
-      default = "dusk";
-    };
-  };
-
   config = mkIf cfg.enable {
     # Make the whole system use the same <nixpkgs> as this flake.
     environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";

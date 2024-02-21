@@ -8,8 +8,6 @@ let
     [ -f "$FILE" ] && cp "$FILE" "/run/gdm/.config/monitors.xml"
   '';
 in {
-  options = { dusk.gnome.enable = mkEnableOption "gnome"; };
-
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       adw-gtk3

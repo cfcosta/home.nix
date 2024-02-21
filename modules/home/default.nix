@@ -15,32 +15,6 @@ in {
     ./notes.nix
   ];
 
-  options = {
-    dusk.home = {
-      name = mkOption { type = types.str; };
-      email = mkOption { type = types.str; };
-      username = mkOption { type = types.str; };
-      accounts.github = mkOption { type = types.str; };
-
-      folders = {
-        code = mkOption {
-          type = types.str;
-          default = "${cfg.folders.home}/Code";
-          description = "Where you host your working projects";
-        };
-
-        home = mkOption {
-          type = types.str;
-          default = if pkgs.stdenv.isLinux then
-            "/home/${cfg.username}"
-          else
-            "/Users/${cfg.username}";
-          description = "Your home folder";
-        };
-      };
-    };
-  };
-
   config = rec {
     home.username = cfg.username;
     home.homeDirectory = cfg.folders.home;

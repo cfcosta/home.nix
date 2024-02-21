@@ -1,8 +1,5 @@
 { pkgs, lib, config, ... }:
 with lib; {
-  options.dusk.enablePaidApps =
-    mkEnableOption "Enable paid apps from the Mac App Store";
-
   config = {
     documentation = {
       enable = true;

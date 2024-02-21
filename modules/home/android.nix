@@ -14,9 +14,6 @@ let
       ${scrcpy}/bin/scrcpy --v4l2-sink="/dev/$DEVICE" --no-video-playback --no-audio $@
     '';
 in {
-  options.dusk.home.android.enable =
-    mkEnableOption "ADB and other android tools";
-
   config = mkIf cfg.enable {
     home.packages = [ pkgs.android-tools scrcpy ]
       ++ optionals pkgs.stdenv.isLinux [ android-stream-to-camera ];

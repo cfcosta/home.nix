@@ -2,25 +2,6 @@
 with lib;
 let cfg = config.dusk.home;
 in {
-  options = {
-    dusk.home.git = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
-
-      signByDefault = mkOption {
-        type = types.bool;
-        default = true;
-      };
-
-      defaultBranch = mkOption {
-        type = types.str;
-        default = "main";
-      };
-    };
-  };
-
   config = mkIf cfg.git.enable {
     home.packages = with pkgs; [ git-bug ];
 

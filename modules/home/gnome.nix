@@ -14,28 +14,6 @@ let
     [ { browser = "brave"; } "brave-browser.desktop" ]
   ];
 in {
-  options = {
-    dusk.home.gnome = {
-      enable = mkEnableOption "gnome";
-      darkTheme = mkEnableOption "gnome-dark-theme";
-
-      keymaps = mkOption {
-        type = types.listOf types.str;
-        default = [ "us" ];
-      };
-
-      numberOfWorkspaces = mkOption {
-        type = types.int;
-        default = 6;
-      };
-
-      defaults.browser = mkOption {
-        type = types.enum [ "firefox" "brave" ];
-        default = "firefox";
-      };
-    };
-  };
-
   config = mkIf cfg.gnome.enable {
     home.packages = with pkgs; [ adw-gtk3 ];
 

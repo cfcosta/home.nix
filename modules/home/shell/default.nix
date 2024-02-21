@@ -2,19 +2,6 @@
 with lib;
 let cfg = config.dusk.home;
 in {
-  options = {
-    dusk.home.shell = {
-      environmentFile = mkOption {
-        type = types.str;
-        default = "${cfg.folders.home}/dusk-env.sh";
-        description = ''
-          A bash file that is loaded by the shell on each run.
-          This is used to set secrets or credentials that we don't want on the repo.
-        '';
-      };
-    };
-  };
-
   config = rec {
     home.packages = with pkgs; [
       bashInteractive

@@ -4,11 +4,6 @@ let
   cfg = config.dusk.home.tmux;
   attachScript = pkgs.writeShellScriptBin "t" ./attach.sh;
 in {
-  options.dusk.home.tmux = {
-    enable = mkEnableOption "tmux";
-    showBattery = mkEnableOption "tmux show battery level";
-  };
-
   config = mkIf cfg.enable {
     home.packages = with pkgs; [ attachScript tmux tmuxp ];
 

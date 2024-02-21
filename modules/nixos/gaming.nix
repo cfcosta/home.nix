@@ -2,8 +2,6 @@
 with lib;
 let cfg = config.dusk.gaming;
 in {
-  options = { dusk.gaming.enable = mkEnableOption "gaming"; };
-
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ bottles lutris mangohud ];
 
