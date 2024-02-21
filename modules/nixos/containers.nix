@@ -17,6 +17,6 @@ in {
       };
     };
 
-    users.users.${config.dusk.user}.extraGroups = [ "docker" ];
+    users.users.${config.dusk.user.username}.extraGroups = [ "docker" ];
   };
 }

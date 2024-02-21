@@ -7,6 +7,6 @@ in {
 
     virtualisation.libvirtd.enable = true;
 
-    users.users.${config.dusk.user}.extraGroups = [ "libvirtd" ];
+    users.users.${config.dusk.user.username}.extraGroups = [ "libvirtd" ];
   };
 }

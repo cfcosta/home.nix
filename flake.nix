@@ -70,6 +70,7 @@
             ./options
             ./modules/nixos
             ./machines/battlecruiser
+            ./machines/battlecruiser/nixos.nix
             home-manager.nixosModules.home-manager
           ];
         };

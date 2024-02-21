@@ -91,10 +91,10 @@ in {
 
     services.pcscd.enable = true;
 
-    users.users.${config.dusk.user} = {
+    users.users.${config.dusk.user.username} = {
       isNormalUser = true;
       extraGroups = [ "networkmanager" "wheel" ];
-      inherit (config.dusk) initialPassword;
+      inherit (config.dusk.user) initialPassword;
     };
 
     # udev rule to support vial keyboards

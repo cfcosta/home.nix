@@ -4,7 +4,7 @@ let
   cfg = config.dusk.gnome;
 
   copyGdmMonitorConfig = pkgs.writeShellScriptBin "gdm-copy-monitor-config" ''
-    FILE="/home/${config.dusk.user}/.config/monitors.xml"
+    FILE="/home/${config.dusk.user.username}/.config/monitors.xml"
     [ -f "$FILE" ] && cp "$FILE" "/run/gdm/.config/monitors.xml"
   '';
 in {
@@ -99,8 +99,8 @@ in {
 
     services.syncthing = {
       enable = true;
-      user = config.dusk.user;
-      dataDir = "/home/${config.dusk.user}";
+      user = config.dusk.user.username;
+      dataDir = "/home/${config.dusk.user.username}";
     };
   };
 }
