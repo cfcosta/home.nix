@@ -1,4 +1,6 @@
 inputs: final: prev: {
+  dusk = { inherit inputs; };
+
   # A CLI Tool to generate commands using OpenAI
   # https://github.com/searchableguy/whiz
   whiz = prev.buildNpmPackage rec {
