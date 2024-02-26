@@ -4,7 +4,13 @@ set -e
 
 CMD="${1:-switch}"
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-NIX="nix --extra-experimental-features nix-command --extra-experimental-features flakes"
+
+if $(which nix &>/dev/null); then
+  NIX_CMD="nix"
+else
+  NIX_CMD="/run/current-system/sw/bin/nix"
+fi
+NIX="${NIX_CMD} --extra-experimental-features nix-command --extra-experimental-features flakes"
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
 	echo "This is meant only for macOS hosts."
