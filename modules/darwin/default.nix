@@ -24,6 +24,7 @@ with lib; {
       enable = true;
 
       masApps = {
+        "Amazon Kindle" = 302584613;
         "Amphetamine" = 937984704;
         "Bitwarden Password Manager" = 1352778147;
         "Fantastical Calendar" = 975937182;
@@ -37,25 +38,28 @@ with lib; {
       });
 
       casks = [
-        "dbeaver-community"
+        "dash"
         "discord"
         "element"
-        #        "iterm2"
-        #        "linearmouse"
+        "firefox"
+        "iterm2"
+        "linearmouse"
         "lm-studio"
         "mullvadvpn"
         "notion"
-        "notion-calendar"
         "obs"
-        # "secretive"
+        "secretive"
         "session"
         "signal"
+        "transmission"
         "visual-studio-code"
+        "vlc"
       ] ++ (optionals config.dusk.enablePaidApps [ "mountain-duck" ]);
 
       onActivation = {
         autoUpdate = true;
         upgrade = true;
+        cleanup = "uninstall";
       };
     };
 
