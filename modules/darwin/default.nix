@@ -37,6 +37,8 @@ with lib; {
         "Monodraw" = 920404675;
       });
 
+      taps = [ "homebrew/cask" ];
+
       casks = [
         "dash"
         "discord"
