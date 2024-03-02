@@ -18,6 +18,7 @@ with lib; {
       git
       wget
       mas
+      ffmpeg
     ];
 
     homebrew = {
@@ -28,6 +29,7 @@ with lib; {
         "Amphetamine" = 937984704;
         "Bitwarden Password Manager" = 1352778147;
         "Fantastical Calendar" = 975937182;
+        "Microsoft Word" = 462054704;
         "Reeder 5" = 1529448980;
         "Tailscale" = 1475387142;
         "Telegram" = 747648890;
@@ -40,6 +42,7 @@ with lib; {
       taps = [ "homebrew/cask" ];
 
       casks = [
+        "airtable"
         "dash"
         "discord"
         "element"
@@ -47,6 +50,7 @@ with lib; {
         "iterm2"
         "linearmouse"
         "lm-studio"
+        "maccy"
         "mullvadvpn"
         "notion"
         "obs"
