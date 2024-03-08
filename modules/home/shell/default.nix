@@ -22,9 +22,14 @@ in {
       eternal-terminal
       eva
       fd
+      gist
       git
+      glow
+      lsof
+      ncdu_2
       neofetch
       pgcli
+      ranger
       ripgrep
       scc
       streamlink
@@ -34,8 +39,6 @@ in {
       watchexec
       wget
       whiz
-      lsof
-      gist
     ];
 
     programs.jq.enable = true;
