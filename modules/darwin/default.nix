@@ -55,6 +55,7 @@ with lib; {
         "transmission"
         "visual-studio-code"
         "vlc"
+        "orbstack"
       ] ++ (optionals config.dusk.enablePaidApps [ "mountain-duck" ]);
 
       onActivation = {
@@ -64,8 +65,14 @@ with lib; {
       };
     };
 
+    # Make the whole system use the same <nixpkgs> as this flake.
+    environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";
+    environment.etc."nix/inputs/nix-darwin".source =
+      "${pkgs.dusk.inputs.nix-darwin}";
+
     nix = {
       useDaemon = true;
+
       gc.automatic = true;
 
       settings = {
@@ -74,6 +81,11 @@ with lib; {
         experimental-features = [ "nix-command" "flakes" ];
         system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
       };
+
+      # Configure nix to use the flake's nixpkgs
+      registry.nixpkgs.flake = pkgs.dusk.inputs.nixpkgs;
+      registry.nix-darwin.flake = pkgs.dusk.inputs.nix-darwin;
+      nixPath = mkForce [ "/etc/nix/inputs" ];
     };
 
     programs.bash.enable = true;
