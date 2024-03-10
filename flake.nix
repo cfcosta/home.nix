@@ -113,8 +113,7 @@
           };
         };
 
-        devShells.default = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [ nixfmt nixd deadnix ];
-        };
+        devShells.default =
+          pkgs.mkShell { nativeBuildInputs = with pkgs; [ nixfmt deadnix ]; };
       }));
 }
