@@ -28,9 +28,6 @@ with lib; {
         "Amazon Kindle" = 302584613;
         "Amphetamine" = 937984704;
         "Bitwarden Password Manager" = 1352778147;
-        "Fantastical Calendar" = 975937182;
-        "Microsoft Word" = 462054704;
-        "Reeder 5" = 1529448980;
         "Tailscale" = 1475387142;
         "Telegram" = 747648890;
         "Todoist: To-Do List & Planner" = 585829637;
@@ -38,8 +35,6 @@ with lib; {
       } // (optionalAttrs config.dusk.enablePaidApps {
         "Monodraw" = 920404675;
       });
-
-      taps = [ "homebrew/cask" ];
 
       casks = [
         "airtable"
