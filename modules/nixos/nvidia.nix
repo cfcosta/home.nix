@@ -27,7 +27,7 @@ in {
 
     virtualisation = optionals config.dusk.containers.enable {
       docker.enableNvidia = true;
-      podman.enableNvidia = true;
+      containers.cdi.dynamic.nvidia.enable = true;
     };
 
     environment.variables = {
