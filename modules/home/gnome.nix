@@ -139,12 +139,19 @@ in {
       "org/gnome/shell" = {
         disable-user-extensions = false;
 
-        enabled-extensions = [ ];
+        enabled-extensions = [ "forge@jmmaranan.com" ];
         disabled-extensions = [ ];
 
         # Disable gnome tour when starting for the first time by setting a
         # really high version.
         welcome-dialog-last-shown-version = "4294967295";
+      };
+
+      "org/gnome/shell/extensions/forge" = {
+        tiling-mode-enabled = true;
+        window-gap-size = 4;
+        window-gap-size-increment = 1;
+        window-gap-hidden-on-single = true;
       };
     };
 

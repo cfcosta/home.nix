@@ -31,6 +31,8 @@ in {
       todoist-electron
       vial
 
+      gnomeExtensions.forge
+
       # TODO: Find a way to install this only if wayland is not enabled
       xclip
     ];
