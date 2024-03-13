@@ -1,8 +1,6 @@
 { config, lib, pkgs, ... }:
 with lib;
-let
-  cfg = config.dusk.home.tmux;
-  attachScript = pkgs.writeShellScriptBin "t" ./attach.sh;
+let cfg = config.dusk.home.tmux;
 in {
   options.dusk.home.tmux = {
     enable = mkEnableOption "tmux";
@@ -10,14 +8,13 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ attachScript tmux tmuxp ];
+    home.packages = with pkgs; [ tmux tmuxp ];
 
     programs.tmux = {
       enable = true;
       escapeTime = 0;
       keyMode = "vi";
       terminal = "tmux-256color";
-      newSession = true;
 
       plugins = with pkgs.tmuxPlugins; [({
         plugin = dracula;
