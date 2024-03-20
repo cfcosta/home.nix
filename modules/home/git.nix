@@ -26,6 +26,7 @@ in {
 
     programs.git = {
       enable = true;
+      lfs.enable = true;
 
       userName = cfg.name;
       userEmail = cfg.email;
@@ -53,7 +54,6 @@ in {
         commit.verbose = true;
         diff.algorithm = "histogram";
         diff.colorMoved = "default";
-        filter.lfs.smudge = "git-lfs smudge -- %f";
         github.user = cfg.accounts.github;
         help.autocorrect = 10;
         init.defaultBranch = cfg.git.defaultBranch;
