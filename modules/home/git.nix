@@ -40,7 +40,8 @@ in {
         };
       };
 
-      ignores = [ ".direnv" "result" "result-bin" ];
+      ignores =
+        [ ".DS_Store" ".direnv" ".env" ".null_ls*" "result" "result-bin" ];
 
       signing = {
         key = null;
