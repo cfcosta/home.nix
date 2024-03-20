@@ -22,7 +22,7 @@ in {
   };
 
   config = mkIf cfg.git.enable {
-    home.packages = with pkgs; [ git-bug ];
+    home.packages = with pkgs; [ git-bug git-lfs ];
 
     programs.git = {
       enable = true;
