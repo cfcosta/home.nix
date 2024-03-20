@@ -19,6 +19,7 @@ with lib; {
       wget
       mas
       ffmpeg
+      ollama
     ];
 
     homebrew = {
