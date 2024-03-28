@@ -50,13 +50,14 @@ with lib; {
         "mullvadvpn"
         "notion"
         "obs"
+        "orbstack"
+        "raycast"
         "secretive"
         "session"
         "signal"
         "transmission"
         "visual-studio-code"
         "vlc"
-        "orbstack"
       ] ++ (optionals config.dusk.enablePaidApps [ "mountain-duck" ]);
 
       onActivation = {
