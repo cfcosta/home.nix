@@ -11,6 +11,11 @@ with lib; {
       man.enable = true;
     };
 
+    system.keyboard = {
+      enableKeyMapping = true;
+      remapCapsLockToControl = true;
+    };
+
     environment.systemPackages = with pkgs; [
       bashInteractive
       curl
