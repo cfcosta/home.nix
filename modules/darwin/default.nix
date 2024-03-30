@@ -1,5 +1,7 @@
 { pkgs, lib, config, ... }:
 with lib; {
+  imports = [ ./clipboard.nix ];
+
   options.dusk.enablePaidApps =
     mkEnableOption "Enable paid apps from the Mac App Store";
 
@@ -30,17 +32,6 @@ with lib; {
 
         # Disable UI sounds
         "com.apple.sound.uiaudio".enabled = false;
-
-        # Configure clipboard manager
-        "org.p0deje.Maccy" = {
-          SUAutomaticallyUpdate = 1;
-          SUEnableAutomaticChecks = 1;
-          SUHasLaunchedBefore = 1;
-          searchMode = "fuzzy";
-          previewDelay = 300;
-          maxMenuItemLength = 75;
-          menuIcon = "clipboard";
-        };
 
         defaults = {
           NSGlobalDomain = {
