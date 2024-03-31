@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ ... }: {
   homebrew = {
     enable = true;
     casks = [ "maccy" ];
