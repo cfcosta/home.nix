@@ -1,7 +1,14 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.dusk.icognito;
-in {
+let
+  cfg = config.dusk.icognito;
+in
+{
   options.dusk.icognito.enable = mkEnableOption "icognito";
 
   config = mkIf cfg.enable {

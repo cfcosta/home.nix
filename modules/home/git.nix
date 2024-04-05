@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.dusk.home;
-in {
+let
+  cfg = config.dusk.home;
+in
+{
   options = {
     dusk.home.git = {
       enable = mkOption {
@@ -22,7 +29,10 @@ in {
   };
 
   config = mkIf cfg.git.enable {
-    home.packages = with pkgs; [ git-bug git-lfs ];
+    home.packages = with pkgs; [
+      git-bug
+      git-lfs
+    ];
 
     programs.git = {
       enable = true;
@@ -41,8 +51,14 @@ in {
         };
       };
 
-      ignores =
-        [ ".DS_Store" ".direnv" ".env" ".null_ls*" "result" "result-bin" ];
+      ignores = [
+        ".DS_Store"
+        ".direnv"
+        ".env"
+        ".null_ls*"
+        "result"
+        "result-bin"
+      ];
 
       signing = {
         key = null;

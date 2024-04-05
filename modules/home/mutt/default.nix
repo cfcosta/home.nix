@@ -1,15 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.dusk.home.mutt;
-  macLogFile = name:
-    "${config.dusk.home.folders.home}/Library/Logs/${name}.log";
+  macLogFile = name: "${config.dusk.home.folders.home}/Library/Logs/${name}.log";
   services = rec {
     linux = {
       services.offlineimap = {
         Unit.Description = "Fetch email inboxes";
-        Service.ExecStart =
-          "${pkgs.offlineimap}/bin/offlineimap -u syslog -o -1";
+        Service.ExecStart = "${pkgs.offlineimap}/bin/offlineimap -u syslog -o -1";
       };
 
       timers.offlineimap = {
@@ -22,7 +25,9 @@ let
           Persistent = "true";
         };
 
-        Install = { WantedBy = [ "timers.target" ]; };
+        Install = {
+          WantedBy = [ "timers.target" ];
+        };
       };
     };
     darwin = {
@@ -40,17 +45,25 @@ let
     };
   };
   scripts = [
-    (pkgs.writeShellScriptBin "mutt-open-url"
-      (builtins.readFile ./mutt-open-url.sh))
-    (pkgs.writeShellScriptBin "mutt-add-todoist"
-      (builtins.readFile ./mutt-add-todoist.sh))
+    (pkgs.writeShellScriptBin "mutt-open-url" (builtins.readFile ./mutt-open-url.sh))
+    (pkgs.writeShellScriptBin "mutt-add-todoist" (builtins.readFile ./mutt-add-todoist.sh))
   ];
-in {
+in
+{
   options.dusk.home.mutt.enable = mkEnableOption "mutt";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs;
-      [ abook msmtp neomutt notmuch offlineimap todoist-cli ] ++ scripts
+    home.packages =
+      with pkgs;
+      [
+        abook
+        msmtp
+        neomutt
+        notmuch
+        offlineimap
+        todoist-cli
+      ]
+      ++ scripts
       ++ optionals pkgs.stdenv.isLinux [ mailutils ];
 
     home.file.".mailrc".text = ''

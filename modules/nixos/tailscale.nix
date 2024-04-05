@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
 let
   cfg = config.dusk.tailscale;
@@ -6,7 +11,11 @@ let
 
   refresh-cert = pkgs.writeShellApplication {
     name = "tailscale-refresh-cert";
-    runtimeInputs = with pkgs; [ tailscale gnused coreutils ];
+    runtimeInputs = with pkgs; [
+      tailscale
+      gnused
+      coreutils
+    ];
     text = ''
       DOMAIN="$(tailscale status | grep "${config.networking.hostName}" | sed "s/\s\+/ /g" | cut -f 3 -d" ")"
 
@@ -17,7 +26,8 @@ let
       chmod 600 ${certDir}/tailscale.crt ${certDir}/tailscale.key
     '';
   };
-in {
+in
+{
   options.dusk.tailscale.enable = mkEnableOption "tailscale";
 
   config = mkIf cfg.enable {

@@ -1,1 +1,4 @@
-{ ... }: { dusk.enablePaidApps = true; }
+{ ... }:
+{
+  dusk.enablePaidApps = true;
+}

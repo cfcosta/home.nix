@@ -1,9 +1,15 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 with lib;
 let
   cfg = config.dusk.home;
   directory = builtins.replaceStrings [ "~" ] [ "$HOME" ] cfg.folders.notes;
-  buildTool = name: cmd:
+  buildTool =
+    name: cmd:
     pkgs.writeShellApplication {
       inherit name;
       text = ''
@@ -16,7 +22,8 @@ let
   yesterday = buildTool "yesterday" ''date -d "yesterday"'';
   tomorrow = buildTool "tomorrow" ''date -d "tomorrow"'';
   next-week = buildTool "next-week" ''date -d "next monday"'';
-in {
+in
+{
   options.dusk.home = {
     notes.enable = mkEnableOption "notes";
 
@@ -27,6 +34,11 @@ in {
   };
 
   config = mkIf cfg.notes.enable {
-    home.packages = with pkgs; [ today yesterday tomorrow next-week ];
+    home.packages = with pkgs; [
+      today
+      yesterday
+      tomorrow
+      next-week
+    ];
   };
 }

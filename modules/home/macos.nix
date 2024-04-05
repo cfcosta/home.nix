@@ -1,11 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.dusk.home;
-  macLogFile = name:
-    "${config.dusk.home.folders.home}/Library/Logs/${name}.log";
+  macLogFile = name: "${config.dusk.home.folders.home}/Library/Logs/${name}.log";
   inherit (lib.hm.gvariant) mkTuple;
-in {
+in
+{
   options.dusk.home.macos.enable = mkOption {
     default = pkgs.stdenv.isDarwin;
     example = true;
@@ -14,8 +19,7 @@ in {
   };
 
   config = mkIf cfg.macos.enable {
-    home.file."Library/Application Support/Element/config.json".text =
-      builtins.readFile ./element/config.json;
+    home.file."Library/Application Support/Element/config.json".text = builtins.readFile ./element/config.json;
 
     home.packages = [ pkgs.prometheus-node-exporter ];
 

@@ -1,7 +1,14 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.dusk.nvidia;
-in {
+let
+  cfg = config.dusk.nvidia;
+in
+{
   options.dusk.nvidia = {
     enable = mkEnableOption "nvidia";
     powerLimit = mkOption {
@@ -50,10 +57,7 @@ in {
 
       services.nvidia-power-limit = {
         serviceConfig = {
-          ExecStart =
-            "${config.hardware.nvidia.package.bin}/bin/nvidia-smi -pl ${
-              toString cfg.powerLimit
-            }";
+          ExecStart = "${config.hardware.nvidia.package.bin}/bin/nvidia-smi -pl ${toString cfg.powerLimit}";
           Type = "oneshot";
         };
       };
