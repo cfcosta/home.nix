@@ -8,7 +8,6 @@ with lib;
 let
   cfg = config.dusk.home;
   macLogFile = name: "${config.dusk.home.folders.home}/Library/Logs/${name}.log";
-  inherit (lib.hm.gvariant) mkTuple;
 in
 {
   options.dusk.home.macos.enable = mkOption {

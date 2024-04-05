@@ -1,4 +1,4 @@
-inputs: final: prev: {
+inputs: _: prev: {
   dusk = {
     inherit inputs;
   };

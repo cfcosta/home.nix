@@ -1,12 +1,6 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}:
+{ lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.elss.nix-index-db-update;
   nix-index-db-update = pkgs.writeShellScript "nix-index-db-update" ''
     set -euo pipefail
 
