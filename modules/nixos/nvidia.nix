@@ -20,7 +20,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ nvtop-nvidia ];
+    environment.systemPackages = with pkgs; [ nvtopPackages.nvidia ];
 
     hardware.nvidia.modesetting.enable = true;
     services.xserver.videoDrivers = [ "nvidia" ];

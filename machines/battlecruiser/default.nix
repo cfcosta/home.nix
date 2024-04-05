@@ -25,7 +25,7 @@
 
     nvidia = {
       enable = true;
-      powerLimit = 150;
+      powerLimit = 300;
     };
   };
 
