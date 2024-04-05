@@ -22,6 +22,7 @@ in {
       eternal-terminal
       eva
       fd
+      fdupes
       gist
       git
       glow
