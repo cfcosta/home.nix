@@ -15,7 +15,6 @@ let
     ];
 
   modules = [
-    "dusk-os"
     "ai"
     "messaging"
   ];

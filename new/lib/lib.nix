@@ -16,13 +16,17 @@
       };
 
       home-manager.users.${user} = {
+        home.stateVersion = "24.05";
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+
         programs.git = {
           enable = true;
           userName = name;
           userEmail = email;
         };
-
-        accounts = accounts;
       };
+
+      accounts = accounts;
     };
 }
