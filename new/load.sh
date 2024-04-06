@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-set -xe
+set -e
 
-TEMP="$(mktemp)"
+rm -f prompt.md
 
-echo -e "<instructions>Your task is to implement the user request on the given files, creating new ones if necessary, or asking questions before continuing if not clear enough. Respond with the changed files.</instructions>\n" | tee prompt.md
+echo -e "<response-format>Respond with ONLY the changed files, with instructions to add or remove new ones if necessary.</response-format>\n" >> prompt.md
 
-find . -type f | grep -v ".sh" | grep -v ".md" | while read file; do
+find . -type f | grep -v ".sh" | grep -v ".md" | grep -v ".lock" | while read file; do
   echo "<file path=\"$file\">"
   cat "$file"
   echo "</file>"
   echo
-done | tee -a prompt.md
+done >> prompt.md
 
 echo "Done, generated prompt.md."

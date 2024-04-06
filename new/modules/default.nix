@@ -1,24 +1,27 @@
-{ config, ... }:
-let
-  type = config.dusk-os.type;
-  optionalModule = path: if builtins.pathExists path then import path else { };
-
-  importModule =
-    module:
-    let
-      moduleDir = ./${module};
-    in
-    [
-      (optionalModule (moduleDir + (if type == "nixos" then "/nixos.nix" else "/darwin.nix")))
-      (optionalModule (moduleDir + "/home.nix"))
-      (optionalModule (moduleDir + "/default.nix"))
-    ];
-
-  modules = [
-    "ai"
-    "messaging"
-  ];
-in
+{ config, lib, ... }:
+with lib;
 {
-  imports = builtins.concatMap importModule modules;
+  options.dusk-os = {
+    enable = mkEnableOption "Enable Dusk OS configuration";
+    type = mkOption {
+      type = types.enum [
+        "nixos"
+        "darwin"
+      ];
+      description = "The type of system (NixOS or Darwin)";
+    };
+
+    modules = mkOption {
+      type = types.listOf types.str;
+      # load the defaults automatically
+      default = [ ];
+      description = "List of modules to enable";
+    };
+
+    config = mkOption {
+      type = types.attrs;
+      default = { };
+      description = "Additional configuration for Dusk OS";
+    };
+  };
 }

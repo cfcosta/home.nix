@@ -1,7 +1,5 @@
 { config, pkgs, ... }:
 {
-  imports = [ ../default.nix ];
-
   dusk-os = {
     enable = true;
     type = "nixos";
@@ -12,7 +10,7 @@
     ];
 
     config = {
-      users = config.dusk-os.lib.mkUser {
+      users = pkgs.dusk-os.mkUser {
         name = "Cainã Costa";
         user = "cfcosta";
         email = "me@cfcosta.com";
