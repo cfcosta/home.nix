@@ -41,6 +41,11 @@
       url = "github:psethwick/todoist?rev=2f80bdc65de44581c4497107a092c73f39ae0b62";
       flake = false;
     };
+
+    osc = {
+      url = "github:theimpostor/osc";
+      flake = false;
+    };
   };
 
   outputs =

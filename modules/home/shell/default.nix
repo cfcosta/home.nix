@@ -36,6 +36,7 @@ in
       lsof
       ncdu_2
       neofetch
+      osc
       pgcli
       ranger
       ripgrep

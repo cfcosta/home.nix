@@ -21,4 +21,13 @@ inputs: _: prev: {
     vendorHash = "sha256-fWFFWFVnLtZivlqMRIi6TjvticiKlyXF2Bx9Munos8M=";
     doCheck = false;
   };
+
+  # A CLI tool to control the clipboard using the OSC 52 escape sequences
+  osc = prev.buildGoModule rec {
+    pname = "osc";
+    version = "0.3.5";
+    src = inputs.osc;
+    vendorHash = "sha256-J4b1ajlBKZYBHWuaUb0dvm1MqqbPPTsmtau+c3wTBQI=";
+    doCheck = false;
+  };
 }

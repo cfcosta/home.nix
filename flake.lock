@@ -818,6 +818,22 @@
         "type": "github"
       }
     },
+    "osc": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1709492101,
+        "narHash": "sha256-RZyYyE5wOZcwsNJ6ziSdu9GWi+3WoHGn1aIFd0inYos=",
+        "owner": "theimpostor",
+        "repo": "osc",
+        "rev": "3a803e94cfa813861d4f8ca2257d934892045614",
+        "type": "github"
+      },
+      "original": {
+        "owner": "theimpostor",
+        "repo": "osc",
+        "type": "github"
+      }
+    },
     "osc52": {
       "flake": false,
       "locked": {
@@ -859,6 +875,7 @@
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
+        "osc": "osc",
         "todoist-cli": "todoist-cli",
         "whiz-cli": "whiz-cli"
       }
