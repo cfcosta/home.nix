@@ -36,7 +36,7 @@
             pkgs = loadPkgs "x86_64-linux";
             modules = [
               ./modules
-              ./machines/battlecruiser.nix
+              ./machines/battlecruiser
             ];
           };
         };

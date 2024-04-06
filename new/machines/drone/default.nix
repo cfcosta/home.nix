@@ -2,7 +2,7 @@
 {
   dusk-os = {
     enable = true;
-    type = "nixos";
+    type = "darwin";
 
     modules = with config.dusk-os.modules; [
       ai.ollama
