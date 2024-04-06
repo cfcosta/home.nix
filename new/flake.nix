@@ -34,9 +34,16 @@
         nixosConfigurations = {
           battlecruiser = nixpkgs.lib.nixosSystem {
             pkgs = loadPkgs "x86_64-linux";
+
             modules = [
               ./modules
               ./machines/battlecruiser
+              (
+                { ... }:
+                {
+                  system.stateVersion = "24.05";
+                }
+              )
             ];
           };
         };

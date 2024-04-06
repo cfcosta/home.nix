@@ -2,6 +2,7 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  boot.extraModulePackages = [ ];
   boot.initrd.availableKernelModules = [
     "nvme"
     "ahci"
@@ -13,7 +14,8 @@
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/267a2e89-f17c-4ae8-ba84-709fda2a95aa";
@@ -25,9 +27,13 @@
     fsType = "vfat";
   };
 
-  swapDevices = [ ];
+  hardware.cpu.amd.updateMicrocode = true;
+  hardware.enableRedistributableFirmware = true;
+
+  networking.hostName = "battlecruiser";
   networking.useDHCP = lib.mkDefault true;
 
-  hardware.enableRedistributableFirmware = true;
-  hardware.cpu.amd.updateMicrocode = true;
+  swapDevices = [ ];
+
+  time.timeZone = "America/Sao_Paulo";
 }

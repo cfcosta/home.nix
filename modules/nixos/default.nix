@@ -54,38 +54,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Make the whole system use the same <nixpkgs> as this flake.
-    environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";
-    environment.etc."nix/inputs/nix-darwin".source = "${pkgs.dusk.inputs.nix-darwin}";
-
-    nix = {
-      gc.automatic = true;
-
-      settings = {
-        accept-flake-config = true;
-        auto-optimise-store = true;
-        experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
-        system-features = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-      };
-
-      # Configure nix to use the flake's nixpkgs
-      registry.nixpkgs.flake = pkgs.dusk.inputs.nixpkgs;
-      registry.nix-darwin.flake = pkgs.dusk.inputs.nix-darwin;
-      nixPath = lib.mkForce [ "/etc/nix/inputs" ];
-    };
-
-    # Enable v4l2loopback kernel module for android virtual camera
-    boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-    boot.kernelModules = [ "v4l2loopback" ];
-
     environment.systemPackages = with pkgs; [
       bash
       curl

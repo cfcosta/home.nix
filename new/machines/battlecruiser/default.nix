@@ -10,6 +10,7 @@
       modules = with config.dusk-os.modules; [
         ai.ollama
         messaging.element
+        system.nix
       ];
 
       config = {
