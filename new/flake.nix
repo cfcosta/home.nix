@@ -13,7 +13,12 @@
   };
 
   outputs =
-    { nixpkgs, flake-utils, ... }:
+    {
+      nixpkgs,
+      flake-utils,
+      nix-darwin,
+      ...
+    }:
     let
       loadPkgs =
         system:
@@ -24,29 +29,49 @@
 
           config.allowUnfree = true;
         };
+
+      machines = import ./machines;
+      filterMachines = kind: machine: (import (./machines + "/${machine}")).type == kind;
+      isDarwin = filterMachines "darwin";
+      isNixOS = filterMachines "nixos";
+
+      inherit (builtins) filter attrNames listToAttrs;
     in
     (
       {
-        darwinConfigurations = {
-          # Add your Darwin configurations here
-        };
+        darwinConfigurations =
+          let
+            darwinMachines = filter (isDarwin) (attrNames machines);
+          in
+          listToAttrs (
+            map (machine: {
+              name = machine;
+              value = nix-darwin.lib.darwinSystem {
+                pkgs = loadPkgs "aarch64-darwin";
+                modules = [
+                  ./modules
+                  machines."${machine}".config
+                ];
+              };
+            }) darwinMachines
+          );
 
-        nixosConfigurations = {
-          battlecruiser = nixpkgs.lib.nixosSystem {
-            pkgs = loadPkgs "x86_64-linux";
-
-            modules = [
-              ./modules
-              ./machines/battlecruiser
-              (
-                { ... }:
-                {
-                  system.stateVersion = "24.05";
-                }
-              )
-            ];
-          };
-        };
+        nixosConfigurations =
+          let
+            nixosMachines = filter isNixOS (attrNames machines);
+          in
+          listToAttrs (
+            map (machine: {
+              name = machine;
+              value = nixpkgs.lib.nixosSystem {
+                pkgs = loadPkgs "x86_64-linux";
+                modules = [
+                  ./modules
+                  machines."${machine}".config
+                ];
+              };
+            }) nixosMachines
+          );
       }
       // flake-utils.lib.eachDefaultSystem (
         system:

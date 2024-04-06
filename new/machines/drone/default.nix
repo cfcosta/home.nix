@@ -1,23 +1,27 @@
-{ config, pkgs, ... }:
 {
-  dusk-os = {
-    enable = true;
-    type = "darwin";
+  type = "darwin";
 
-    modules = with config.dusk-os.modules; [
-      ai.ollama
-      messaging.element
-      system.clipboard
-      system.nix
-    ];
+  config =
+    { config, pkgs, ... }:
+    {
+      dusk-os = {
+        enable = true;
 
-    config = {
-      users = pkgs.dusk-os.mkUser {
-        name = "Cainã Costa";
-        user = "cfcosta";
-        email = "me@cfcosta.com";
-        accounts.github = "cfcosta";
+        modules = with config.dusk-os.modules; [
+          ai.ollama
+          messaging.element
+          system.clipboard
+          system.nix
+        ];
+
+        config = {
+          users = pkgs.dusk-os.mkUser {
+            name = "Cainã Costa";
+            user = "cfcosta";
+            email = "me@cfcosta.com";
+            accounts.github = "cfcosta";
+          };
+        };
       };
     };
-  };
 }
