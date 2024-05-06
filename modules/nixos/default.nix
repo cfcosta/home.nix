@@ -3,6 +3,7 @@ with lib;
 let cfg = config.dusk;
 in {
   imports = [
+    ./ai.nix
     ./amd.nix
     ./benchmarking.nix
     ./containers.nix
