@@ -1,5 +1,10 @@
 { pkgs, lib, config, ... }:
-with lib; {
+with lib; 
+let
+  ollamaAlias = pkgs.writeShellScriptBin "ollama" ''
+    exec /opt/homebrew/bin/ollama "$@"
+  '';
+in {
   imports = [ ./clipboard.nix ];
 
   options.dusk.enablePaidApps =
@@ -84,7 +89,7 @@ with lib; {
       wget
       mas
       ffmpeg
-      ollama
+      ollamaAlias
     ];
 
     homebrew = {
@@ -123,6 +128,8 @@ with lib; {
         "transmission"
         "visual-studio-code"
         "vlc"
+        "ollama"
+        "tad"
       ] ++ (optionals config.dusk.enablePaidApps [ "mountain-duck" ]);
 
       onActivation = {

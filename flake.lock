@@ -54,6 +54,22 @@
         "type": "github"
       }
     },
+    "cmp-ai": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1710504430,
+        "narHash": "sha256-bzF2G888Q/euR8Xnhgp3M4zWXODw4rMojR71yeUSROE=",
+        "owner": "tzachar",
+        "repo": "cmp-ai",
+        "rev": "70ab6d97110224c1ed1a023cd5f18efcaeefb1df",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tzachar",
+        "repo": "cmp-ai",
+        "type": "github"
+      }
+    },
     "cmp-buffer": {
       "flake": false,
       "locked": {
@@ -300,6 +316,22 @@
         "type": "github"
       }
     },
+    "gen-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1714746280,
+        "narHash": "sha256-0AEB6im8Jz5foYzmL6KEGSAYo48g1bkFpjlCSWT6JeE=",
+        "owner": "David-Kunz",
+        "repo": "gen.nvim",
+        "rev": "bd19cf584b5b82123de977b44105e855e61e5f39",
+        "type": "github"
+      },
+      "original": {
+        "owner": "David-Kunz",
+        "repo": "gen.nvim",
+        "type": "github"
+      }
+    },
     "gitsigns": {
       "flake": false,
       "locked": {
@@ -323,11 +355,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1714865296,
-        "narHash": "sha256-02r2Qzh4fGYBPB/3Lj8vwPMtE6H/UchZnN7A/dQMHIA=",
+        "lastModified": 1714981474,
+        "narHash": "sha256-b3/U21CJjCjJKmA9WqUbZGZgCvospO3ArOUTgJugkOY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e0825ea2112d09d9f0680833cd716f6aee3b973f",
+        "rev": "6ebe7be2e67be7b9b54d61ce5704f6fb466c536f",
         "type": "github"
       },
       "original": {
@@ -436,6 +468,7 @@
     "neovim": {
       "inputs": {
         "aiken-neovim": "aiken-neovim",
+        "cmp-ai": "cmp-ai",
         "cmp-buffer": "cmp-buffer",
         "cmp-cmdline": "cmp-cmdline",
         "cmp-nvim-lsp": "cmp-nvim-lsp",
@@ -450,6 +483,7 @@
         "flake-utils": [
           "flake-utils"
         ],
+        "gen-nvim": "gen-nvim",
         "gitsigns": "gitsigns",
         "home-manager": [
           "home-manager"
@@ -490,11 +524,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1712330841,
-        "narHash": "sha256-bezYWBYFNQcuVnVd9/jTeL5ST3nDYel39Y8g54eYkx4=",
+        "lastModified": 1714927433,
+        "narHash": "sha256-5+8FyH1Gh0J8eqwiMqf3dFZUCBE0ctNTB7c9XdP1qi0=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "978815182721556469ff2e3910f0e724a68d2752",
+        "rev": "7972446650687c88636c8f6db63ec6f1f1467eab",
         "type": "github"
       },
       "original": {
@@ -576,11 +610,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1714750952,
-        "narHash": "sha256-oOUdvPrO8CbupgDSaPou+Jv6GL+uQA2QlE33D7OLzkM=",
+        "lastModified": 1714912032,
+        "narHash": "sha256-clkcOIkg8G4xuJh+1onLG4HPMpbtzdLv4rHxFzgsH9c=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5fd8536a9a5932d4ae8de52b7dc08d92041237fc",
+        "rev": "ee4a6e0f566fe5ec79968c57a9c2c3c25f2cf41d",
         "type": "github"
       },
       "original": {

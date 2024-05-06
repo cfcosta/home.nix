@@ -33,7 +33,6 @@ in {
       ranger
       ripgrep
       scc
-      streamlink
       tokei
       tree
       unixtools.watch
