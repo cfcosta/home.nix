@@ -1,5 +1,5 @@
 { pkgs, lib, config, ... }:
-with lib; 
+with lib;
 let
   ollamaAlias = pkgs.writeShellScriptBin "ollama" ''
     exec /opt/homebrew/bin/ollama "$@"
@@ -117,19 +117,20 @@ in {
         "linearmouse"
         "lm-studio"
         "maccy"
+        "moonlight"
         "mullvadvpn"
         "notion"
         "obs"
+        "ollama"
         "orbstack"
         "raycast"
         "secretive"
         "session"
         "signal"
+        "tad"
         "transmission"
         "visual-studio-code"
         "vlc"
-        "ollama"
-        "tad"
       ] ++ (optionals config.dusk.enablePaidApps [ "mountain-duck" ]);
 
       onActivation = {
