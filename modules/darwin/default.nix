@@ -123,6 +123,7 @@ in {
         "obs"
         "ollama"
         "orbstack"
+        "origami-studio"
         "raycast"
         "secretive"
         "session"
