@@ -14,7 +14,6 @@ in {
     ./macos.nix
     ./media.nix
     ./notes.nix
-    ./ai.nix
   ];
 
   options = {
