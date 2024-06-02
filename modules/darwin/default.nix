@@ -108,30 +108,28 @@ in {
       });
 
       casks = [
-        "airtable"
-        "dash"
+        "brave-browser"
+        "chatgpt"
+        "cursor"
         "discord"
         "element"
         "firefox"
+        "inkscape"
         "iterm2"
         "linearmouse"
-        "lm-studio"
         "maccy"
         "moonlight"
         "mullvadvpn"
-        "notion"
         "obs"
         "ollama"
         "orbstack"
         "origami-studio"
         "raycast"
         "secretive"
-        "session"
         "signal"
-        "tad"
         "transmission"
-        "visual-studio-code"
         "vlc"
+        "xmind"
       ] ++ (optionals config.dusk.enablePaidApps [ "mountain-duck" ]);
 
       onActivation = {
