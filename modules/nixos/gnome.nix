@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
 let
   cfg = config.dusk.gnome;
@@ -7,8 +12,11 @@ let
     FILE="/home/${config.dusk.user}/.config/monitors.xml"
     [ -f "$FILE" ] && cp "$FILE" "/run/gdm/.config/monitors.xml"
   '';
-in {
-  options = { dusk.gnome.enable = mkEnableOption "gnome"; };
+in
+{
+  options = {
+    dusk.gnome.enable = mkEnableOption "gnome";
+  };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [

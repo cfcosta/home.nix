@@ -1,19 +1,29 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   inherit (lib.hm.gvariant) mkTuple;
   cfg = config.dusk.home;
 
-  match = v: l:
-    builtins.elemAt
-    (lib.lists.findFirst (x: (if_let v (builtins.elemAt x 0)) != null) null l)
-    1;
+  match =
+    v: l: builtins.elemAt (lib.lists.findFirst (x: (if_let v (builtins.elemAt x 0)) != null) null l) 1;
 
   defaultBrowser = match cfg.defaults [
-    [ { browser = "firefox"; } "firefox.desktop" ]
-    [ { browser = "brave"; } "brave-browser.desktop" ]
+    [
+      { browser = "firefox"; }
+      "firefox.desktop"
+    ]
+    [
+      { browser = "brave"; }
+      "brave-browser.desktop"
+    ]
   ];
-in {
+in
+{
   options = {
     dusk.home.gnome = {
       enable = mkEnableOption "gnome";
@@ -30,7 +40,10 @@ in {
       };
 
       defaults.browser = mkOption {
-        type = types.enum [ "firefox" "brave" ];
+        type = types.enum [
+          "firefox"
+          "brave"
+        ];
         default = "firefox";
       };
     };
@@ -56,13 +69,11 @@ in {
       <dead_acute> <C> : "Ç"
     '';
 
-    home.file.".config/Element/config.json".text =
-      builtins.readFile ./element/config.json;
+    home.file.".config/Element/config.json".text = builtins.readFile ./element/config.json;
 
     dconf.settings = {
       "org/gnome/desktop/interface" = {
-        color-scheme =
-          if cfg.gnome.darkTheme then "prefer-dark" else "prefer-light";
+        color-scheme = if cfg.gnome.darkTheme then "prefer-dark" else "prefer-light";
         gtk-theme = if cfg.gnome.darkTheme then "adw-gtk3-dark" else "adw-gtk3";
 
         clock-show-weekday = true;
@@ -161,22 +172,26 @@ in {
         ];
       };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
-        {
-          binding = "<Super>b";
-          command = "firefox";
-          name = "Launch Browser";
-        };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+        binding = "<Super>b";
+        command = "firefox";
+        name = "Launch Browser";
+      };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" =
-        {
-          binding = "<Super>Return";
-          command = "alacritty";
-          name = "Launch Terminal";
-        };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+        binding = "<Super>Return";
+        command = "alacritty";
+        name = "Launch Terminal";
+      };
 
       "org/gnome/desktop/input-sources" = {
-        sources = map (x: (mkTuple [ "xkb" x ])) cfg.gnome.keymaps;
+        sources = map (
+          x:
+          (mkTuple [
+            "xkb"
+            x
+          ])
+        ) cfg.gnome.keymaps;
       };
 
       "org/gnome/shell" = {

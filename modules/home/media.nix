@@ -1,10 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.dusk.home;
-in {
+let
+  cfg = config.dusk.home;
+in
+{
   options.dusk.home.media.enable = mkEnableOption "media";
 
-  config = mkIf cfg.media.enable {
-    home.packages = with pkgs; [ python311Packages.yt-dlp ];
-  };
+  config = mkIf cfg.media.enable { home.packages = with pkgs; [ python311Packages.yt-dlp ]; };
 }

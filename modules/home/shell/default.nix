@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.dusk.home;
-in {
+let
+  cfg = config.dusk.home;
+in
+{
   options = {
     dusk.home.shell = {
       environmentFile = mkOption {
@@ -82,8 +89,13 @@ in {
       historySize = 1000000;
 
       # Ignore common transaction commands and the aliases we've set.
-      historyIgnore = [ "exit" "pwd" "reset" "fg" "jobs" ]
-        ++ (mapAttrsToList (key: _: key) config.programs.bash.shellAliases);
+      historyIgnore = [
+        "exit"
+        "pwd"
+        "reset"
+        "fg"
+        "jobs"
+      ] ++ (mapAttrsToList (key: _: key) config.programs.bash.shellAliases);
 
       shellOptions = [
         # Default options from home-manager
@@ -105,9 +117,11 @@ in {
       initExtra = ''
         . ${pkgs.complete-alias}/bin/complete_alias
 
-        ${builtins.concatStringsSep "\n"
-        (builtins.map (alias: "complete -F _complete_alias ${alias}")
-          (builtins.attrNames config.programs.bash.shellAliases))}
+        ${builtins.concatStringsSep "\n" (
+          builtins.map (alias: "complete -F _complete_alias ${alias}") (
+            builtins.attrNames config.programs.bash.shellAliases
+          )
+        )}
       '';
 
       bashrcExtra = ''
@@ -137,9 +151,13 @@ in {
         style = "compact";
         show_help = false;
 
-        history_filter = [ "^ls" "^cd" "^cat" "^fg" "^jobs" ]
-          ++ (builtins.map (alias: ''"^${alias}"'')
-            (builtins.attrNames config.programs.bash.shellAliases));
+        history_filter = [
+          "^ls"
+          "^cd"
+          "^cat"
+          "^fg"
+          "^jobs"
+        ] ++ (builtins.map (alias: ''"^${alias}"'') (builtins.attrNames config.programs.bash.shellAliases));
       };
     };
 
@@ -174,9 +192,20 @@ in {
       enable = true;
 
       settings = {
-        blocks = [ "permission" "user" "size" "git" "name" ];
+        blocks = [
+          "permission"
+          "user"
+          "size"
+          "git"
+          "name"
+        ];
         icons.theme = "fancy";
-        ignore-globs = [ ".direnv" ".git" ".hg" ".jj" ];
+        ignore-globs = [
+          ".direnv"
+          ".git"
+          ".hg"
+          ".jj"
+        ];
         permission = "rwx";
       };
     };
@@ -213,8 +242,7 @@ in {
       };
     };
 
-    home.file.".config/lsd/colors.yaml".text =
-      builtins.readFile ./lsd/colors.yaml;
+    home.file.".config/lsd/colors.yaml".text = builtins.readFile ./lsd/colors.yaml;
 
     xdg.configFile."pgcli/config".text = builtins.readFile ./pgcli.conf;
   };

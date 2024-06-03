@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.dusk.home;
-in {
+let
+  cfg = config.dusk.home;
+in
+{
   imports = [
     ./mutt
     ./shell
@@ -32,10 +39,7 @@ in {
 
         home = mkOption {
           type = types.str;
-          default = if pkgs.stdenv.isLinux then
-            "/home/${cfg.username}"
-          else
-            "/Users/${cfg.username}";
+          default = if pkgs.stdenv.isLinux then "/home/${cfg.username}" else "/Users/${cfg.username}";
           description = "Your home folder";
         };
       };
@@ -63,8 +67,7 @@ in {
     programs.nix-index.enable = true;
 
     home.file = mkIf pkgs.stdenv.isLinux {
-      ".cache/nix-index".source =
-        config.lib.file.mkOutOfStoreSymlink "/var/db/nix-index";
+      ".cache/nix-index".source = config.lib.file.mkOutOfStoreSymlink "/var/db/nix-index";
     };
 
     home.stateVersion = "23.11";

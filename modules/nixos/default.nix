@@ -1,7 +1,14 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.dusk;
-in {
+let
+  cfg = config.dusk;
+in
+{
   imports = [
     ./ai.nix
     ./amd.nix
@@ -50,8 +57,7 @@ in {
   config = mkIf cfg.enable {
     # Make the whole system use the same <nixpkgs> as this flake.
     environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";
-    environment.etc."nix/inputs/nix-darwin".source =
-      "${pkgs.dusk.inputs.nix-darwin}";
+    environment.etc."nix/inputs/nix-darwin".source = "${pkgs.dusk.inputs.nix-darwin}";
 
     nix = {
       gc.automatic = true;
@@ -59,8 +65,16 @@ in {
       settings = {
         accept-flake-config = true;
         auto-optimise-store = true;
-        experimental-features = [ "nix-command" "flakes" ];
-        system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+        system-features = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
       };
 
       # Configure nix to use the flake's nixpkgs
@@ -73,7 +87,14 @@ in {
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
     boot.kernelModules = [ "v4l2loopback" ];
 
-    environment.systemPackages = with pkgs; [ bash curl file git wget unzip ];
+    environment.systemPackages = with pkgs; [
+      bash
+      curl
+      file
+      git
+      wget
+      unzip
+    ];
 
     i18n.defaultLocale = cfg.system.locale;
 
@@ -110,8 +131,7 @@ in {
     };
 
     services.eternal-terminal.enable = true;
-    networking.firewall.allowedTCPPorts =
-      [ config.services.eternal-terminal.port ];
+    networking.firewall.allowedTCPPorts = [ config.services.eternal-terminal.port ];
 
     programs.gnupg.agent = {
       enable = true;
@@ -123,7 +143,10 @@ in {
 
     users.users.${config.dusk.user} = {
       isNormalUser = true;
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
       inherit (config.dusk) initialPassword;
     };
 

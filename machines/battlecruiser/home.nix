@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   dusk.home = {
     name = "Cainã Costa";
     username = "cfcosta";
@@ -16,7 +22,10 @@
     gnome = {
       enable = true;
       darkTheme = true;
-      keymaps = [ "us" "us+intl" ];
+      keymaps = [
+        "us"
+        "us+intl"
+      ];
     };
   };
 }

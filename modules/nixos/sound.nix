@@ -1,7 +1,14 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.dusk.sound;
-in {
+let
+  cfg = config.dusk.sound;
+in
+{
   options.dusk.sound.enable = mkEnableOption "sound";
 
   config = mkIf cfg.enable {
@@ -17,7 +24,11 @@ in {
       jack.enable = true;
     };
 
-    environment.systemPackages = with pkgs;
-      optionals config.dusk.gnome.enable [ easyeffects helvum ];
+    environment.systemPackages =
+      with pkgs;
+      optionals config.dusk.gnome.enable [
+        easyeffects
+        helvum
+      ];
   };
 }

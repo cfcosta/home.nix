@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
 let
   cfg = config.elss.nix-index-db-update;
@@ -9,7 +14,8 @@ let
     filename="index-x86_64-$(${pkgs.coreutils}/bin/uname | ${pkgs.coreutils}/bin/tr A-Z a-z)"
     ${pkgs.wget}/bin/wget -q -N https://github.com/Mic92/nix-index-database/releases/latest/download/$filename -O $root/files
   '';
-in {
+in
+{
   systemd = {
     services.nix-index-db-update = {
       description = "Update nix-index database";

@@ -1,7 +1,14 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.dusk.ai;
-in {
+let
+  cfg = config.dusk.ai;
+in
+{
   options.dusk.ai.enable = mkEnableOption "Enable AI tooling";
 
   config = mkIf cfg.enable {

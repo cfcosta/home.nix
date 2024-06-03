@@ -1,14 +1,19 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 with lib;
 let
   ollamaAlias = pkgs.writeShellScriptBin "ollama" ''
     exec /opt/homebrew/bin/ollama "$@"
   '';
-in {
+in
+{
   imports = [ ./clipboard.nix ];
 
-  options.dusk.enablePaidApps =
-    mkEnableOption "Enable paid apps from the Mac App Store";
+  options.dusk.enablePaidApps = mkEnableOption "Enable paid apps from the Mac App Store";
 
   config = {
     documentation = {
@@ -103,9 +108,7 @@ in {
         "Telegram" = 747648890;
         "Todoist: To-Do List & Planner" = 585829637;
         "Whatsapp Messenger" = 310633997;
-      } // (optionalAttrs config.dusk.enablePaidApps {
-        "Monodraw" = 920404675;
-      });
+      } // (optionalAttrs config.dusk.enablePaidApps { "Monodraw" = 920404675; });
 
       casks = [
         "brave-browser"
@@ -141,8 +144,7 @@ in {
 
     # Make the whole system use the same <nixpkgs> as this flake.
     environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";
-    environment.etc."nix/inputs/nix-darwin".source =
-      "${pkgs.dusk.inputs.nix-darwin}";
+    environment.etc."nix/inputs/nix-darwin".source = "${pkgs.dusk.inputs.nix-darwin}";
 
     nix = {
       useDaemon = true;
@@ -152,8 +154,16 @@ in {
       settings = {
         accept-flake-config = true;
         auto-optimise-store = true;
-        experimental-features = [ "nix-command" "flakes" ];
-        system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+        system-features = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
       };
 
       # Configure nix to use the flake's nixpkgs

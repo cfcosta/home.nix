@@ -1,11 +1,23 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.dusk.containers;
-in {
-  options = { dusk.containers.enable = mkEnableOption "containers"; };
+let
+  cfg = config.dusk.containers;
+in
+{
+  options = {
+    dusk.containers.enable = mkEnableOption "containers";
+  };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ docker-compose ctop ];
+    environment.systemPackages = with pkgs; [
+      docker-compose
+      ctop
+    ];
 
     virtualisation = {
       docker = {

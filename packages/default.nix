@@ -1,5 +1,7 @@
 inputs: final: prev: {
-  dusk = { inherit inputs; };
+  dusk = {
+    inherit inputs;
+  };
 
   # A CLI Tool to generate commands using OpenAI
   # https://github.com/searchableguy/whiz

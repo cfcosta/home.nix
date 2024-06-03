@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.dusk.home.alacritty;
@@ -6,7 +11,8 @@ let
     inherit style;
     family = cfg.font.family;
   };
-in {
+in
+{
   options = {
     dusk.home.alacritty = {
       enable = mkEnableOption "alacritty";
