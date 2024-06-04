@@ -10,7 +10,6 @@ let
 in
 {
   imports = [
-    ./mutt
     ./shell
     ./tmux
 
@@ -20,7 +19,6 @@ in
     ./gnome.nix
     ./macos.nix
     ./media.nix
-    ./notes.nix
   ];
 
   options = {
@@ -46,7 +44,7 @@ in
     };
   };
 
-  config = rec {
+  config = {
     home.username = cfg.username;
     home.homeDirectory = cfg.folders.home;
 
