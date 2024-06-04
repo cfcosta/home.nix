@@ -7,7 +7,6 @@
     accounts.github = "cfcosta";
 
     git.enable = true;
-    macos.enable = true;
     media.enable = true;
 
     tmux = {

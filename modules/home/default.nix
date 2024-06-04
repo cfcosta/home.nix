@@ -13,11 +13,9 @@ in
     ./shell
     ./tmux
 
-    ./android.nix
     ./alacritty.nix
     ./git.nix
     ./gnome.nix
-    ./macos.nix
     ./media.nix
   ];
 

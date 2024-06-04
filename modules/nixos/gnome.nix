@@ -26,21 +26,13 @@ in
       discord
       element-desktop
       firefox
-      gitg
-      guvcview
       heaptrack
-      meld
-      newsflash
-      obsidian
       obs-studio
       signal-desktop
-      slack
       tdesktop
       todoist-electron
       vial
 
-      gnomeExtensions.blur-my-shell
-      gnomeExtensions.burn-my-windows
       gnomeExtensions.forge
 
       # TODO: Find a way to install this only if wayland is not enabled

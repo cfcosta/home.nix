@@ -93,7 +93,6 @@ in
       git
       wget
       mas
-      ffmpeg
       ollamaAlias
     ];
 
@@ -112,7 +111,6 @@ in
 
       casks = [
         "brave-browser"
-        "chatgpt"
         "cursor"
         "discord"
         "element"
@@ -121,7 +119,6 @@ in
         "iterm2"
         "linearmouse"
         "maccy"
-        "moonlight"
         "mullvadvpn"
         "obs"
         "ollama"

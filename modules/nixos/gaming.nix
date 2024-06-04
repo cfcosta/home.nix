@@ -14,11 +14,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      bottles
-      lutris
-      mangohud
-    ];
+    environment.systemPackages = with pkgs; [ mangohud ];
 
     hardware.opengl.enable = true;
     programs.steam.enable = true;

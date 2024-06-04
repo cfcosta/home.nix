@@ -12,17 +12,15 @@ in
   imports = [
     ./ai.nix
     ./amd.nix
-    ./benchmarking.nix
     ./containers.nix
     ./gaming.nix
     ./gnome.nix
-    ./icognito.nix
     ./libvirt.nix
     ./nix-index.nix
     ./nvidia.nix
     ./sound.nix
     ./tailscale.nix
-    ./virtualbox.nix
+    ./vpn.nix
   ];
 
   options.dusk = {
@@ -82,10 +80,6 @@ in
       registry.nix-darwin.flake = pkgs.dusk.inputs.nix-darwin;
       nixPath = lib.mkForce [ "/etc/nix/inputs" ];
     };
-
-    # Enable v4l2loopback kernel module for android virtual camera
-    boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-    boot.kernelModules = [ "v4l2loopback" ];
 
     environment.systemPackages = with pkgs; [
       bash

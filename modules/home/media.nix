@@ -11,5 +11,10 @@ in
 {
   options.dusk.home.media.enable = mkEnableOption "media";
 
-  config = mkIf cfg.media.enable { home.packages = with pkgs; [ python311Packages.yt-dlp ]; };
+  config = mkIf cfg.media.enable {
+    home.packages = with pkgs; [
+      ffmpeg
+      python311Packages.yt-dlp
+    ];
+  };
 }

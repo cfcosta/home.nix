@@ -14,18 +14,16 @@
     user = "cfcosta";
 
     amd.enable = true;
-    benchmarking.enable = true;
     containers.enable = true;
     gaming.enable = true;
     gnome.enable = true;
-    icognito.enable = true;
     libvirt.enable = true;
     sound.enable = true;
     tailscale.enable = true;
 
     nvidia = {
       enable = true;
-      powerLimit = 150;
+      powerLimit = 300;
     };
   };
 
