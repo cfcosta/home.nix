@@ -47,6 +47,7 @@ in
     home.homeDirectory = cfg.folders.home;
 
     home.packages = with pkgs; [
+      b3sum
       git
       imagemagick
       inconsolata
