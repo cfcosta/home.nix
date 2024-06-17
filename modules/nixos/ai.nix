@@ -1,11 +1,6 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}:
-with lib;
+{ lib, config, ... }:
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.dusk.ai;
 in
 {
@@ -14,7 +9,7 @@ in
   config = mkIf cfg.enable {
     services.ollama = {
       enable = true;
-      listen_address = "0.0.0.0:11434";
+      listenAddress = "0.0.0.0:11434";
       acceleration = mkIf config.dusk.nvidia.enable "cuda";
     };
   };
