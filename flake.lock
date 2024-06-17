@@ -298,6 +298,18 @@
         "type": "github"
       }
     },
+    "fonts-console-neue": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-neAlPdocSe6Ypv1nSbPufPuxRMNykqOGh9/TU52xwoY=",
+        "type": "file",
+        "url": "https://webdraft.hu/fonts/classic-console/fonts/clacon2.ttf"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://webdraft.hu/fonts/classic-console/fonts/clacon2.ttf"
+      }
+    },
     "gen-nvim": {
       "flake": false,
       "locked": {
@@ -830,6 +842,7 @@
         "alacritty-theme": "alacritty-theme",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
+        "fonts-console-neue": "fonts-console-neue",
         "home-manager": "home-manager",
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",

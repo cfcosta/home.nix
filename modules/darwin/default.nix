@@ -11,7 +11,10 @@ let
   '';
 in
 {
-  imports = [ ./clipboard.nix ];
+  imports = [
+    ./clipboard.nix
+    ./fonts.nix
+  ];
 
   options.dusk.enablePaidApps = mkEnableOption "Enable paid apps from the Mac App Store";
 

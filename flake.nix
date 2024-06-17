@@ -41,6 +41,11 @@
       url = "github:psethwick/todoist?rev=2f80bdc65de44581c4497107a092c73f39ae0b62";
       flake = false;
     };
+
+    fonts-console-neue = {
+      url = "https://webdraft.hu/fonts/classic-console/fonts/clacon2.ttf";
+      flake = false;
+    };
   };
 
   outputs =

@@ -1,6 +1,8 @@
 inputs: final: prev: {
   dusk = {
     inherit inputs;
+
+    fonts = [ inputs.fonts-console-neue ];
   };
 
   # A CLI Tool to generate commands using OpenAI
