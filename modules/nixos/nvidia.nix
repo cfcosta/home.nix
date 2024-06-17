@@ -4,8 +4,13 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    optionalAttrs
+    types
+    ;
   cfg = config.dusk.nvidia;
 in
 {
@@ -20,7 +25,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ nvtop-nvidia ];
+    environment.systemPackages = with pkgs; [ nvtopPackages.nvidia ];
 
     hardware.nvidia.modesetting.enable = true;
     services.xserver.videoDrivers = [ "nvidia" ];
@@ -32,10 +37,8 @@ in
       extraPackages = with pkgs; [ vaapiVdpau ];
     };
 
-    virtualisation = optionals config.dusk.containers.enable {
-      docker.enableNvidia = true;
-      containers.cdi.dynamic.nvidia.enable = true;
-    };
+    virtualisation.docker.enableNvidia = true;
+    hardware.nvidia-container-toolkit.enable = true;
 
     environment.variables = {
       # Fix problems related to WebKit Applications on NVIDIA cards

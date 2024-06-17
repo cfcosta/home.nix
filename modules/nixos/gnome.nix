@@ -1,11 +1,11 @@
 {
-  lib,
   pkgs,
+  lib,
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.dusk.gnome;
 
   copyGdmMonitorConfig = pkgs.writeShellScriptBin "gdm-copy-monitor-config" ''
@@ -55,9 +55,9 @@ in
       };
 
       desktopManager.gnome.enable = true;
-
-      libinput.enable = true;
     };
+
+    services.libinput.enable = true;
 
     services.avahi = {
       enable = true;

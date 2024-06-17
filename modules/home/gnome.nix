@@ -58,7 +58,7 @@ in
     };
 
     qt.enable = true;
-    qt.platformTheme = "gnome";
+    qt.platformTheme.name = "adwaita";
     qt.style.package = pkgs.adwaita-qt;
     qt.style.name = if cfg.gnome.darkTheme then "adwaita-dark" else "adwaita";
 
@@ -68,8 +68,6 @@ in
       <dead_acute> <c> : "ç"
       <dead_acute> <C> : "Ç"
     '';
-
-    home.file.".config/Element/config.json".text = builtins.readFile ./element/config.json;
 
     dconf.settings = {
       "org/gnome/desktop/interface" = {
