@@ -26,12 +26,11 @@ in
       discord
       element-desktop
       firefox
-      heaptrack
+      fractal
       obs-studio
       signal-desktop
       tdesktop
       todoist-electron
-      vial
 
       gnomeExtensions.forge
 
