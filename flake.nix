@@ -96,7 +96,6 @@
             pkgs = loadPkgs "aarch64-darwin";
             modules = [
               ./modules/darwin
-              ./machines/drone
               home-manager.darwinModules.home-manager
             ];
           };
@@ -104,7 +103,6 @@
       }
       // flake-utils.lib.eachDefaultSystem (
         system:
-        with nixpkgs.lib;
         let
           pkgs = loadPkgs system;
         in

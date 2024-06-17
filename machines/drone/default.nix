@@ -1,4 +1,0 @@
-{ ... }:
-{
-  dusk.enablePaidApps = true;
-}

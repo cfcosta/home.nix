@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ ... }:
 {
   dusk.home = {
     name = "Cainã Costa";

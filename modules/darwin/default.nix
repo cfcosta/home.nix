@@ -4,9 +4,11 @@
   config,
   ...
 }:
-with lib;
 let
-  ollamaAlias = pkgs.writeShellScriptBin "ollama" ''
+  inherit (lib) optionals mkForce;
+  inherit (pkgs) writeShellScriptBin;
+
+  ollamaAlias = writeShellScriptBin "ollama" ''
     exec /opt/homebrew/bin/ollama "$@"
   '';
 in
@@ -15,8 +17,6 @@ in
     ./clipboard.nix
     ./fonts.nix
   ];
-
-  options.dusk.enablePaidApps = mkEnableOption "Enable paid apps from the Mac App Store";
 
   config = {
     documentation = {
@@ -90,14 +90,14 @@ in
       };
     };
 
-    environment.systemPackages = with pkgs; [
-      bashInteractive
-      curl
-      file
-      git
-      wget
-      mas
+    environment.systemPackages = [
       ollamaAlias
+      pkgs.bashInteractive
+      pkgs.curl
+      pkgs.file
+      pkgs.git
+      pkgs.mas
+      pkgs.wget
     ];
 
     homebrew = {
@@ -111,7 +111,7 @@ in
         "Telegram" = 747648890;
         "Todoist: To-Do List & Planner" = 585829637;
         "Whatsapp Messenger" = 310633997;
-      } // (optionalAttrs config.dusk.enablePaidApps { "Monodraw" = 920404675; });
+      };
 
       casks = [
         "brave-browser"
