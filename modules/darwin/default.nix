@@ -35,6 +35,7 @@ in
       defaults.CustomUserPreferences = {
         "com.apple.SoftwareUpdate" = {
           AutomaticCheckEnabled = true;
+
           # Check for software updates daily, not just once per week
           ScheduleFrequency = 1;
           # Download newly available updates in background
@@ -121,6 +122,7 @@ in
         "inkscape"
         "iterm2"
         "linearmouse"
+        "moonlight"
         "mullvadvpn"
         "notion"
         "obs"
