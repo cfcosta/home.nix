@@ -1,9 +1,23 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
+  inherit (lib) mkIf mkOption types;
   inherit (pkgs.stdenv) isLinux;
 in
 {
-  config = {
+  options.protoss.protoss.shell = {
+    enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Whether or not to enable the protoss shell config";
+    };
+  };
+
+  config = mkIf config.protoss.shell.enable {
     environment.systemPackages = with pkgs; [
       bashInteractive
       curl
