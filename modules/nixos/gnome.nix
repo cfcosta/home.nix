@@ -21,7 +21,6 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       adw-gtk3
-      bitwarden
       brave
       discord
       element-desktop
