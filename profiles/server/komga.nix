@@ -17,5 +17,11 @@ in
     };
   };
 
-  config = mkIf config.protoss.server.komga.enable config;
+  config = mkIf config.protoss.server.komga.enable {
+    services.komga = {
+      enable = true;
+
+      openFirewall = false;
+    };
+  };
 }
