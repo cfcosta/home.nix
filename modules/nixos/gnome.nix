@@ -24,7 +24,6 @@ in
       brave
       discord
       element-desktop
-      firefox
       fractal
       obs-studio
       signal-desktop

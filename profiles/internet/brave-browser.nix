@@ -9,23 +9,23 @@ let
   inherit (pkgs.stdenv) isLinux isDarwin;
 
   darwinConfig = {
-    homebrew.casks = [ "firefox" ];
+    homebrew.casks = [ "brave-browser" ];
   };
 
   linuxConfig = {
-    programs.firefox.enable = true;
+    environment.systemPackages = [ pkgs.brave ];
   };
 
   config = optionalAttrs isDarwin darwinConfig // optionalAttrs isLinux linuxConfig;
 in
 {
-  options.protoss.internet.firefox = {
+  options.protoss.internet.brave-browser = {
     enable = mkOption {
       type = types.bool;
       default = true;
-      description = "Whether or not to enable the Firefox Browser";
+      description = "Whether or not to enable the Brave Browser";
     };
   };
 
-  config = mkIf config.protoss.internet.firefox.enable config;
+  config = mkIf config.protoss.internet.brave-browser.enable config;
 }
