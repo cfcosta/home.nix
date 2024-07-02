@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
   inherit (lib)
     mkOption
@@ -16,7 +21,7 @@ let
     programs.firefox.enable = true;
   };
 
-  config = optionalAttrs isDarwin darwinConfig // optionalAttrs isLinux linuxConfig;
+  cfg = optionalAttrs isDarwin darwinConfig // optionalAttrs isLinux linuxConfig;
 in
 {
   options.protoss.internet.firefox = {
@@ -27,5 +32,5 @@ in
     };
   };
 
-  config = mkIf config.protoss.internet.firefox.enable config;
+  config = mkIf config.protoss.internet.firefox.enable cfg;
 }

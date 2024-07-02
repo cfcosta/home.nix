@@ -22,9 +22,6 @@ in
     environment.systemPackages = with pkgs; [
       adw-gtk3
       brave
-      discord
-      element-desktop
-      fractal
       obs-studio
       signal-desktop
       tdesktop
