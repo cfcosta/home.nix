@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
   inherit (lib)
     mkOption
@@ -28,7 +33,7 @@ let
     users.users."${config.protoss.user.username}".extraGroups = [ "docker" ];
   };
 
-  config = globalConfig // optionalAttrs isDarwin darwinConfig // optionalAttrs isLinux linuxConfig;
+  cfg = globalConfig // optionalAttrs isDarwin darwinConfig // optionalAttrs isLinux linuxConfig;
 in
 {
   options.protoss.server.docker = {
@@ -39,5 +44,5 @@ in
     };
   };
 
-  config = mkIf config.protoss.server.docker.enable config;
+  config = mkIf config.protoss.server.docker.enable cfg;
 }
