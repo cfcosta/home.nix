@@ -53,59 +53,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Make the whole system use the same <nixpkgs> as this flake.
-    environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";
-    environment.etc."nix/inputs/nix-darwin".source = "${pkgs.dusk.inputs.nix-darwin}";
-
-    nix = {
-      gc.automatic = true;
-
-      settings = {
-        accept-flake-config = true;
-        auto-optimise-store = true;
-        experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
-        system-features = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-      };
-
-      # Configure nix to use the flake's nixpkgs
-      registry.nixpkgs.flake = pkgs.dusk.inputs.nixpkgs;
-      registry.nix-darwin.flake = pkgs.dusk.inputs.nix-darwin;
-      nixPath = lib.mkForce [ "/etc/nix/inputs" ];
-    };
-
-    environment.systemPackages = with pkgs; [
-      bash
-      curl
-      file
-      git
-      wget
-      unzip
-    ];
-
-    i18n.defaultLocale = cfg.system.locale;
-
-    i18n.extraLocaleSettings = {
-      LC_ADDRESS = cfg.system.locale;
-      LC_IDENTIFICATION = cfg.system.locale;
-      LC_MEASUREMENT = cfg.system.locale;
-      LC_MONETARY = cfg.system.locale;
-      LC_NAME = cfg.system.locale;
-      LC_NUMERIC = cfg.system.locale;
-      LC_PAPER = cfg.system.locale;
-      LC_TELEPHONE = cfg.system.locale;
-      LC_TIME = cfg.system.locale;
-    };
-
-    networking.networkmanager.enable = true;
-
     services.printing.enable = true;
 
     services.openssh = {
@@ -124,9 +71,6 @@ in
       };
     };
 
-    services.eternal-terminal.enable = true;
-    networking.firewall.allowedTCPPorts = [ config.services.eternal-terminal.port ];
-
     programs.gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -143,11 +87,6 @@ in
       ];
       inherit (config.dusk) initialPassword;
     };
-
-    # udev rule to support vial keyboards
-    services.udev.extraRules = ''
-      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
-    '';
 
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;
