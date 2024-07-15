@@ -1,11 +1,6 @@
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}:
+{ pkgs, lib, ... }:
 let
-  inherit (lib) optionals mkForce;
+  inherit (lib) mkForce;
   inherit (pkgs) writeShellScriptBin;
 
   ollamaAlias = writeShellScriptBin "ollama" ''
@@ -13,10 +8,7 @@ let
   '';
 in
 {
-  imports = [
-    ./clipboard.nix
-    ./fonts.nix
-  ];
+  imports = [ ./clipboard.nix ];
 
   config = {
     documentation = {

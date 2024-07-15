@@ -21,8 +21,16 @@
     };
 
     alacritty-theme = {
+      url = "github:alacritty/alacritty-theme";
+      flake = false;
+    };
+
+    alacritty-theme-nix = {
       url = "github:alexghr/alacritty-theme.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        alacritty-theme.follows = "alacritty-theme";
+      };
     };
 
     neovim = {
@@ -39,11 +47,6 @@
 
     todoist-cli = {
       url = "github:psethwick/todoist?rev=2f80bdc65de44581c4497107a092c73f39ae0b62";
-      flake = false;
-    };
-
-    fonts-console-neue = {
-      url = "https://webdraft.hu/fonts/classic-console/fonts/clacon2.ttf";
       flake = false;
     };
   };
@@ -64,7 +67,7 @@
           inherit system;
 
           overlays = [
-            inputs.alacritty-theme.overlays.default
+            inputs.alacritty-theme-nix.overlays.default
             (import ./packages inputs)
           ];
 
