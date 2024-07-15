@@ -4,9 +4,9 @@
   pkgs,
   ...
 }:
-with lib;
 let
   cfg = config.dusk.home;
+  inherit (lib) mkOption types mkIf;
 in
 {
   options = {
@@ -56,6 +56,7 @@ in
         ".direnv"
         ".env"
         ".null_ls*"
+        ".vscode"
         "result"
         "result-bin"
       ];
