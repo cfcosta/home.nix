@@ -114,15 +114,17 @@ in
       };
 
       casks = [
+        "bisq"
         "brave-browser"
         "cursor"
         "discord"
         "element"
         "firefox"
+        "imhex"
         "inkscape"
         "iterm2"
         "linearmouse"
-        "moonlight"
+        "mountain-duck"
         "mullvadvpn"
         "notion"
         "obs"
@@ -135,7 +137,7 @@ in
         "transmission"
         "vlc"
         "xmind"
-      ] ++ (optionals config.dusk.enablePaidApps [ "mountain-duck" ]);
+      ];
 
       onActivation = {
         autoUpdate = true;
