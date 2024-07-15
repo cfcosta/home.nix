@@ -4,31 +4,29 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf optionals;
   cfg = config.dusk.sound;
 in
 {
   options.dusk.sound.enable = mkEnableOption "sound";
 
   config = mkIf cfg.enable {
-    sound.enable = true;
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
 
     services.pipewire = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
       pulse.enable = true;
       jack.enable = true;
     };
 
-    environment.systemPackages =
+    environment.systemPackages = optionals config.dusk.gnome.enable (
       with pkgs;
-      optionals config.dusk.gnome.enable [
+      [
         easyeffects
         helvum
-      ];
+      ]
+    );
   };
 }

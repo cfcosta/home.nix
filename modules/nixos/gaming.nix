@@ -4,9 +4,9 @@
   config,
   ...
 }:
-with lib;
 let
   cfg = config.dusk.gaming;
+  inherit (lib) mkEnableOption mkIf;
 in
 {
   options = {
@@ -15,8 +15,7 @@ in
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ mangohud ];
-
-    hardware.opengl.enable = true;
+    hardware.graphics.enable = true;
     programs.steam.enable = true;
   };
 }

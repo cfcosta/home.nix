@@ -4,9 +4,14 @@
   config,
   ...
 }:
-with lib;
 let
   cfg = config.dusk;
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types
+    ;
 in
 {
   imports = [
@@ -152,6 +157,6 @@ in
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;
 
-    system.stateVersion = "23.11";
+    system.stateVersion = "24.05";
   };
 }

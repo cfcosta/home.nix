@@ -38,7 +38,7 @@ in
       xclip
     ];
 
-    hardware.opengl.enable = true;
+    hardware.graphics.enable = true;
 
     services.xserver = {
       enable = true;
@@ -75,19 +75,19 @@ in
     services.gnome.gnome-browser-connector.enable = true;
 
     environment.gnome.excludePackages = with pkgs; [
+      gnome-console
       gnome-photos
       gnome-tour
-      gnome.atomix # puzzle game
-      gnome.evince # document viewer
-      gnome.geary # email reader
-      gnome.gnome-characters # character map
-      gnome.gnome-music # music player
-      gnome.gnome-software # software center
-      gnome.gnome-terminal
-      gnome.hitori # sudoku game
-      gnome.iagno # go game
-      gnome.tali # poker game
-      gnome.totem # video player
+      geary
+      totem
+
+      gnome.atomix
+      gnome.gnome-characters
+      gnome.gnome-music
+      gnome.gnome-software
+      gnome.hitori
+      gnome.iagno
+      gnome.tali
     ];
 
     systemd.services.gdm-set-monitor-config = {
