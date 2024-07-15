@@ -488,7 +488,6 @@
         "mdformat-gfm": "mdformat-gfm",
         "neo-tree": "neo-tree",
         "neogit": "neogit",
-        "nightvim": "nightvim",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -516,45 +515,16 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1721064872,
-        "narHash": "sha256-U92OE9ItDNhfqpaVVV2jkWBX5Yjk2Hfh6QJaiSmlQkU=",
+        "lastModified": 1721066290,
+        "narHash": "sha256-mGB928enfTCyGwKLH1s7pOPse4QW/bICZIb5UKu0xlk=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "96d8d2c2eb9e9637980c8ae2be6a15c2a1405855",
+        "rev": "cdc63d18fda67f7b93abbcae40f36137efe10a80",
         "type": "github"
       },
       "original": {
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "type": "github"
-      }
-    },
-    "nightvim": {
-      "inputs": {
-        "flake-utils": [
-          "neovim",
-          "flake-utils"
-        ],
-        "home-manager": [
-          "neovim",
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "neovim",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1695916205,
-        "narHash": "sha256-ZUio9qHV5gGwLz01nHYb4lMi6O23Msd5bdCFFYwfe7M=",
-        "owner": "cfcosta",
-        "repo": "nightvim",
-        "rev": "1a70147f1dea716149fe0116d10362bc3bd57d2c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cfcosta",
-        "repo": "nightvim",
         "type": "github"
       }
     },
