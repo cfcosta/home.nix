@@ -108,6 +108,7 @@ in
       casks = [
         "bisq"
         "brave-browser"
+        "chromedriver"
         "cursor"
         "discord"
         "element"
