@@ -111,7 +111,7 @@ in
       casks = [
         "brave-browser"
         "chromedriver"
-        "chromium"
+        "google-chrome"
         "cursor"
         "discord"
         "element"
@@ -129,6 +129,7 @@ in
         "transmission"
         "vlc"
         "xmind"
+        "swish"
       ];
 
       caskArgs.no_quarantine = true;
