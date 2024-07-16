@@ -8,7 +8,10 @@ let
   '';
 in
 {
-  imports = [ ./clipboard.nix ];
+  imports = [
+    ./clipboard.nix
+    ./raycast.nix
+  ];
 
   config = {
     documentation = {
@@ -106,31 +109,29 @@ in
       };
 
       casks = [
-        "bisq"
         "brave-browser"
         "chromedriver"
+        "chromium"
         "cursor"
         "discord"
         "element"
         "firefox"
-        "imhex"
         "inkscape"
         "iterm2"
         "linearmouse"
         "mountain-duck"
         "mullvadvpn"
-        "notion"
         "obs"
         "ollama"
         "orbstack"
-        "origami-studio"
-        "raycast"
         "secretive"
         "signal"
         "transmission"
         "vlc"
         "xmind"
       ];
+
+      caskArgs.no_quarantine = true;
 
       onActivation = {
         autoUpdate = true;
