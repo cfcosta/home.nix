@@ -111,11 +111,12 @@ in
       casks = [
         "brave-browser"
         "chromedriver"
-        "google-chrome"
         "cursor"
         "discord"
         "element"
         "firefox"
+        "gitify"
+        "google-chrome"
         "inkscape"
         "iterm2"
         "linearmouse"
@@ -126,10 +127,10 @@ in
         "orbstack"
         "secretive"
         "signal"
+        "swish"
         "transmission"
         "vlc"
         "xmind"
-        "swish"
       ];
 
       caskArgs.no_quarantine = true;
