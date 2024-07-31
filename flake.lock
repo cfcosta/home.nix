@@ -56,6 +56,22 @@
         "type": "github"
       }
     },
+    "ayu": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1721844313,
+        "narHash": "sha256-22BD+G71r7v4ygIMpxUXktO7tQXGIH1lk+NMP52ZQLo=",
+        "owner": "Shatur",
+        "repo": "neovim-ayu",
+        "rev": "6993189dd0ee38299879a1a0064718a8392e8713",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Shatur",
+        "repo": "neovim-ayu",
+        "type": "github"
+      }
+    },
     "cmp-buffer": {
       "flake": false,
       "locked": {
@@ -369,22 +385,6 @@
         "type": "github"
       }
     },
-    "mdformat-gfm": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1708874107,
-        "narHash": "sha256-FZ19watUqmru/zeXBjMizJdLIeSiQ9W7quDCcvk/odU=",
-        "owner": "hukkin",
-        "repo": "mdformat-gfm",
-        "rev": "bd3c3392830fc4805d51582adcd1ae0d0630aed4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hukkin",
-        "repo": "mdformat-gfm",
-        "type": "github"
-      }
-    },
     "neo-tree": {
       "flake": false,
       "locked": {
@@ -420,6 +420,7 @@
     "neovim": {
       "inputs": {
         "aiken-neovim": "aiken-neovim",
+        "ayu": "ayu",
         "cmp-buffer": "cmp-buffer",
         "cmp-cmdline": "cmp-cmdline",
         "cmp-nvim-lsp": "cmp-nvim-lsp",
@@ -441,7 +442,6 @@
         "indent-blankline": "indent-blankline",
         "lspkind": "lspkind",
         "lualine": "lualine",
-        "mdformat-gfm": "mdformat-gfm",
         "neo-tree": "neo-tree",
         "neogit": "neogit",
         "nixpkgs": [
@@ -464,7 +464,6 @@
         "rustacean": "rustacean",
         "telescope": "telescope",
         "toggleterm": "toggleterm",
-        "tokyonight": "tokyonight",
         "treesj": "treesj",
         "trouble": "trouble",
         "wakatime": "wakatime",
@@ -472,11 +471,11 @@
         "zen-mode": "zen-mode"
       },
       "locked": {
-        "lastModified": 1722435523,
-        "narHash": "sha256-gQ8wf1bxlgXmHMXcbwxk+gnAe4gKulqLUjWmNJX+VVw=",
+        "lastModified": 1722463498,
+        "narHash": "sha256-Hv1i58FR7LaRXY/OWwPnuLvhigdb1aaERKstk4xU6YA=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "fe6cd999118d49a237754166b409d6a8e3878ae6",
+        "rev": "47cf78e0051f55062f8e0410d2cea59921415cd0",
         "type": "github"
       },
       "original": {
@@ -854,22 +853,6 @@
       "original": {
         "owner": "akinsho",
         "repo": "toggleterm.nvim",
-        "type": "github"
-      }
-    },
-    "tokyonight": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1721056184,
-        "narHash": "sha256-JulAD9X+z1qIaV7xJ65/nuXvjeQn0p8uOuDeXJ0yEow=",
-        "owner": "folke",
-        "repo": "tokyonight.nvim",
-        "rev": "6adfcde66e8af2f22dd5d76060980abd8daa0df8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "folke",
-        "repo": "tokyonight.nvim",
         "type": "github"
       }
     },
