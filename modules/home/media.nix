@@ -14,7 +14,7 @@ in
   config = mkIf cfg.media.enable {
     home.packages = with pkgs; [
       ffmpeg
-      python311Packages.yt-dlp
+      python312Packages.yt-dlp
     ];
   };
 }

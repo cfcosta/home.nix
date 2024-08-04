@@ -56,7 +56,7 @@ in
       imagemagick
       inconsolata
       neofetch
-      python311
+      python312
     ];
 
     # Let home-manager manage itself
