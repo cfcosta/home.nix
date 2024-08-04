@@ -35,7 +35,6 @@ in
       extraPackages = with pkgs; [ vaapiVdpau ];
     };
 
-    virtualisation.docker.enableNvidia = true;
     hardware.nvidia-container-toolkit.enable = true;
 
     environment.variables = {
