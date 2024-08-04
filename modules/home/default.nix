@@ -49,12 +49,13 @@ in
     home.homeDirectory = cfg.folders.home;
 
     home.packages = with pkgs; [
+      (nerdfonts.override { fonts = [ "Inconsolata" ]; })
+
       b3sum
       git
       imagemagick
       inconsolata
       neofetch
-      nerdfonts
       python311
     ];
 
