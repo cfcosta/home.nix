@@ -4,8 +4,8 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkOption types mapAttrsToList;
   cfg = config.dusk.home;
 in
 {
@@ -22,11 +22,10 @@ in
     };
   };
 
-  config = rec {
+  config = {
     home.packages = with pkgs; [
       bashInteractive
       complete-alias
-      eternal-terminal
       eva
       fd
       fdupes
@@ -45,7 +44,6 @@ in
       unixtools.watch
       watchexec
       wget
-      whiz
     ];
 
     programs.jq.enable = true;
