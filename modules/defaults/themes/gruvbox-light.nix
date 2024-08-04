@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   alacritty = "gruvbox_light";
   bat = "gruvbox-light";
@@ -18,5 +19,9 @@
       success_symbol = "[❯](bold #98971a)";
       error_symbol = "[❯](bold #cc241d)";
     };
+  };
+  tmux = with pkgs.tmuxPlugins; {
+    plugin = gruvbox;
+    extraConfig = "set -g @tmux-gruvbox 'light'";
   };
 }

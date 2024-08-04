@@ -4,8 +4,9 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
+
   cfg = config.dusk.home.tmux;
 in
 {
@@ -25,19 +26,6 @@ in
       escapeTime = 0;
       keyMode = "vi";
       terminal = "tmux-256color";
-
-      plugins = with pkgs.tmuxPlugins; [
-        ({
-          plugin = dracula;
-          extraConfig = ''
-            set -g @dracula-show-powerline true
-            set -g @dracula-show-fahrenheit false
-            set -g @dracula-show-location false
-            set -g @dracula-show-battery ${if cfg.showBattery then "true" else "false"}
-          '';
-        })
-      ];
-
       extraConfig = builtins.readFile ./config;
     };
 

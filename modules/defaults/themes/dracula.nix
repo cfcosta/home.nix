@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   alacritty = "dracula";
   bat = "Dracula";
@@ -18,5 +19,14 @@
       success_symbol = "[❯](bold #50fa7b)";
       error_symbol = "[❯](bold #ff5555)";
     };
+  };
+  tmux = with pkgs.tmuxPlugins; {
+    plugin = dracula;
+    extraConfig = ''
+      set -g @dracula-show-powerline true
+      set -g @dracula-show-fahrenheit false
+      set -g @dracula-show-location false
+      set -g @dracula-show-battery ${if config.dusk.home.tmux.showBattery then "true" else "false"}
+    '';
   };
 }

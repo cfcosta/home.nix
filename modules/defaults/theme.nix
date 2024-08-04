@@ -5,8 +5,19 @@
   ...
 }:
 let
-  inherit (builtins) attrNames filter map readDir listToAttrs;
-  inherit (lib) mkOption types hasSuffix removeSuffix;
+  inherit (builtins)
+    attrNames
+    filter
+    map
+    readDir
+    listToAttrs
+    ;
+  inherit (lib)
+    mkOption
+    types
+    hasSuffix
+    removeSuffix
+    ;
 
   themes =
     let
@@ -15,7 +26,7 @@ let
 
       toAttr = n: {
         name = removeSuffix ".nix" n;
-        value = import "${dir}/${n}";
+        value = import "${dir}/${n}" { inherit config lib pkgs; };
       };
     in
     listToAttrs (map toAttr files);
@@ -29,10 +40,13 @@ in
   };
 
   config = {
-    programs.git.delta.options.theme = current.delta-pager;
-    programs.bat.config.theme = current.bat;
-    programs.btop.settings.color_theme = current.btop;
-    programs.starship.settings = current.starship;
-    programs.alacritty.settings.import = [ pkgs.alacritty-theme."${current.alacritty}" ];
+    programs = {
+      git.delta.options.theme = current.delta-pager;
+      bat.config.theme = current.bat;
+      btop.settings.color_theme = current.btop;
+      starship.settings = current.starship;
+      alacritty.settings.import = [ pkgs.alacritty-theme."${current.alacritty}" ];
+      tmux.plugins = [ current.tmux ];
+    };
   };
 }
