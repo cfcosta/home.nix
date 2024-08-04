@@ -131,6 +131,7 @@ in
         "transmission"
         "vlc"
         "xmind"
+        "zed"
       ];
 
       caskArgs.no_quarantine = true;

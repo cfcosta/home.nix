@@ -10,6 +10,8 @@ let
 in
 {
   imports = [
+    ../defaults
+
     ./shell
     ./tmux
 

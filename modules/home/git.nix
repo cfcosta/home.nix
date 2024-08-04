@@ -44,8 +44,6 @@ in
       delta = {
         enable = true;
         options = {
-          theme = "Dracula";
-
           line-numbers = true;
           navigate = true;
         };
