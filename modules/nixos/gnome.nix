@@ -31,7 +31,7 @@ in
       signal-desktop
       tdesktop
       todoist-electron
-      zed
+      zed-editor
 
       gnomeExtensions.forge
 
