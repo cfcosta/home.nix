@@ -10,6 +10,7 @@
     git.enable = true;
     media.enable = true;
     tmux.enable = true;
+    zed.enable = true;
 
     gnome = {
       enable = true;

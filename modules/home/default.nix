@@ -4,8 +4,9 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkIf mkOption types;
+
   cfg = config.dusk.home;
 in
 {
@@ -14,6 +15,7 @@ in
 
     ./shell
     ./tmux
+    ./zed
 
     ./alacritty.nix
     ./git.nix

@@ -8,6 +8,7 @@
 
     git.enable = true;
     media.enable = true;
+    zed.enable = true;
 
     tmux = {
       enable = true;

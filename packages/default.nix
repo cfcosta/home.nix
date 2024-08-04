@@ -3,15 +3,6 @@ inputs: final: prev: {
     inherit inputs;
   };
 
-  # A CLI Tool to generate commands using OpenAI
-  # https://github.com/searchableguy/whiz
-  whiz = prev.buildNpmPackage {
-    pname = "whiz_cli";
-    version = "0.0.8-alpha.0";
-    src = inputs.whiz-cli;
-    npmDepsHash = "sha256-dmeG6ZqUcE65hnha0BbG/xOGoUWSL0pnhh65XVgniFw";
-  };
-
   # A fork of todoist CLI that allows to set descriptions for tasks
   # Taken from https://github.com/sachaos/todoist/pull/238
   todoist-cli = prev.buildGoModule {

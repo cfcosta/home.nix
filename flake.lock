@@ -772,8 +772,7 @@
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
-        "todoist-cli": "todoist-cli",
-        "whiz-cli": "whiz-cli"
+        "todoist-cli": "todoist-cli"
       }
     },
     "rustacean": {
@@ -917,22 +916,6 @@
       "original": {
         "owner": "folke",
         "repo": "which-key.nvim",
-        "type": "github"
-      }
-    },
-    "whiz-cli": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1696596793,
-        "narHash": "sha256-wOh1HqZi4SMBGOu9fJLujj0QQahjj/IKCVhm3KNfprM=",
-        "owner": "searchableguy",
-        "repo": "whiz",
-        "rev": "6527177dc64759cc77864cf24d6ff52626c6e806",
-        "type": "github"
-      },
-      "original": {
-        "owner": "searchableguy",
-        "repo": "whiz",
         "type": "github"
       }
     },
