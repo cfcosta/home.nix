@@ -213,9 +213,17 @@ in
       enable = true;
 
       extraConfig = ''
-        # If there's more than one completion for an input, list all options immediately 
+        # If there's more than one completion for an input, list all options immediately
         # instead of waiting for a second input.
         set show-all-if-ambiguous on
+
+        # Use arrow keys to search history from cursor position
+        "\e[A":history-search-backward
+        "\e[B":history-search-forward
+
+        # Do the same for Ctrl-P and Ctrl-N
+        "\C-p":history-search-backward
+        "\C-n":history-search-forward
       '';
     };
 
