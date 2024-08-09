@@ -34,9 +34,15 @@ let
   current = themes."${config.dusk.theme}";
 in
 {
-  options.dusk.theme = mkOption {
+  options.dusk = {
+  theme = mkOption {
     type = types.enum (attrNames themes);
     default = "gruvbox-dark";
+  };
+  zed.theme = mkOption {
+    type = types.str;
+    default = current.zed;
+  };
   };
 
   config = {

@@ -4,9 +4,16 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
+
   cfg = config.dusk.home.alacritty;
+
   font = style: {
     inherit style;
     family = cfg.font.family;
@@ -16,12 +23,6 @@ in
   options = {
     dusk.home.alacritty = {
       enable = mkEnableOption "alacritty";
-
-      theme = mkOption {
-        type = types.str;
-        default = "moonlight_ii_vscode";
-        description = "The theme to use for alacritty";
-      };
 
       font = {
         family = mkOption {
@@ -41,7 +42,7 @@ in
     programs.alacritty = {
       enable = true;
       settings = {
-        import = [ pkgs.alacritty-theme."${cfg.theme}" ];
+        import = [ pkgs.alacritty-theme."${config.dusk.theme.alacritty}" ];
 
         env.TERM = "xterm-256color";
 

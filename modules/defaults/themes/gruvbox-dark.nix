@@ -24,4 +24,5 @@
     plugin = gruvbox;
     extraConfig = "set -g @tmux-gruvbox 'dark'";
   };
+  zed = "Gruvbox Dark Hard";
 }

@@ -29,4 +29,5 @@
       set -g @dracula-show-battery ${if config.dusk.home.tmux.showBattery then "true" else "false"}
     '';
   };
+  zed = "Dracula";
 }
