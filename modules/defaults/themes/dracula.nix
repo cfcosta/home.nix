@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   alacritty = "dracula";
   bat = "Dracula";
@@ -20,8 +20,8 @@
       error_symbol = "[❯](bold #ff5555)";
     };
   };
-  tmux = with pkgs.tmuxPlugins; {
-    plugin = dracula;
+  tmux = {
+    plugin = pkgs.tmuxPlugins.dracula;
     extraConfig = ''
       set -g @dracula-show-powerline true
       set -g @dracula-show-fahrenheit false

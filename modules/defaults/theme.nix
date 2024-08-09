@@ -37,7 +37,7 @@ in
   options.dusk = {
   theme = mkOption {
     type = types.enum (attrNames themes);
-    default = "gruvbox-dark";
+    default = "dracula";
   };
   zed.theme = mkOption {
     type = types.str;
