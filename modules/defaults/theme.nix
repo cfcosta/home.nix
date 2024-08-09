@@ -36,7 +36,7 @@ in
 {
   options.dusk.theme = mkOption {
     type = types.enum (attrNames themes);
-    default = "gruvbox-light";
+    default = "gruvbox-dark";
   };
 
   config = {

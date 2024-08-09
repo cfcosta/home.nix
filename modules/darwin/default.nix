@@ -108,11 +108,7 @@ in
         "Whatsapp Messenger" = 310633997;
       };
 
-      taps = [ "LouisBrunner/valgrind" ];
-
       casks = [
-        "LouisBrunner/valgrind/valgrind"
-
         "brave-browser"
         "chromedriver"
         "cursor"
@@ -136,6 +132,7 @@ in
         "vlc"
         "xmind"
         "zed"
+        "syncthing"
       ];
 
       caskArgs.no_quarantine = true;
