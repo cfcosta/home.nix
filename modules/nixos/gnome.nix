@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf optionals;
   cfg = config.dusk.gnome;
 
   copyGdmMonitorConfig = pkgs.writeShellScriptBin "gdm-copy-monitor-config" ''
@@ -19,25 +19,24 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      adw-gtk3
-      bitwarden
-      brave
-      discord
-      element-desktop
-      firefox
-      fractal
-      obs-studio
-      signal-desktop
-      tdesktop
-      todoist-electron
-      zed-editor
+    environment.systemPackages =
+      (with pkgs; [
+        adw-gtk3
+        bitwarden
+        brave
+        discord
+        element-desktop
+        firefox
+        fractal
+        obs-studio
+        tdesktop
+        todoist-electron
+        xclip
+        zed-editor
 
-      gnomeExtensions.forge
-
-      # TODO: Find a way to install this only if wayland is not enabled
-      xclip
-    ];
+        gnomeExtensions.forge
+      ])
+      ++ optionals (!config.services.xserver.displayManager.gdm.wayland) [ pkgs.xclip ];
 
     hardware.graphics.enable = true;
 
