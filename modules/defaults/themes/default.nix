@@ -19,14 +19,15 @@ let
     removeSuffix
     ;
 
+  isThemeFile = n: (hasSuffix ".nix" n) && !(hasSuffix "default.nix" n);
+
   themes =
     let
-      dir = ./themes;
-      files = filter (hasSuffix ".nix") (attrNames (readDir dir));
+      files = filter isThemeFile (attrNames (readDir ./.));
 
       toAttr = n: {
         name = removeSuffix ".nix" n;
-        value = import "${dir}/${n}" { inherit config lib pkgs; };
+        value = import ./${n} { inherit config lib pkgs; };
       };
     in
     listToAttrs (map toAttr files);
@@ -35,14 +36,14 @@ let
 in
 {
   options.dusk = {
-  theme = mkOption {
-    type = types.enum (attrNames themes);
-    default = "dracula";
-  };
-  zed.theme = mkOption {
-    type = types.str;
-    default = current.zed;
-  };
+    theme = mkOption {
+      type = types.enum (attrNames themes);
+      default = "dracula";
+    };
+    zed.theme = mkOption {
+      type = types.str;
+      default = current.zed;
+    };
   };
 
   config = {
