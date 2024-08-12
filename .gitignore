@@ -5,3 +5,4 @@ tmp/
 result
 *.qcow2
 .direnv
+.pre-commit-config.yml

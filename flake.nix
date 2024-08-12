@@ -44,15 +44,30 @@
       url = "github:psethwick/todoist?rev=2f80bdc65de44581c4497107a092c73f39ae0b62";
       flake = false;
     };
+
+    gitignore = {
+      url = "github:hercules-ci/gitignore.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        gitignore.follows = "gitignore";
+      };
+    };
   };
 
   outputs =
     inputs@{
+      self,
       nixpkgs,
       flake-utils,
       home-manager,
       neovim,
       nix-darwin,
+      pre-commit-hooks,
       ...
     }:
     let
@@ -133,7 +148,20 @@
             };
           };
 
+          checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+
+            hooks = {
+              nixfmt = {
+                enable = true;
+                package = pkgs.nixfmt-rfc-style;
+              };
+            };
+          };
+
           devShells.default = pkgs.mkShell {
+            inherit (self.checks.${system}.pre-commit-check) shellHook;
+
             nativeBuildInputs = with pkgs; [
               nixfmt-rfc-style
               deadnix
