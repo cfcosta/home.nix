@@ -1,6 +1,6 @@
 [
   {
-    "context": "VimControl && !menu",
+    "context": "Editor && vim_mode == normal && !menu",
     "bindings": {
       "space /": "pane::DeploySearch",
       "space ?": ["pane::DeploySearch", { "replace_enabled": true }],
@@ -14,12 +14,12 @@
       "space j": ["workspace::ActivatePaneInDirection", "Down"],
       "space k": ["workspace::ActivatePaneInDirection", "Up"],
       "space l": ["workspace::ActivatePaneInDirection", "Right"],
+      "space o t": "workspace::ToggleBottomDock",
       "space o T": "workspace::NewCenterTerminal",
       "space o c": "workspace::CloseAllDocks",
       "space o C": "collab_panel::ToggleFocus",
       "space o p": "workspace::ToggleLeftDock",
       "space o P": "project_panel::ToggleFocus",
-      "space o t": "workspace::NewTerminal",
       "space space": "file_finder::Toggle",
       "space w c": "pane::CloseActiveItem",
       "space w s": "pane::SplitDown",
@@ -61,6 +61,12 @@
       "h": "project_panel::CollapseSelectedEntry",
       "o": "project_panel::OpenPermanent",
       "escape": "project_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "space o t": "workspace::ToggleBottomDock"
     }
   }
 ]
