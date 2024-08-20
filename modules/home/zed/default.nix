@@ -13,7 +13,16 @@ in
   };
 
   config = mkIf cfg.zed.enable {
-    home.file.".config/zed/settings.json".text = toJSON (import ./settings.nix { inherit config; });
+    home.file.".config/zed/settings.nix.json" = {
+      force = true;
+      text = toJSON (import ./settings.nix { inherit config; });
+    };
+
+    home.activation.setupZedConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      [ -f $HOME/.config/zed/settings.json ] && rm $HOME/.config/zed/settings.json
+      cp -Lrf $HOME/.config/zed/settings.nix.json $HOME/.config/zed/settings.json
+    '';
+
     home.file.".config/zed/keymap.json".text = readFile ./keymap.json;
   };
 }
