@@ -2,7 +2,7 @@
 {
   alacritty = "gruvbox";
   bat = "gruvbox";
-  btop = "gruvbox";
+  btop = "gruvbox_dark_v2";
   delta-pager = "gruvbox";
   starship = {
     aws.style = "bold #d65d0e";
