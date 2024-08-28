@@ -4,9 +4,9 @@
   config,
   ...
 }:
-with lib;
 let
   cfg = config.dusk.libvirt;
+  inherit (lib) mkEnableOption mkIf;
 in
 {
   options.dusk.libvirt.enable = mkEnableOption "libvirt";
@@ -14,7 +14,7 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       virt-manager
-      gnome.gnome-boxes
+      gnome-boxes
     ];
 
     virtualisation.libvirtd.enable = true;
