@@ -19,8 +19,9 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages =
-      (with pkgs; [
+    environment.systemPackages = (
+      with pkgs;
+      [
         adw-gtk3
         bitwarden
         brave
@@ -35,8 +36,9 @@ in
         zed-editor
 
         gnomeExtensions.forge
-      ])
-      ++ optionals (!config.services.xserver.displayManager.gdm.wayland) [ pkgs.xclip ];
+      ]
+      ++ optionals (!config.services.xserver.displayManager.gdm.wayland) [ pkgs.xclip ]
+    );
 
     hardware.graphics.enable = true;
 
@@ -51,6 +53,7 @@ in
       displayManager.gdm = {
         enable = true;
         autoSuspend = false;
+        wayland = true;
       };
 
       desktopManager.gnome.enable = true;
