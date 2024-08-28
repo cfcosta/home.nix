@@ -42,8 +42,6 @@ in
     programs.alacritty = {
       enable = true;
       settings = {
-        import = [ pkgs.alacritty-theme."${config.dusk.theme.alacritty}" ];
-
         env.TERM = "xterm-256color";
 
         font = {
