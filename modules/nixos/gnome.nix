@@ -80,14 +80,13 @@ in
       gnome-tour
       geary
       totem
-
-      gnome.atomix
-      gnome.gnome-characters
-      gnome.gnome-music
-      gnome.gnome-software
-      gnome.hitori
-      gnome.iagno
-      gnome.tali
+      atomix
+      gnome-characters
+      gnome-music
+      gnome-software
+      hitori
+      iagno
+      tali
     ];
 
     systemd.services.gdm-set-monitor-config = {

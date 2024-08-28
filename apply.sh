@@ -10,4 +10,4 @@ if [ "$(whoami)" != "root" ] && [ "${CMD}" == "switch" ]; then
 	exit 1
 fi
 
-exec nixos-rebuild "${CMD}" --flake "${ROOT}#$(hostname)"
+exec nixos-rebuild "${CMD}" --flake "${ROOT}#$(hostname)" --show-trace

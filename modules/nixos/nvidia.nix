@@ -27,7 +27,11 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ nvtopPackages.nvidia ];
 
-    hardware.nvidia.modesetting.enable = true;
+    hardware.nvidia = {
+      gsp.enable = true;
+      open = true;
+      modesetting.enable = true;
+    };
     services.xserver.videoDrivers = [ "nvidia" ];
 
     hardware.graphics = {
@@ -43,24 +47,6 @@ in
       # 
       # This should fix both Tauri applications, as well as Gnome Online Accounts login screen.
       WEBKIT_DISABLE_COMPOSITING_MODE = "1";
-    };
-
-    systemd = optionalAttrs (cfg.powerLimit != null) {
-      timers.nvidia-power-limit = {
-        timerConfig = {
-          Unit = "nvidia-power-limit.service";
-          OnBootSec = "5";
-        };
-
-        wantedBy = [ "timers.target" ];
-      };
-
-      services.nvidia-power-limit = {
-        serviceConfig = {
-          ExecStart = "${config.hardware.nvidia.package.bin}/bin/nvidia-smi -pl ${toString cfg.powerLimit}";
-          Type = "oneshot";
-        };
-      };
     };
   };
 }
