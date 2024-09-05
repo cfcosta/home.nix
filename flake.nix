@@ -41,7 +41,8 @@
     };
 
     todoist-cli = {
-      url = "github:psethwick/todoist?rev=2f80bdc65de44581c4497107a092c73f39ae0b62";
+      url =
+        "github:psethwick/todoist?rev=2f80bdc65de44581c4497107a092c73f39ae0b62";
       flake = false;
     };
 
@@ -57,22 +58,17 @@
         gitignore.follows = "gitignore";
       };
     };
+
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      flake-utils,
-      home-manager,
-      neovim,
-      nix-darwin,
-      pre-commit-hooks,
-      ...
-    }:
+  outputs = inputs@{ self, nixpkgs, flake-utils, home-manager, neovim
+    , nix-darwin, pre-commit-hooks, nixos-cosmic, ... }:
     let
-      loadPkgs =
-        system:
+      loadPkgs = system:
         import nixpkgs {
           inherit system;
 
@@ -83,91 +79,81 @@
 
           config = {
             allowUnfree = true;
-            permittedInsecurePackages = [
-              "electron-25.9.0"
-              "openssl-1.1.1w"
-            ];
+            permittedInsecurePackages = [ "electron-25.9.0" "openssl-1.1.1w" ];
           };
         };
-    in
-    (
-      {
-        nixosConfigurations = {
-          battlecruiser = nixpkgs.lib.nixosSystem {
-            pkgs = loadPkgs "x86_64-linux";
+    in ({
+      nixosConfigurations = {
+        battlecruiser = nixpkgs.lib.nixosSystem {
+          pkgs = loadPkgs "x86_64-linux";
 
-            modules = [
-              ./modules/nixos
-              ./machines/battlecruiser
-              home-manager.nixosModules.home-manager
-            ];
-          };
-        };
-
-        darwinConfigurations = {
-          drone = nix-darwin.lib.darwinSystem {
-            pkgs = loadPkgs "aarch64-darwin";
-            modules = [
-              ./modules/darwin
-              home-manager.darwinModules.home-manager
-            ];
-          };
-        };
-      }
-      // flake-utils.lib.eachDefaultSystem (
-        system:
-        let
-          pkgs = loadPkgs system;
-        in
-        {
-          home-manager.useUserPackages = true;
-          home-manager.useGlobalPkgs = true;
-
-          profiles = {
-            battlecruiser = {
-              home = home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-
-                modules = [
-                  neovim.hmModule
-                  ./modules/home
-                  ./machines/battlecruiser/home.nix
+          modules = [
+            {
+              nix.settings = {
+                substituters = [ "https://cosmic.cachix.org/" ];
+                trusted-public-keys = [
+                  "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
                 ];
               };
-            };
+            }
+            nixos-cosmic.nixosModules.default
+            ./modules/nixos
+            ./machines/battlecruiser
+            home-manager.nixosModules.home-manager
+          ];
+        };
+      };
 
-            drone = {
-              home = home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                modules = [
-                  neovim.hmModule
-                  ./modules/home
-                  ./machines/drone/home.nix
-                ];
-              };
+      darwinConfigurations = {
+        drone = nix-darwin.lib.darwinSystem {
+          pkgs = loadPkgs "aarch64-darwin";
+          modules =
+            [ ./modules/darwin home-manager.darwinModules.home-manager ];
+        };
+      };
+    } // flake-utils.lib.eachDefaultSystem (system:
+      let pkgs = loadPkgs system;
+      in {
+        home-manager.useUserPackages = true;
+        home-manager.useGlobalPkgs = true;
+
+        profiles = {
+          battlecruiser = {
+            home = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+
+              modules = [
+                neovim.hmModule
+                ./modules/home
+                ./machines/battlecruiser/home.nix
+              ];
             };
           };
 
-          checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-            src = ./.;
-
-            hooks = {
-              nixfmt = {
-                enable = true;
-                package = pkgs.nixfmt-rfc-style;
-              };
+          drone = {
+            home = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              modules =
+                [ neovim.hmModule ./modules/home ./machines/drone/home.nix ];
             };
           };
+        };
 
-          devShells.default = pkgs.mkShell {
-            inherit (self.checks.${system}.pre-commit-check) shellHook;
+        checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
 
-            nativeBuildInputs = with pkgs; [
-              nixfmt-rfc-style
-              deadnix
-            ];
+          hooks = {
+            nixfmt = {
+              enable = true;
+              package = pkgs.nixfmt-rfc-style;
+            };
           };
-        }
-      )
-    );
+        };
+
+        devShells.default = pkgs.mkShell {
+          inherit (self.checks.${system}.pre-commit-check) shellHook;
+
+          nativeBuildInputs = with pkgs; [ nixfmt-rfc-style deadnix ];
+        };
+      }));
 }

@@ -1,9 +1,4 @@
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}:
+{ pkgs, lib, config, ... }:
 let
   inherit (lib) mkEnableOption mkIf optionals;
   cfg = config.dusk.gnome;
@@ -12,15 +7,11 @@ let
     FILE="/home/${config.dusk.user}/.config/monitors.xml"
     [ -f "$FILE" ] && cp "$FILE" "/run/gdm/.config/monitors.xml"
   '';
-in
-{
-  options = {
-    dusk.gnome.enable = mkEnableOption "gnome";
-  };
+in {
+  options = { dusk.gnome.enable = mkEnableOption "gnome"; };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = (
-      with pkgs;
+    environment.systemPackages = (with pkgs;
       [
         adw-gtk3
         bitwarden
@@ -36,11 +27,11 @@ in
         zed-editor
 
         gnomeExtensions.forge
-      ]
-      ++ optionals (!config.services.xserver.displayManager.gdm.wayland) [ pkgs.xclip ]
-    );
+      ] ++ optionals (!config.services.xserver.displayManager.gdm.wayland)
+      [ pkgs.xclip ]);
 
     hardware.graphics.enable = true;
+    services.desktopManager.cosmic.enable = true;
 
     services.xserver = {
       enable = true;
