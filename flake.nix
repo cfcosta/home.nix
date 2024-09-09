@@ -142,12 +142,7 @@
         checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
 
-          hooks = {
-            nixfmt = {
-              enable = true;
-              package = pkgs.nixfmt-rfc-style;
-            };
-          };
+          hooks = { nixfmt-rfc-style.enable = true; };
         };
 
         devShells.default = pkgs.mkShell {
