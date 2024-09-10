@@ -11,14 +11,5 @@
     media.enable = true;
     tmux.enable = true;
     zed.enable = true;
-
-    gnome = {
-      enable = true;
-      darkTheme = true;
-      keymaps = [
-        "us"
-        "us+intl"
-      ];
-    };
   };
 }

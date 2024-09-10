@@ -8,7 +8,6 @@ let
   inherit (lib)
     mkEnableOption
     mkOption
-    optionalAttrs
     types
     ;
   cfg = config.dusk.nvidia;

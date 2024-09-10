@@ -16,16 +16,13 @@ in
 {
   imports = [
     ./ai.nix
-    ./amd.nix
     ./containers.nix
-    ./gaming.nix
-    ./gnome.nix
+    ./desktop.nix
     ./libvirt.nix
     ./nix-index.nix
     ./nvidia.nix
-    ./sound.nix
     ./tailscale.nix
-    ./vpn.nix
+    ./privacy.nix
   ];
 
   options.dusk = {

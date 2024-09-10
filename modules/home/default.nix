@@ -19,7 +19,6 @@ in
 
     ./alacritty.nix
     ./git.nix
-    ./gnome.nix
     ./media.nix
   ];
 

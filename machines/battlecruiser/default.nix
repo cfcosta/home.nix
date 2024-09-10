@@ -1,6 +1,9 @@
 { ... }:
 {
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./hardware.nix
+    ./refind.nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -13,18 +16,12 @@
     enable = true;
     user = "cfcosta";
 
-    amd.enable = true;
     containers.enable = true;
-    gaming.enable = true;
-    gnome.enable = true;
+    cosmic.enable = true;
     libvirt.enable = true;
-    sound.enable = true;
+    nvidia.enable = true;
+    privacy.enable = true;
     tailscale.enable = true;
-
-    nvidia = {
-      enable = true;
-      powerLimit = 300;
-    };
   };
 
   # Workaround fix for nm-online-service from stalling on Wireguard interface.
