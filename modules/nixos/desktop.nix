@@ -4,52 +4,47 @@
   config,
   ...
 }:
-let
-  inherit (lib) mkEnableOption mkIf;
-in
-{
-  options.dusk.cosmic.enable = mkEnableOption "cosmic";
+lib.optionalAttrs config.dusk.cosmic.enable {
+  environment.systemPackages = with pkgs; [
+    bitwarden
+    brave
+    discord
+    easyeffects
+    element-desktop
+    firefox
+    fractal
+    gamescope
+    helvum
+    mangohud
+    obs-studio
+    simplex-chat-desktop
+    streamlink-twitch-gui-bin
+    tartube-yt-dlp
+    tdesktop
+    todoist-electron
+    xclip
+    zed-editor
+  ];
 
-  config = mkIf config.dusk.cosmic.enable {
-    environment.systemPackages = with pkgs; [
-      bitwarden
-      brave
-      discord
-      easyeffects
-      element-desktop
-      firefox
-      fractal
-      gamescope
-      helvum
-      mangohud
-      obs-studio
-      simplex-chat-desktop
-      streamlink-twitch-gui-bin
-      tartube-yt-dlp
-      tdesktop
-      todoist-electron
-      xclip
-      zed-editor
+  hardware = {
+    graphics.enable = true;
+    pulseaudio.enable = false;
+  };
+
+  nix.settings = {
+    substituters = [ "https://cosmic.cachix.org/" ];
+
+    trusted-public-keys = [
+      "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
     ];
+  };
 
-    hardware = {
-      graphics.enable = true;
-      pulseaudio.enable = false;
-    };
+  programs.steam.enable = true;
 
-    nix.settings = {
-      substituters = [ "https://cosmic.cachix.org/" ];
+  security.rtkit.enable = true;
 
-      trusted-public-keys = [
-        "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
-      ];
-    };
-
-    programs.steam.enable = true;
-
-    security.rtkit.enable = true;
-
-    services.avahi = {
+  services = {
+    avahi = {
       enable = true;
 
       publish = {
@@ -60,25 +55,27 @@ in
       nssmdns4 = true;
     };
 
-    services.desktopManager.cosmic.enable = true;
-    services.flatpak.enable = true;
-    services.libinput.enable = true;
-    services.packagekit.enable = true;
+    desktopManager.cosmic.enable = true;
+    flatpak.enable = true;
+    libinput.enable = true;
+    packagekit.enable = true;
 
-    services.pipewire = {
+    pipewire = {
       enable = true;
+
       pulse.enable = true;
       jack.enable = true;
     };
 
-    services.syncthing = {
+    syncthing = {
       enable = true;
-      inherit (config.dusk) user;
-      dataDir = "/home/${config.dusk.user}";
+      inherit (config.dusk) username;
+      dataDir = "/home/${config.dusk.username}";
     };
 
-    services.xserver = {
+    xserver = {
       enable = true;
+
       displayManager.gdm = {
         enable = true;
         autoSuspend = false;
@@ -86,4 +83,5 @@ in
       };
     };
   };
+
 }

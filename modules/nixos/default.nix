@@ -6,10 +6,7 @@
 }:
 let
   inherit (lib)
-    mkEnableOption
     mkIf
-    mkOption
-    types
     mkForce
     ;
   inherit (pkgs.dusk.inputs) home-manager nixos-cosmic;
@@ -29,35 +26,6 @@ in
     ./privacy.nix
   ];
 
-  options.dusk = {
-    enable = mkEnableOption "dusk-core";
-
-    system = {
-      locale = mkOption {
-        type = types.str;
-        default = "en_US.utf8";
-        description = ''
-          Locale of the system
-        '';
-      };
-    };
-
-    user = mkOption {
-      type = types.str;
-      description = ''
-        User name of the main user of the system
-      '';
-    };
-
-    initialPassword = mkOption {
-      type = types.str;
-      description = ''
-        Initial password for the created user in the system
-      '';
-      default = "dusk";
-    };
-  };
-
   config = mkIf config.dusk.enable {
     environment.systemPackages = with pkgs; [
       bash
@@ -67,6 +35,19 @@ in
       wget
       unzip
     ];
+
+    home-manager = {
+      useUserPackages = true;
+      useGlobalPkgs = true;
+
+      users.${config.dusk.username} =
+        { ... }:
+        {
+          imports = [
+            ../modules/home
+          ];
+        };
+    };
 
     i18n.defaultLocale = config.dusk.system.locale;
 
@@ -84,47 +65,49 @@ in
 
     networking.networkmanager.enable = true;
 
-    services.printing.enable = true;
+    services = {
+      printing.enable = true;
 
-    services.openssh = {
-      enable = true;
-      settings = {
-        PermitRootLogin = mkForce "no";
-        PasswordAuthentication = false;
-        ChallengeResponseAuthentication = false;
-        GSSAPIAuthentication = false;
-        KerberosAuthentication = false;
-        X11Forwarding = false;
-        PermitUserEnvironment = false;
-        AllowAgentForwarding = false;
-        AllowTcpForwarding = false;
-        PermitTunnel = false;
+      openssh = {
+        enable = true;
+        settings = {
+          PermitRootLogin = mkForce "no";
+          PasswordAuthentication = false;
+          ChallengeResponseAuthentication = false;
+          GSSAPIAuthentication = false;
+          KerberosAuthentication = false;
+          X11Forwarding = false;
+          PermitUserEnvironment = false;
+          AllowAgentForwarding = false;
+          AllowTcpForwarding = false;
+          PermitTunnel = false;
+        };
       };
+
+      programs.gnupg.agent = {
+        enable = true;
+        enableSSHSupport = true;
+        pinentryPackage = pkgs.pinentry-gnome3;
+      };
+
+      pcscd.enable = true;
+
+      users.users.${config.dusk.username} = {
+        inherit (config.dusk) initialPassword;
+
+        isNormalUser = true;
+
+        extraGroups = [
+          "networkmanager"
+          "wheel"
+        ];
+      };
+
+      # udev rule to support vial keyboards
+      udev.extraRules = ''
+        KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+      '';
     };
-
-    programs.gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-      pinentryPackage = pkgs.pinentry-gnome3;
-    };
-
-    services.pcscd.enable = true;
-
-    users.users.${config.dusk.user} = {
-      inherit (config.dusk) initialPassword;
-
-      isNormalUser = true;
-
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ];
-    };
-
-    # udev rule to support vial keyboards
-    services.udev.extraRules = ''
-      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
-    '';
 
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;

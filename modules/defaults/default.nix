@@ -3,7 +3,10 @@ let
   inherit (lib) mkForce;
 in
 {
-  imports = [ ./themes ];
+  imports = [
+    ./options.nix
+    ./themes
+  ];
 
   environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";
 

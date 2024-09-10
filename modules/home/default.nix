@@ -5,14 +5,17 @@
   ...
 }:
 let
-  inherit (lib) mkIf mkOption types;
+  inherit (lib) mkIf;
+  inherit (lib.file) mkOutOfStoreSymlink;
   inherit (pkgs.dusk.inputs) neovim;
+  inherit (pkgs.stdenv) isLinux;
 
-  cfg = config.dusk.home;
+  cfg = config.dusk;
 in
 {
   imports = [
     neovim.hmModule
+
     ../defaults
 
     ./shell
@@ -24,55 +27,35 @@ in
     ./media.nix
   ];
 
-  options = {
-    dusk.home = {
-      name = mkOption { type = types.str; };
-      email = mkOption { type = types.str; };
-      username = mkOption { type = types.str; };
-      accounts.github = mkOption { type = types.str; };
-
-      folders = {
-        code = mkOption {
-          type = types.str;
-          default = "${cfg.folders.home}/Code";
-          description = "Where you host your working projects";
-        };
-
-        home = mkOption {
-          type = types.str;
-          default = if pkgs.stdenv.isLinux then "/home/${cfg.username}" else "/Users/${cfg.username}";
-          description = "Your home folder";
-        };
-      };
-    };
-  };
-
   config = {
-    home.username = cfg.username;
-    home.homeDirectory = cfg.folders.home;
+    home = {
+      inherit (cfg) username;
+      homeDirectory = cfg.folders.home;
 
-    home.packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "Inconsolata" ]; })
+      file = mkIf isLinux {
+        ".cache/nix-index".source = mkOutOfStoreSymlink "/var/db/nix-index";
+      };
 
-      b3sum
-      git
-      imagemagick
-      inconsolata
-      neofetch
-      python312
-    ];
+      packages = with pkgs; [
+        (nerdfonts.override { fonts = [ "Inconsolata" ]; })
 
-    # Let home-manager manage itself
-    programs.home-manager.enable = true;
+        b3sum
+        git
+        imagemagick
+        inconsolata
+        neofetch
+        python312
+      ];
 
-    programs.ssh.hashKnownHosts = true;
-    programs.gpg.enable = true;
-    programs.nix-index.enable = true;
-
-    home.file = mkIf pkgs.stdenv.isLinux {
-      ".cache/nix-index".source = config.lib.file.mkOutOfStoreSymlink "/var/db/nix-index";
+      stateVersion = "24.11";
     };
 
-    home.stateVersion = "24.11";
+    programs = {
+      # Let home-manager manage itself
+      home-manager.enable = true;
+      ssh.hashKnownHosts = true;
+      gpg.enable = true;
+      nix-index.enable = true;
+    };
   };
 }

@@ -105,8 +105,8 @@
   };
   theme = {
     mode = "system";
-    light = config.dusk.zed.theme;
-    dark = config.dusk.zed.theme;
+    light = config.dusk.theme.current.zed;
+    dark = config.dusk.theme.current.zed;
   };
   toolbar = {
     breadcrumbs = false;

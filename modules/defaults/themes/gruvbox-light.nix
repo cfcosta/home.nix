@@ -4,6 +4,7 @@
   bat = "gruvbox-light";
   btop = "gruvbox_light";
   delta-pager = "gruvbox-light";
+  pgcli = "monokai"; # Fix: add custom theme
   starship = {
     aws.style = "bold #d65d0e";
     cmd_duration.style = "bold #d79921";

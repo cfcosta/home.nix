@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   inherit (pkgs.dusk.inputs) home-manager;
 in
@@ -30,6 +30,19 @@ in
       git
       wget
     ];
+
+    home-manager = {
+      useUserPackages = true;
+      useGlobalPkgs = true;
+
+      users.${config.dusk.username} =
+        { ... }:
+        {
+          imports = [
+            ../modules/home
+          ];
+        };
+    };
 
     programs.bash = {
       enable = true;

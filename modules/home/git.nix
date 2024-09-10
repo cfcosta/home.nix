@@ -5,12 +5,12 @@
   ...
 }:
 let
-  cfg = config.dusk.home;
+  cfg = config.dusk;
   inherit (lib) mkOption types mkIf;
 in
 {
   options = {
-    dusk.home.git = {
+    dusk.git = {
       enable = mkOption {
         type = types.bool;
         default = false;
@@ -46,6 +46,7 @@ in
         options = {
           line-numbers = true;
           navigate = true;
+          theme = config.dusk.currentTheme.delta-pager;
         };
       };
 

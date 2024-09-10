@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+
     nix-darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,9 +30,11 @@
 
     neovim = {
       url = "github:cfcosta/neovim.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-      inputs.flake-utils.follows = "flake-utils";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+        flake-utils.follows = "flake-utils";
+      };
     };
 
     gitignore = {
@@ -58,7 +61,6 @@
       self,
       nixpkgs,
       flake-utils,
-      home-manager,
       nix-darwin,
       pre-commit-hooks,
       ...
@@ -71,7 +73,9 @@
 
           overlays = [
             inputs.alacritty-theme-nix.overlays.default
-            (import ./packages inputs)
+            (_: _: {
+              dusk.inputs = inputs;
+            })
           ];
 
           config = {
@@ -110,31 +114,6 @@
         pkgs = loadPkgs system;
       in
       {
-        home-manager.useUserPackages = true;
-        home-manager.useGlobalPkgs = true;
-
-        profiles = {
-          battlecruiser = {
-            home = home-manager.lib.homeManagerConfiguration {
-              inherit pkgs;
-
-              modules = [
-                ./modules/home
-                ./machines/battlecruiser/home.nix
-              ];
-            };
-          };
-
-          drone = {
-            home = home-manager.lib.homeManagerConfiguration {
-              inherit pkgs;
-              modules = [
-                ./modules/home
-                ./machines/drone/home.nix
-              ];
-            };
-          };
-        };
 
         checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
@@ -142,6 +121,7 @@
           hooks = {
             deadnix.enable = true;
             nixfmt-rfc-style.enable = true;
+            statix.enable = true;
           };
         };
 

@@ -4,6 +4,7 @@
   bat = "Dracula";
   btop = "dracula";
   delta-pager = "Dracula";
+  pgcli = "monokai"; # Fix: add custom theme
   starship = {
     aws.style = "bold #ffb86c";
     cmd_duration.style = "bold #f1fa8c";
@@ -26,7 +27,7 @@
       set -g @dracula-show-powerline true
       set -g @dracula-show-fahrenheit false
       set -g @dracula-show-location false
-      set -g @dracula-show-battery ${if config.dusk.home.tmux.showBattery then "true" else "false"}
+      set -g @dracula-show-battery ${if config.dusk.tmux.showBattery then "true" else "false"}
     '';
   };
   zed = "Dracula";

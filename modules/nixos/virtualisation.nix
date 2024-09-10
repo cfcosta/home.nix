@@ -4,42 +4,35 @@
   config,
   ...
 }:
-let
-  inherit (lib) mkEnableOption mkIf;
-in
-{
-  options.dusk.virtualisation.enable = mkEnableOption "virtualisation";
+lib.optionalAttrs config.dusk.virtualisation.enable {
+  environment.systemPackages = with pkgs; [
+    virt-manager
+    docker-compose
+    podman-compose
+    ctop
+  ];
 
-  config = mkIf config.dusk.virtualisation.enable {
-    environment.systemPackages = with pkgs; [
-      virt-manager
-      docker-compose
-      podman-compose
-      ctop
-    ];
-
-    virtualisation = {
-      docker = {
-        enable = true;
-        autoPrune.enable = true;
-      };
-
-      libvirtd.enable = true;
-      lxd.enable = true;
-
-      podman = {
-        enable = true;
-        autoPrune.enable = true;
-      };
-
-      waydroid.enable = true;
+  virtualisation = {
+    docker = {
+      enable = true;
+      autoPrune.enable = true;
     };
 
-    users.users.${config.dusk.user}.extraGroups = [
-      "docker"
-      "libvirtd"
-      "lxd"
-      "podman"
-    ];
+    libvirtd.enable = true;
+    lxd.enable = true;
+
+    podman = {
+      enable = true;
+      autoPrune.enable = true;
+    };
+
+    waydroid.enable = true;
   };
+
+  users.users.${config.dusk.username}.extraGroups = [
+    "docker"
+    "libvirtd"
+    "lxd"
+    "podman"
+  ];
 }

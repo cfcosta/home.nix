@@ -1,55 +1,30 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    mkOption
-    types
-    ;
-
-  cfg = config.dusk.home.alacritty;
-
   font = style: {
     inherit style;
-    inherit (cfg.font) family;
+    inherit (config.dusk.alacritty.font) family;
   };
 in
-{
-  options = {
-    dusk.home.alacritty = {
-      enable = mkEnableOption "alacritty";
+lib.optionalAttrs config.dusk.alacritty.enable {
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      import = [ pkgs.alacritty-theme."${config.dusk.currentTheme.alacritty}" ];
+
+      env.TERM = "xterm-256color";
 
       font = {
-        family = mkOption {
-          type = types.str;
-          default = "Inconsolata";
-        };
+        inherit (config.dusk.alacritty.font) size;
 
-        size = mkOption {
-          type = types.float;
-          default = 14.0;
-        };
-      };
-    };
-  };
-
-  config = mkIf cfg.enable {
-    programs.alacritty = {
-      enable = true;
-      settings = {
-        env.TERM = "xterm-256color";
-
-        font = {
-          normal = font "Medium";
-          bold = font "Bold";
-          italic = font "Medium Italic";
-          bold_italic = font "Bold Italic";
-          inherit (cfg.font) size;
-        };
+        normal = font "Medium";
+        bold = font "Bold";
+        italic = font "Medium Italic";
+        bold_italic = font "Bold Italic";
       };
     };
   };

@@ -5,51 +5,56 @@
   ...
 }:
 let
-  inherit (lib) mkOption types mapAttrsToList;
-  cfg = config.dusk.home;
+  inherit (lib) mapAttrsToList;
+  cfg = config.dusk;
 in
 {
-  options = {
-    dusk.home.shell = {
-      environmentFile = mkOption {
-        type = types.str;
-        default = "${cfg.folders.home}/dusk-env.sh";
-        description = ''
-          A bash file that is loaded by the shell on each run.
-          This is used to set secrets or credentials that we don't want on the repo.
-        '';
+  home.packages = with pkgs; [
+    bashInteractive
+    complete-alias
+    eva
+    fd
+    fdupes
+    gist
+    git
+    glow
+    lsof
+    ncdu_2
+    neofetch
+    pgcli
+    ranger
+    ripgrep
+    scc
+    tokei
+    tree
+    unixtools.watch
+    watchexec
+    wget
+  ];
+
+  programs = {
+    # Make ctrl-r much more powerful
+    # https://github.com/ellie/atuin
+    atuin = {
+      enable = true;
+      flags = [ "--disable-up-arrow" ];
+      settings = {
+        auto_sync = false;
+        update_check = false;
+        style = "compact";
+        show_help = false;
+
+        history_filter = [
+          "^ls"
+          "^cd"
+          "^cat"
+          "^fg"
+          "^jobs"
+        ] ++ (builtins.map (alias: ''"^${alias}"'') (builtins.attrNames config.programs.bash.shellAliases));
       };
     };
-  };
 
-  config = {
-    home.packages = with pkgs; [
-      bashInteractive
-      complete-alias
-      eva
-      fd
-      fdupes
-      gist
-      git
-      glow
-      lsof
-      ncdu_2
-      neofetch
-      pgcli
-      ranger
-      ripgrep
-      scc
-      tokei
-      tree
-      unixtools.watch
-      watchexec
-      wget
-    ];
-
-    programs.jq.enable = true;
-    programs.zoxide.enable = true;
-
-    programs.bash = {
+    bash = {
       enable = true;
       enableCompletion = true;
 
@@ -114,7 +119,7 @@ in
       ];
 
       initExtra = ''
-        . ${pkgs.complete-alias}/bin/complete_alias
+          . ${pkgs.complete-alias}/bin/complete_alias
 
         ${builtins.concatStringsSep "\n" (
           builtins.map (alias: "complete -F _complete_alias ${alias}") (
@@ -126,43 +131,26 @@ in
       bashrcExtra = ''
         ${if pkgs.stdenv.isDarwin then (builtins.readFile ./macos.sh) else ""}
 
-        [ -f "${cfg.shell.environmentFile}" ] && source "${cfg.shell.environmentFile}"
+          [ -f "${cfg.shell.environmentFile}" ] && source "${cfg.shell.environmentFile}"
       '';
     };
 
-    # Make ctrl-r much more powerful
-    # https://github.com/ellie/atuin
-    programs.atuin = {
+    bat = {
       enable = true;
-      flags = [ "--disable-up-arrow" ];
-      settings = {
-        auto_sync = false;
-        update_check = false;
-        style = "compact";
-        show_help = false;
-
-        history_filter = [
-          "^ls"
-          "^cd"
-          "^cat"
-          "^fg"
-          "^jobs"
-        ] ++ (builtins.map (alias: ''"^${alias}"'') (builtins.attrNames config.programs.bash.shellAliases));
-      };
+      config.theme = config.dusk.currentTheme.bat;
     };
 
-    programs.bat.enable = true;
-
-    programs.btop = {
+    btop = {
       enable = true;
 
       settings = {
+        color_theme = config.dusk.currentTheme.btop;
         true_color = true;
         vim_keys = true;
       };
     };
 
-    programs.direnv = {
+    direnv = {
       enable = true;
 
       nix-direnv.enable = true;
@@ -174,7 +162,9 @@ in
       };
     };
 
-    programs.lsd = {
+    jq.enable = true;
+
+    lsd = {
       enable = true;
 
       settings = {
@@ -197,7 +187,7 @@ in
       };
     };
 
-    programs.readline = {
+    readline = {
       enable = true;
 
       extraConfig = ''
@@ -215,11 +205,19 @@ in
       '';
     };
 
-    programs.starship = {
+    starship = {
       enable = true;
       enableBashIntegration = true;
+
+      settings = config.dusk.currentTheme.starship;
     };
 
-    xdg.configFile."pgcli/config".text = builtins.readFile ./pgcli.conf;
+    zoxide.enable = true;
   };
+
+  xdg.configFile."pgcli/config".text = ''
+    max_field_width = 
+    less_chatty = True
+    syntax_style = "${config.dusk.currentTheme.pgcli}"
+  '';
 }

@@ -40,13 +40,21 @@ in
   dusk = {
     enable = true;
 
-    user = "cfcosta";
+    name = "Cainã Costa";
+    username = "cfcosta";
+    email = "me@cfcosta.com";
+    accounts.github = "cfcosta";
 
+    alacritty.enable = true;
     cosmic.enable = true;
+    git.enable = true;
+    media.enable = true;
     nvidia.enable = true;
     privacy.enable = true;
     tailscale.enable = true;
+    tmux.enable = true;
     virtualisation.enable = true;
+    zed.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
