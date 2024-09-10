@@ -26,11 +26,13 @@ in
       helvum
       mangohud
       obs-studio
+      simplex-chat-desktop
+      streamlink-twitch-gui-bin
+      tartube-yt-dlp
       tdesktop
       todoist-electron
       xclip
       zed-editor
-      streamlink-twitch-gui-bin
     ];
 
     hardware.graphics.enable = true;

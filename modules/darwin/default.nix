@@ -1,16 +1,9 @@
-{ pkgs, lib, ... }:
-let
-  inherit (lib) mkForce;
-  inherit (pkgs) writeShellScriptBin;
-
-  ollamaAlias = writeShellScriptBin "ollama" ''
-    exec /opt/homebrew/bin/ollama "$@"
-  '';
-in
+{ pkgs, ... }:
 {
   imports = [
     ./clipboard.nix
     ./raycast.nix
+    ./homebrew.nix
   ];
 
   config = {
@@ -85,120 +78,16 @@ in
       };
     };
 
-    environment.systemPackages = [
-      ollamaAlias
-      pkgs.bashInteractive
-      pkgs.curl
-      pkgs.file
-      pkgs.git
-      pkgs.mas
-      pkgs.wget
+    environment.systemPackages = with pkgs; [
+      bashInteractive
+      curl
+      file
+      git
+      wget
     ];
 
-    homebrew = {
-      enable = true;
-
-      masApps = {
-        "Amazon Kindle" = 302584613;
-        "Amphetamine" = 937984704;
-        "Bitwarden Password Manager" = 1352778147;
-        "Tailscale" = 1475387142;
-        "Telegram" = 747648890;
-        "Todoist: To-Do List & Planner" = 585829637;
-        "Whatsapp Messenger" = 310633997;
-      };
-
-      casks = [
-        "brave-browser"
-        "chromedriver"
-        "cursor"
-        "discord"
-        "element"
-        "firefox"
-        "gitify"
-        "google-chrome"
-        "inkscape"
-        "iterm2"
-        "linearmouse"
-        "mountain-duck"
-        "mullvadvpn"
-        "obs"
-        "ollama"
-        "orbstack"
-        "secretive"
-        "signal"
-        "streamlink-twitch-gui"
-        "swish"
-        "syncthing"
-        "tor-browser"
-        "transmission"
-        "vlc"
-        "xmind"
-        "zed"
-      ];
-
-      caskArgs.no_quarantine = true;
-
-      onActivation = {
-        autoUpdate = true;
-        upgrade = true;
-        cleanup = "uninstall";
-      };
-    };
-
-    # Make the whole system use the same <nixpkgs> as this flake.
-    environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";
     environment.etc."nix/inputs/nix-darwin".source = "${pkgs.dusk.inputs.nix-darwin}";
-
-    nix = {
-      useDaemon = true;
-
-      gc.automatic = true;
-
-      settings = {
-        accept-flake-config = true;
-        allow-import-from-derivation = true;
-        auto-optimise-store = true;
-
-        experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
-
-        extra-substituters = [
-          "https://cache.iog.io"
-          "https://hydra-node.cachix.org"
-          "https://cardano-scaling.cachix.org"
-        ];
-        extra-trusted-public-keys = [
-          "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-          "hydra-node.cachix.org-1:vK4mOEQDQKl9FTbq76NjOuNaRD4pZLxi1yri31HHmIw="
-          "cardano-scaling.cachix.org-1:RKvHKhGs/b6CBDqzKbDk0Rv6sod2kPSXLwPzcUQg9lY="
-        ];
-
-        system-features = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-
-        trusted-public-keys = [
-          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-          "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-        ];
-
-        substituters = [
-          "https://cache.nixos.org/"
-          "https://cache.iog.io/"
-        ];
-      };
-
-      # Configure nix to use the flake's nixpkgs
-      registry.nixpkgs.flake = pkgs.dusk.inputs.nixpkgs;
-      registry.nix-darwin.flake = pkgs.dusk.inputs.nix-darwin;
-      nixPath = mkForce [ "/etc/nix/inputs" ];
-    };
+    registry.nix-darwin.flake = pkgs.dusk.inputs.nix-darwin;
 
     programs.bash.enable = true;
     programs.gnupg.agent.enable = true;
