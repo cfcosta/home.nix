@@ -6,11 +6,13 @@
 }:
 let
   inherit (lib) mkIf mkOption types;
+  inherit (pkgs.dusk.inputs) neovim;
 
   cfg = config.dusk.home;
 in
 {
   imports = [
+    neovim.hmModule
     ../defaults
 
     ./shell

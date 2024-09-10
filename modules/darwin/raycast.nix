@@ -1,8 +1,6 @@
-{ ... }:
-{
+_: {
   homebrew = {
     enable = true;
-
     casks = [ "raycast" ];
   };
 

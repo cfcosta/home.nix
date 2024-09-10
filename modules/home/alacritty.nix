@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -16,7 +15,7 @@ let
 
   font = style: {
     inherit style;
-    family = cfg.font.family;
+    inherit (cfg.font) family;
   };
 in
 {
@@ -49,7 +48,7 @@ in
           bold = font "Bold";
           italic = font "Medium Italic";
           bold_italic = font "Bold Italic";
-          size = cfg.font.size;
+          inherit (cfg.font) size;
         };
       };
     };

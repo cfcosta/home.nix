@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   dusk.home = {
     name = "Cainã Costa";
     username = "cfcosta";

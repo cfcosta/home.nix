@@ -29,7 +29,7 @@ in
       extraConfig = builtins.readFile ./config;
     };
 
-    home.file = mkIf (pkgs.stdenv.isDarwin) {
+    home.file = mkIf pkgs.stdenv.isDarwin {
       ".terminfo/74/tmux-256color".source = mkIf pkgs.stdenv.isDarwin ./terminfo;
     };
   };

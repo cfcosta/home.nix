@@ -32,25 +32,22 @@ in
       zed-editor
     ];
 
-    hardware.graphics.enable = true;
-    hardware.pulseaudio.enable = false;
+    hardware = {
+      graphics.enable = true;
+      pulseaudio.enable = false;
+    };
+
+    nix.settings = {
+      substituters = [ "https://cosmic.cachix.org/" ];
+
+      trusted-public-keys = [
+        "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
+      ];
+    };
 
     programs.steam.enable = true;
 
     security.rtkit.enable = true;
-
-    services.desktopManager.cosmic.enable = true;
-
-    services.xserver = {
-      enable = true;
-      displayManager.gdm = {
-        enable = true;
-        autoSuspend = false;
-        wayland = true;
-      };
-    };
-
-    services.libinput.enable = true;
 
     services.avahi = {
       enable = true;
@@ -63,19 +60,30 @@ in
       nssmdns4 = true;
     };
 
+    services.desktopManager.cosmic.enable = true;
     services.flatpak.enable = true;
+    services.libinput.enable = true;
     services.packagekit.enable = true;
-
-    services.syncthing = {
-      enable = true;
-      user = config.dusk.user;
-      dataDir = "/home/${config.dusk.user}";
-    };
 
     services.pipewire = {
       enable = true;
       pulse.enable = true;
       jack.enable = true;
+    };
+
+    services.syncthing = {
+      enable = true;
+      inherit (config.dusk) user;
+      dataDir = "/home/${config.dusk.user}";
+    };
+
+    services.xserver = {
+      enable = true;
+      displayManager.gdm = {
+        enable = true;
+        autoSuspend = false;
+        wayland = true;
+      };
     };
   };
 }

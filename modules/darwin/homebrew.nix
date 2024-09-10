@@ -6,9 +6,7 @@
   ];
 
   config = {
-    environment.systemPackages = with pkgs; [
-      mas
-    ];
+    environment.systemPackages = [ pkgs.mas ];
 
     homebrew = {
       enable = true;

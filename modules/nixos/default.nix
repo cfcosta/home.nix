@@ -12,10 +12,15 @@ let
     types
     mkForce
     ;
+  inherit (pkgs.dusk.inputs) home-manager nixos-cosmic;
 in
 {
   imports = [
-    ./ai.nix
+    nixos-cosmic.nixosModules.default
+    home-manager.nixosModules.home-manager
+
+    ../defaults
+
     ./virtualisation.nix
     ./desktop.nix
     ./nix-index.nix

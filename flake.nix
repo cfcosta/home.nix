@@ -9,12 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Using a fork that is compatible with nixd
-    flake-compat = {
-      url = "github:inclyc/flake-compat";
-      flake = false;
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -65,10 +59,8 @@
       nixpkgs,
       flake-utils,
       home-manager,
-      neovim,
       nix-darwin,
       pre-commit-hooks,
-      nixos-cosmic,
       ...
     }:
     let
@@ -91,90 +83,75 @@
           };
         };
     in
-    (
-      {
-        nixosConfigurations = {
-          battlecruiser = nixpkgs.lib.nixosSystem {
-            pkgs = loadPkgs "x86_64-linux";
+    {
+      nixosConfigurations = {
+        battlecruiser = nixpkgs.lib.nixosSystem {
+          pkgs = loadPkgs "x86_64-linux";
 
-            modules = [
-              {
-                nix.settings = {
-                  substituters = [ "https://cosmic.cachix.org/" ];
-                  trusted-public-keys = [
-                    "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
-                  ];
-                };
-              }
-              nixos-cosmic.nixosModules.default
-              ./modules/nixos
-              ./machines/battlecruiser
-              home-manager.nixosModules.home-manager
-            ];
+          modules = [
+            ./modules/nixos
+            ./machines/battlecruiser
+          ];
+        };
+      };
+
+      darwinConfigurations = {
+        drone = nix-darwin.lib.darwinSystem {
+          pkgs = loadPkgs "aarch64-darwin";
+          modules = [
+            ./modules/darwin
+          ];
+        };
+      };
+    }
+    // flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = loadPkgs system;
+      in
+      {
+        home-manager.useUserPackages = true;
+        home-manager.useGlobalPkgs = true;
+
+        profiles = {
+          battlecruiser = {
+            home = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+
+              modules = [
+                ./modules/home
+                ./machines/battlecruiser/home.nix
+              ];
+            };
+          };
+
+          drone = {
+            home = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              modules = [
+                ./modules/home
+                ./machines/drone/home.nix
+              ];
+            };
           };
         };
 
-        darwinConfigurations = {
-          drone = nix-darwin.lib.darwinSystem {
-            pkgs = loadPkgs "aarch64-darwin";
-            modules = [
-              ./modules/darwin
-              home-manager.darwinModules.home-manager
-            ];
+        checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+
+          hooks = {
+            deadnix.enable = true;
+            nixfmt-rfc-style.enable = true;
           };
+        };
+
+        devShells.default = pkgs.mkShell {
+          inherit (self.checks.${system}.pre-commit-check) shellHook;
+
+          nativeBuildInputs = with pkgs; [
+            nixfmt-rfc-style
+          ];
         };
       }
-      // flake-utils.lib.eachDefaultSystem (
-        system:
-        let
-          pkgs = loadPkgs system;
-        in
-        {
-          home-manager.useUserPackages = true;
-          home-manager.useGlobalPkgs = true;
-
-          profiles = {
-            battlecruiser = {
-              home = home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-
-                modules = [
-                  neovim.hmModule
-                  ./modules/home
-                  ./machines/battlecruiser/home.nix
-                ];
-              };
-            };
-
-            drone = {
-              home = home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                modules = [
-                  neovim.hmModule
-                  ./modules/home
-                  ./machines/drone/home.nix
-                ];
-              };
-            };
-          };
-
-          checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-            src = ./.;
-
-            hooks = {
-              nixfmt-rfc-style.enable = true;
-            };
-          };
-
-          devShells.default = pkgs.mkShell {
-            inherit (self.checks.${system}.pre-commit-check) shellHook;
-
-            nativeBuildInputs = with pkgs; [
-              nixfmt-rfc-style
-              deadnix
-            ];
-          };
-        }
-      )
     );
 }
