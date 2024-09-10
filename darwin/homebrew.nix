@@ -1,10 +1,5 @@
 { pkgs, ... }:
 {
-  imports = [
-    ./clipboard.nix
-    ./raycast.nix
-  ];
-
   config = {
     environment.systemPackages = [ pkgs.mas ];
 
@@ -40,6 +35,7 @@
         "orbstack"
         "secretive"
         "signal"
+        "streamlink"
         "streamlink-twitch-gui"
         "swish"
         "syncthing"

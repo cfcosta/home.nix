@@ -1,15 +1,13 @@
 {
   config,
-  lib,
   pkgs,
+  lib,
   ...
 }:
 let
   inherit (builtins)
     attrNames
     filter
-    listToAttrs
-    map
     readDir
     ;
   inherit (lib)
@@ -19,30 +17,24 @@ let
     removeSuffix
     types
     ;
-  inherit (pkgs.stdenv) isLinux;
 
-  isThemeFile = n: (hasSuffix ".nix" n) && !(hasSuffix "default.nix" n);
+  themeFiles = filter (hasSuffix ".nix") (attrNames (readDir ./defaults/themes));
+  themes = map (removeSuffix ".nix") themeFiles;
 
-  themes =
-    let
-      files = filter isThemeFile (attrNames (readDir ./.));
-
-      toAttr = n: {
-        name = removeSuffix ".nix" n;
-        value = import ./themes/${n} { inherit config lib pkgs; };
-      };
-    in
-    listToAttrs (map toAttr files);
-
-  currentTheme = themes."${config.dusk.theme.current}";
+  currentTheme = import ./defaults/themes/${config.dusk.theme.current}.nix {
+    inherit config lib pkgs;
+  };
 in
 {
   options.dusk = {
-    enable = mkEnableOption "dusk-core";
-
     theme = {
       current = mkOption {
-        type = types.enum (attrNames themes);
+        type = types.enum themes;
+        default = "dracula";
+      };
+
+      settings = mkOption {
+        type = types.attrs;
         default = currentTheme;
       };
     };
@@ -72,20 +64,16 @@ in
     folders = {
       code = mkOption {
         type = types.str;
-        default = "${config.dusk.folders.home}/Code";
         description = "Where you host your working projects";
       };
 
       home = mkOption {
         type = types.str;
-        default = if isLinux then "/home/${config.dusk.username}" else "/Users/${config.dusk.username}";
         description = "Your home folder";
       };
     };
 
     alacritty = {
-      enable = mkEnableOption "alacritty";
-
       font = {
         family = mkOption {
           type = types.str;
@@ -99,19 +87,22 @@ in
       };
     };
 
-    cosmic.enable = mkEnableOption "cosmic";
-    media.enable = mkEnableOption "media";
-    nvidia.enable = mkEnableOption "nvidia";
-    privacy.enable = mkEnableOption "privacy";
-    tailscale.enable = mkEnableOption "tailscale";
-    virtualisation.enable = mkEnableOption "virtualisation";
-    zed.enable = mkEnableOption "zed editor";
+    git = {
+      signByDefault = mkOption {
+        type = types.bool;
+        default = true;
+      };
+
+      defaultBranch = mkOption {
+        type = types.str;
+        default = "main";
+      };
+    };
 
     shell = {
       environmentFile = mkOption {
-        type = types.str;
-        default = "${config.dusk.folders.home}/dusk-env.sh";
-
+        type = types.nullOr types.str;
+        default = null;
         description = ''
           A bash file that is loaded by the shell on each run.
           This is used to set secrets or credentials that we don't want on the repo.
@@ -119,9 +110,6 @@ in
       };
     };
 
-    tmux = {
-      enable = mkEnableOption "tmux";
-      showBattery = mkEnableOption "tmux show battery level";
-    };
+    tmux.showBattery = mkEnableOption "tmux show battery level";
   };
 }

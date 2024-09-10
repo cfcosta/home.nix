@@ -1,18 +1,21 @@
-{ pkgs, lib, ... }:
-let
-  inherit (lib) mkForce;
-in
+{ pkgs, ... }:
 {
-  imports = [
-    ./options.nix
-    ./themes
+  documentation = {
+    enable = true;
+    doc.enable = true;
+    info.enable = true;
+    man.enable = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    bashInteractive
+    curl
+    file
+    git
+    wget
   ];
 
-  environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";
-
   nix = {
-    useDaemon = true;
-
     gc.automatic = true;
 
     settings = {
@@ -54,9 +57,7 @@ in
         "https://cache.iog.io/"
       ];
     };
-
-    # Configure nix to use the flake's nixpkgs
-    registry.nixpkgs.flake = pkgs.dusk.inputs.nixpkgs;
-    nixPath = mkForce [ "/etc/nix/inputs" ];
   };
+
+  programs.gnupg.agent.enable = true;
 }

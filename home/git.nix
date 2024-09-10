@@ -1,34 +1,10 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }:
-let
-  cfg = config.dusk;
-  inherit (lib) mkOption types mkIf;
-in
 {
-  options = {
-    dusk.git = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
-
-      signByDefault = mkOption {
-        type = types.bool;
-        default = true;
-      };
-
-      defaultBranch = mkOption {
-        type = types.str;
-        default = "main";
-      };
-    };
-  };
-
-  config = mkIf cfg.git.enable {
+  config = {
     home.packages = with pkgs; [
       git-bug
       git-lfs
@@ -38,15 +14,15 @@ in
       enable = true;
       lfs.enable = true;
 
-      userName = cfg.name;
-      userEmail = cfg.email;
+      userName = config.dusk.name;
+      userEmail = config.dusk.email;
 
       delta = {
         enable = true;
         options = {
           line-numbers = true;
           navigate = true;
-          theme = config.dusk.currentTheme.delta-pager;
+          theme = config.dusk.theme.settings.delta-pager;
         };
       };
 
@@ -62,7 +38,7 @@ in
 
       signing = {
         key = null;
-        inherit (cfg.git) signByDefault;
+        inherit (config.dusk.git) signByDefault;
       };
 
       extraConfig = {
@@ -70,9 +46,9 @@ in
         commit.verbose = true;
         diff.algorithm = "histogram";
         diff.colorMoved = "default";
-        github.user = cfg.accounts.github;
+        github.user = config.dusk.accounts.github;
         help.autocorrect = 10;
-        init.defaultBranch = cfg.git.defaultBranch;
+        init.defaultBranch = config.dusk.git.defaultBranch;
         merge.conflictstyle = "diff3";
         pull.ff = "only";
         push.autoSetupRemote = true;
@@ -81,8 +57,8 @@ in
           autostash = true;
         };
         rerere.enabled = true;
-        url."git@github.com:".insteadOf = "https://github.com/";
       };
     };
+
   };
 }

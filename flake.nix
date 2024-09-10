@@ -5,16 +5,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
-    nix-darwin = {
-      url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    home-manager = {
-      url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     alacritty-theme = {
       url = "github:alacritty/alacritty-theme";
       flake = false;
@@ -28,6 +18,16 @@
       };
     };
 
+    gitignore = {
+      url = "github:hercules-ci/gitignore.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs = {
@@ -37,8 +37,13 @@
       };
     };
 
-    gitignore = {
-      url = "github:hercules-ci/gitignore.nix";
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -49,61 +54,62 @@
         gitignore.follows = "gitignore";
       };
     };
-
-    nixos-cosmic = {
-      url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
-    inputs@{
+    {
       self,
-      nixpkgs,
+
       flake-utils,
       nix-darwin,
+      nixpkgs,
       pre-commit-hooks,
+      alacritty-theme-nix,
       ...
     }:
     let
-      loadPkgs =
+      inherit (nixpkgs.lib) nixosSystem;
+      inherit (nix-darwin.lib) darwinSystem;
+
+      buildPkgs =
         system:
         import nixpkgs {
           inherit system;
-
           overlays = [
-            inputs.alacritty-theme-nix.overlays.default
-            (_: _: {
-              dusk.inputs = inputs;
-            })
+            alacritty-theme-nix.overlays.default
           ];
 
           config = {
             allowUnfree = true;
-            permittedInsecurePackages = [
-              "electron-25.9.0"
-              "openssl-1.1.1w"
-            ];
+            enableCuda = system == "x86_64-linux";
           };
         };
     in
     {
       nixosConfigurations = {
-        battlecruiser = nixpkgs.lib.nixosSystem {
-          pkgs = loadPkgs "x86_64-linux";
+        battlecruiser = nixosSystem {
+          pkgs = buildPkgs "x86_64-linux";
 
           modules = [
-            ./modules/nixos
-            ./machines/battlecruiser
+            (import ./module.nix {
+              inherit (self) inputs;
+              hostname = "battlecruiser";
+              flavor = "nixos";
+            })
           ];
         };
       };
 
       darwinConfigurations = {
-        drone = nix-darwin.lib.darwinSystem {
-          pkgs = loadPkgs "aarch64-darwin";
+        drone = darwinSystem {
+          pkgs = buildPkgs "aarch64-darwin";
+
           modules = [
-            ./modules/darwin
+            (import ./module.nix {
+              inherit (self) inputs;
+              hostname = "drone";
+              flavor = "darwin";
+            })
           ];
         };
       };
@@ -111,10 +117,9 @@
     // flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = loadPkgs system;
+        pkgs = buildPkgs system;
       in
       {
-
         checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
 
@@ -127,10 +132,6 @@
 
         devShells.default = pkgs.mkShell {
           inherit (self.checks.${system}.pre-commit-check) shellHook;
-
-          nativeBuildInputs = with pkgs; [
-            nixfmt-rfc-style
-          ];
         };
       }
     );

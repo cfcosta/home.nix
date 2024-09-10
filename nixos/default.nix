@@ -5,28 +5,19 @@
   ...
 }:
 let
-  inherit (lib)
-    mkIf
-    mkForce
-    ;
-  inherit (pkgs.dusk.inputs) home-manager nixos-cosmic;
+  inherit (lib) mkForce;
 in
 {
   imports = [
-    nixos-cosmic.nixosModules.default
-    home-manager.nixosModules.home-manager
-
-    ../defaults
-
-    ./virtualisation.nix
     ./desktop.nix
+    ./virtualisation.nix
     ./nix-index.nix
     ./nvidia.nix
     ./tailscale.nix
     ./privacy.nix
   ];
 
-  config = mkIf config.dusk.enable {
+  config = {
     environment.systemPackages = with pkgs; [
       bash
       curl
@@ -35,19 +26,6 @@ in
       wget
       unzip
     ];
-
-    home-manager = {
-      useUserPackages = true;
-      useGlobalPkgs = true;
-
-      users.${config.dusk.username} =
-        { ... }:
-        {
-          imports = [
-            ../modules/home
-          ];
-        };
-    };
 
     i18n.defaultLocale = config.dusk.system.locale;
 
@@ -70,38 +48,22 @@ in
 
       openssh = {
         enable = true;
+
         settings = {
           PermitRootLogin = mkForce "no";
-          PasswordAuthentication = false;
-          ChallengeResponseAuthentication = false;
-          GSSAPIAuthentication = false;
-          KerberosAuthentication = false;
-          X11Forwarding = false;
-          PermitUserEnvironment = false;
-          AllowAgentForwarding = false;
-          AllowTcpForwarding = false;
-          PermitTunnel = false;
+          PasswordAuthentication = mkForce false;
+          ChallengeResponseAuthentication = mkForce false;
+          GSSAPIAuthentication = mkForce false;
+          KerberosAuthentication = mkForce false;
+          X11Forwarding = mkForce false;
+          PermitUserEnvironment = mkForce false;
+          AllowAgentForwarding = mkForce false;
+          AllowTcpForwarding = mkForce false;
+          PermitTunnel = mkForce false;
         };
       };
 
-      programs.gnupg.agent = {
-        enable = true;
-        enableSSHSupport = true;
-        pinentryPackage = pkgs.pinentry-gnome3;
-      };
-
       pcscd.enable = true;
-
-      users.users.${config.dusk.username} = {
-        inherit (config.dusk) initialPassword;
-
-        isNormalUser = true;
-
-        extraGroups = [
-          "networkmanager"
-          "wheel"
-        ];
-      };
 
       # udev rule to support vial keyboards
       udev.extraRules = ''
@@ -109,8 +71,25 @@ in
       '';
     };
 
+    programs.gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+      pinentryPackage = pkgs.pinentry-gnome3;
+    };
+
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;
+
+    users.users.${config.dusk.username} = {
+      inherit (config.dusk) initialPassword;
+
+      isNormalUser = true;
+
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+    };
 
     system.stateVersion = "24.11";
   };
