@@ -29,6 +29,8 @@ in
         enable = true;
         autoPrune.enable = true;
       };
+
+      waydroid.enable = true;
     };
 
     users.users.${config.dusk.user}.extraGroups = [ "docker" ];

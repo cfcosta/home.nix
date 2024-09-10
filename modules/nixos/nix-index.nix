@@ -1,18 +1,16 @@
 {
-  lib,
   pkgs,
-  config,
   ...
 }:
-with lib;
 let
-  cfg = config.elss.nix-index-db-update;
-  nix-index-db-update = pkgs.writeShellScript "nix-index-db-update" ''
+  inherit (pkgs) writeShellScript coreutils wget;
+
+  nix-index-db-update = writeShellScript "nix-index-db-update" ''
     set -euo pipefail
 
     root=/var/db/nix-index
-    filename="index-x86_64-$(${pkgs.coreutils}/bin/uname | ${pkgs.coreutils}/bin/tr A-Z a-z)"
-    ${pkgs.wget}/bin/wget -q -N https://github.com/Mic92/nix-index-database/releases/latest/download/$filename -O $root/files
+    filename="index-x86_64-$(${coreutils}/bin/uname | ${coreutils}/bin/tr A-Z a-z)"
+    ${wget}/bin/wget -q -N https://github.com/Mic92/nix-index-database/releases/latest/download/$filename -O $root/files
   '';
 in
 {
