@@ -5,20 +5,19 @@
   ...
 }:
 let
-  cfg = config.dusk;
   inherit (lib)
     mkEnableOption
-    mkOption
     mkIf
+    mkOption
     types
+    mkForce
     ;
 in
 {
   imports = [
     ./ai.nix
-    ./containers.nix
+    ./virtualisation.nix
     ./desktop.nix
-    ./libvirt.nix
     ./nix-index.nix
     ./nvidia.nix
     ./tailscale.nix
@@ -54,49 +53,7 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
-    # Make the whole system use the same <nixpkgs> as this flake.
-    environment.etc."nix/inputs/nixpkgs".source = "${pkgs.dusk.inputs.nixpkgs}";
-    environment.etc."nix/inputs/nix-darwin".source = "${pkgs.dusk.inputs.nix-darwin}";
-
-    nix = {
-      gc.automatic = true;
-
-      settings = {
-        accept-flake-config = true;
-        allow-import-from-derivation = true;
-        auto-optimise-store = true;
-
-        experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
-
-        extra-substituters = [
-          "https://cache.iog.io"
-          "https://hydra-node.cachix.org"
-          "https://cardano-scaling.cachix.org"
-        ];
-        extra-trusted-public-keys = [
-          "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-          "hydra-node.cachix.org-1:vK4mOEQDQKl9FTbq76NjOuNaRD4pZLxi1yri31HHmIw="
-          "cardano-scaling.cachix.org-1:RKvHKhGs/b6CBDqzKbDk0Rv6sod2kPSXLwPzcUQg9lY="
-        ];
-
-        system-features = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-      };
-
-      # Configure nix to use the flake's nixpkgs
-      registry.nixpkgs.flake = pkgs.dusk.inputs.nixpkgs;
-      registry.nix-darwin.flake = pkgs.dusk.inputs.nix-darwin;
-      nixPath = lib.mkForce [ "/etc/nix/inputs" ];
-    };
-
+  config = mkIf config.dusk.enable {
     environment.systemPackages = with pkgs; [
       bash
       curl
@@ -106,18 +63,18 @@ in
       unzip
     ];
 
-    i18n.defaultLocale = cfg.system.locale;
+    i18n.defaultLocale = config.dusk.system.locale;
 
     i18n.extraLocaleSettings = {
-      LC_ADDRESS = cfg.system.locale;
-      LC_IDENTIFICATION = cfg.system.locale;
-      LC_MEASUREMENT = cfg.system.locale;
-      LC_MONETARY = cfg.system.locale;
-      LC_NAME = cfg.system.locale;
-      LC_NUMERIC = cfg.system.locale;
-      LC_PAPER = cfg.system.locale;
-      LC_TELEPHONE = cfg.system.locale;
-      LC_TIME = cfg.system.locale;
+      LC_ADDRESS = config.dusk.system.locale;
+      LC_IDENTIFICATION = config.dusk.system.locale;
+      LC_MEASUREMENT = config.dusk.system.locale;
+      LC_MONETARY = config.dusk.system.locale;
+      LC_NAME = config.dusk.system.locale;
+      LC_NUMERIC = config.dusk.system.locale;
+      LC_PAPER = config.dusk.system.locale;
+      LC_TELEPHONE = config.dusk.system.locale;
+      LC_TIME = config.dusk.system.locale;
     };
 
     networking.networkmanager.enable = true;
@@ -127,7 +84,7 @@ in
     services.openssh = {
       enable = true;
       settings = {
-        PermitRootLogin = lib.mkForce "no";
+        PermitRootLogin = mkForce "no";
         PasswordAuthentication = false;
         ChallengeResponseAuthentication = false;
         GSSAPIAuthentication = false;
@@ -149,12 +106,14 @@ in
     services.pcscd.enable = true;
 
     users.users.${config.dusk.user} = {
+      inherit (config.dusk) initialPassword;
+
       isNormalUser = true;
+
       extraGroups = [
         "networkmanager"
         "wheel"
       ];
-      inherit (config.dusk) initialPassword;
     };
 
     # udev rule to support vial keyboards

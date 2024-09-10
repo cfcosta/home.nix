@@ -6,16 +6,15 @@
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.dusk.containers;
 in
 {
-  options = {
-    dusk.containers.enable = mkEnableOption "containers";
-  };
+  options.dusk.virtualisation.enable = mkEnableOption "virtualisation";
 
-  config = mkIf cfg.enable {
+  config = mkIf config.dusk.virtualisation.enable {
     environment.systemPackages = with pkgs; [
+      virt-manager
       docker-compose
+      podman-compose
       ctop
     ];
 
@@ -25,18 +24,22 @@ in
         autoPrune.enable = true;
       };
 
+      libvirtd.enable = true;
+      lxd.enable = true;
+
       podman = {
         enable = true;
         autoPrune.enable = true;
       };
 
       waydroid.enable = true;
-      lxd.enable = true;
     };
 
     users.users.${config.dusk.user}.extraGroups = [
       "docker"
+      "libvirtd"
       "lxd"
+      "podman"
     ];
   };
 }

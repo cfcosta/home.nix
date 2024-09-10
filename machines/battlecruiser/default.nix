@@ -16,12 +16,11 @@
     enable = true;
     user = "cfcosta";
 
-    containers.enable = true;
     cosmic.enable = true;
-    libvirt.enable = true;
     nvidia.enable = true;
     privacy.enable = true;
     tailscale.enable = true;
+    virtualisation.enable = true;
   };
 
   # Workaround fix for nm-online-service from stalling on Wireguard interface.

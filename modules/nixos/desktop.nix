@@ -6,14 +6,11 @@
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.dusk.cosmic;
 in
 {
-  options = {
-    dusk.cosmic.enable = mkEnableOption "cosmic-desktop";
-  };
+  options.dusk.cosmic.enable = mkEnableOption "cosmic";
 
-  config = mkIf cfg.enable {
+  config = mkIf config.dusk.cosmic.enable {
     environment.systemPackages = with pkgs; [
       bitwarden
       brave

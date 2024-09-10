@@ -5,25 +5,12 @@
   ...
 }:
 let
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    types
-    ;
-  cfg = config.dusk.nvidia;
+  inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.dusk.nvidia = {
-    enable = mkEnableOption "nvidia";
-    powerLimit = mkOption {
-      type = types.int;
-      description = ''
-        Power limit in watts, disabled if null.
-      '';
-    };
-  };
+  options.dusk.nvidia.enable = mkEnableOption "nvidia";
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf config.dusk.nvidia.enable {
     environment.systemPackages = with pkgs; [ nvtopPackages.nvidia ];
 
     hardware.nvidia = {
