@@ -1003,8 +1003,7 @@
         "nix-darwin": "nix-darwin",
         "nixos-cosmic": "nixos-cosmic",
         "nixpkgs": "nixpkgs",
-        "pre-commit-hooks": "pre-commit-hooks",
-        "todoist-cli": "todoist-cli"
+        "pre-commit-hooks": "pre-commit-hooks"
       }
     },
     "rust-overlay": {
@@ -1072,23 +1071,6 @@
       "original": {
         "owner": "nvim-telescope",
         "repo": "telescope.nvim",
-        "type": "github"
-      }
-    },
-    "todoist-cli": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691263252,
-        "narHash": "sha256-cFnGIJty0c4iOMNeMt+pev75aWcd7HKkvVowd5XbsXs=",
-        "owner": "psethwick",
-        "repo": "todoist",
-        "rev": "2f80bdc65de44581c4497107a092c73f39ae0b62",
-        "type": "github"
-      },
-      "original": {
-        "owner": "psethwick",
-        "repo": "todoist",
-        "rev": "2f80bdc65de44581c4497107a092c73f39ae0b62",
         "type": "github"
       }
     },
