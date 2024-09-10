@@ -4,8 +4,8 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.dusk.containers;
 in
 {
@@ -31,8 +31,12 @@ in
       };
 
       waydroid.enable = true;
+      lxd.enable = true;
     };
 
-    users.users.${config.dusk.user}.extraGroups = [ "docker" ];
+    users.users.${config.dusk.user}.extraGroups = [
+      "docker"
+      "lxd"
+    ];
   };
 }

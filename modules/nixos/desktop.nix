@@ -30,6 +30,7 @@ in
       todoist-electron
       xclip
       zed-editor
+      streamlink-twitch-gui-bin
     ];
 
     hardware.graphics.enable = true;

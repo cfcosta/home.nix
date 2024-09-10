@@ -109,7 +109,6 @@ in
       };
 
       casks = [
-        "tor-browser"
         "brave-browser"
         "chromedriver"
         "cursor"
@@ -128,12 +127,14 @@ in
         "orbstack"
         "secretive"
         "signal"
+        "streamlink-twitch-gui"
         "swish"
+        "syncthing"
+        "tor-browser"
         "transmission"
         "vlc"
         "xmind"
         "zed"
-        "syncthing"
       ];
 
       caskArgs.no_quarantine = true;

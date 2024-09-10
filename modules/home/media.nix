@@ -4,8 +4,9 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
+
   cfg = config.dusk.home;
 in
 {
@@ -15,6 +16,7 @@ in
     home.packages = with pkgs; [
       ffmpeg
       python312Packages.yt-dlp
+      streamlink
     ];
   };
 }
