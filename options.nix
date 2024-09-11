@@ -41,7 +41,7 @@ in
 
     initialPassword = mkOption {
       type = types.str;
-      description = ''Initial password for the created user in the system '';
+      description = "Initial password for the created user in the system ";
       default = "dusk";
     };
 
@@ -49,7 +49,13 @@ in
       locale = mkOption {
         type = types.str;
         default = "en_US.utf8";
-        description = ''Locale of the system '';
+        description = "Locale of the system ";
+      };
+
+      timezone = mkOption {
+        type = types.str;
+        default = "America/Sao_Paulo";
+        description = "Timezone to use for the system";
       };
     };
 
@@ -58,7 +64,7 @@ in
     name = mkOption { type = types.str; };
     username = mkOption {
       type = types.str;
-      description = ''User name of the main user of the system '';
+      description = "User name of the main user of the system ";
     };
 
     folders = {

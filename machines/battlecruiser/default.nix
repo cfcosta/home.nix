@@ -1,11 +1,7 @@
 {
-  pkgs,
-  lib,
+  config,
   ...
 }:
-let
-  inherit (lib) mkDefault;
-in
 {
   imports = [
     ./dusk.nix
@@ -26,17 +22,7 @@ in
 
         kernelModules = [ "kvm-amd" ];
       };
-
-      loader = {
-        efi.canTouchEfiVariables = true;
-        systemd-boot.enable = true;
-      };
     };
-
-    environment.systemPackages = with pkgs; [
-      refind
-      efibootmgr
-    ];
 
     fileSystems = {
       "/" = {
@@ -50,41 +36,10 @@ in
       };
     };
 
-    hardware = {
-      enableRedistributableFirmware = true;
-      cpu.amd.updateMicrocode = true;
-    };
-
-    networking = {
-      hostName = "battlecruiser";
-
-      useDHCP = mkDefault true;
-    };
-
-    time.timeZone = "America/Sao_Paulo";
+    networking.hostName = "battlecruiser";
+    time.timeZone = config.dusk.system.timezone;
 
     swapDevices = [ ];
-
-    system.activationScripts = {
-      refind-install = {
-        deps = [ ];
-        text = ''
-          if [ -s /run/current-system/sw/bin/refind-install ];then
-            if [ ! -s /boot/EFI/refind/refind_x64.efi ]; then
-              OLDPATH="$PATH"
-              PATH="/run/current-system/sw/bin"
-          ${pkgs.refind}/bin/refind-install
-              PATH="$OLDPATH"
-              printf 'true' > /tmp/refind
-            else
-              printf 'installed/true' > /tmp/refind
-            fi
-          else
-            printf 'skip/true' > /tmp/refind
-          fi
-        '';
-      };
-    };
 
     # Workaround fix for nm-online-service from stalling on Wireguard interface.
     # https://github.com/NixOS/nixpkgs/issues/180175

@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    agenix.url = "github:ryantm/agenix";
 
     alacritty-theme = {
       url = "github:alacritty/alacritty-theme";
@@ -135,6 +136,10 @@
 
         devShells.default = pkgs.mkShell {
           inherit (self.checks.${system}.pre-commit-check) shellHook;
+
+          packages = [
+            self.inputs.agenix.packages.${system}.default
+          ];
         };
       }
     );

@@ -42,9 +42,13 @@ in
 
       homeDirectory = mkForce config.dusk.folders.home;
 
-      file = mkIf isLinux {
-        ".cache/nix-index".source = mkOutOfStoreSymlink "/var/db/nix-index";
-      };
+      file =
+        {
+          ".config/nix/nix.conf".source = config.age.secrets."nix.conf.age".path;
+        }
+        // mkIf isLinux {
+          ".cache/nix-index".source = mkOutOfStoreSymlink "/var/db/nix-index";
+        };
 
       packages = with pkgs; [
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })

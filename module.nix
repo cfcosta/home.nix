@@ -20,11 +20,13 @@ in
       ./machines/${hostname}
     ]
     ++ optionals (flavor == "darwin") [
+      inputs.agenix.darwinModules.default
       inputs.home-manager.darwinModules.home-manager
 
       ./darwin
     ]
     ++ optionals (flavor == "nixos") [
+      inputs.agenix.nixosModules.default
       inputs.home-manager.nixosModules.home-manager
       inputs.nixos-cosmic.nixosModules.default
 
@@ -50,6 +52,7 @@ in
         { ... }:
         {
           imports = [
+            inputs.agenix.homeManagerModules.default
             inputs.neovim.hmModule
 
             ./options.nix

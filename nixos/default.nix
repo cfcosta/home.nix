@@ -5,10 +5,11 @@
   ...
 }:
 let
-  inherit (lib) mkForce;
+  inherit (lib) mkDefault mkForce;
 in
 {
   imports = [
+    ./boot.nix
     ./desktop.nix
     ./virtualisation.nix
     ./nix-index.nix
@@ -69,6 +70,11 @@ in
       udev.extraRules = ''
         KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
       '';
+    };
+
+    networking = {
+      hostName = "battlecruiser";
+      useDHCP = mkDefault true;
     };
 
     programs.gnupg.agent = {

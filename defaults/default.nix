@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   documentation = {
     enable = true;
@@ -16,11 +16,18 @@
 
   nix = {
     gc.automatic = true;
+    optimise.automatic = true;
 
     settings = {
       accept-flake-config = true;
       allow-import-from-derivation = true;
       auto-optimise-store = true;
+
+      trusted-users = [
+        "@wheel"
+        "root"
+        config.dusk.username
+      ];
 
       experimental-features = [
         "nix-command"
