@@ -9,15 +9,44 @@ let
     attrNames
     concatStringsSep
     map
-    readFile
     ;
   inherit (config.lib.file) mkOutOfStoreSymlink;
   inherit (lib) mapAttrsToList mkForce mkIf;
   inherit (pkgs.stdenv) isDarwin isLinux;
 
+  envFileSetup =
+    if config.dusk.shell.environmentFile != null then
+      ''
+        # shellcheck source=/dev/null
+        . ${config.dusk.shell.environmentFile}
+      ''
+    else
+      "";
+
   darwinSetup =
     if isDarwin then
       ''
+        # MacOS by default does not load the completions set by Nix, so this
+        # function fixes that.
+        loadCompletions() {
+        	local dir="''${1}/share/bash-completion/completions"
+
+        	if [ ! -d "''${dir}" ]; then
+        		return
+        	fi
+
+        	for f in "''${dir}"/*; do
+        		# shellcheck source=/dev/null
+        		. "''${f}"
+        	done
+        }
+
+        loadCompletions "/run/current-system/sw"
+        loadCompletions "''${HOME}/.nix-profile"
+        loadCompletions "/nix/var/nix/profiles/default"
+
+        unset -f loadCompletions
+
         if [ -e /run/current-system/sw/etc/profile.d/nix-daemon.sh ]; then
           . /run/current-system/sw/etc/profile.d/nix-daemon.sh
         fi
@@ -37,6 +66,11 @@ in
   ];
 
   config = {
+    age.secrets = {
+      "env.sh.age".file = ../secrets/env.sh.age;
+      "nix.conf.age".file = ../secrets/nix.conf.age;
+    };
+
     home = {
       inherit (config.dusk) username;
 
@@ -175,18 +209,11 @@ in
           )}
 
           ${darwinSetup}
-        '';
+          ${envFileSetup}
 
-        bashrcExtra =
-          let
-            base = if isDarwin then readFile ./shell/macos.sh else "";
-            extra =
-              if config.dusk.shell.environmentFile != null then
-                "source ${config.dusk.shell.environmentFile}"
-              else
-                "";
-          in
-          "${base}\n${extra}";
+          # shellcheck source=/dev/null
+          . ${toString config.age.secrets."env.sh.age".path}
+        '';
       };
 
       bat = {

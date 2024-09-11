@@ -43,6 +43,7 @@ in
     };
 
     networking.networkmanager.enable = true;
+    time.timeZone = config.dusk.system.timezone;
 
     services = {
       printing.enable = true;

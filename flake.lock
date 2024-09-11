@@ -667,11 +667,11 @@
         "zen-mode": "zen-mode"
       },
       "locked": {
-        "lastModified": 1726081434,
-        "narHash": "sha256-mC4q/mayuWaelPUIsccJWGOJWXrjkQvJkPbBzqjLWbE=",
+        "lastModified": 1726089895,
+        "narHash": "sha256-rNmh0P2f4ibUdpr60dGo5ItSpEK2JSwou/VHw5nfWYQ=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "5d9dad28547f19229b9f7e7d62bb94733a12cc5a",
+        "rev": "9687a6cd5fc4275bbc1d7b337c5b5f1adc759954",
         "type": "github"
       },
       "original": {

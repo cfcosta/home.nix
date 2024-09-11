@@ -1,8 +1,4 @@
-{
-  config,
-  ...
-}:
-{
+_: {
   imports = [
     ./dusk.nix
   ];
@@ -37,8 +33,6 @@
     };
 
     networking.hostName = "battlecruiser";
-    time.timeZone = config.dusk.system.timezone;
-
     swapDevices = [ ];
 
     # Workaround fix for nm-online-service from stalling on Wireguard interface.
