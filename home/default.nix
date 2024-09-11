@@ -5,9 +5,27 @@
   ...
 }:
 let
+  inherit (builtins)
+    attrNames
+    concatStringsSep
+    map
+    readFile
+    ;
   inherit (config.lib.file) mkOutOfStoreSymlink;
   inherit (lib) mapAttrsToList mkForce mkIf;
-  inherit (pkgs.stdenv) isLinux;
+  inherit (pkgs.stdenv) isDarwin isLinux;
+
+  darwinSetup =
+    if isDarwin then
+      ''
+        if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+          . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        fi
+
+        export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
+      ''
+    else
+      "";
 in
 {
   imports = [
@@ -78,7 +96,7 @@ in
             "^cat"
             "^fg"
             "^jobs"
-          ] ++ (builtins.map (alias: ''"^${alias}"'') (builtins.attrNames config.programs.bash.shellAliases));
+          ] ++ (map (alias: ''"^${alias}"'') (attrNames config.programs.bash.shellAliases));
         };
       };
 
@@ -147,18 +165,18 @@ in
         ];
 
         initExtra = ''
-            . ${pkgs.complete-alias}/bin/complete_alias
+          . ${pkgs.complete-alias}/bin/complete_alias
 
-          ${builtins.concatStringsSep "\n" (
-            builtins.map (alias: "complete -F _complete_alias ${alias}") (
-              builtins.attrNames config.programs.bash.shellAliases
-            )
+          ${concatStringsSep "\n" (
+            map (alias: "complete -F _complete_alias ${alias}") (attrNames config.programs.bash.shellAliases)
           )}
+
+          ${darwinSetup}
         '';
 
         bashrcExtra =
           let
-            base = if pkgs.stdenv.isDarwin then builtins.readFile ./shell/macos.sh else "";
+            base = if isDarwin then readFile ./shell/macos.sh else "";
             extra =
               if config.dusk.shell.environmentFile != null then
                 "source ${config.dusk.shell.environmentFile}"
@@ -197,7 +215,10 @@ in
         };
       };
 
+      gpg.enable = true;
+      home-manager.enable = true;
       jq.enable = true;
+      nix-index.enable = true;
 
       lsd = {
         enable = true;
@@ -240,6 +261,8 @@ in
         '';
       };
 
+      ssh.hashKnownHosts = true;
+
       starship = {
         enable = true;
         enableBashIntegration = true;
@@ -247,11 +270,6 @@ in
       };
 
       zoxide.enable = true;
-      # Let home-manager manage itself
-      home-manager.enable = true;
-      ssh.hashKnownHosts = true;
-      gpg.enable = true;
-      nix-index.enable = true;
     };
 
     xdg.configFile."pgcli/config".text = ''

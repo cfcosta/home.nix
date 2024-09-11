@@ -1,7 +1,10 @@
 { pkgs, ... }:
 {
   config = {
-    environment.systemPackages = [ pkgs.mas ];
+    environment.systemPackages = with pkgs; [
+      mas
+      streamlink
+    ];
 
     homebrew = {
       enable = true;
@@ -35,7 +38,6 @@
         "orbstack"
         "secretive"
         "signal"
-        "streamlink"
         "streamlink-twitch-gui"
         "swish"
         "syncthing"
