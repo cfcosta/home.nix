@@ -7,22 +7,27 @@ ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 NIX="nix --extra-experimental-features flakes --extra-experimental-features nix-command"
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
+	NIX_ROOT="/run/current-system/sw"
+	NIX_DAEMON="${NIX_ROOT}/etc/profile.d/nix-daemon.sh"
+
 	# Connect to nix daemon if not connected
-	if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-		. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+	if [ -e ${NIX_DAEMON} ]; then
+		# shellcheck source=/dev/null
+		. ${NIX_DAEMON}
 	fi
 
-	export PATH="/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin:$PATH"
+	export PATH="${NIX_ROOT}/bin:$PATH"
 
 	if ! which nix &>/dev/null; then
 		echo ":: Nix not found, installing"
 		curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
 
 		echo ":: Nix installed, loading daemon"
-		. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+		# shellcheck source=/dev/null
+		. ${NIX_DAEMON}
 	fi
 
-	if ! which nix &>/dev/null; then
+	if [ ! -f /opt/homebrew/bin/brew ]; then
 		echo ":: Homebrew not found, installing"
 		NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 

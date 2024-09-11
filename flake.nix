@@ -127,6 +127,9 @@
             deadnix.enable = true;
             nixfmt-rfc-style.enable = true;
             statix.enable = true;
+
+            shellcheck.enable = true;
+            shfmt.enable = true;
           };
         };
 

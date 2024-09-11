@@ -10,10 +10,12 @@ loadCompletions() {
 	fi
 
 	for f in "${dir}"/*; do
-		source "${f}"
+		# shellcheck source=/dev/null
+		. "${f}"
 	done
 }
 
+loadCompletions "/run/current-system/sw"
 loadCompletions "${HOME}/.nix-profile"
 loadCompletions "/nix/var/nix/profiles/default"
 

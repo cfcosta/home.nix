@@ -18,8 +18,8 @@ let
   darwinSetup =
     if isDarwin then
       ''
-        if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-          . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        if [ -e /run/current-system/sw/etc/profile.d/nix-daemon.sh ]; then
+          . /run/current-system/sw/etc/profile.d/nix-daemon.sh
         fi
 
         export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
@@ -55,7 +55,6 @@ in
         inconsolata
         neofetch
         python312
-        bashInteractive
         complete-alias
         eva
         fd
