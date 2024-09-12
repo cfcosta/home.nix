@@ -18,7 +18,7 @@ let
     if config.dusk.shell.environmentFile != null then
       ''
         # shellcheck source=/dev/null
-        . ${config.dusk.shell.environmentFile}
+        [ -f ${config.dusk.shell.environmentFile} ] && . ${config.dusk.shell.environmentFile}
       ''
     else
       "";
@@ -86,34 +86,16 @@ in
 
       packages = with pkgs; [
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
-
-        b3sum
-        git
-        imagemagick
-        inconsolata
-        neofetch
-        python312
-        complete-alias
-        eva
-        fd
-        fdupes
-        gist
-        git
-        glow
-        lsof
-        ncdu_2
-        neofetch
-        pgcli
-        ranger
-        ripgrep
-        scc
-        tokei
-        tree
-        unixtools.watch
-        watchexec
-        wget
       ];
     };
+
+    manual = {
+      manpages.enable = true;
+      json.enable = true;
+      html.enable = true;
+    };
+
+    news.display = "show";
 
     programs = {
       atuin = {

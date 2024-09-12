@@ -1,8 +1,4 @@
 _: {
-  imports = [
-    ./dusk.nix
-  ];
-
   config = {
     boot = {
       initrd = {
@@ -19,6 +15,8 @@ _: {
         kernelModules = [ "kvm-amd" ];
       };
     };
+
+    dusk.hostname = "battlecruiser";
 
     fileSystems = {
       "/" = {

@@ -9,9 +9,32 @@
     };
 
     environment.systemPackages = with pkgs; [
+      b3sum
+      bash
+      complete-alias
       curl
+      eva
+      fd
+      fdupes
       file
+      gist
       git
+      glow
+      imagemagick
+      inconsolata
+      lsof
+      ncdu_2
+      neofetch
+      pgcli
+      python312
+      ranger
+      ripgrep
+      scc
+      tokei
+      tree
+      unixtools.watch
+      unzip
+      watchexec
       wget
     ];
 

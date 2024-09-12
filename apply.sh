@@ -2,44 +2,63 @@
 
 set -e
 
-CMD="${1:-switch}"
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 NIX="nix --extra-experimental-features flakes --extra-experimental-features nix-command"
 
-if [[ "$(uname -s)" == "Darwin" ]]; then
-	NIX_ROOT="/run/current-system/sw"
-	NIX_DAEMON="${NIX_ROOT}/etc/profile.d/nix-daemon.sh"
+CMD="${1:-switch}"
 
-	# Connect to nix daemon if not connected
-	if [ -e ${NIX_DAEMON} ]; then
-		# shellcheck source=/dev/null
-		. ${NIX_DAEMON}
-	fi
+HOSTNAME="$(hostname -s)"
+
+# If a machine specific configuration does not exist, use the default one
+if [ ! -f "$ROOT/machines/$HOSTNAME.nix" ]; then
+	HOSTNAME="dusk"
+fi
+
+setup_darwin() {
+	NIX_ROOT="/run/current-system/sw"
 
 	export PATH="${NIX_ROOT}/bin:$PATH"
 
 	if ! which nix &>/dev/null; then
-		echo ":: Nix not found, installing"
+		echo ":: Nix not found, installing..."
 		curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
 
-		echo ":: Nix installed, loading daemon"
-		# shellcheck source=/dev/null
-		. ${NIX_DAEMON}
+		echo ":: Nix installed."
 	fi
+
+	# Make sure we are connected to the Nix Daemon
+	#
+	# shellcheck source=/dev/null
+	[ -e "${NIX_ROOT}/etc/profile.d/nix-daemon.sh" ] && . "${NIX_ROOT}/etc/profile.d/nix-daemon.sh"
 
 	if [ ! -f /opt/homebrew/bin/brew ]; then
-		echo ":: Homebrew not found, installing"
+		echo ":: Homebrew not found, installing..."
 		NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-		echo ":: Done installing homebrew"
+		echo ":: Homebrew installed."
+	fi
+}
+
+case "$(uname -s)" in
+"Darwin")
+	if [ "$(whoami)" == "root" ]; then
+		echo "This script must be run as a normal user. Sudo password will be asked from you when required."
+		exit 1
 	fi
 
-	exec ${NIX} run nix-darwin -- "$CMD" --flake "${ROOT}#$(hostname -s)"
-else
+	setup_darwin
+
+	exec ${NIX} run nix-darwin --show-trace -- "$CMD" --flake "${ROOT}#${HOSTNAME}"
+	;;
+"Linux")
 	if [ "$(whoami)" != "root" ] && [ "${CMD}" == "switch" ]; then
 		echo "This script needs to be run as root."
 		exit 1
 	fi
 
-	exec nixos-rebuild "${CMD}" --flake "${ROOT}#$(hostname)" --show-trace
-fi
+	exec nixos-rebuild "${CMD}" --flake "${ROOT}#${HOSTNAME}" --show-trace
+	;;
+*)
+	echo "Error: Invalid system"
+	;;
+esac

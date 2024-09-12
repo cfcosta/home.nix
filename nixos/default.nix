@@ -5,7 +5,8 @@
   ...
 }:
 let
-  inherit (lib) mkDefault mkForce;
+  inherit (lib) mkForce;
+  inherit (config.dusk) system username initialPassword;
 in
 {
   imports = [
@@ -25,30 +26,21 @@ in
       "mullvad.age".file = ../secrets/mullvad.age;
     };
 
-    environment.systemPackages = with pkgs; [
-      bash
-      curl
-      file
-      git
-      wget
-      unzip
-    ];
-
-    i18n.defaultLocale = config.dusk.system.locale;
+    i18n.defaultLocale = system.locale;
 
     i18n.extraLocaleSettings = {
-      LC_ADDRESS = config.dusk.system.locale;
-      LC_IDENTIFICATION = config.dusk.system.locale;
-      LC_MEASUREMENT = config.dusk.system.locale;
-      LC_MONETARY = config.dusk.system.locale;
-      LC_NAME = config.dusk.system.locale;
-      LC_NUMERIC = config.dusk.system.locale;
-      LC_PAPER = config.dusk.system.locale;
-      LC_TELEPHONE = config.dusk.system.locale;
-      LC_TIME = config.dusk.system.locale;
+      LC_ADDRESS = system.locale;
+      LC_IDENTIFICATION = system.locale;
+      LC_MEASUREMENT = system.locale;
+      LC_MONETARY = system.locale;
+      LC_NAME = system.locale;
+      LC_NUMERIC = system.locale;
+      LC_PAPER = system.locale;
+      LC_TELEPHONE = system.locale;
+      LC_TIME = system.locale;
     };
 
-    time.timeZone = config.dusk.system.timezone;
+    time.timeZone = system.timezone;
 
     services = {
       printing.enable = true;
@@ -78,11 +70,6 @@ in
       '';
     };
 
-    networking = {
-      hostName = "battlecruiser";
-      useDHCP = mkDefault true;
-    };
-
     programs.gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -92,15 +79,11 @@ in
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;
 
-    users.users.${config.dusk.username} = {
-      inherit (config.dusk) initialPassword;
+    users.users.${username} = {
+      inherit initialPassword;
 
       isNormalUser = true;
-
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ];
+      extraGroups = [ "wheel" ];
     };
 
     system.stateVersion = "24.11";

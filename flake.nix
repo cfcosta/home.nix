@@ -60,12 +60,12 @@
   outputs =
     {
       self,
-
+      agenix,
+      alacritty-theme-nix,
       flake-utils,
       nix-darwin,
       nixpkgs,
       pre-commit-hooks,
-      alacritty-theme-nix,
       ...
     }:
     let
@@ -78,6 +78,9 @@
           inherit system;
           overlays = [
             alacritty-theme-nix.overlays.default
+            (_: _: {
+              dusk.inputs = self.inputs;
+            })
           ];
 
           config = {
@@ -85,62 +88,64 @@
             enableCuda = system == "x86_64-linux";
           };
         };
-    in
-    {
-      nixosConfigurations = {
-        battlecruiser = nixosSystem {
-          pkgs = buildPkgs "x86_64-linux";
 
+      builder =
+        flavor:
+        {
+          nixos = nixosSystem;
+          darwin = darwinSystem;
+        }
+        .${flavor};
+
+      system =
+        flavor: system:
+        (builder flavor) {
+          pkgs = buildPkgs system;
           modules = [
             (import ./module.nix {
               inherit (self) inputs;
-              hostname = "battlecruiser";
-              flavor = "nixos";
             })
           ];
         };
+
+      perSystem =
+        system:
+        let
+          checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+
+            hooks = {
+              deadnix.enable = true;
+              nixfmt-rfc-style.enable = true;
+              statix.enable = true;
+
+              shellcheck.enable = true;
+              shfmt.enable = true;
+            };
+          };
+        in
+        {
+          inherit checks;
+
+          devShells.default = (buildPkgs system).mkShell {
+            inherit (checks.pre-commit-check) shellHook;
+
+            packages = [
+              agenix.packages.${system}.default
+            ];
+          };
+        };
+    in
+    flake-utils.lib.eachDefaultSystem perSystem
+    // {
+      nixosConfigurations = {
+        dusk = system "nixos" "x86_64-linux";
+        battlecruiser = system "nixos" "x86_64-linux";
       };
 
       darwinConfigurations = {
-        drone = darwinSystem {
-          pkgs = buildPkgs "aarch64-darwin";
-
-          modules = [
-            (import ./module.nix {
-              inherit (self) inputs;
-              hostname = "drone";
-              flavor = "darwin";
-            })
-          ];
-        };
+        dusk = system "darwin" "aarch64-darwin";
+        drone = system "darwin" "aarch64-darwin";
       };
-    }
-    // flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = buildPkgs system;
-      in
-      {
-        checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-
-          hooks = {
-            deadnix.enable = true;
-            nixfmt-rfc-style.enable = true;
-            statix.enable = true;
-
-            shellcheck.enable = true;
-            shfmt.enable = true;
-          };
-        };
-
-        devShells.default = pkgs.mkShell {
-          inherit (self.checks.${system}.pre-commit-check) shellHook;
-
-          packages = [
-            self.inputs.agenix.packages.${system}.default
-          ];
-        };
-      }
-    );
+    };
 }

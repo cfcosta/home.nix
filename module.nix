@@ -1,48 +1,59 @@
-{
-  hostname,
-  inputs,
-  flavor,
-}:
+inputs:
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
-  inherit (lib) mkIf optionals mkForce;
+  inherit (lib)
+    mkForce
+    optionals
+    ;
+  inherit (inputs)
+    agenix
+    home-manager
+    neovim
+    nixos-cosmic
+    nixpkgs
+    nix-darwin
+    ;
+  inherit (config.dusk.system) hostname flavor;
+
+  mod = if flavor == "darwin" then "darwinModules" else "nixosModules";
 in
 {
   imports =
     [
-      ./options.nix
+      agenix.${mod}.default
+      home-manager.${mod}.home-manager
+
       ./defaults
-      ./machines/${hostname}
+      ./options.nix
+      ./user.nix
+      ./machines/${hostname}.nix
     ]
-    ++ optionals (flavor == "darwin") [
-      inputs.agenix.darwinModules.default
-      inputs.home-manager.darwinModules.home-manager
-
-      ./darwin
-    ]
+    ++ optionals (flavor == "darwin") [ ./darwin ]
     ++ optionals (flavor == "nixos") [
-      inputs.agenix.nixosModules.default
-      inputs.home-manager.nixosModules.home-manager
-      inputs.nixos-cosmic.nixosModules.default
-
+      nixos-cosmic.nixosModules.default
       ./nixos
     ];
 
   config = {
     environment.etc = {
-      "nix/inputs/nixpkgs".source = inputs.nixpkgs;
-    } // mkIf (flavor == "darwin") { "nix/inputs/nix-darwin".source = inputs.nix-darwin; };
+      "nix/inputs/nixpkgs".source = nixpkgs;
+      "nix/inputs/nix-darwin".source = nix-darwin;
+    };
+
+    networking.hostName = hostname;
 
     nix = {
       nixPath = mkForce [ "/etc/nix/inputs" ];
 
-      registry.nixpkgs.flake = inputs.nixpkgs;
-    } // mkIf (flavor == "darwin") { registry.nix-darwin.flake = inputs.nix-darwin; };
+      registry = {
+        nixpkgs.flake = nixpkgs;
+        nix-darwin.flake = nix-darwin;
+      };
+    };
 
     home-manager = {
       useUserPackages = true;
@@ -52,19 +63,18 @@ in
         { ... }:
         {
           imports = [
-            inputs.agenix.homeManagerModules.default
-            inputs.neovim.hmModule
+            agenix.homeManagerModules.default
+            neovim.hmModule
 
             ./options.nix
+            ./user.nix
             ./machines/${hostname}/dusk.nix
+
             ./home
           ];
 
           home.stateVersion = "24.11";
 
-          programs.alacritty.settings.import = [
-            pkgs.alacritty-theme."${config.dusk.theme.settings.alacritty}"
-          ];
         };
     };
   };

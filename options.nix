@@ -47,6 +47,19 @@ in
     };
 
     system = {
+      hostname = mkOption {
+        type = types.str;
+        description = "The hostname of the system on the network";
+      };
+
+      flavor = mkOption {
+        type = types.enum [
+          "nixos"
+          "darwin"
+        ];
+        description = "Which kind of system we are configuring";
+      };
+
       locale = mkOption {
         type = types.str;
         default = "en_US.utf8";

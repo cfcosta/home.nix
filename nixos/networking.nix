@@ -41,6 +41,7 @@ in
       inherit nameservers;
 
       dhcpcd.enable = false;
+      useDHCP = false;
 
       firewall = {
         checkReversePath = false;
