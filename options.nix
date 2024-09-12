@@ -17,6 +17,7 @@ let
     removeSuffix
     types
     ;
+  inherit (pkgs.stdenv) isLinux;
 
   themeFiles = filter (hasSuffix ".nix") (attrNames (readDir ./defaults/themes));
   themes = map (removeSuffix ".nix") themeFiles;
@@ -70,11 +71,19 @@ in
     folders = {
       code = mkOption {
         type = types.str;
+        default = "${config.dusk.folders.home}/Code";
         description = "Where you host your working projects";
+      };
+
+      downloads = mkOption {
+        type = types.str;
+        default = "${config.dusk.folders.home}/Downloads";
+        description = "Where you host your Downloads";
       };
 
       home = mkOption {
         type = types.str;
+        default = if isLinux then "/home/${config.dusk.username}" else "/Users/${config.dusk.username}";
         description = "Your home folder";
       };
     };

@@ -9,6 +9,7 @@ let
 in
 {
   imports = [
+    ./bittorrent.nix
     ./boot.nix
     ./desktop.nix
     ./networking.nix

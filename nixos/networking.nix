@@ -41,7 +41,12 @@ in
       inherit nameservers;
 
       dhcpcd.enable = false;
-      firewall.checkReversePath = false;
+
+      firewall = {
+        checkReversePath = false;
+        trustedInterfaces = [ "tailscale0" ];
+      };
+
       iproute2.enable = true;
 
       networkmanager = {
@@ -62,8 +67,9 @@ in
 
         proto = {
           http.enable = true;
-          socksProxy.enable = true;
           httpProxy.enable = true;
+          i2cp.enable = true;
+          socksProxy.enable = true;
         };
       };
 

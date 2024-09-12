@@ -10,6 +10,7 @@ in
 {
   config = {
     environment.systemPackages = with pkgs; [
+      anytype
       bitwarden
       brave
       discord

@@ -10,6 +10,7 @@
       docker-compose
       podman-compose
       ctop
+      (pkgs.callPackage ./waydroid pkgs)
     ];
 
     virtualisation = {

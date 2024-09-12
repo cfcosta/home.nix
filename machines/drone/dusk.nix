@@ -1,7 +1,6 @@
-_:
+{ config, ... }:
 let
   username = "cfcosta";
-  home = "/Users/${username}";
 in
 {
   dusk = {
@@ -10,14 +9,7 @@ in
     name = "Cainã Costa";
     email = "me@cfcosta.com";
     accounts.github = "cfcosta";
-
-    folders = {
-      inherit home;
-
-      code = "${home}/Code";
-    };
-
-    shell.environmentFile = "${home}/dusk-env.sh";
+    shell.environmentFile = "${config.dusk.folders.home}/dusk-env.sh";
     tmux.showBattery = true;
   };
 }
