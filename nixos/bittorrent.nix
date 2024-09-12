@@ -17,6 +17,8 @@
 
         rpc-bind-address = "0.0.0.0";
         rpc-bind-port = 9091;
+
+        rpc-whitelist-enabled = false;
       };
     };
 
