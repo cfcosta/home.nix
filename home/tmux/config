@@ -2,7 +2,7 @@
 set mouse
 
 # Enable OSC 52 clipboard handling
-set -as terminal-features ',tmux-256color:clipboard'
+set -as terminal-features ',xterm-256color:clipboard'
 
 # True-color support for terminal
 set -sa terminal-features ",*256col*:RGB"
@@ -25,7 +25,7 @@ bind-key -r M-Right resize-pane -R 5
 # More straightforward splitting
 unbind s
 unbind %
-bind e split-window -h
+bind s split-window -h
 bind v split-window -v
 
 # Set window titles (useful for iTerm2)

@@ -14,7 +14,7 @@
       enable = true;
       escapeTime = 0;
       keyMode = "vi";
-      terminal = "tmux-256color";
+      terminal = "xterm-256color";
       extraConfig = builtins.readFile ./config;
       plugins = [ config.dusk.theme.settings.tmux ];
     };
