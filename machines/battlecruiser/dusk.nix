@@ -16,7 +16,5 @@ in
 
       code = "${home}/Code";
     };
-
-    shell.environmentFile = "${home}/dusk-env.sh";
   };
 }
