@@ -69,13 +69,11 @@
       ...
     }:
     let
-      inherit (nixpkgs.lib) nixosSystem;
-      inherit (nix-darwin.lib) darwinSystem;
-
       buildPkgs =
         system:
         import nixpkgs {
           inherit system;
+
           overlays = [
             alacritty-theme-nix.overlays.default
             (_: _: {
@@ -89,28 +87,32 @@
           };
         };
 
-      builder =
-        flavor:
-        {
-          nixos = nixosSystem;
-          darwin = darwinSystem;
-        }
-        .${flavor};
-
-      system =
-        flavor: system:
-        (builder flavor) {
+      # nixos =
+      #   system:
+      #   nixpkgs.lib.nixosSystem {
+      #     pkgs = buildPkgs system;
+      #     modules = [ ./common/module.nix ];
+      #
+      #     specialArgs = {
+      #       inherit (self) inputs;
+      #     };
+      #   };
+      darwin =
+        system:
+        nix-darwin.lib.darwinSystem {
           pkgs = buildPkgs system;
-          modules = [
-            (import ./common/module.nix {
-              inherit (self) inputs;
-            })
-          ];
+          modules = [ ./common/module.nix ];
+
+          specialArgs = {
+            inherit (self) inputs;
+          };
         };
 
       perSystem =
         system:
         let
+          inherit (buildPkgs system) mkShell;
+
           checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
             src = ./.;
 
@@ -127,7 +129,7 @@
         {
           inherit checks;
 
-          devShells.default = (buildPkgs system).mkShell {
+          devShells.default = mkShell {
             inherit (checks.pre-commit-check) shellHook;
 
             packages = [
@@ -138,14 +140,14 @@
     in
     flake-utils.lib.eachDefaultSystem perSystem
     // {
-      nixosConfigurations = {
-        dusk = system "nixos" "x86_64-linux";
-        battlecruiser = system "nixos" "x86_64-linux";
-      };
+      # nixosConfigurations = {
+      #   dusk = nixos "x86_64-linux";
+      #   battlecruiser = nixos "x86_64-linux";
+      # };
 
       darwinConfigurations = {
-        dusk = system "darwin" "aarch64-darwin";
-        drone = system "darwin" "aarch64-darwin";
+        dusk = darwin "aarch64-darwin";
+        drone = darwin "aarch64-darwin";
       };
     };
 }

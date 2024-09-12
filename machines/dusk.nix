@@ -1,3 +1,3 @@
-_: {
-  config.dusk.hostname = "dusk";
+{
+  dusk.hostname = "dusk";
 }
