@@ -11,17 +11,17 @@ in
   imports = [
     ./boot.nix
     ./desktop.nix
-    ./virtualisation.nix
+    ./networking.nix
     ./nix-index.nix
     ./nvidia.nix
-    ./tailscale.nix
-    ./privacy.nix
+    ./virtualisation.nix
   ];
 
   config = {
     age.secrets = {
       "env.sh.age".file = ../secrets/env.sh.age;
       "nix.conf.age".file = ../secrets/nix.conf.age;
+      "mullvad.age".file = ../secrets/mullvad.age;
     };
 
     environment.systemPackages = with pkgs; [
@@ -47,7 +47,6 @@ in
       LC_TIME = config.dusk.system.locale;
     };
 
-    networking.networkmanager.enable = true;
     time.timeZone = config.dusk.system.timezone;
 
     services = {

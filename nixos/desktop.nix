@@ -20,6 +20,7 @@ in
       gamescope
       helvum
       mangohud
+      mullvad-browser
       obs-studio
       simplex-chat-desktop
       streamlink-twitch-gui-bin
