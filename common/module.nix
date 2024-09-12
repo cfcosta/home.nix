@@ -27,8 +27,7 @@ in
       agenix.${mod}.default
       home-manager.${mod}.home-manager
 
-      ./defaults
-      ./options.nix
+      ./common
       ./user.nix
       ./machines/${hostname}.nix
     ]

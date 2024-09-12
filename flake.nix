@@ -102,7 +102,7 @@
         (builder flavor) {
           pkgs = buildPkgs system;
           modules = [
-            (import ./module.nix {
+            (import ./common/module.nix {
               inherit (self) inputs;
             })
           ];

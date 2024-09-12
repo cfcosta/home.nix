@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 {
+  imports = [
+    ./options.nix
+  ];
+
   config = {
     documentation = {
       enable = true;
@@ -16,9 +20,11 @@
       eva
       fd
       fdupes
+      ffmpeg
       file
       gist
       git
+      git-bug
       glow
       imagemagick
       inconsolata
@@ -27,9 +33,13 @@
       neofetch
       pgcli
       python312
+      python312Packages.yt-dlp
       ranger
       ripgrep
       scc
+      streamlink
+      tmux
+      tmuxp
       tokei
       tree
       unixtools.watch

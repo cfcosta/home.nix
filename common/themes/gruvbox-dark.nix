@@ -1,9 +1,9 @@
 { pkgs, ... }:
 {
-  alacritty = "gruvbox_light";
-  bat = "gruvbox-light";
-  btop = "gruvbox_light";
-  delta-pager = "gruvbox-light";
+  alacritty = "gruvbox";
+  bat = "gruvbox";
+  btop = "gruvbox_dark_v2";
+  delta-pager = "gruvbox";
   pgcli = "monokai"; # Fix: add custom theme
   starship = {
     aws.style = "bold #d65d0e";
@@ -21,9 +21,9 @@
       error_symbol = "[❯](bold #cc241d)";
     };
   };
-  tmux = with pkgs.tmuxPlugins; {
-    plugin = gruvbox;
-    extraConfig = "set -g @tmux-gruvbox 'light'";
+  tmux = {
+    plugin = pkgs.tmuxPlugins.gruvbox;
+    extraConfig = "set -g @tmux-gruvbox 'dark'";
   };
-  zed = "Gruvbox Light Hard";
+  zed = "Gruvbox Dark Hard";
 }

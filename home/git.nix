@@ -1,18 +1,8 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ config, ... }:
 {
   config = {
-    home.packages = with pkgs; [
-      git-bug
-      git-lfs
-    ];
-
     programs.git = {
       enable = true;
-      lfs.enable = true;
 
       userName = config.dusk.name;
       userEmail = config.dusk.email;
@@ -37,8 +27,9 @@
       ];
 
       signing = {
-        key = null;
         inherit (config.dusk.git) signByDefault;
+
+        key = null;
       };
 
       extraConfig = {

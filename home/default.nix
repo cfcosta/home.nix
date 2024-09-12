@@ -9,52 +9,41 @@ let
     attrNames
     concatStringsSep
     map
+    optionalString
     ;
   inherit (config.lib.file) mkOutOfStoreSymlink;
   inherit (lib) mapAttrsToList mkForce mkIf;
   inherit (pkgs.stdenv) isDarwin isLinux;
+  inherit (config.dusk.shell) environmentFile;
 
-  envFileSetup =
-    if config.dusk.shell.environmentFile != null then
-      ''
-        # shellcheck source=/dev/null
-        [ -f ${config.dusk.shell.environmentFile} ] && . ${config.dusk.shell.environmentFile}
-      ''
-    else
-      "";
+  darwinSetup = ''
+    # MacOS by default does not load the completions set by Nix, so this
+    # function fixes that.
+    loadCompletions() {
+    	local dir="''${1}/share/bash-completion/completions"
 
-  darwinSetup =
-    if isDarwin then
-      ''
-        # MacOS by default does not load the completions set by Nix, so this
-        # function fixes that.
-        loadCompletions() {
-        	local dir="''${1}/share/bash-completion/completions"
+    	if [ ! -d "''${dir}" ]; then
+    		return
+    	fi
 
-        	if [ ! -d "''${dir}" ]; then
-        		return
-        	fi
+    	for f in "''${dir}"/*; do
+    		# shellcheck source=/dev/null
+    		. "''${f}"
+    	done
+    }
 
-        	for f in "''${dir}"/*; do
-        		# shellcheck source=/dev/null
-        		. "''${f}"
-        	done
-        }
+    loadCompletions "/run/current-system/sw"
+    loadCompletions "''${HOME}/.nix-profile"
+    loadCompletions "/nix/var/nix/profiles/default"
 
-        loadCompletions "/run/current-system/sw"
-        loadCompletions "''${HOME}/.nix-profile"
-        loadCompletions "/nix/var/nix/profiles/default"
+    unset -f loadCompletions
 
-        unset -f loadCompletions
+    if [ -e /run/current-system/sw/etc/profile.d/nix-daemon.sh ]; then
+      . /run/current-system/sw/etc/profile.d/nix-daemon.sh
+    fi
 
-        if [ -e /run/current-system/sw/etc/profile.d/nix-daemon.sh ]; then
-          . /run/current-system/sw/etc/profile.d/nix-daemon.sh
-        fi
-
-        export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
-      ''
-    else
-      "";
+    export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
+  '';
 in
 {
   imports = [
@@ -190,8 +179,12 @@ in
             map (alias: "complete -F _complete_alias ${alias}") (attrNames config.programs.bash.shellAliases)
           )}
 
-          ${darwinSetup}
-          ${envFileSetup}
+          if [ -f ${environmentFile} ]; then
+            # shellcheck source=${environmentFile}
+            . ${environmentFile}
+          fi
+
+          ${optionalString isDarwin darwinSetup}
 
           # shellcheck source=/dev/null
           . ${toString config.age.secrets."env.sh.age".path}

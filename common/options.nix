@@ -19,10 +19,11 @@ let
     ;
   inherit (pkgs.stdenv) isLinux;
 
-  themeFiles = filter (hasSuffix ".nix") (attrNames (readDir ./defaults/themes));
+  themeDir = ./common;
+  themeFiles = filter (hasSuffix ".nix") (attrNames (readDir "${themeDir}/themes"));
   themes = map (removeSuffix ".nix") themeFiles;
 
-  currentTheme = import ./defaults/themes/${config.dusk.theme.current}.nix {
+  currentTheme = import "${themeDir}/${config.dusk.theme.current}.nix" {
     inherit config lib pkgs;
   };
 in
