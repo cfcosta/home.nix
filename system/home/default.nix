@@ -5,45 +5,57 @@
   ...
 }:
 let
-  inherit (builtins)
-    attrNames
-    concatStringsSep
-    map
-    optionalString
-    ;
-  inherit (config.lib.file) mkOutOfStoreSymlink;
-  inherit (lib) mapAttrsToList mkForce mkIf;
-  inherit (pkgs.stdenv) isDarwin isLinux;
+  inherit (builtins) attrNames concatStringsSep map;
   inherit (config.dusk.shell) environmentFile;
+  inherit (config.lib.file) mkOutOfStoreSymlink;
+  inherit (lib)
+    mapAttrsToList
+    mkForce
+    mkIf
+    ;
+  inherit (pkgs.stdenv) isDarwin isLinux;
 
-  darwinSetup = ''
-    # MacOS by default does not load the completions set by Nix, so this
-    # function fixes that.
-    loadCompletions() {
-    	local dir="''${1}/share/bash-completion/completions"
+  loadEnvFile =
+    if (environmentFile != null) then
+      ''
+        # shellcheck source=${environmentFile}
+        . ${environmentFile}
+      ''
+    else
+      "";
 
-    	if [ ! -d "''${dir}" ]; then
-    		return
-    	fi
+  darwinSetup =
+    if isDarwin then
+      ''
+        # MacOS by default does not load the completions set by Nix, so this
+        # function fixes that.
+        loadCompletions() {
+        	local dir="''${1}/share/bash-completion/completions"
 
-    	for f in "''${dir}"/*; do
-    		# shellcheck source=/dev/null
-    		. "''${f}"
-    	done
-    }
+        	if [ ! -d "''${dir}" ]; then
+        		return
+        	fi
 
-    loadCompletions "/run/current-system/sw"
-    loadCompletions "''${HOME}/.nix-profile"
-    loadCompletions "/nix/var/nix/profiles/default"
+        	for f in "''${dir}"/*; do
+        		# shellcheck source=/dev/null
+        		. "''${f}"
+        	done
+        }
 
-    unset -f loadCompletions
+        loadCompletions "/run/current-system/sw"
+        loadCompletions "''${HOME}/.nix-profile"
+        loadCompletions "/nix/var/nix/profiles/default"
 
-    if [ -e /run/current-system/sw/etc/profile.d/nix-daemon.sh ]; then
-      . /run/current-system/sw/etc/profile.d/nix-daemon.sh
-    fi
+        unset -f loadCompletions
 
-    export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
-  '';
+        if [ -e /run/current-system/sw/etc/profile.d/nix-daemon.sh ]; then
+          . /run/current-system/sw/etc/profile.d/nix-daemon.sh
+        fi
+
+        export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
+      ''
+    else
+      "";
 in
 {
   imports = [
@@ -51,13 +63,12 @@ in
     ./zed
     ./alacritty.nix
     ./git.nix
-    ./media.nix
   ];
 
   config = {
     age.secrets = {
-      "env.sh.age".file = ../secrets/env.sh.age;
-      "nix.conf.age".file = ../secrets/nix.conf.age;
+      "env.sh.age".file = ../../secrets/env.sh.age;
+      "nix.conf.age".file = ../../secrets/nix.conf.age;
     };
 
     home = {
@@ -76,6 +87,8 @@ in
       packages = with pkgs; [
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
       ];
+
+      stateVersion = "24.11";
     };
 
     manual = {
@@ -179,21 +192,16 @@ in
             map (alias: "complete -F _complete_alias ${alias}") (attrNames config.programs.bash.shellAliases)
           )}
 
-          if [ -f ${environmentFile} ]; then
-            # shellcheck source=${environmentFile}
-            . ${environmentFile}
-          fi
-
-          ${optionalString isDarwin darwinSetup}
+          ${loadEnvFile}
+          ${darwinSetup}
 
           # shellcheck source=/dev/null
-          . ${toString config.age.secrets."env.sh.age".path}
+          . ${config.age.secrets."env.sh.age".path}
         '';
       };
 
       bat = {
         enable = true;
-
         config.theme = config.dusk.theme.settings.bat;
       };
 

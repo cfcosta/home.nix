@@ -1,4 +1,4 @@
-{
+args@{
   config,
   pkgs,
   lib,
@@ -19,13 +19,9 @@ let
     ;
   inherit (pkgs.stdenv) isLinux;
 
-  themeDir = ./common;
-  themeFiles = filter (hasSuffix ".nix") (attrNames (readDir "${themeDir}/themes"));
+  themeFiles = filter (hasSuffix ".nix") (attrNames (readDir ./system/common/themes));
   themes = map (removeSuffix ".nix") themeFiles;
-
-  currentTheme = import "${themeDir}/${config.dusk.theme.current}.nix" {
-    inherit config lib pkgs;
-  };
+  currentTheme = import ./system/common/themes/${config.dusk.theme.current}.nix args;
 in
 {
   options.dusk = {
@@ -51,14 +47,7 @@ in
       hostname = mkOption {
         type = types.str;
         description = "The hostname of the system on the network";
-      };
-
-      flavor = mkOption {
-        type = types.enum [
-          "nixos"
-          "darwin"
-        ];
-        description = "Which kind of system we are configuring";
+        default = "dusk";
       };
 
       locale = mkOption {
@@ -82,25 +71,29 @@ in
       description = "User name of the main user of the system ";
     };
 
-    folders = {
-      code = mkOption {
-        type = types.str;
-        default = "${config.dusk.folders.home}/Code";
-        description = "Where you host your working projects";
-      };
+    folders =
+      let
+        home = if isLinux then "/home/${config.dusk.username}" else "/Users/${config.dusk.username}";
+      in
+      {
+        code = mkOption {
+          type = types.str;
+          description = "Where you host your working projects";
+          default = "${home}/Code";
+        };
 
-      downloads = mkOption {
-        type = types.str;
-        default = "${config.dusk.folders.home}/Downloads";
-        description = "Where you host your Downloads";
-      };
+        downloads = mkOption {
+          type = types.str;
+          description = "Where you host your Downloads";
+          default = "${home}/Downloads";
+        };
 
-      home = mkOption {
-        type = types.str;
-        default = if isLinux then "/home/${config.dusk.username}" else "/Users/${config.dusk.username}";
-        description = "Your home folder";
+        home = mkOption {
+          type = types.str;
+          description = "Your home folder";
+          default = home;
+        };
       };
-    };
 
     alacritty = {
       font = {

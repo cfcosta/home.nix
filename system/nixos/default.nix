@@ -5,8 +5,8 @@
   ...
 }:
 let
-  inherit (lib) mkForce;
   inherit (config.dusk) system username initialPassword;
+  inherit (lib) mkForce;
 in
 {
   imports = [
@@ -21,9 +21,9 @@ in
 
   config = {
     age.secrets = {
-      "env.sh.age".file = ../secrets/env.sh.age;
-      "nix.conf.age".file = ../secrets/nix.conf.age;
-      "mullvad.age".file = ../secrets/mullvad.age;
+      "env.sh.age".file = ../../secrets/env.sh.age;
+      "nix.conf.age".file = ../../secrets/nix.conf.age;
+      "mullvad.age".file = ../../secrets/mullvad.age;
     };
 
     i18n.defaultLocale = system.locale;

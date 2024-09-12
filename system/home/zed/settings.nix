@@ -100,7 +100,7 @@
     font_size = 15;
     line_height.custom = 1.4;
     max_scroll_history_lines = 10000;
-    shell.program = "/Users/cfcosta/.nix-profile/bin/bash";
+    shell.program = "/run/current-system/sw/bin/bash";
     working_directory = "current_project_directory";
   };
   theme = {

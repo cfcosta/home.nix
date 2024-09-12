@@ -27,6 +27,7 @@ in
       tartube-yt-dlp
       tdesktop
       todoist-electron
+      virt-manager
       xclip
       zed-editor
     ];

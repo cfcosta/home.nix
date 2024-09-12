@@ -6,11 +6,11 @@
 {
   config = {
     environment.systemPackages = with pkgs; [
-      virt-manager
-      docker-compose
-      podman-compose
       ctop
-      (pkgs.callPackage ./waydroid pkgs)
+      docker-compose
+      dusk.waydroid-script
+      podman-compose
+      virt-manager
     ];
 
     virtualisation = {

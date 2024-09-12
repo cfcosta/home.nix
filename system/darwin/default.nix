@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   imports = [
     ./clipboard.nix
     ./homebrew.nix
@@ -9,8 +8,8 @@
 
   config = {
     age.secrets = {
-      "env.sh.age".file = ../secrets/env.sh.age;
-      "nix.conf.age".file = ../secrets/nix.conf.age;
+      "env.sh.age".file = ../../secrets/env.sh.age;
+      "nix.conf.age".file = ../../secrets/nix.conf.age;
     };
 
     nix.useDaemon = true;

@@ -1115,7 +1115,8 @@
         "nix-darwin": "nix-darwin",
         "nixos-cosmic": "nixos-cosmic",
         "nixpkgs": "nixpkgs_2",
-        "pre-commit-hooks": "pre-commit-hooks_2"
+        "pre-commit-hooks": "pre-commit-hooks_2",
+        "waydroid-script": "waydroid-script"
       }
     },
     "rust-overlay": {
@@ -1284,6 +1285,22 @@
       "original": {
         "owner": "wakatime",
         "repo": "vim-wakatime",
+        "type": "github"
+      }
+    },
+    "waydroid-script": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1705758268,
+        "narHash": "sha256-OiZO62cvsFyCUPGpWjhxVm8fZlulhccKylOCX/nEyJU=",
+        "owner": "casualsnek",
+        "repo": "waydroid_script",
+        "rev": "1a2d3ad643206ad5f040e0155bb7ab86c0430365",
+        "type": "github"
+      },
+      "original": {
+        "owner": "casualsnek",
+        "repo": "waydroid_script",
         "type": "github"
       }
     },

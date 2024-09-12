@@ -9,9 +9,9 @@ CMD="${1:-switch}"
 
 HOSTNAME="$(hostname -s)"
 
-# If a machine specific configuration does not exist, use the default one
 if [ ! -f "$ROOT/machines/$HOSTNAME.nix" ]; then
-	HOSTNAME="dusk"
+	echo 'Error: you must define a machine with this hostname on the "machines" folder'
+	exit 1
 fi
 
 setup_darwin() {

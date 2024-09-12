@@ -1,3 +1,0 @@
-{
-  dusk.hostname = "dusk";
-}

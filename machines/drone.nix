@@ -1,7 +1,9 @@
-{
-  dusk = {
-    hostname = "drone";
-    shell.environmentFile = "\${HOME}/dusk-env.sh";
-    tmux.showBattery = true;
+_: {
+  config = {
+    dusk = {
+      shell.environmentFile = "\${HOME}/dusk-env.sh";
+      system.hostname = "drone";
+      tmux.showBattery = true;
+    };
   };
 }
