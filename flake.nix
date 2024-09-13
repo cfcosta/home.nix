@@ -74,37 +74,27 @@
 
       buildPkgs = system: ctx.pkgs.${system};
 
-      perSystem = flake-utils.lib.eachDefaultSystem (
-        system:
-        let
-          pkgs = buildPkgs system;
-        in
-        rec {
-          checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-            src = ./.;
+      perSystem = flake-utils.lib.eachDefaultSystem (system: rec {
+        checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
 
-            hooks = {
-              deadnix.enable = true;
-              nixfmt-rfc-style.enable = true;
-              statix.enable = true;
+          hooks = {
+            deadnix.enable = true;
+            nixfmt-rfc-style.enable = true;
+            statix.enable = true;
 
-              shellcheck.enable = true;
-              shfmt.enable = true;
-            };
+            shellcheck.enable = true;
+            shfmt.enable = true;
           };
+        };
 
-          packages = {
-            inherit (pkgs.dusk) catppuccin-refind waydroid-script;
+        devShells.default =
+          with (buildPkgs system);
+          mkShell {
+            inherit (checks.pre-commit-check) shellHook;
+            packages = [ agenix ];
           };
-
-          devShells.default =
-            with (buildPkgs system);
-            mkShell {
-              inherit (checks.pre-commit-check) shellHook;
-              packages = [ agenix ];
-            };
-        }
-      );
+      });
     in
     perSystem
     // {
@@ -125,14 +115,14 @@
           };
         };
 
-        orbstack = nixpkgs.lib.nixosSystem {
+        orbstack-nixos = nixpkgs.lib.nixosSystem {
           pkgs = buildPkgs "x86_64-linux";
 
           modules = [
             ./options.nix
             ./user.nix
             ./system
-            ./machines/orbstack.nix
+            ./machines/orbstack-nixos.nix
           ];
 
           specialArgs = {

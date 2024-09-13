@@ -111,6 +111,10 @@ in
           description = "Whether or not to create the main user";
         };
 
+        bittorrent.enable = mkEnabledNixosOption {
+          description = "Whether or not to install a bittorrent server";
+        };
+
         bootloader.enable = mkEnabledNixosOption {
           description = "Whether or not to install a bootloader";
         };
