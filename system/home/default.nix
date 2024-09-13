@@ -6,23 +6,11 @@
 }:
 let
   inherit (builtins) attrNames concatStringsSep map;
-  inherit (config.dusk.shell) environmentFile;
-  inherit (config.lib.file) mkOutOfStoreSymlink;
   inherit (lib)
     mapAttrsToList
     mkForce
-    mkIf
     ;
-  inherit (pkgs.stdenv) isDarwin isLinux;
-
-  loadEnvFile =
-    if (environmentFile != null) then
-      ''
-        # shellcheck source=${environmentFile}
-        . ${environmentFile}
-      ''
-    else
-      "";
+  inherit (pkgs.stdenv) isDarwin;
 
   darwinSetup =
     if isDarwin then
@@ -78,13 +66,7 @@ in
 
       homeDirectory = mkForce config.dusk.folders.home;
 
-      file =
-        {
-          ".config/nix/nix.conf".source = config.age.secrets."nix.conf.age".path;
-        }
-        // mkIf isLinux {
-          ".cache/nix-index".source = mkOutOfStoreSymlink "/var/db/nix-index";
-        };
+      file.".config/nix/nix.conf".source = config.age.secrets."nix.conf.age".path;
 
       packages = with pkgs; [
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
@@ -194,7 +176,6 @@ in
             map (alias: "complete -F _complete_alias ${alias}") (attrNames config.programs.bash.shellAliases)
           )}
 
-          ${loadEnvFile}
           ${darwinSetup}
 
           # shellcheck source=/dev/null

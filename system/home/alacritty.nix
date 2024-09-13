@@ -8,7 +8,7 @@ in
 {
   config = {
     programs.alacritty = {
-      enable = true;
+      enable = config.dusk.system.flavor == "nixos" && config.dusk.system.nixos.desktop.enable;
 
       settings = {
         env.TERM = "xterm-256color";

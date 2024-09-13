@@ -10,7 +10,6 @@ in
 {
   imports = [
     ./bittorrent.nix
-    ./nix-index.nix
     ./boot.nix
     ./desktop.nix
     ./networking.nix

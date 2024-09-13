@@ -6,18 +6,17 @@
 }:
 let
   inherit (lib)
-    mkEnableOption
     mkOption
     types
     ;
   inherit (pkgs.stdenv) isLinux;
 
-  mkEnabledOption =
+  mkEnabledNixosOption =
     args:
     mkOption (
       {
         type = types.bool;
-        default = true;
+        default = isLinux;
       }
       // args
     );
@@ -78,7 +77,7 @@ in
 
     git = {
       signByDefault =
-        mkEnabledOption
+        mkEnabledNixosOption
           {
           };
 
@@ -108,61 +107,50 @@ in
       };
 
       nixos = {
-        createUser = mkEnabledOption {
+        createUser = mkEnabledNixosOption {
           description = "Whether or not to create the main user";
         };
 
-        bootloader.enable = mkEnabledOption {
+        bootloader.enable = mkEnabledNixosOption {
           description = "Whether or not to install a bootloader";
         };
 
-        nvidia.enable = mkEnabledOption {
+        nvidia.enable = mkEnabledNixosOption {
           description = "Whether or not to enable support for Nvidia Cards";
         };
 
-        desktop.enable = mkEnabledOption {
+        desktop.enable = mkEnabledNixosOption {
           description = "Whether or not to enable the Graphical Desktop";
         };
 
-        networking.enable = mkEnabledOption {
+        networking.enable = mkEnabledNixosOption {
           description = "Whether or not to enable NetworkManager";
         };
 
         virtualisation = {
-          enable = mkEnabledOption {
+          enable = mkEnabledNixosOption {
             description = "Whether or not to enable Virtualisation Tooling";
           };
 
-          docker.enable = mkEnabledOption {
+          docker.enable = mkEnabledNixosOption {
             description = "Whether or not to enable Docker";
           };
 
-          libvirt.enable = mkEnabledOption {
+          libvirt.enable = mkEnabledNixosOption {
             description = "Whether or not to enable LibVirt";
           };
 
-          podman.enable = mkEnabledOption {
+          podman.enable = mkEnabledNixosOption {
             description = "Whether or not to enable Podman";
           };
 
-          waydroid.enable = mkEnabledOption {
+          waydroid.enable = mkEnabledNixosOption {
             description = "Whether or not to enable Waydroid (run android apps on Linux)";
           };
         };
       };
     };
 
-    shell = {
-      environmentFile = mkOption {
-        type = types.nullOr types.str;
-        default = null;
-        description = ''
-          A bash file that is loaded by the shell on each run.
-          This is used to set secrets or credentials that we don't want on the repo.
-        '';
-      };
-    };
-
-    tmux.showBattery = mkEnableOption "tmux show battery level";
+    tmux.showBattery = lib.mkEnableOption "tmux show battery level";
   };
 }

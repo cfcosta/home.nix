@@ -54,7 +54,7 @@ in
         ffmpeg
         file
         gist
-        git
+        gitMinimal
         git-bug
         glow
         imagemagick
@@ -62,16 +62,13 @@ in
         lsof
         ncdu_2
         neofetch
-        pgcli
         python3
         python3Packages.yt-dlp
-        ranger
         ripgrep
         scc
         streamlink
         tmux
         tmuxp
-        tokei
         tree
         unixtools.watch
         unzip
