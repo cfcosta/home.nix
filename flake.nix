@@ -124,14 +124,15 @@
             flavor = "nixos";
           };
         };
-        nixos = nixpkgs.lib.nixosSystem {
+
+        orbstack = nixpkgs.lib.nixosSystem {
           pkgs = buildPkgs "x86_64-linux";
 
           modules = [
             ./options.nix
             ./user.nix
             ./system
-            ./machines/nixos.nix
+            ./machines/orbstack.nix
           ];
 
           specialArgs = {

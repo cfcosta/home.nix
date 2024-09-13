@@ -1,14 +1,36 @@
-{
+args@{
   pkgs,
   config,
+  lib,
   ...
 }:
 let
+  cfg = config.dusk.system.nixos;
+
   inherit (config.dusk) username;
   inherit (config.dusk.folders) home;
+  inherit (import ./firejail args) jail;
+  inherit (lib) mkIf;
 in
 {
-  config = {
+  imports = [
+    (jail {
+      name = "tor-browser";
+      executable = "${pkgs.tor-browser}/bin/tor-browser";
+      profile = "tor-browser.profile";
+      desktop = "${pkgs.tor-browser}/share/applications/torbrowser.desktop";
+      graphical = true;
+    })
+    (jail {
+      name = "mullvad-browser";
+      executable = "${pkgs.mullvad-browser}/bin/mullvad-browser";
+      profile = "google-chrome.profile";
+      desktop = "${pkgs.mullvad-browser}/share/applications/mullvad-browser.desktop";
+      graphical = true;
+    })
+  ];
+
+  config = mkIf cfg.desktop.enable {
     environment.systemPackages = with pkgs; [
       anytype
       bitwarden
@@ -18,17 +40,13 @@ in
       element-desktop
       firefox
       fractal
-      gamescope
       helvum
       mangohud
       obs-studio
-      simplex-chat-desktop
       streamlink-twitch-gui-bin
-      tartube-yt-dlp
       tdesktop
       todoist-electron
-      virt-manager
-      xclip
+      wl-clipboard
       zed-editor
     ];
 
@@ -46,6 +64,7 @@ in
     };
 
     programs = {
+      firejail.enable = true;
       gnupg.agent.pinentryPackage = pkgs.pinentry-gnome3;
       steam.enable = true;
     };

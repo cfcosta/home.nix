@@ -1,10 +1,11 @@
 {
   pkgs,
+  config,
   lib,
   ...
 }:
 let
-  inherit (lib) concatLines optionals;
+  inherit (lib) concatLines mkIf optionals;
   inherit (pkgs) runCommand;
 
   wrapIcons =
@@ -34,8 +35,12 @@ in
       executable,
       profile ? null,
       desktop ? null,
+      graphical ? false,
     }:
-    {
+    let
+      desktopEnabled = config.dusk.system.nixos.desktop.enable;
+    in
+    mkIf (!graphical || desktopEnabled) {
       environment = {
         etc."firejail/${name}.local".text = ''
           # fix fcitx5
@@ -44,17 +49,15 @@ in
           ignore dbus-user none
         '';
 
-        systemPackages = optionals (desktop != null) [
+        systemPackages = optionals (desktopEnabled && desktop != null) [
           (wrapIcons [ pkgs.${name} ])
         ];
       };
 
-      programs.firejail = {
-        enable = true;
+      programs.firejail.wrappedBinaries.${name} = {
+        inherit desktop executable;
 
-        wrappedBinaries.${name} = {
-          inherit executable profile desktop;
-        };
+        profile = "${pkgs.firejail}/etc/firejail/${profile}";
       };
     };
 }

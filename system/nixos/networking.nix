@@ -1,11 +1,10 @@
-args@{
+{
   config,
   lib,
   pkgs,
   ...
 }:
 let
-  inherit (import ./firejail args) jail;
   inherit (lib) mkForce;
 
   nameservers = [
@@ -17,21 +16,6 @@ let
   ];
 in
 {
-  imports = [
-    (jail {
-      name = "tor-browser";
-      executable = "${pkgs.tor-browser}/bin/tor-browser";
-      profile = "${pkgs.firejail}/etc/firejail/tor-browser.profile";
-      desktop = "${pkgs.tor-browser}/share/applications/torbrowser.desktop";
-    })
-    (jail {
-      name = "mullvad-browser";
-      executable = "${pkgs.mullvad-browser}/bin/mullvad-browser";
-      profile = "${pkgs.firejail}/etc/firejail/google-chrome.profile";
-      desktop = "${pkgs.mullvad-browser}/share/applications/mullvad-browser.desktop";
-    })
-  ];
-
   config = lib.mkIf config.dusk.system.nixos.networking.enable {
     environment.systemPackages = [
       pkgs.dnsutils
