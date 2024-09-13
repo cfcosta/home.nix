@@ -95,7 +95,7 @@ in
       };
 
       extraSpecialArgs = {
-        inherit inputs;
+        inherit flavor inputs;
       };
     };
 

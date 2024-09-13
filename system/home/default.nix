@@ -55,8 +55,8 @@ in
 
   config = {
     age.secrets = {
-      "env.sh.age".file = ../../secrets/env.sh.age;
-      "nix.conf.age".file = ../../secrets/nix.conf.age;
+      env.file = ../../secrets/env.sh.age;
+      "nix.conf".file = ../../secrets/nix.conf.age;
     };
 
     catppuccin.enable = true;
@@ -65,8 +65,6 @@ in
       inherit (config.dusk) username;
 
       homeDirectory = mkForce config.dusk.folders.home;
-
-      file.".config/nix/nix.conf".source = config.age.secrets."nix.conf.age".path;
 
       packages = with pkgs; [
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
@@ -97,10 +95,11 @@ in
 
           history_filter = [
             "^ls"
-            "^cd"
-            "^cat"
             "^fg"
             "^jobs"
+            "^kill"
+            "^pkill"
+            "^reset"
           ] ++ (map (alias: ''"^${alias}"'') (attrNames config.programs.bash.shellAliases));
         };
       };
@@ -114,6 +113,10 @@ in
           bc = "eva";
           cat = "bat --decorations=never";
           g = "git status --short";
+          ga = "git add";
+          gaa = "git add -A";
+          gaai = "git add --intent-to-add -A";
+          gai = "git add --intent-to-add";
           gc = "git commit";
           gca = "git commit -a";
           gco = "git checkout";
@@ -125,8 +128,6 @@ in
           gs = "git stash";
           gsp = "git stash pop";
           htop = "btop";
-          jd = "jj diff";
-          jl = "jj log";
           ll = "lsd -l -A";
           ls = "lsd -l";
           vi = "nvim";
@@ -145,11 +146,13 @@ in
 
         # Ignore common transaction commands and the aliases we've set.
         historyIgnore = [
-          "exit"
-          "pwd"
-          "reset"
+          "ls"
           "fg"
           "jobs"
+          "kill"
+          "killall"
+          "pkill"
+          "reset"
         ] ++ (mapAttrsToList (key: _: key) config.programs.bash.shellAliases);
 
         shellOptions = [
@@ -179,7 +182,7 @@ in
           ${darwinSetup}
 
           # shellcheck source=/dev/null
-          . ${config.age.secrets."env.sh.age".path}
+          . ${config.age.secrets.env.path}
         '';
       };
 
@@ -263,6 +266,8 @@ in
     };
 
     xdg.configFile = {
+      "nix/nix.conf".source = config.age.secrets."nix.conf".path;
+
       "pgcli/config".text = ''
         max_field_width = 
         less_chatty = True

@@ -18,12 +18,6 @@ in
   ];
 
   config = {
-    age.secrets = {
-      "env.sh.age".file = ../../secrets/env.sh.age;
-      "nix.conf.age".file = ../../secrets/nix.conf.age;
-      "mullvad.age".file = ../../secrets/mullvad.age;
-    };
-
     catppuccin.enable = true;
 
     i18n.defaultLocale = system.locale;

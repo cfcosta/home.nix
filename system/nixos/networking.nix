@@ -5,7 +5,9 @@
   ...
 }:
 let
-  inherit (lib) mkForce;
+  inherit (lib) mkForce mkIf optionals;
+
+  cfg = config.dusk.system.nixos.networking;
 
   nameservers = [
     "127.0.0.1"
@@ -16,7 +18,11 @@ let
   ];
 in
 {
-  config = lib.mkIf config.dusk.system.nixos.networking.enable {
+  config = mkIf cfg.enable {
+    age.secrets = mkIf cfg.mullvad.enable {
+      "mullvad.age".file = ../../secrets/mullvad.age;
+    };
+
     environment.systemPackages = [
       pkgs.dnsutils
     ];
@@ -29,7 +35,7 @@ in
 
       firewall = {
         checkReversePath = false;
-        trustedInterfaces = [ "tailscale0" ];
+        trustedInterfaces = optionals cfg.tailscale.enable [ "tailscale0" ];
       };
 
       iproute2.enable = true;
@@ -46,7 +52,7 @@ in
     services = {
       dnscrypt-proxy2.enable = true;
 
-      i2pd = {
+      i2pd = mkIf cfg.i2p.enable {
         enable = true;
         address = "10.0.0.0";
 
@@ -59,10 +65,12 @@ in
       };
 
       resolved.enable = false;
-      tailscale.enable = true;
+      tailscale = {
+        inherit (cfg.tailscale) enable;
+      };
     };
 
-    system.activationScripts = {
+    system.activationScripts = mkIf cfg.mullvad.enable {
       enable-mullvad = {
         deps = [ ];
         text =
@@ -74,7 +82,6 @@ in
               printf 'skip/true' > /tmp/mullvad
             else
               ${nm} connection import type wireguard file ${config.age.secrets."mullvad.age".path}
-
               printf 'installed/true' > /tmp/nullvad
             fi
           '';

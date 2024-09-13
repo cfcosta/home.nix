@@ -127,8 +127,22 @@ in
           description = "Whether or not to enable the Graphical Desktop";
         };
 
-        networking.enable = mkEnabledNixosOption {
-          description = "Whether or not to enable NetworkManager";
+        networking = {
+          enable = mkEnabledNixosOption {
+            description = "Whether or not to enable NetworkManager";
+          };
+
+          i2p.enable = mkEnabledNixosOption {
+            description = "Whether or not to enable i2p";
+          };
+
+          mullvad.enable = mkEnabledNixosOption {
+            description = "Whether or not to enable Mullvad VPN";
+          };
+
+          tailscale.enable = mkEnabledNixosOption {
+            description = "Whether or not to enable Tailscale VPN";
+          };
         };
 
         virtualisation = {

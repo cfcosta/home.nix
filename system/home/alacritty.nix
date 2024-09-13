@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, flavor, ... }:
 let
   font = style: {
     inherit style;
@@ -8,7 +8,7 @@ in
 {
   config = {
     programs.alacritty = {
-      enable = config.dusk.system.flavor == "nixos" && config.dusk.system.nixos.desktop.enable;
+      enable = flavor == "nixos" && config.dusk.system.nixos.desktop.enable;
 
       settings = {
         env.TERM = "xterm-256color";
