@@ -54,10 +54,7 @@ in
   ];
 
   config = {
-    age.secrets = {
-      env.file = ../../secrets/env.sh.age;
-      "nix.conf".file = ../../secrets/nix.conf.age;
-    };
+    age.secrets.env.file = ../../secrets/env.sh.age;
 
     catppuccin.enable = true;
 
@@ -265,13 +262,9 @@ in
       zoxide.enable = true;
     };
 
-    xdg.configFile = {
-      "nix/nix.conf".source = config.age.secrets."nix.conf".path;
-
-      "pgcli/config".text = ''
-        max_field_width = 
-        less_chatty = True
-      '';
-    };
+    xdg.configFile."pgcli/config".text = ''
+      max_field_width = 
+      less_chatty = True
+    '';
   };
 }

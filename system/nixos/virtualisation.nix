@@ -12,7 +12,7 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages =
       with pkgs;
-      optionals (config.dusk.system.nixos.desktop.enable and cfg.libvirt.enable) [ virt-manager ]
+      optionals (config.dusk.system.nixos.desktop.enable && cfg.libvirt.enable) [ virt-manager ]
       ++ optionals cfg.docker.enable [
         docker-compose
         ctop

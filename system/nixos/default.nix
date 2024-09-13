@@ -69,6 +69,15 @@ in
       enableSSHSupport = true;
     };
 
+    security = {
+      audit = {
+        enable = true;
+        rules = [ "-a exit,always -F arch=b64 -S execve" ];
+      };
+
+      auditd.enable = true;
+    };
+
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;
 

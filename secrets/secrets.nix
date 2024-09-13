@@ -9,5 +9,4 @@ in
 {
   "env.sh.age".publicKeys = cfcosta;
   "mullvad.age".publicKeys = cfcosta;
-  "nix.conf.age".publicKeys = cfcosta;
 }
