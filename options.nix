@@ -11,6 +11,16 @@ let
     types
     ;
   inherit (pkgs.stdenv) isLinux;
+
+  mkEnabledOption =
+    args:
+    mkOption (
+      {
+        type = types.bool;
+        default = true;
+      }
+      // args
+    );
 in
 {
   options.dusk = {
@@ -18,26 +28,6 @@ in
       type = types.str;
       description = "Initial password for the created user in the system ";
       default = "dusk";
-    };
-
-    system = {
-      hostname = mkOption {
-        type = types.str;
-        description = "The hostname of the system on the network";
-        default = "dusk";
-      };
-
-      locale = mkOption {
-        type = types.str;
-        default = "en_US.utf8";
-        description = "Locale of the system ";
-      };
-
-      timezone = mkOption {
-        type = types.str;
-        default = "America/Sao_Paulo";
-        description = "Timezone to use for the system";
-      };
     };
 
     accounts.github = mkOption { type = types.str; };
@@ -87,14 +77,78 @@ in
     };
 
     git = {
-      signByDefault = mkOption {
-        type = types.bool;
-        default = true;
-      };
+      signByDefault =
+        mkEnabledOption
+          {
+          };
 
       defaultBranch = mkOption {
         type = types.str;
         default = "main";
+      };
+    };
+
+    system = {
+      hostname = mkOption {
+        type = types.str;
+        description = "The hostname of the system on the network";
+        default = "dusk";
+      };
+
+      locale = mkOption {
+        type = types.str;
+        default = "en_US.utf8";
+        description = "Locale of the system ";
+      };
+
+      timezone = mkOption {
+        type = types.str;
+        default = "America/Sao_Paulo";
+        description = "Timezone to use for the system";
+      };
+
+      nixos = {
+        createUser = mkEnabledOption {
+          description = "Whether or not to create the main user";
+        };
+
+        bootloader.enable = mkEnabledOption {
+          description = "Whether or not to install a bootloader";
+        };
+
+        nvidia.enable = mkEnabledOption {
+          description = "Whether or not to enable support for Nvidia Cards";
+        };
+
+        desktop.enable = mkEnabledOption {
+          description = "Whether or not to enable the Graphical Desktop";
+        };
+
+        networking.enable = mkEnabledOption {
+          description = "Whether or not to enable NetworkManager";
+        };
+
+        virtualisation = {
+          enable = mkEnabledOption {
+            description = "Whether or not to enable Virtualisation Tooling";
+          };
+
+          docker.enable = mkEnabledOption {
+            description = "Whether or not to enable Docker";
+          };
+
+          libvirt.enable = mkEnabledOption {
+            description = "Whether or not to enable LibVirt";
+          };
+
+          podman.enable = mkEnabledOption {
+            description = "Whether or not to enable Podman";
+          };
+
+          waydroid.enable = mkEnabledOption {
+            description = "Whether or not to enable Waydroid (run android apps on Linux)";
+          };
+        };
       };
     };
 

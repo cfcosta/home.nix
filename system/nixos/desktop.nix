@@ -45,7 +45,10 @@ in
       ];
     };
 
-    programs.steam.enable = true;
+    programs = {
+      gnupg.agent.pinentryPackage = pkgs.pinentry-gnome3;
+      steam.enable = true;
+    };
 
     security.rtkit.enable = true;
 

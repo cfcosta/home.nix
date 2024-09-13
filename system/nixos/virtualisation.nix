@@ -1,40 +1,55 @@
 {
-  pkgs,
   config,
+  pkgs,
+  lib,
   ...
 }:
+let
+  inherit (lib) mkIf optionals;
+  cfg = config.dusk.system.nixos.virtualisation;
+in
 {
-  config = {
-    environment.systemPackages = with pkgs; [
-      ctop
-      docker-compose
-      dusk.waydroid-script
-      podman-compose
-      virt-manager
-    ];
+  config = mkIf cfg.enable {
+    environment.systemPackages =
+      with pkgs;
+      optionals (config.dusk.system.nixos.desktop.enable and cfg.libvirt.enable) [ virt-manager ]
+      ++ optionals cfg.docker.enable [
+        docker-compose
+        ctop
+      ]
+      ++ optionals cfg.podman.enable [
+        podman-compose
+        ctop
+      ]
+      ++ optionals cfg.waydroid.enable [ dusk.waydroid-script ];
 
     virtualisation = {
       docker = {
-        enable = true;
+        inherit (cfg.docker) enable;
         autoPrune.enable = true;
       };
 
-      libvirtd.enable = true;
-      lxd.enable = true;
+      libvirtd = {
+        inherit (cfg.libvirt) enable;
+      };
+
+      lxd.enable = cfg.libvirt.enable or cfg.waydroid.enable;
 
       podman = {
-        enable = true;
+        inherit (cfg.podman) enable;
+
         autoPrune.enable = true;
       };
 
-      waydroid.enable = true;
+      waydroid = {
+        inherit (cfg.waydroid) enable;
+      };
     };
 
-    users.users.${config.dusk.username}.extraGroups = [
-      "docker"
-      "libvirtd"
-      "lxd"
-      "podman"
-    ];
+    users.users.${config.dusk.username}.extraGroups =
+      optionals cfg.libvirt.enable [ "libvirtd" ]
+      ++ optionals cfg.podman.enable [ "podman" ]
+      ++ optionals cfg.waydroid.enable [ "lxd" ]
+      ++ optionals cfg.docker.enable [ "docker" ];
   };
 }

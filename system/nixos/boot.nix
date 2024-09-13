@@ -1,12 +1,14 @@
 {
+  config,
   pkgs,
+  lib,
   ...
 }:
 {
-  config = {
+  config = lib.mkIf config.dusk.system.nixos.bootloader.enable {
     boot.loader = {
       efi.canTouchEfiVariables = true;
-      systemd-boot.enable = true;
+      systemd-boot.enable = lib.mkDefault true;
     };
 
     environment.systemPackages = with pkgs; [

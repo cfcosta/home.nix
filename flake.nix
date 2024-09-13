@@ -37,8 +37,14 @@
         gitignore.follows = "gitignore";
       };
     };
+
+    # Non-flakes
     waydroid-script = {
       url = "github:casualsnek/waydroid_script";
+      flake = false;
+    };
+    catppuccin-refind = {
+      url = "github:catppuccin/refind";
       flake = false;
     };
   };
@@ -52,54 +58,86 @@
       ...
     }:
     let
-      buildPkgs =
-        system:
-        import nixpkgs {
+      ctx = flake-utils.lib.eachDefaultSystem (system: {
+        pkgs = import nixpkgs {
           inherit system;
           overlays = [
             inputs.agenix.overlays.default
             (import ./system/overlay inputs)
           ];
-          config.allowUnfree = true;
-        };
-
-      perSystem = flake-utils.lib.eachDefaultSystem (system: rec {
-        checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-
-          hooks = {
-            deadnix.enable = true;
-            nixfmt-rfc-style.enable = true;
-            statix.enable = true;
-
-            shellcheck.enable = true;
-            shfmt.enable = true;
+          config = {
+            allowUnfree = true;
+            allowUnsupportedSystem = true;
           };
         };
-
-        devShells.default =
-          with (buildPkgs system);
-          mkShell {
-            inherit (checks.pre-commit-check) shellHook;
-            packages = [ agenix ];
-          };
       });
+
+      buildPkgs = system: ctx.pkgs.${system};
+
+      perSystem = flake-utils.lib.eachDefaultSystem (
+        system:
+        let
+          pkgs = buildPkgs system;
+        in
+        rec {
+          checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+
+            hooks = {
+              deadnix.enable = true;
+              nixfmt-rfc-style.enable = true;
+              statix.enable = true;
+
+              shellcheck.enable = true;
+              shfmt.enable = true;
+            };
+          };
+
+          packages = {
+            inherit (pkgs.dusk) catppuccin-refind waydroid-script;
+          };
+
+          devShells.default =
+            with (buildPkgs system);
+            mkShell {
+              inherit (checks.pre-commit-check) shellHook;
+              packages = [ agenix ];
+            };
+        }
+      );
     in
     perSystem
     // {
-      nixosConfigurations.battlecruiser = nixpkgs.lib.nixosSystem {
-        pkgs = buildPkgs "x86_64-linux";
+      nixosConfigurations = {
+        battlecruiser = nixpkgs.lib.nixosSystem {
+          pkgs = buildPkgs "x86_64-linux";
 
-        modules = [
-          ./options.nix
-          ./user.nix
-          ./system
-          ./machines/battlecruiser.nix
-        ];
+          modules = [
+            ./options.nix
+            ./user.nix
+            ./system
+            ./machines/battlecruiser.nix
+          ];
 
-        specialArgs = {
-          inherit inputs;
-          flavor = "nixos";
+          specialArgs = {
+            inherit inputs;
+            flavor = "nixos";
+          };
+        };
+        nixos = nixpkgs.lib.nixosSystem {
+          pkgs = buildPkgs "x86_64-linux";
+
+          modules = [
+            ./options.nix
+            ./user.nix
+            ./system
+            ./machines/nixos.nix
+          ];
+
+          specialArgs = {
+            inherit inputs;
+            flavor = "nixos";
+          };
         };
       };
 

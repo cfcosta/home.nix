@@ -12,7 +12,7 @@ let
     ;
 
   pname = "waydroid-script";
-  version = "0-unstable-2024-01-20";
+  version = "0.0.0";
   src = inputs.waydroid-script;
 
   resetprop = mkDerivation {

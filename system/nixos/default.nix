@@ -1,22 +1,21 @@
 {
   lib,
-  pkgs,
   config,
   ...
 }:
 let
   inherit (config.dusk) system username initialPassword;
-  inherit (lib) mkForce;
+  inherit (lib) mkForce mkIf;
 in
 {
   imports = [
     ./bittorrent.nix
+    ./nix-index.nix
     ./boot.nix
     ./desktop.nix
     ./networking.nix
-    ./nix-index.nix
-    ./nvidia.nix
     ./virtualisation.nix
+    ./nvidia.nix
   ];
 
   config = {
@@ -75,13 +74,12 @@ in
     programs.gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
-      pinentryPackage = pkgs.pinentry-gnome3;
     };
 
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;
 
-    users.users.${username} = {
+    users.users.${username} = mkIf config.dusk.system.nixos.createUser {
       inherit initialPassword;
 
       isNormalUser = true;

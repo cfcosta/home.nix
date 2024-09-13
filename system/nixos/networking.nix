@@ -32,7 +32,7 @@ in
     })
   ];
 
-  config = {
+  config = lib.mkIf config.dusk.system.nixos.networking.enable {
     environment.systemPackages = [
       pkgs.dnsutils
     ];
