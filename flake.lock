@@ -68,6 +68,22 @@
         "type": "github"
       }
     },
+    "catppuccin-cosmic": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1718939145,
+        "narHash": "sha256-l8q2lJJuBKGXg8yoc3jvcvnlqGRz842oLHoA4gZj/As=",
+        "owner": "catppuccin",
+        "repo": "cosmic-desktop",
+        "rev": "11231f34a5de36e09a4f0fb7771a932969f3806e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "cosmic-desktop",
+        "type": "github"
+      }
+    },
     "catppuccin-refind": {
       "flake": false,
       "locked": {
@@ -1062,6 +1078,7 @@
       "inputs": {
         "agenix": "agenix",
         "catppuccin": "catppuccin",
+        "catppuccin-cosmic": "catppuccin-cosmic",
         "catppuccin-refind": "catppuccin-refind",
         "flake-utils": "flake-utils",
         "gitignore": "gitignore",

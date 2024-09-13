@@ -47,10 +47,11 @@ let
 in
 {
   imports = [
+    ./alacritty.nix
+    ./cosmic
+    ./git.nix
     ./tmux
     ./zed
-    ./alacritty.nix
-    ./git.nix
   ];
 
   config = {
@@ -262,9 +263,12 @@ in
       zoxide.enable = true;
     };
 
-    xdg.configFile."pgcli/config".text = ''
-      max_field_width = 
-      less_chatty = True
-    '';
+    xdg = {
+      enable = true;
+      configFile."pgcli/config".text = ''
+        max_field_width = 
+        less_chatty = True
+      '';
+    };
   };
 }

@@ -31,24 +31,32 @@ in
   ];
 
   config = mkIf cfg.desktop.enable {
-    environment.systemPackages = with pkgs; [
-      anytype
-      bitwarden
-      brave
-      discord
-      easyeffects
-      element-desktop
-      firefox
-      fractal
-      helvum
-      mangohud
-      obs-studio
-      streamlink-twitch-gui-bin
-      tdesktop
-      todoist-electron
-      wl-clipboard
-      zed-editor
-    ];
+
+    environment = {
+      sessionVariables = {
+        BROWSER = config.dusk.defaults.browser;
+        TERMINAL = "alacritty";
+      };
+
+      systemPackages = with pkgs; [
+        anytype
+        bitwarden
+        brave
+        discord
+        easyeffects
+        element-desktop
+        firefox
+        fractal
+        helvum
+        mangohud
+        obs-studio
+        streamlink-twitch-gui-bin
+        tdesktop
+        todoist-electron
+        wl-clipboard
+        zed-editor
+      ];
+    };
 
     hardware = {
       graphics.enable = true;

@@ -39,12 +39,16 @@
     };
 
     # Non-flakes
-    waydroid-script = {
-      url = "github:casualsnek/waydroid_script";
+    catppuccin-cosmic = {
+      url = "github:catppuccin/cosmic-desktop";
       flake = false;
     };
     catppuccin-refind = {
       url = "github:catppuccin/refind";
+      flake = false;
+    };
+    waydroid-script = {
+      url = "github:casualsnek/waydroid_script";
       flake = false;
     };
   };

@@ -5,7 +5,7 @@
 }:
 let
   inherit (config.dusk) system username initialPassword;
-  inherit (lib) mkForce mkIf;
+  inherit (lib) mkDefault mkForce mkIf;
 in
 {
   imports = [
@@ -19,6 +19,8 @@ in
 
   config = {
     catppuccin.enable = true;
+
+    environment.defaultPackages = mkForce [ ];
 
     i18n.defaultLocale = system.locale;
 
@@ -71,11 +73,11 @@ in
 
     security = {
       audit = {
-        enable = true;
+        enable = mkDefault true;
         rules = [ "-a exit,always -F arch=b64 -S execve" ];
       };
 
-      auditd.enable = true;
+      auditd.enable = mkDefault true;
     };
 
     # Make clock compatible with windows (for dual boot)

@@ -37,6 +37,14 @@ in
       description = "User name of the main user of the system ";
     };
 
+    defaults = {
+      browser = mkOption {
+        type = types.str;
+        description = "Your default browser";
+        default = "firefox";
+      };
+    };
+
     folders =
       let
         home = if isLinux then "/home/${config.dusk.username}" else "/Users/${config.dusk.username}";

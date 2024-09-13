@@ -21,6 +21,7 @@ in
         nixos = {
           createUser = false;
 
+          bittorrent.enable = false;
           bootloader.enable = false;
           desktop.enable = false;
           networking.enable = false;
@@ -92,8 +93,10 @@ in
           noipv6
         '';
       };
+
       useDHCP = false;
       useHostResolvConf = false;
+      useNetworkd = false;
     };
 
     systemd = {

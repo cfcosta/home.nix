@@ -54,8 +54,8 @@ in
         ffmpeg
         file
         gist
-        gitMinimal
         git-bug
+        gitMinimal
         glow
         imagemagick
         inconsolata
@@ -65,6 +65,7 @@ in
         python3
         python3Packages.yt-dlp
         ripgrep
+        rsync
         scc
         streamlink
         tmux
