@@ -1,42 +1,19 @@
-args@{
+{
   config,
   pkgs,
   lib,
   ...
 }:
 let
-  inherit (builtins)
-    attrNames
-    filter
-    readDir
-    ;
   inherit (lib)
-    hasSuffix
     mkEnableOption
     mkOption
-    removeSuffix
     types
     ;
   inherit (pkgs.stdenv) isLinux;
-
-  themeFiles = filter (hasSuffix ".nix") (attrNames (readDir ./system/common/themes));
-  themes = map (removeSuffix ".nix") themeFiles;
-  currentTheme = import ./system/common/themes/${config.dusk.theme.current}.nix args;
 in
 {
   options.dusk = {
-    theme = {
-      current = mkOption {
-        type = types.enum themes;
-        default = "catppuccin-mocha";
-      };
-
-      settings = mkOption {
-        type = types.attrs;
-        default = currentTheme;
-      };
-    };
-
     initialPassword = mkOption {
       type = types.str;
       description = "Initial password for the created user in the system ";

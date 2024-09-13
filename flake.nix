@@ -5,13 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     agenix.url = "github:ryantm/agenix";
-    alacritty-theme-nix = {
-      url = "github:alexghr/alacritty-theme.nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        alacritty-theme.follows = "alacritty-theme";
-      };
-    };
+    catppuccin.url = "github:catppuccin/nix";
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,11 +37,6 @@
         gitignore.follows = "gitignore";
       };
     };
-
-    alacritty-theme = {
-      url = "github:alacritty/alacritty-theme";
-      flake = false;
-    };
     waydroid-script = {
       url = "github:casualsnek/waydroid_script";
       flake = false;
@@ -69,8 +58,7 @@
           inherit system;
           overlays = [
             inputs.agenix.overlays.default
-            inputs.alacritty-theme-nix.overlays.default
-            (import ./system/common/overlay inputs)
+            (import ./system/overlay inputs)
           ];
           config.allowUnfree = true;
         };

@@ -19,6 +19,7 @@ let
 
   linuxModules = optionals (flavor == "nixos") [
     inputs.agenix.nixosModules.default
+    inputs.catppuccin.nixosModules.catppuccin
     inputs.home-manager.nixosModules.default
     inputs.nixos-cosmic.nixosModules.default
 
@@ -43,6 +44,7 @@ in
       };
 
       systemPackages = with pkgs; [
+        age
         b3sum
         complete-alias
         curl
@@ -81,9 +83,11 @@ in
     home-manager = {
       useUserPackages = true;
       useGlobalPkgs = true;
+
       users.${config.dusk.username} = _: {
         imports = [
           inputs.agenix.homeManagerModules.default
+          inputs.catppuccin.homeManagerModules.catppuccin
           inputs.neovim.hmModule
 
           ../options.nix
@@ -91,6 +95,10 @@ in
 
           ./home
         ];
+      };
+
+      extraSpecialArgs = {
+        inherit inputs;
       };
     };
 

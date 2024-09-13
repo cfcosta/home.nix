@@ -22,7 +22,6 @@
       casks = [
         "brave-browser"
         "chromedriver"
-        "cursor"
         "discord"
         "element"
         "firefox"
@@ -42,9 +41,7 @@
         "swish"
         "syncthing"
         "tor-browser"
-        "transmission"
         "vlc"
-        "xmind"
         "zed"
       ];
 

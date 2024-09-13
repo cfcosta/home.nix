@@ -1,4 +1,3 @@
-{ config, ... }:
 {
   assistant = {
     version = "2";
@@ -105,8 +104,8 @@
   };
   theme = {
     mode = "system";
-    light = config.dusk.theme.settings.zed;
-    dark = config.dusk.theme.settings.zed;
+    light = "Catppuccin Mocha";
+    dark = "Catppuccin Mocha";
   };
   toolbar = {
     breadcrumbs = false;

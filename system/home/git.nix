@@ -11,8 +11,6 @@
         enable = true;
 
         options = {
-          theme = config.dusk.theme.settings.delta-pager;
-
           line-numbers = true;
           navigate = true;
         };
@@ -26,10 +24,6 @@
         ".vscode"
         "result"
         "result-bin"
-      ];
-
-      includes = [
-        { path = ../common/themes/git/catppuccin.gitconfig; }
       ];
 
       signing = {

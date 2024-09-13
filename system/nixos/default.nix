@@ -26,6 +26,8 @@ in
       "mullvad.age".file = ../../secrets/mullvad.age;
     };
 
+    catppuccin.enable = true;
+
     i18n.defaultLocale = system.locale;
 
     i18n.extraLocaleSettings = {

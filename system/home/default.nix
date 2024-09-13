@@ -71,6 +71,8 @@ in
       "nix.conf.age".file = ../../secrets/nix.conf.age;
     };
 
+    catppuccin.enable = true;
+
     home = {
       inherit (config.dusk) username;
 
@@ -200,17 +202,12 @@ in
         '';
       };
 
-      bat = {
-        enable = true;
-        config.theme = config.dusk.theme.settings.bat;
-      };
+      bat.enable = true;
 
       btop = {
         enable = true;
 
         settings = {
-          color_theme = config.dusk.theme.settings.btop;
-
           true_color = true;
           vim_keys = true;
         };
@@ -279,20 +276,15 @@ in
       starship = {
         enable = true;
         enableBashIntegration = true;
-        settings = config.dusk.theme.settings.starship;
       };
 
       zoxide.enable = true;
     };
 
     xdg.configFile = {
-      "bat/themes".source = ../common/themes/bat;
-      "btop/themes".source = ../common/themes/btop;
-      "starship/themes".source = ../common/themes/starship;
       "pgcli/config".text = ''
         max_field_width = 
         less_chatty = True
-        syntax_style = "${config.dusk.theme.settings.pgcli}"
       '';
     };
   };

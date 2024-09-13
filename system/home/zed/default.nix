@@ -16,7 +16,7 @@ in
       file = {
         ".config/zed/settings.nix.json" = {
           force = true;
-          text = toJSON (import ./settings.nix { inherit config; });
+          text = toJSON (import ./settings.nix);
         };
         ".config/zed/keymap.json".text = readFile ./keymap.json;
       };
