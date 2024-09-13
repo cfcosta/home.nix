@@ -285,10 +285,15 @@ in
       zoxide.enable = true;
     };
 
-    xdg.configFile."pgcli/config".text = ''
-      max_field_width = 
-      less_chatty = True
-      syntax_style = "${config.dusk.theme.settings.pgcli}"
-    '';
+    xdg.configFile = {
+      "bat/themes".source = ../common/themes/bat;
+      "btop/themes".source = ../common/themes/btop;
+      "starship/themes".source = ../common/themes/starship;
+      "pgcli/config".text = ''
+        max_field_width = 
+        less_chatty = True
+        syntax_style = "${config.dusk.theme.settings.pgcli}"
+      '';
+    };
   };
 }

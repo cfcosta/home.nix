@@ -28,7 +28,7 @@ in
     theme = {
       current = mkOption {
         type = types.enum themes;
-        default = "dracula";
+        default = "catppuccin-mocha";
       };
 
       settings = mkOption {
@@ -99,7 +99,7 @@ in
       font = {
         family = mkOption {
           type = types.str;
-          default = "Inconsolata";
+          default = "Inconsolata NerdFont Mono";
         };
 
         size = mkOption {
