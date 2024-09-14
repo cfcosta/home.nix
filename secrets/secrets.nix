@@ -10,6 +10,6 @@ in
   "env.sh.age".publicKeys = cfcosta;
   "mullvad.age".publicKeys = cfcosta;
 
-  "ca.pem.age".publicKeys = cfcosta;
+  "ca.key.age".publicKeys = cfcosta;
   "localhost.key.age".publicKeys = cfcosta;
 }
