@@ -140,22 +140,6 @@
             flavor = "nixos";
           };
         };
-
-        orbstack-nixos = nixpkgs.lib.nixosSystem {
-          pkgs = buildPkgs "x86_64-linux";
-
-          modules = [
-            ./options.nix
-            ./user.nix
-            ./system
-            ./machines/orbstack-nixos.nix
-          ];
-
-          specialArgs = {
-            inherit inputs;
-            flavor = "nixos";
-          };
-        };
       };
 
       darwinConfigurations.drone = nix-darwin.lib.darwinSystem {
