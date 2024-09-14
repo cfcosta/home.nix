@@ -23,7 +23,7 @@ in
     ./server
   ];
 
-  config = {
+  config = mkIf config.dusk.system.nixos.enable {
     catppuccin.enable = true;
 
     environment.defaultPackages = mkForce [ ];

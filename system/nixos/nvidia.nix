@@ -4,8 +4,11 @@
   pkgs,
   ...
 }:
+let
+  cfg = config.dusk.system.nixos;
+in
 {
-  config = lib.mkIf config.dusk.system.nixos.nvidia.enable {
+  config = lib.mkIf cfg.nvidia.enable {
     environment.systemPackages = with pkgs; [ nvtopPackages.nvidia ];
 
     hardware = {
@@ -20,7 +23,7 @@
         modesetting.enable = true;
       };
 
-      nvidia-container-toolkit.enable = config.dusk.system.nixos.virtualisation.enable;
+      nvidia-container-toolkit.enable = cfg.virtualisation.enable;
     };
 
     services.xserver.videoDrivers = [ "nvidia" ];

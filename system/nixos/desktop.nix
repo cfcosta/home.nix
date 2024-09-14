@@ -6,7 +6,7 @@ args@{
   ...
 }:
 let
-  cfg = config.dusk.system.nixos;
+  cfg = config.dusk.system.nixos.desktop;
 
   inherit (config.dusk) username;
   inherit (config.dusk.folders) home;
@@ -14,7 +14,7 @@ let
   inherit (lib) mkIf optionals;
 in
 {
-  config = mkIf cfg.desktop.enable {
+  config = mkIf cfg.enable {
     environment = {
       sessionVariables = {
         BROWSER = config.dusk.defaults.browser;
@@ -63,7 +63,7 @@ in
             graphical = true;
           })
         ]
-        ++ optionals cfg.desktop.alacritty.enable [ alacritty ];
+        ++ optionals cfg.alacritty.enable [ alacritty ];
     };
 
     hardware = {

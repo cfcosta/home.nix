@@ -124,20 +124,18 @@
     in
     perSystem
     // {
-      nixosConfigurations = {
-        battlecruiser = nixpkgs.lib.nixosSystem {
-          pkgs = buildPkgs "x86_64-linux";
+      nixosConfigurations.battlecruiser = nixpkgs.lib.nixosSystem {
+        pkgs = buildPkgs "x86_64-linux";
 
-          modules = [
-            ./system
-            ./system/nixos
-            ./machines/battlecruiser.nix
-          ];
+        modules = [
+          ./system
+          ./system/nixos
+          ./machines/battlecruiser.nix
+        ];
 
-          specialArgs = {
-            inherit inputs;
-            flavor = "nixos";
-          };
+        specialArgs = {
+          inherit inputs;
+          flavor = "nixos";
         };
       };
 
@@ -146,7 +144,7 @@
 
         modules = [
           ./system
-          ./system/nixos
+          ./system/darwin
           ./machines/drone.nix
         ];
 

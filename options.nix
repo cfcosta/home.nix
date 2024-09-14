@@ -1,7 +1,8 @@
 {
   config,
-  pkgs,
+  flavor,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -11,16 +12,16 @@ let
     ;
   inherit (pkgs.stdenv) isLinux;
 
-  mkEnabledNixosOption =
+  mkEnabledOption =
     {
-      description ? "Enable unnamed NixOS module",
+      description ? "Enable unnamed module",
       parent ? null,
     }:
     mkOption {
       inherit description;
 
       type = types.bool;
-      default = if parent == null then isLinux else parent;
+      default = parent == null || parent;
     };
 in
 {
@@ -141,27 +142,36 @@ in
           cfg = config.dusk.system.nixos;
         in
         {
-          createUser = mkEnabledNixosOption {
+          enable = mkOption {
+            description = "Whether or not to enable NixOS Modules";
+            default = flavor == "nixos";
+          };
+
+          createUser = mkEnabledOption {
             description = "Whether or not to create the main user";
+            parent = cfg.enable;
           };
 
-          bootloader.enable = mkEnabledNixosOption {
+          bootloader.enable = mkEnabledOption {
             description = "Whether or not to install a bootloader";
+            parent = cfg.enable;
           };
 
-          nvidia.enable = mkEnabledNixosOption {
+          nvidia.enable = mkEnabledOption {
             description = "Whether or not to enable support for Nvidia Cards";
+            parent = cfg.enable;
           };
 
           desktop = {
-            enable = mkEnabledNixosOption {
+            enable = mkEnabledOption {
               description = "Whether or not to enable the Graphical Desktop";
+              parent = cfg.enable;
             };
 
             alacritty = {
-              enable = mkEnabledNixosOption {
+              enable = mkEnabledOption {
                 description = "Whether or not to enable the Alacritty Terminal";
-                parent = config.desktop.enable;
+                parent = cfg.desktop.enable;
               };
 
               font = {
@@ -179,8 +189,9 @@ in
           };
 
           networking = {
-            enable = mkEnabledNixosOption {
+            enable = mkEnabledOption {
               description = "Whether or not to enable NetworkManager";
+              parent = cfg.enable;
             };
 
             defaultNetworkInterface = mkOption {
@@ -189,44 +200,44 @@ in
               description = "The name of the main network interface for the host";
             };
 
-            i2p.enable = mkEnabledNixosOption {
+            i2p.enable = mkEnabledOption {
               description = "Whether or not to enable i2p";
               parent = cfg.networking.enable;
             };
 
-            mullvad.enable = mkEnabledNixosOption {
+            mullvad.enable = mkEnabledOption {
               description = "Whether or not to enable Mullvad VPN";
               parent = cfg.networking.enable;
             };
 
-            tailscale.enable = mkEnabledNixosOption {
+            tailscale.enable = mkEnabledOption {
               description = "Whether or not to enable Tailscale VPN";
               parent = cfg.networking.enable;
             };
           };
 
           virtualisation = {
-            enable = mkEnabledNixosOption {
+            enable = mkEnabledOption {
               description = "Whether or not to enable Virtualisation Tooling";
               parent = cfg.virtualisation.enable;
             };
 
-            docker.enable = mkEnabledNixosOption {
+            docker.enable = mkEnabledOption {
               description = "Whether or not to enable Docker";
               parent = cfg.virtualisation.enable;
             };
 
-            libvirt.enable = mkEnabledNixosOption {
+            libvirt.enable = mkEnabledOption {
               description = "Whether or not to enable LibVirt";
               parent = cfg.virtualisation.enable;
             };
 
-            podman.enable = mkEnabledNixosOption {
+            podman.enable = mkEnabledOption {
               description = "Whether or not to enable Podman";
               parent = cfg.virtualisation.enable;
             };
 
-            waydroid.enable = mkEnabledNixosOption {
+            waydroid.enable = mkEnabledOption {
               description = "Whether or not to enable Waydroid (run android apps on Linux)";
               parent = cfg.virtualisation.enable;
             };
@@ -235,12 +246,12 @@ in
           server = {
             enable = lib.mkEnableOption "Whether or not to install the server infrastructure";
 
-            transmission.enable = mkEnabledNixosOption {
+            transmission.enable = mkEnabledOption {
               description = "Whether or not to install the transmission bittorrent server";
               parent = cfg.server.enable;
             };
 
-            gitea.enable = mkEnabledNixosOption {
+            gitea.enable = mkEnabledOption {
               description = "Whether or not to install the Gitea Git Server";
               parent = cfg.server.enable;
             };
