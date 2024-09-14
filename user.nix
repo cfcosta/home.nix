@@ -3,7 +3,7 @@ _: {
     dusk = {
       username = "cfcosta";
       name = "Cainã Costa";
-      email = "me@cfcosta.com";
+      emails.primary = "me@cfcosta.com";
       accounts.github = "cfcosta";
     };
   };

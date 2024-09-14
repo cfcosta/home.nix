@@ -11,58 +11,59 @@ let
   inherit (config.dusk) username;
   inherit (config.dusk.folders) home;
   inherit (import ./firejail args) jail;
-  inherit (lib) mkIf;
+  inherit (lib) mkIf optionals;
 in
 {
-  imports = [
-    (jail {
-      name = "tor-browser";
-      executable = "${pkgs.tor-browser}/bin/tor-browser";
-      profile = "tor-browser.profile";
-      desktop = "${pkgs.tor-browser}/share/applications/torbrowser.desktop";
-      graphical = true;
-    })
-    (jail {
-      name = "mullvad-browser";
-      executable = "${pkgs.mullvad-browser}/bin/mullvad-browser";
-      profile = "google-chrome.profile";
-      desktop = "${pkgs.mullvad-browser}/share/applications/mullvad-browser.desktop";
-      graphical = true;
-    })
-  ];
-
   config = mkIf cfg.desktop.enable {
     environment = {
       sessionVariables = {
         BROWSER = config.dusk.defaults.browser;
-        TERMINAL = "alacritty";
+        TERMINAL = config.dusk.defaults.terminal;
       };
 
-      systemPackages = with pkgs; [
-        alacritty
-        anytype
-        bitwarden
-        brave
-        discord
-        easyeffects
-        element-desktop
-        firefox
-        fractal
-        helvum
-        mangohud
-        obs-studio
-        streamlink-twitch-gui-bin
-        tdesktop
-        todoist-electron
-        wl-clipboard
-        zed-editor
+      systemPackages =
+        with pkgs;
+        [
+          astroid
+          anytype
+          bitwarden
+          brave
+          discord
+          easyeffects
+          element-desktop
+          firefox
+          fractal
+          helvum
+          mangohud
+          obs-studio
+          streamlink-twitch-gui-bin
+          tdesktop
+          todoist-electron
+          wl-clipboard
+          zed-editor
 
-        # Fonts
-        cantarell-fonts
-        dejavu_fonts
-        source-code-pro
-        source-sans
-      ];
+          # Fonts
+          cantarell-fonts
+          dejavu_fonts
+          source-code-pro
+          source-sans
+
+          (jail {
+            name = "tor-browser";
+            executable = "${pkgs.tor-browser}/bin/tor-browser";
+            profile = "tor-browser.profile";
+            desktop = "${pkgs.tor-browser}/share/applications/torbrowser.desktop";
+            graphical = true;
+          })
+          (jail {
+            name = "mullvad-browser";
+            executable = "${pkgs.mullvad-browser}/bin/mullvad-browser";
+            profile = "google-chrome.profile";
+            desktop = "${pkgs.mullvad-browser}/share/applications/mullvad-browser.desktop";
+            graphical = true;
+          })
+        ]
+        ++ optionals cfg.desktop.alacritty.enable [ alacritty ];
     };
 
     hardware = {
@@ -93,7 +94,7 @@ in
 
     programs = {
       firejail.enable = true;
-      gnupg.agent.pinentryPackage = pkgs.pinentry-gnome3;
+      gnupg.agent.pinentryPackage = pkgs.pinentry-all;
       steam.enable = true;
     };
 

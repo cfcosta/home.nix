@@ -4,8 +4,11 @@
   pkgs,
   ...
 }:
+let
+  cfg = config.dusk.system.nixos.server.transmission;
+in
 {
-  config = lib.mkIf config.dusk.system.nixos.bittorrent.enable {
+  config = lib.mkIf cfg.enable {
     services.transmission = {
       enable = true;
 

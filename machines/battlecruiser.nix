@@ -1,6 +1,10 @@
 _: {
   config = {
-    dusk.system.hostname = "battlecruiser";
+    dusk.system = {
+      hostname = "battlecruiser";
+
+      nixos.server.enable = false;
+    };
 
     boot = {
       initrd = {

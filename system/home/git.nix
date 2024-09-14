@@ -1,11 +1,14 @@
 { config, ... }:
+let
+  cfg = config.dusk.system.git;
+in
 {
   config = {
     programs.git = {
       enable = true;
 
       userName = config.dusk.name;
-      userEmail = config.dusk.email;
+      userEmail = config.dusk.emails.primary;
 
       delta = {
         enable = true;
@@ -27,7 +30,7 @@
       ];
 
       signing = {
-        inherit (config.dusk.git) signByDefault;
+        inherit (cfg) signByDefault;
 
         key = null;
       };
@@ -35,18 +38,28 @@
       extraConfig = {
         blame.pager = "delta";
         commit.verbose = true;
-        diff.algorithm = "histogram";
-        diff.colorMoved = "default";
+
+        diff = {
+          algorithm = "histogram";
+          colorMoved = "default";
+        };
+
         github.user = config.dusk.accounts.github;
         help.autocorrect = 10;
-        init.defaultBranch = config.dusk.git.defaultBranch;
+
+        init = {
+          inherit (cfg) defaultBranch;
+        };
+
         merge.conflictstyle = "diff3";
         pull.ff = "only";
         push.autoSetupRemote = true;
+
         rebase = {
           autosquash = true;
           autostash = true;
         };
+
         rerere.enabled = true;
       };
     };

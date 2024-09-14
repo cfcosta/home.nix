@@ -81,19 +81,7 @@ in
     home-manager = {
       useUserPackages = true;
       useGlobalPkgs = true;
-
-      users.${config.dusk.username} = _: {
-        imports = [
-          inputs.agenix.homeManagerModules.default
-          inputs.catppuccin.homeManagerModules.catppuccin
-          inputs.neovim.hmModule
-
-          ../options.nix
-          ../user.nix
-
-          ./home
-        ];
-      };
+      users.${config.dusk.username} = ./home;
 
       extraSpecialArgs = {
         inherit flavor inputs;

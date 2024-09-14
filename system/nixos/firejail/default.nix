@@ -1,63 +1,44 @@
+{ pkgs, lib, ... }:
 {
-  pkgs,
-  config,
-  lib,
-  ...
-}:
-let
-  inherit (lib) concatLines mkIf optionals;
-  inherit (pkgs) runCommand;
-
-  wrapIcons =
-    packages:
-    runCommand "firejail-icons"
-      {
-        preferLocalBuild = true;
-        allowSubstitutes = false;
-        meta.priority = -1;
-      }
-      ''
-        mkdir -p "$out/share/icons"
-        ${concatLines (
-          map (pkg: ''
-            tar -C "${pkg}" -c share/icons -h --mode 0755 -f - | tar -C "$out" -xf -
-          '') packages
-        )}
-        find "$out/" -type f -print0 | xargs -0 chmod 0444
-        find "$out/" -type d -print0 | xargs -0 chmod 0555
-      '';
-in
-{
-
   jail =
     {
       name,
       executable,
       profile ? null,
       desktop ? null,
-      graphical ? false,
     }:
     let
-      desktopEnabled = config.dusk.system.nixos.desktop.enable;
+      args = lib.escapeShellArgs (lib.optional (profile != null) "--profile=${profile}");
+      local = pkgs.writeTextFile "${name}.local" ''
+        # fix fcitx5
+        dbus-user filter
+        dbus-user.talk org.freedesktop.portal.Fcitx
+        ignore dbus-user none
+      '';
     in
-    mkIf (!graphical || desktopEnabled) {
-      environment = {
-        etc."firejail/${name}.local".text = ''
-          # fix fcitx5
-          dbus-user filter
-          dbus-user.talk org.freedesktop.portal.Fcitx
-          ignore dbus-user none
-        '';
+    pkgs.stdenv.mkDerivation {
+      name = "${name}-firejail-wrapped";
+      buildInputs = [ pkgs.firejail ];
 
-        systemPackages = optionals (desktopEnabled && desktop != null) [
-          (wrapIcons [ pkgs.${name} ])
-        ];
-      };
+      installPhase = ''
+        mkdir -p $out/bin
 
-      programs.firejail.wrappedBinaries.${name} = {
-        inherit desktop executable;
+        # Create the wrapper script
+        cat > $out/bin/${name} << EOF
+        #! ${pkgs.runtimeShell}
+        exec ${pkgs.firejail}/bin/firejail ${args} -- ${executable} "\$@"
+        EOF
+        chmod +x $out/bin/${name}
 
-        profile = "${pkgs.firejail}/etc/firejail/${profile}";
-      };
+        mkdir -p $out/etc/firejail
+        cp ${local}/${name}.local $out/etc/firejail/${name}.local
+
+        ${lib.optionalString (desktop != null) ''
+          # Copy and modify the .desktop file
+          mkdir -p $out/share/applications
+          cp ${desktop} $out/share/applications/
+          sed -i 's|Exec=${executable}|Exec=${name}|g' $out/share/applications/$(basename ${desktop})
+        ''}
+      '';
     };
 }

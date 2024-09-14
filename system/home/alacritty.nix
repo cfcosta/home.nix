@@ -1,14 +1,18 @@
-{ config, flavor, ... }:
+{ config, lib, ... }:
 let
+  inherit (lib) mkIf;
+
+  cfg = config.dusk.system.nixos.desktop.alacritty;
+
   font = style: {
     inherit style;
     inherit (config.dusk.alacritty.font) family;
   };
 in
 {
-  config = {
+  config = mkIf cfg.enable {
     programs.alacritty = {
-      enable = flavor == "nixos" && config.dusk.system.nixos.desktop.enable;
+      enable = true;
 
       settings = {
         env.TERM = "xterm-256color";

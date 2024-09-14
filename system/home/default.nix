@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
@@ -47,6 +48,12 @@ let
 in
 {
   imports = [
+    inputs.agenix.homeManagerModules.default
+    inputs.catppuccin.homeManagerModules.catppuccin
+    inputs.neovim.hmModule
+
+    ../../options.nix
+    ../../user.nix
     ./alacritty.nix
     ./git.nix
     ./tmux
