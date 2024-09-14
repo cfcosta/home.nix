@@ -17,12 +17,16 @@ in
 {
   config = mkIf cfg.enable {
     age.secrets = mkIf cfg.mullvad.enable {
-      "mullvad.age".file = ../../secrets/mullvad.age;
+      mullvad.file = ../../secrets/mullvad.age;
     };
 
-    environment.systemPackages = [
-      pkgs.dnsutils
-    ];
+    environment = {
+      etc."dusk/networking/mullvad.conf".source = config.age.secrets.mullvad.path;
+
+      systemPackages = [
+        pkgs.dnsutils
+      ];
+    };
 
     networking = {
       inherit nameservers;
@@ -71,6 +75,7 @@ in
       };
 
       resolved.enable = false;
+
       tailscale = {
         inherit (cfg.tailscale) enable;
       };
@@ -87,7 +92,7 @@ in
             if $(${nm} connection | grep mullvad0 &>/dev/null); then
               printf 'skip/true' > /tmp/mullvad
             else
-              ${nm} connection import type wireguard file ${config.age.secrets."mullvad.age".path}
+              ${nm} connection import type wireguard file /etc/dusk/networking/mullvad.conf
               printf 'installed/true' > /tmp/nullvad
             fi
           '';
