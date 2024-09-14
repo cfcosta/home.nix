@@ -2,6 +2,7 @@
 
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 NAME="orbstack-nixos"
+IMAGE="nixos"
 ARCH="arm64"
 RECREATE="${RECREATE:-false}"
 
@@ -14,9 +15,10 @@ fi
 
 if ! (orbctl list | grep "${NAME}" &>/dev/null); then
 	echo ":: VM not found, creating a new instance."
-	orbctl create -a "${ARCH}" nixos "${NAME}"
-	orb run sudo hostname "${NAME}"
+	orbctl create -a "${ARCH}" "${IMAGE}" "${NAME}"
 fi
 
 cd "${ROOT}"
+
+orb run sudo hostname "${NAME}"
 orb run -w "${ROOT}" nix-shell -p git --run "sudo ./apply.sh"

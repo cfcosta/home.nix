@@ -1,7 +1,7 @@
 args@{
-  pkgs,
   config,
   lib,
+  pkgs,
   ...
 }:
 let

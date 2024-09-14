@@ -3,9 +3,24 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-    agenix.url = "github:ryantm/agenix";
+    flake-compat.url = "github:nix-community/flake-compat";
+    systems.url = "github:nix-systems/default";
+
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
+
     catppuccin.url = "github:catppuccin/nix";
+
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,6 +35,8 @@
         nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
         flake-utils.follows = "flake-utils";
+        gitignore.follows = "gitignore";
+        pre-commit-hooks.follows = "pre-commit-hooks";
       };
     };
     nix-darwin = {
@@ -28,13 +45,18 @@
     };
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+      };
     };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         gitignore.follows = "gitignore";
+        flake-compat.follows = "flake-compat";
       };
     };
 
