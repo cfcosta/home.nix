@@ -48,7 +48,6 @@ in
 {
   imports = [
     ./alacritty.nix
-    ./cosmic
     ./git.nix
     ./tmux
     ./zed

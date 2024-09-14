@@ -21,8 +21,9 @@ in
           italic = font "Medium Italic";
           bold_italic = font "Bold Italic";
         };
+
+        window.decorations = "None";
       };
     };
-
   };
 }
