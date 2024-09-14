@@ -15,12 +15,25 @@ in
       12345
     ];
 
-    services.gitea = {
-      enable = true;
+    services = {
+      gitea = {
+        enable = true;
 
-      settings.server = {
-        HTTP_ADDRESS = "0.0.0.0";
-        HTTP_PORT = 12345;
+        settings.server = {
+          HTTP_ADDRESS = "0.0.0.0";
+          HTTP_PORT = 12345;
+        };
+      };
+
+      traefik.dynamicConfigOptions = {
+        routers.gitea = {
+          rule = "Host(`battlecruiser.local`)";
+          service = "gitea";
+        };
+
+        services.gitea.loadBalancer.servers = with config.services.gitea.settings.server; [
+          { url = "http://127.0.0.1:${toString HTTP_PORT}"; }
+        ];
       };
     };
   };

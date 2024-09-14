@@ -87,16 +87,27 @@ in
     security.rtkit.enable = true;
 
     services = {
-      avahi = {
-        enable = true;
-
-        publish = {
+      avahi =
+        let
+          net = config.dusk.system.nixos.networking;
+        in
+        {
           enable = true;
-          userServices = true;
-        };
 
-        nssmdns4 = true;
-      };
+          allowInterfaces = [
+            net.defaultNetworkInterface
+          ] ++ optionals net.tailscale.enable [ "tailscale0" ];
+
+          publish = {
+            enable = true;
+
+            domain = true;
+            userServices = true;
+          };
+
+          nssmdns4 = true;
+          nssmdns6 = true;
+        };
 
       desktopManager.cosmic.enable = true;
       flatpak.enable = true;

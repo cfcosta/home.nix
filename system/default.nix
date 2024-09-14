@@ -48,15 +48,16 @@ in
         ffmpeg
         file
         gist
-        gitui
         git-bug
         gitMinimal
+        gitui
         glow
         imagemagick
         inconsolata
         lsof
         ncdu_2
         neofetch
+        openssl
         python3
         python3Packages.yt-dlp
         ripgrep
@@ -130,5 +131,9 @@ in
     };
 
     programs.gnupg.agent.enable = true;
+
+    security.pki.certificateFiles = [
+      ./certificates/ca.crt
+    ];
   };
 }
