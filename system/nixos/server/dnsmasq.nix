@@ -1,12 +1,12 @@
 { config, lib, ... }:
 let
-  inherit (lib) optionals;
+  inherit (lib) mkIf optionals;
   cfg = config.dusk.system.nixos.server;
   interface = config.dusk.system.nixos.networking.defaultNetworkInterface;
 in
 {
 
-  config = {
+  config = mkIf cfg.enable {
     networking.firewall.interfaces.${interface}.allowedUDPPorts = [
       53
     ];

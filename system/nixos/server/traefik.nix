@@ -1,9 +1,12 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
+  inherit (lib) mkIf;
+
   interface = config.dusk.system.nixos.networking.defaultNetworkInterface;
+  cfg = config.dusk.system.nixos.server;
 in
 {
-  config = {
+  config = mkIf cfg.enable {
     age.secrets.cert-key.file = ../../../secrets/localhost.key.age;
 
     networking.firewall.interfaces.${interface}.allowedTCPPorts = [
