@@ -33,8 +33,8 @@ in
 
     environment = {
       etc = {
-        "nix/inputs/nixpkgs".source = inputs.nixpkgs;
-        "nix/inputs/nix-darwin".source = inputs.nix-darwin;
+        "nix/inputs/nixpkgs" = mkForce { source = inputs.nixpkgs; };
+        "nix/inputs/nix-darwin" = mkForce { source = inputs.nix-darwin; };
       };
 
       systemPackages = with pkgs; [
@@ -101,8 +101,8 @@ in
       nixPath = mkForce [ "/etc/nix/inputs" ];
 
       registry = {
-        nixpkgs.flake = inputs.nixpkgs;
-        nix-darwin.flake = inputs.nix-darwin;
+        nixpkgs = mkForce { flake = inputs.nixpkgs; };
+        nix-darwin = mkForce { flake = inputs.nix-darwin; };
       };
 
       settings = {
