@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  inputs,
   ...
 }:
 let
@@ -9,6 +10,11 @@ let
 in
 {
   imports = [
+    inputs.agenix.nixosModules.default
+    inputs.catppuccin.nixosModules.catppuccin
+    inputs.home-manager.nixosModules.default
+    inputs.nixos-cosmic.nixosModules.default
+
     ./boot.nix
     ./desktop.nix
     ./networking.nix

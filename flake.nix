@@ -129,9 +129,8 @@
           pkgs = buildPkgs "x86_64-linux";
 
           modules = [
-            ./options.nix
-            ./user.nix
             ./system
+            ./system/nixos
             ./machines/battlecruiser.nix
           ];
 
@@ -146,9 +145,8 @@
         pkgs = buildPkgs "aarch64-darwin";
 
         modules = [
-          ./options.nix
-          ./user.nix
           ./system
+          ./system/nixos
           ./machines/drone.nix
         ];
 

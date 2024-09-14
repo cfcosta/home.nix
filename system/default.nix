@@ -1,33 +1,20 @@
 {
   config,
-  pkgs,
-  lib,
-  inputs,
   flavor,
+  inputs,
+  lib,
+  pkgs,
   ...
 }:
 let
   inherit (config.dusk.system) hostname;
-  inherit (lib) mkForce optionals;
-
-  darwinModules = optionals (flavor == "darwin") [
-    inputs.agenix.darwinModules.default
-    inputs.home-manager.darwinModules.default
-
-    ./darwin
-  ];
-
-  linuxModules = optionals (flavor == "nixos") [
-    inputs.agenix.nixosModules.default
-    inputs.catppuccin.nixosModules.catppuccin
-    inputs.home-manager.nixosModules.default
-    inputs.nixos-cosmic.nixosModules.default
-
-    ./nixos
-  ];
+  inherit (lib) mkForce;
 in
 {
-  imports = darwinModules ++ linuxModules;
+  imports = [
+    ../options.nix
+    ../user.nix
+  ];
 
   config = {
     documentation = {
@@ -81,10 +68,17 @@ in
     home-manager = {
       useUserPackages = true;
       useGlobalPkgs = true;
-      users.${config.dusk.username} = ./home;
 
       extraSpecialArgs = {
         inherit flavor inputs;
+      };
+
+      users.${config.dusk.username} = _: {
+        imports = [
+          ../options.nix
+          ../user.nix
+          ./home
+        ];
       };
     };
 

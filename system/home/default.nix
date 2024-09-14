@@ -6,7 +6,12 @@
   ...
 }:
 let
-  inherit (builtins) attrNames concatStringsSep map;
+  inherit (builtins)
+    attrNames
+    concatStringsSep
+    map
+    readFile
+    ;
   inherit (lib)
     mapAttrsToList
     mkForce
@@ -52,11 +57,8 @@ in
     inputs.catppuccin.homeManagerModules.catppuccin
     inputs.neovim.hmModule
 
-    ../../options.nix
-    ../../user.nix
     ./alacritty.nix
     ./git.nix
-    ./tmux
     ./zed
   ];
 
@@ -264,6 +266,15 @@ in
       starship = {
         enable = true;
         enableBashIntegration = true;
+      };
+
+      tmux = {
+        enable = true;
+
+        escapeTime = 0;
+        keyMode = "vi";
+        terminal = "xterm-256color";
+        extraConfig = readFile ./tmux/config;
       };
 
       zoxide.enable = true;
