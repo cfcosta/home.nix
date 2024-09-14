@@ -100,21 +100,20 @@ in
     };
 
     system.activationScripts = mkIf cfg.mullvad.enable {
-      enable-mullvad = {
-        deps = [ ];
-        text =
-          let
-            nm = "${pkgs.networkmanager}/bin/nmcli";
-          in
-          ''
-            if $(${nm} connection | grep mullvad0 &>/dev/null); then
-              printf 'skip/true' > /tmp/mullvad
-            else
-              ${nm} connection import type wireguard file /etc/dusk/networking/mullvad.conf
-              printf 'installed/true' > /tmp/nullvad
+      enable-mullvad =
+        let
+          nm = "${pkgs.networkmanager}/bin/nmcli";
+        in
+        {
+          text = ''
+            if ${nm} connection show mullvad &>/dev/null; then
+              ${nm} connection delete mullvad
             fi
+
+            ${nm} connection import type wireguard file /etc/dusk/networking/mullvad.conf
+            printf 'installed/true' > /tmp/nullvad
           '';
-      };
+        };
     };
 
     users.users.${config.dusk.username}.extraGroups = [ "networkmanager" ];

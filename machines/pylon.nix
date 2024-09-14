@@ -5,6 +5,7 @@ _: {
 
       nixos = {
         desktop.enable = false;
+        networking.defaultNetworkInterface = "enp2s0";
         nvidia.enable = false;
         server.enable = true;
       };

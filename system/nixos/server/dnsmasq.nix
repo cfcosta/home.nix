@@ -2,14 +2,21 @@
 let
   inherit (lib) optionals;
   cfg = config.dusk.system.nixos.server;
+  interface = config.dusk.system.nixos.networking.defaultNetworkInterface;
 in
 {
 
   config = {
+    networking.firewall.interfaces.${interface}.allowedUDPPorts = [
+      53
+    ];
+
     services.dnsmasq = {
       enable = true;
 
       settings = {
+        inherit interface;
+
         # If dnscrypt-proxy2 is installed, lets point to it for external requests
         server =
           optionals config.dusk.system.nixos.networking.enable [
@@ -18,9 +25,8 @@ in
           ]
           ++ config.dusk.system.nixos.networking.extraNameservers;
 
-        interface = "lo";
         domain = "local";
-        address = "/.${cfg.domain}/127.0.0.1";
+        address = "/.${cfg.domain}/0.0.0.0";
 
         expand-hosts = true;
         no-resolv = true;
