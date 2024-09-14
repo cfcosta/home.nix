@@ -17,7 +17,7 @@ in
 
         settings.server = {
           HTTP_ADDRESS = "0.0.0.0";
-          HTTP_PORT = 10001;
+          HTTP_PORT = 10002;
 
           ROOT_URL = "https://${host}";
         };

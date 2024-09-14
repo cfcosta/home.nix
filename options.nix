@@ -251,13 +251,18 @@ in
               description = "The root domain for all services in the system";
             };
 
-            transmission.enable = mkEnabledOption {
-              description = "Whether or not to install the transmission bittorrent server";
+            cockpit.enable = mkEnabledOption {
+              description = "Whether or not to install the Cockpit Server Dashboard";
               parent = cfg.server.enable;
             };
 
             gitea.enable = mkEnabledOption {
               description = "Whether or not to install the Gitea Git Server";
+              parent = cfg.server.enable;
+            };
+
+            transmission.enable = mkEnabledOption {
+              description = "Whether or not to install the transmission bittorrent server";
               parent = cfg.server.enable;
             };
           };
