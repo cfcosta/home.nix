@@ -3,7 +3,7 @@ _: {
     dusk.system = {
       hostname = "battlecruiser";
 
-      nixos.server.enable = false;
+      nixos.server.enable = true;
     };
 
     boot = {

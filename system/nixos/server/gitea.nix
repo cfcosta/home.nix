@@ -7,7 +7,7 @@ let
   inherit (lib) mkIf;
 
   cfg = config.dusk.system.nixos.server.gitea;
-  interface = config.dusk.system.networking.defaultNetworkInterface;
+  interface = config.dusk.system.nixos.networking.defaultNetworkInterface;
 in
 {
   config = mkIf cfg.enable {
@@ -16,10 +16,10 @@ in
     ];
 
     services.gitea = {
-      inherit (cfg.gitea) enable;
+      enable = true;
 
       settings.server = {
-        HTTP_ADDRESS = "10.0.0.0";
+        HTTP_ADDRESS = "0.0.0.0";
         HTTP_PORT = 12345;
       };
     };
