@@ -51,15 +51,33 @@ in
     };
 
     services = {
+      avahi =
+        let
+          net = config.dusk.system.nixos.networking;
+        in
+        {
+          enable = true;
+
+          allowInterfaces = [
+            net.defaultNetworkInterface
+          ] ++ optionals net.tailscale.enable [ "tailscale0" ];
+
+          publish = {
+            enable = true;
+
+            domain = true;
+            userServices = true;
+          };
+
+          nssmdns4 = true;
+          nssmdns6 = true;
+        };
+
       dnscrypt-proxy2 = {
         enable = true;
 
         # If the server is enabled, we need to change ports to not conflict with dnsmasq
-        settings = mkIf config.dusk.system.nixos.server.enable {
-          listen_addresses = [
-            "127.0.0.1:5354"
-          ];
-        };
+        settings = mkIf config.dusk.system.nixos.server.enable { listen_addresses = [ "127.0.0.1:5354" ]; };
       };
 
       i2pd = mkIf cfg.i2p.enable {

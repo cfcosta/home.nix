@@ -74,9 +74,7 @@ in
     nix.settings = {
       substituters = [ "https://cosmic.cachix.org/" ];
 
-      trusted-public-keys = [
-        "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
-      ];
+      trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
     };
 
     programs = {
@@ -87,28 +85,6 @@ in
     security.rtkit.enable = true;
 
     services = {
-      avahi =
-        let
-          net = config.dusk.system.nixos.networking;
-        in
-        {
-          enable = true;
-
-          allowInterfaces = [
-            net.defaultNetworkInterface
-          ] ++ optionals net.tailscale.enable [ "tailscale0" ];
-
-          publish = {
-            enable = true;
-
-            domain = true;
-            userServices = true;
-          };
-
-          nssmdns4 = true;
-          nssmdns6 = true;
-        };
-
       desktopManager.cosmic.enable = true;
       flatpak.enable = true;
       libinput.enable = true;

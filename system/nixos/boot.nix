@@ -18,7 +18,11 @@
 
     hardware = {
       enableRedistributableFirmware = true;
-      cpu.amd.updateMicrocode = true;
+
+      cpu = {
+        amd.updateMicrocode = true;
+        intel.updateMicrocode = true;
+      };
     };
 
     system.activationScripts = {
