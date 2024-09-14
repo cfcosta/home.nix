@@ -20,7 +20,7 @@ in
         podman-compose
         ctop
       ]
-      ++ optionals cfg.waydroid.enable [ dusk.waydroid-script ];
+      ++ optionals cfg.waydroid.enable [ waydroid-script ];
 
     virtualisation = {
       docker = {

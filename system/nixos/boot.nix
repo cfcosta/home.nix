@@ -12,7 +12,7 @@
     };
 
     environment.systemPackages = with pkgs; [
-      dusk.catppuccin-refind
+      catppuccin-refind
       efibootmgr
     ];
 
@@ -28,7 +28,7 @@
           if [ -s /run/current-system/sw/bin/refind-install ];then
             OLDPATH="$PATH"
             PATH="/run/current-system/sw/bin"
-            ${pkgs.dusk.catppuccin-refind}/bin/refind-install
+            ${pkgs.catppuccin-refind}/bin/refind-install
             PATH="$OLDPATH"
             printf 'true' > /tmp/refind
           else
