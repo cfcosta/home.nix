@@ -16,40 +16,10 @@ let
     mapAttrsToList
     mkForce
     ;
-  inherit (pkgs.stdenv) isDarwin;
 
-  darwinSetup =
-    if isDarwin then
-      ''
-        # MacOS by default does not load the completions set by Nix, so this
-        # function fixes that.
-        loadCompletions() {
-        	local dir="''${1}/share/bash-completion/completions"
-
-        	if [ ! -d "''${dir}" ]; then
-        		return
-        	fi
-
-        	for f in "''${dir}"/*; do
-        		# shellcheck source=/dev/null
-        		. "''${f}"
-        	done
-        }
-
-        loadCompletions "/run/current-system/sw"
-        loadCompletions "''${HOME}/.nix-profile"
-        loadCompletions "/nix/var/nix/profiles/default"
-
-        unset -f loadCompletions
-
-        if [ -e /run/current-system/sw/etc/profile.d/nix-daemon.sh ]; then
-          . /run/current-system/sw/etc/profile.d/nix-daemon.sh
-        fi
-
-        export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
-      ''
-    else
-      "";
+  completeAliases = map (alias: "complete -F _complete_alias ${alias}") (
+    attrNames config.programs.bash.shellAliases
+  );
 in
 {
   imports = [
@@ -181,13 +151,21 @@ in
         initExtra = ''
           . ${pkgs.complete-alias}/bin/complete_alias
 
-          ${concatStringsSep "\n" (
-            map (alias: "complete -F _complete_alias ${alias}") (attrNames config.programs.bash.shellAliases)
-          )}
+          ${concatStringsSep "\n" completeAliases}
 
-          ${darwinSetup}
+          if [ "$(uname -s)" == "Darwin" ]; then
+            # MacOS by default does not load the completions set by Nix, so this
+            # function fixes that.
+            local dir="/run/current-system/sw/share/bash-completion/completions"
 
-          # shellcheck source=/dev/null
+            [ ! -d "''${dir}" ] && for f in "''${dir}"/*; do
+              # shellcheck source=/dev/null
+              . "''${f}"
+            done
+          fi
+
+          export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
+
           . ${config.age.secrets.env.path}
         '';
       };

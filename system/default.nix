@@ -11,6 +11,13 @@ let
   inherit (lib) mkForce;
 in
 {
+  assertions = [
+    {
+      assertion = flavor == "nixos" || flavor == "darwin";
+      message = "System flavor must be either 'nixos' or 'darwin'";
+    }
+  ];
+
   imports = [
     ../options.nix
     ../user.nix
@@ -41,6 +48,7 @@ in
         ffmpeg
         file
         gist
+        gitui
         git-bug
         gitMinimal
         glow

@@ -87,14 +87,10 @@
       ctx = flake-utils.lib.eachDefaultSystem (system: {
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [
-            inputs.agenix.overlays.default
-            (import ./system/overlay inputs)
-          ];
-          config = {
-            allowUnfree = true;
-            allowUnsupportedSystem = true;
-          };
+
+          overlays = [ (import ./packages inputs) ];
+
+          config.allowUnfree = true;
         };
       });
 
@@ -135,6 +131,7 @@
 
         specialArgs = {
           inherit inputs;
+
           flavor = "nixos";
         };
       };
@@ -150,6 +147,7 @@
 
         specialArgs = {
           inherit inputs;
+
           flavor = "darwin";
         };
       };
