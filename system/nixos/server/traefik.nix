@@ -37,7 +37,7 @@ in
       };
 
       dynamicConfigOptions.tls.stores.default.defaultCertificate = {
-        certFile = builtins.toString ../../certificates/localhost.crt;
+        certFile = toString ../../certificates/localhost.crt;
         keyFile = config.age.secrets.cert-key.path;
       };
     };

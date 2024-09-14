@@ -200,6 +200,18 @@ in
               description = "The name of the main network interface for the host";
             };
 
+            extraNameservers = mkOption {
+              type = types.listOf types.str;
+
+              default = [
+                "194.242.2.4" # mullvad ad + tracker + malware
+                "194.242.2.3" # mullvad ad + tracker
+                "194.242.2.2" # mullvad clear
+              ];
+
+              description = "The DNS Servers to use";
+            };
+
             i2p.enable = mkEnabledOption {
               description = "Whether or not to enable i2p";
               parent = cfg.networking.enable;

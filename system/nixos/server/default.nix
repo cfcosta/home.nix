@@ -1,8 +1,7 @@
 _: {
   imports = [
-    ./bittorrent.nix
-    ./cockpit.nix
-    ./gitea.nix
+    ./applications
+    ./dnsmasq.nix
     ./traefik.nix
   ];
 }

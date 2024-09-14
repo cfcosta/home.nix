@@ -12,10 +12,7 @@ let
   nameservers = [
     "127.0.0.1"
     "::1"
-    "194.242.2.4" # mullvad ad + tracker + malware
-    "194.242.2.3" # mullvad ad + tracker
-    "194.242.2.2" # mullvad clear
-  ];
+  ] ++ cfg.extraNameservers;
 in
 {
   config = mkIf cfg.enable {
@@ -50,7 +47,16 @@ in
     };
 
     services = {
-      dnscrypt-proxy2.enable = true;
+      dnscrypt-proxy2 = {
+        enable = true;
+
+        # If the server is enabled, we need to change ports to not conflict with dnsmasq
+        settings = mkIf config.dusk.system.nixos.server.enable {
+          listen_addresses = [
+            "127.0.0.1:5354"
+          ];
+        };
+      };
 
       i2pd = mkIf cfg.i2p.enable {
         enable = true;

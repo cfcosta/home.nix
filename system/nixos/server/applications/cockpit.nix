@@ -6,7 +6,7 @@
 let
   inherit (lib) mkIf;
 
-  hostConfig = (import ./lib.nix).exposeHost {
+  hostConfig = (import ./lib/expose-host.nix).exposeHost {
     inherit (config.services.cockpit) port;
 
     name = "cockpit";

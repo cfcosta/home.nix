@@ -6,13 +6,13 @@
 let
   inherit (lib) mkIf;
 
-  hostConfig = (import ./lib.nix).exposeHost {
+  cfg = config.dusk.system.nixos.server;
+
+  hostConfig = (import ./lib/expose-host.nix).exposeHost {
     name = "gitea";
     domain = "gitea.${cfg.domain}";
     port = config.services.gitea.settings.server.HTTP_PORT;
   };
-
-  cfg = config.dusk.system.nixos.server;
 in
 {
   config =

@@ -9,7 +9,7 @@ let
 
   cfg = config.dusk.system.nixos.server;
 
-  hostConfig = (import ./lib.nix).exposeHost {
+  hostConfig = (import ./lib/expose-host.nix).exposeHost {
     name = "transmission";
     domain = "transmission.${cfg.domain}";
     port = config.services.transmissions.settings.rpc-bind-port;
