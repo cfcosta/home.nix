@@ -162,9 +162,9 @@ in
               # shellcheck source=/dev/null
               . "''${f}"
             done
-          fi
 
-          export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
+            export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
+          fi
 
           . ${config.age.secrets.env.path}
         '';
