@@ -12,6 +12,18 @@ in
 {
   config = mkIf cfg.gitea.enable {
     services = {
+      avahi.extraServiceFiles.gitea = ''
+        <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
+        <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+        <service-group>
+          <name replace-wildcards="yes">${host}</name>
+          <service>
+            <type>_http._tcp</type>
+            <port>${toString config.services.gitea.settings.server.HTTP_PORT}</port>
+          </service>
+        </service-group>
+      '';
+
       gitea = {
         enable = true;
 
