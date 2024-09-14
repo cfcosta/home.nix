@@ -18,9 +18,9 @@ in
     ./boot.nix
     ./desktop.nix
     ./networking.nix
-    ./virtualisation.nix
     ./nvidia.nix
     ./server
+    ./virtualisation.nix
   ];
 
   config = mkIf config.dusk.system.nixos.enable {

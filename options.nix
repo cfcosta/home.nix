@@ -70,7 +70,7 @@ in
       terminal = mkOption {
         type = types.str;
         description = "Your default terminal emulator";
-        default = if config.dusk.system.desktop.alacritty.enable then "alacritty" else "cosmic-term";
+        default = if config.dusk.system.nixos.desktop.alacritty.enable then "alacritty" else "cosmic-term";
       };
     };
 
@@ -219,7 +219,6 @@ in
           virtualisation = {
             enable = mkEnabledOption {
               description = "Whether or not to enable Virtualisation Tooling";
-              parent = cfg.virtualisation.enable;
             };
 
             docker.enable = mkEnabledOption {

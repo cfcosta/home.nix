@@ -1,4 +1,4 @@
-args@{
+{
   config,
   inputs,
   lib,
@@ -10,7 +10,6 @@ let
 
   inherit (config.dusk) username;
   inherit (config.dusk.folders) home;
-  inherit (import ./firejail args) jail;
   inherit (lib) mkIf optionals;
 in
 {
@@ -24,8 +23,8 @@ in
       systemPackages =
         with pkgs;
         [
-          astroid
           anytype
+          astroid
           bitwarden
           brave
           discord
@@ -35,10 +34,12 @@ in
           fractal
           helvum
           mangohud
+          mullvad-browser
           obs-studio
           streamlink-twitch-gui-bin
           tdesktop
           todoist-electron
+          tor-browser
           wl-clipboard
           zed-editor
 
@@ -47,23 +48,9 @@ in
           dejavu_fonts
           source-code-pro
           source-sans
-
-          (jail {
-            name = "tor-browser";
-            executable = "${pkgs.tor-browser}/bin/tor-browser";
-            profile = "tor-browser.profile";
-            desktop = "${pkgs.tor-browser}/share/applications/torbrowser.desktop";
-            graphical = true;
-          })
-          (jail {
-            name = "mullvad-browser";
-            executable = "${pkgs.mullvad-browser}/bin/mullvad-browser";
-            profile = "google-chrome.profile";
-            desktop = "${pkgs.mullvad-browser}/share/applications/mullvad-browser.desktop";
-            graphical = true;
-          })
         ]
-        ++ optionals cfg.alacritty.enable [ alacritty ];
+        ++ optionals cfg.alacritty.enable [ alacritty ]
+        ++ optionals config.dusk.system.nixos.virtualisation.libvirt.enable [ virt-manager ];
     };
 
     hardware = {
@@ -93,7 +80,6 @@ in
     };
 
     programs = {
-      firejail.enable = true;
       gnupg.agent.pinentryPackage = pkgs.pinentry-all;
       steam.enable = true;
     };

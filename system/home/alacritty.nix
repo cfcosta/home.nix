@@ -6,7 +6,7 @@ let
 
   font = style: {
     inherit style;
-    inherit (config.dusk.alacritty.font) family;
+    inherit (cfg.font) family;
   };
 in
 {
@@ -18,7 +18,7 @@ in
         env.TERM = "xterm-256color";
 
         font = {
-          inherit (config.dusk.alacritty.font) size;
+          inherit (cfg.font) size;
 
           normal = font "Medium";
           bold = font "Bold";
