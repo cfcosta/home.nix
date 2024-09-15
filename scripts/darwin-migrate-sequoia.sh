@@ -12,6 +12,6 @@ echo ":: Loading Nix Daemon"
 . /run/current-system/sw/etc/profile.d/nix-daemon.sh
 
 echo ":: Preparing system for MacOS Sequoia update"
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix/tag/v0.26.0 | sh -s -- repair sequoia --move-existing-users
+curl --proto '=https' --tlsv1.2 -sSf -L https://github.com/NixOS/nix/raw/master/scripts/sequoia-nixbld-user-migration.sh | bash -
 
 echo ":: Done."
