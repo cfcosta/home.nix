@@ -59,6 +59,7 @@ in
         imagemagick
         inconsolata
         lsof
+        mkcert
         ncdu_2
         neofetch
         openssl

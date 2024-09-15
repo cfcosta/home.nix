@@ -32,4 +32,5 @@ jobs:
         with:
           name: cfcosta-home
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-      - run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"
+      - name: Run Build
+        run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"
