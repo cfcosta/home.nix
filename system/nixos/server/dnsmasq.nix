@@ -1,6 +1,8 @@
 { config, lib, ... }:
 let
   inherit (lib) mkIf optionals;
+  inherit (config.dusk.system.nixos.networking) ip;
+
   cfg = config.dusk.system.nixos.server;
   interface = config.dusk.system.nixos.networking.defaultNetworkInterface;
 in
@@ -29,7 +31,7 @@ in
           ++ config.dusk.system.nixos.networking.extraNameservers;
 
         domain = "local";
-        address = "/.${cfg.domain}/127.0.0.1";
+        address = "/.${cfg.domain}/${if ip == null then "192.168.0.1" else ip}";
 
         expand-hosts = true;
         no-resolv = true;

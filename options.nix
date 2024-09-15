@@ -200,6 +200,12 @@ in
               description = "The name of the main network interface for the host";
             };
 
+            ip = mkOption {
+              type = types.nullOr types.str;
+              default = null;
+              description = "The static ip for this machine on the local network, if any";
+            };
+
             extraNameservers = mkOption {
               type = types.listOf types.str;
 
