@@ -7,7 +7,6 @@ let
 in
 {
   imports = [
-    ./applications
     ./dnsmasq.nix
     ./traefik.nix
   ];

@@ -13,6 +13,7 @@ in
 
     services.dnsmasq = {
       enable = true;
+      alwaysKeepRunning = true;
 
       settings = {
         inherit interface;

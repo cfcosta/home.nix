@@ -3,10 +3,12 @@ let
   inherit (lib) mkIf;
 
   interface = config.dusk.system.nixos.networking.defaultNetworkInterface;
-  cfg = config.dusk.system.nixos.server;
 in
 {
-  config = mkIf cfg.enable {
+  imports = [
+    ./applications
+  ];
+  config = mkIf config.dusk.system.nixos.server.enable {
     age.secrets = {
       localhost = {
         file = ../../../secrets/localhost.crt.age;
@@ -35,28 +37,6 @@ in
     services.traefik = {
       enable = true;
 
-      staticConfigOptions = {
-        global = {
-          checkNewVersion = false;
-          sendAnonymousUsage = false;
-        };
-
-        entryPoints = {
-          web = {
-            address = ":80";
-
-            http.redirections.entrypoint = {
-              to = "websecure";
-              scheme = "https";
-            };
-          };
-
-          websecure.address = ":443";
-        };
-
-        providers.docker.exposedByDefault = false;
-      };
-
       dynamicConfigOptions.tls = {
         stores.default.defaultCertificate = {
           certFile = config.age.secrets.localhost.path;
@@ -71,6 +51,35 @@ in
           }
         ];
       };
+
+      staticConfigOptions = {
+        accessLog = true;
+
+        global = {
+          checkNewVersion = false;
+          sendAnonymousUsage = false;
+        };
+
+        log.level = "DEBUG";
+
+        entryPoints = {
+          web = {
+            address = ":80";
+
+            http.redirections.entrypoint = {
+              to = "websecure";
+              scheme = "https";
+            };
+          };
+
+          websecure.address = ":443";
+        };
+
+        docker.exposedByDefault = false;
+      };
+
     };
+
+    users.users.traefik.extraGroups = [ "docker" ];
   };
 }

@@ -1,7 +1,7 @@
 {
   imports = [
-    ./bittorrent.nix
     ./cockpit.nix
     ./gitea.nix
+    ./transmission.nix
   ];
 }

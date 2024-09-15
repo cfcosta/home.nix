@@ -5,27 +5,22 @@
 }:
 let
   inherit (lib) mkIf;
-  port = 10001;
-
-  hostConfig = (import ./lib/expose-host.nix).exposeHost {
-    inherit port;
-
-    name = "cockpit";
-    domain = "cockpit.${cfg.domain}";
-  };
+  inherit (import ./lib.nix) exposeHost;
 
   cfg = config.dusk.system.nixos.server;
+  port = 10001;
 in
 {
-  config =
-    mkIf cfg.cockpit.enable {
-      services.cockpit = {
-        inherit port;
+  imports = [
+    (exposeHost "cockpit" port)
+  ];
 
-        enable = true;
+  config = mkIf cfg.cockpit.enable {
+    services.cockpit = {
+      inherit port;
 
-        settings.WebService.AllowUnencrypted = true;
-      };
-    }
-    // hostConfig;
+      enable = true;
+      settings.WebService.AllowUnencrypted = true;
+    };
+  };
 }
