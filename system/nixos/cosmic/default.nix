@@ -28,7 +28,7 @@ in
       "cosmic/com.system76.CosmicTheme.Dark/v1/gaps".text = "(8, 24)";
       "cosmic/com.system76.CosmicTheme.Dark/v1/palette".source = "${inputs.catppuccin-cosmic}/cosmic-settings/Catppuccin-Mocha-Blue.ron";
       "cosmic/com.system76.CosmicTk/v1/apply_theme_global".text = "true";
-      "cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom".source = ./cosmic/shortcuts.ron;
+      "cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom".source = ./shortcuts.ron;
     };
 
     services = {
