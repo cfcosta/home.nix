@@ -30,6 +30,7 @@
         "inkscape"
         "iterm2"
         "linearmouse"
+        "moonlight"
         "mountain-duck"
         "mullvadvpn"
         "obs"
