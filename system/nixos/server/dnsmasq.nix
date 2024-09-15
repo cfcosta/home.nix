@@ -7,9 +7,7 @@ in
 {
 
   config = mkIf cfg.enable {
-    networking.firewall.interfaces.${interface}.allowedUDPPorts = [
-      53
-    ];
+    networking.firewall.allowedUDPPorts = [ 53 ];
 
     services.dnsmasq = {
       enable = true;
@@ -17,16 +15,21 @@ in
       settings = {
         inherit interface;
 
-        # If dnscrypt-proxy2 is installed, lets point to it for external requests
         server =
-          optionals config.dusk.system.nixos.networking.enable [
+          # Point to avahi first if the server is available
+          optionals config.services.avahi.enable [
+            "127.0.0.1#5353"
+            "::1#5353"
+          ]
+          # If dnscrypt-proxy2 is installed, lets point to it for external requests
+          ++ optionals config.dusk.system.nixos.networking.enable [
             "127.0.0.1#5354"
             "::1#5354"
           ]
           ++ config.dusk.system.nixos.networking.extraNameservers;
 
         domain = "local";
-        address = "/.${cfg.domain}/0.0.0.0";
+        address = "/.${cfg.domain}/127.0.0.1";
 
         expand-hosts = true;
         no-resolv = true;

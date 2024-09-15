@@ -204,10 +204,10 @@ in
               type = types.listOf types.str;
 
               default = [
-                "194.242.2.3" # Mullvad (Blocks Ad + Trackers)
-                "194.242.2.2" # Mullvad (No Blocks)
                 "1.1.1.1" # Cloudflare
                 "1.0.0.1" # Cloudflare
+                "8.8.8.8" # Google
+                "4.4.4.4" # Google
               ];
 
               description = "The DNS Servers to use";

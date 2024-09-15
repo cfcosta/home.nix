@@ -4,7 +4,7 @@ _: {
       hostname = "pylon";
 
       nixos = {
-        desktop.enable = false;
+        desktop.enable = true;
         networking.defaultNetworkInterface = "enp2s0";
         nvidia.enable = false;
         server.enable = true;
