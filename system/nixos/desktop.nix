@@ -34,7 +34,7 @@ in
           fractal
           helvum
           mangohud
-          moonlight
+          moonlight-qt
           mullvad-browser
           obs-studio
           streamlink-twitch-gui-bin
