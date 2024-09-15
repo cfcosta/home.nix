@@ -25,8 +25,9 @@ mkcert localhost
 
 rm localhost*.pem
 
-${AGE} "${OUTPUT_DIR}"/rootCA-key.pem >"${ROOT}"/secrets/rootCA-key.pem.age
-${AGE} "${OUTPUT_DIR}"/rootCA.pem >"${ROOT}"/secrets/rootCA.pem.age
+cp "${OUTPUT_DIR}/rootCA.pem" "${ROOT}"/secrets/rootCA.pem
+
+${AGE} "${OUTPUT_DIR}/rootCA-key.pem" >"${ROOT}/secrets/rootCA-key.pem.age"
 
 cd "${ROOT}/secrets"
 

@@ -8,8 +8,23 @@ in
 {
   config = mkIf cfg.enable {
     age.secrets = {
-      "localhost.crt".file = ../../../secrets/localhost.crt.age;
-      "localhost.key".file = ../../../secrets/localhost.key.age;
+      localhost = {
+        file = ../../../secrets/localhost.crt.age;
+        path = "/etc/mkcert/localhost.crt";
+
+        owner = "traefik";
+        group = "traefik";
+        mode = "600";
+      };
+
+      localhost-key = {
+        file = ../../../secrets/localhost.key.age;
+        path = "/etc/mkcert/localhost.key";
+
+        owner = "traefik";
+        group = "traefik";
+        mode = "600";
+      };
     };
 
     networking.firewall.interfaces.${interface}.allowedTCPPorts = [
@@ -42,9 +57,19 @@ in
         providers.docker.exposedByDefault = false;
       };
 
-      dynamicConfigOptions.tls.stores.default.defaultCertificate = {
-        certFile = config.age.secrets."localhost.crt".path;
-        keyFile = config.age.secrets."localhost.key".path;
+      dynamicConfigOptions.tls = {
+        stores.default.defaultCertificate = {
+          certFile = config.age.secrets.localhost.path;
+          keyFile = config.age.secrets.localhost-key.path;
+        };
+
+        certificates = [
+          {
+            certFile = config.age.secrets.localhost.path;
+            keyFile = config.age.secrets.localhost-key.path;
+            stores = [ "default" ];
+          }
+        ];
       };
     };
   };

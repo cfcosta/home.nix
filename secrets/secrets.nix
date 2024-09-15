@@ -12,6 +12,5 @@ in
   "localhost.crt.age".publicKeys = cfcosta;
   "localhost.key.age".publicKeys = cfcosta;
   "mullvad.age".publicKeys = cfcosta;
-  "rootCA.pem.age".publicKeys = cfcosta;
   "rootCA-key.pem.age".publicKeys = cfcosta;
 }

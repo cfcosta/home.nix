@@ -24,22 +24,12 @@ in
       }
     ];
 
-    age.secrets = {
-      rootCA = {
-        file = ../secrets/rootCA.pem.age;
-        path = "/etc/mkcert/rootCA.pem";
+    age.secrets.rootCA-key = {
+      file = ../secrets/rootCA-key.pem.age;
+      path = "/etc/mkcert/rootCA-key.pem";
 
-        owner = config.dusk.username;
-        mode = "600";
-      };
-
-      rootCA-key = {
-        file = ../secrets/rootCA-key.pem.age;
-        path = "/etc/mkcert/rootCA-key.pem";
-
-        owner = config.dusk.username;
-        mode = "600";
-      };
+      owner = config.dusk.username;
+      mode = "600";
     };
 
     documentation = {
@@ -53,6 +43,7 @@ in
       etc = {
         "nix/inputs/nix-darwin" = mkForce { source = inputs.nix-darwin; };
         "nix/inputs/nixpkgs" = mkForce { source = inputs.nixpkgs; };
+        "mkcert/rootCA.pem".source = ../secrets/rootCA.pem;
       };
 
       systemPackages = with pkgs; [
@@ -162,5 +153,7 @@ in
     };
 
     programs.gnupg.agent.enable = true;
+
+    security.pki.certificateFiles = [ ../secrets/rootCA.pem ];
   };
 }
