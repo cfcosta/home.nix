@@ -13,21 +13,27 @@ trap cleanup EXIT
 
 export CAROOT="${OUTPUT_DIR}"
 
-AGE="age -R ${USER_IDENTITY_FILE} -R ${HOST_IDENTITY_FILE}"
+cd "${OUTPUT_DIR}"
 
 HOST_IDENTITY_FILE="/etc/ssh/ssh_host_ed25519_key.pub"
 USER_IDENTITY_FILE="${HOME}/.ssh/id_ed25519.pub"
+AGE="age -R ${HOST_IDENTITY_FILE} -R ${USER_IDENTITY_FILE}"
 
 echo ":: Generating a new root CA key..."
 
 mkcert localhost
-"${AGE}" "${OUTPUT_DIR}"/rootCA-key.pem >"${ROOT}"/secrets/rootCA-key.pem.age
-"${AGE}" "${OUTPUT_DIR}"/rootCA.pem >"${ROOT}"/secrets/rootCA.pem.age
 
-pushd "${ROOT}/secrets" || exit 1
+rm localhost*.pem
+
+${AGE} "${OUTPUT_DIR}"/rootCA-key.pem >"${ROOT}"/secrets/rootCA-key.pem.age
+${AGE} "${OUTPUT_DIR}"/rootCA.pem >"${ROOT}"/secrets/rootCA.pem.age
+
+cd "${ROOT}/secrets"
 
 echo ":: Re-encrypting all keys"
 
 agenix -r
+
+rm -rf "${OUTPUT_DIR}"
 
 echo ":: Done!"

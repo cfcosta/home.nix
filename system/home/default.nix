@@ -6,6 +6,7 @@
   ...
 }:
 let
+  inherit (config.lib.file) mkOutOfStoreSymlink;
   inherit (builtins)
     attrNames
     concatStringsSep
@@ -262,6 +263,12 @@ in
 
     xdg = {
       enable = true;
+
+      dataFile = {
+        "mkcert/rootCA.pem".source = mkOutOfStoreSymlink "/etc/mkcert/rootCA.pem";
+        "mkcert/rootCA-key.pem".source = mkOutOfStoreSymlink "/etc/mkcert/rootCA-key.pem";
+      };
+
       configFile."pgcli/config".text = ''
         max_field_width = 
         less_chatty = True
