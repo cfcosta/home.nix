@@ -1,16 +1,23 @@
-_: {
+{ pkgs, ... }:
+{
   config = {
     dusk.system = {
       hostname = "pylon";
 
       nixos = {
         desktop.enable = true;
+
         networking = {
           defaultNetworkInterface = "enp2s0";
           ip = "10.0.0.4";
         };
+
         nvidia.enable = false;
-        server.enable = true;
+
+        server = {
+          enable = true;
+          domain = "pylon.local";
+        };
       };
     };
 
@@ -28,6 +35,12 @@ _: {
         kernelModules = [ "kvm-intel" ];
       };
     };
+
+    # Enable Intel QuickSync Video and libva
+    hardware.graphics.extraPackages = with pkgs; [
+      libvdpau-va-gl
+      pl-gpu-rt
+    ];
 
     fileSystems = {
       "/" = {

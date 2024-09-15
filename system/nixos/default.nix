@@ -28,6 +28,8 @@ in
 
     environment.defaultPackages = mkForce [ ];
 
+    graphics.enable = true;
+
     i18n.defaultLocale = system.locale;
 
     i18n.extraLocaleSettings = {
