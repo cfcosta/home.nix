@@ -8,10 +8,12 @@ let
 
   cfg = config.dusk.system.nixos.server;
 
+  domain = "gitea.${cfg.domain}";
+  port = 10002;
+
   hostConfig = (import ./lib/expose-host.nix).exposeHost {
+    inherit domain port;
     name = "gitea";
-    domain = "gitea.${cfg.domain}";
-    port = config.services.gitea.settings.server.HTTP_PORT;
   };
 in
 {
@@ -21,10 +23,10 @@ in
         enable = true;
 
         settings.server = {
-          HTTP_ADDRESS = "0.0.0.0";
-          HTTP_PORT = 10002;
+          HTTP_ADDRESS = "127.0.0.1";
+          HTTP_PORT = port;
 
-          ROOT_URL = "https://gitea.${cfg.domain}";
+          ROOT_URL = "https://${domain}";
         };
       };
     }

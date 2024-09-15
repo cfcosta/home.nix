@@ -5,9 +5,10 @@
 }:
 let
   inherit (lib) mkIf;
+  port = 10001;
 
   hostConfig = (import ./lib/expose-host.nix).exposeHost {
-    inherit (config.services.cockpit) port;
+    inherit port;
 
     name = "cockpit";
     domain = "cockpit.${cfg.domain}";
@@ -19,8 +20,9 @@ in
   config =
     mkIf cfg.cockpit.enable {
       services.cockpit = {
+        inherit port;
+
         enable = true;
-        port = 10001;
 
         settings.WebService.AllowUnencrypted = true;
       };

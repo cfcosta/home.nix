@@ -9,10 +9,13 @@ let
 
   cfg = config.dusk.system.nixos.server;
 
+  port = 10003;
+
   hostConfig = (import ./lib/expose-host.nix).exposeHost {
+    inherit port;
+
     name = "transmission";
     domain = "transmission.${cfg.domain}";
-    port = config.services.transmissions.settings.rpc-bind-port;
   };
 in
 {
@@ -29,8 +32,8 @@ in
           download-dir = config.dusk.folders.downloads;
           watch-dir = "${config.dusk.folders.downloads}/_queue";
 
-          rpc-bind-address = "0.0.0.0";
-          rpc-bind-port = 10003;
+          rpc-bind-address = "127.0.0.1";
+          rpc-bind-port = port;
 
           rpc-whitelist-enabled = false;
         };
