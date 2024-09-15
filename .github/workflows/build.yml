@@ -14,6 +14,7 @@ jobs:
           - os: ubuntu-latest
             arch: x86_64-linux
             parent: .#nixosConfigurations.battlecruiser
+
           - os: macos-latest
             arch: aarch64-darwin
             parent: .#darwinConfigurations.drone
@@ -21,16 +22,20 @@ jobs:
     runs-on: ${{ matrix.items.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       - name: Remove default tooling that uses way too much space
         if: matrix.items.os == 'ubuntu-latest'
         run: sudo rm -rf /opt/hostedtoolcache
+
       - name: Install Nix Daemon
         uses: DeterminateSystems/nix-installer-action@v4
+
       - name: Enable Cachix
         uses: cachix/cachix-action@v14
         with:
           name: cfcosta-home
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
       - name: Run Build
         run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"
