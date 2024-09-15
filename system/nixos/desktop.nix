@@ -61,11 +61,27 @@ in
     hardware = {
       graphics.enable = true;
       pulseaudio.enable = false;
+
+      # Support for Xbox One Controllers
+      xone.enable = true;
     };
 
     programs = {
+      gamescope = {
+        enable = true;
+        capSysNice = true;
+      };
+
       gnupg.agent.pinentryPackage = pkgs.pinentry-all;
-      steam.enable = true;
+
+      steam = {
+        enable = true;
+
+        dedicatedServer.openFirewall = true;
+        gamescopeSession.enable = true;
+        localNetworkGameTransfers.openFirewall = true;
+        remotePlay.openFirewall = true;
+      };
     };
 
     security.rtkit.enable = true;
