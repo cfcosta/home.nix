@@ -71,6 +71,7 @@ in
         mkcert
         ncdu_2
         neofetch
+        nss
         openssl
         pricehist
         python3
@@ -155,5 +156,11 @@ in
     programs.gnupg.agent.enable = true;
 
     security.pki.certificateFiles = [ ../secrets/rootCA.pem ];
+
+    system.activationScripts.install-self-signed-certs = {
+      text = ''
+        CAROOT=/etc/mkcert ${pkgs.mkcert}/bin/mkcert -install
+      '';
+    };
   };
 }

@@ -25,21 +25,18 @@
       };
     };
 
-    system.activationScripts = {
-      refind-install = {
-        deps = [ ];
-        text = ''
-          if [ -s /run/current-system/sw/bin/refind-install ];then
-            OLDPATH="$PATH"
-            PATH="/run/current-system/sw/bin"
-            ${pkgs.catppuccin-refind}/bin/refind-install
-            PATH="$OLDPATH"
-            printf 'true' > /tmp/refind
-          else
-            printf 'skip/true' > /tmp/refind
-          fi
-        '';
-      };
+    system.activationScripts.refind-install = {
+      text = ''
+        if [ -s /run/current-system/sw/bin/refind-install ];then
+          OLDPATH="$PATH"
+          PATH="/run/current-system/sw/bin"
+          ${pkgs.catppuccin-refind}/bin/refind-install
+          PATH="$OLDPATH"
+          printf 'true' > /tmp/refind
+        else
+          printf 'skip/true' > /tmp/refind
+        fi
+      '';
     };
   };
 }

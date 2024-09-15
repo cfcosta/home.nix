@@ -9,15 +9,7 @@
     homebrew = {
       enable = true;
 
-      masApps = {
-        "Amazon Kindle" = 302584613;
-        "Amphetamine" = 937984704;
-        "Bitwarden Password Manager" = 1352778147;
-        "Tailscale" = 1475387142;
-        "Telegram" = 747648890;
-        "Todoist: To-Do List & Planner" = 585829637;
-        "Whatsapp Messenger" = 310633997;
-      };
+      brews = [ "nss" ];
 
       casks = [
         "brave-browser"
@@ -44,9 +36,19 @@
         "tor-browser"
         "vlc"
         "zed"
+        "bitwarden"
       ];
 
       caskArgs.no_quarantine = true;
+
+      masApps = {
+        "Amazon Kindle" = 302584613;
+        "Amphetamine" = 937984704;
+        "Tailscale" = 1475387142;
+        "Telegram" = 747648890;
+        "Todoist: To-Do List & Planner" = 585829637;
+        "Whatsapp Messenger" = 310633997;
+      };
 
       onActivation = {
         autoUpdate = true;
