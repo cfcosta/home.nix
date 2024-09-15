@@ -1,4 +1,10 @@
-_: {
+{ inputs, ... }:
+{
+  imports = with inputs.nixos-hardware.nixosModules; [
+    common-cpu-amd
+    common-pc-ssd
+  ];
+
   config = {
     dusk.system = {
       hostname = "battlecruiser";
@@ -9,21 +15,7 @@ _: {
       };
     };
 
-    boot = {
-      initrd = {
-        availableKernelModules = [
-          "nvme"
-          "ahci"
-          "thunderbolt"
-          "xhci_pci"
-          "usbhid"
-          "usb_storage"
-          "sd_mod"
-        ];
-
-        kernelModules = [ "kvm-amd" ];
-      };
-    };
+    boot.initrd.kernelModules = [ "kvm-amd" ];
 
     fileSystems = {
       "/" = {

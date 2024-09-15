@@ -24,11 +24,21 @@ in
   ];
 
   config = mkIf config.dusk.system.nixos.enable {
+    boot.initrd.availableKernelModules = [
+      "ahci"
+      "nvme"
+      "sd_mod"
+      "thunderbolt"
+      "usb_storage"
+      "usbhid"
+      "xhci_pci"
+    ];
+
     catppuccin.enable = true;
 
     environment.defaultPackages = mkForce [ ];
 
-    graphics.enable = true;
+    hardware.graphics.enable = true;
 
     i18n.defaultLocale = system.locale;
 

@@ -1,5 +1,10 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 {
+  imports = with inputs.nixos-hardware.nixosModules; [
+    common-cpu-intel
+    common-pc-ssd
+  ];
+
   config = {
     dusk.system = {
       hostname = "pylon";
@@ -21,25 +26,12 @@
       };
     };
 
-    boot = {
-      initrd = {
-        availableKernelModules = [
-          "xhci_pci"
-          "ahci"
-          "nvme"
-          "usbhid"
-          "usb_storage"
-          "sd_mod"
-        ];
-
-        kernelModules = [ "kvm-intel" ];
-      };
-    };
+    boot.initrd.kernelModules = [ "kvm-intel" ];
 
     # Enable Intel QuickSync Video and libva
     hardware.graphics.extraPackages = with pkgs; [
       libvdpau-va-gl
-      pl-gpu-rt
+      vpl-gpu-rt
     ];
 
     fileSystems = {

@@ -17,6 +17,9 @@ in
   config = mkIf cfg.enable {
     environment = {
       sessionVariables = {
+        # Enable Wayland support on most Electron applications
+        NIXOS_OZONE_WL = "1";
+
         BROWSER = config.dusk.defaults.browser;
         TERMINAL = config.dusk.defaults.terminal;
       };
