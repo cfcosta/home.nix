@@ -67,6 +67,7 @@ in
 
             domain = true;
             userServices = true;
+            workstation = true;
           };
 
           nssmdns4 = true;

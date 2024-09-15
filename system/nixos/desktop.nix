@@ -90,6 +90,13 @@ in
       libinput.enable = true;
       packagekit.enable = true;
 
+      sunshine = {
+        enable = true;
+        autoStart = true;
+        capSysAdmin = true;
+        openFirewall = true;
+      };
+
       pipewire = {
         enable = true;
 

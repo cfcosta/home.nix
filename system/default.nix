@@ -40,6 +40,7 @@ in
       systemPackages = with pkgs; [
         age
         b3sum
+        cmatrix
         complete-alias
         curl
         eva

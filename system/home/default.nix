@@ -37,6 +37,8 @@ in
 
     catppuccin.enable = true;
 
+    fonts.fontconfig.enable = true;
+
     home = {
       inherit (config.dusk) username;
 
