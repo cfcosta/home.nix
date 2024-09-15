@@ -9,8 +9,8 @@ let
 in
 {
   "env.sh.age".publicKeys = cfcosta;
-  "mullvad.age".publicKeys = cfcosta;
-
-  "ca.key.age".publicKeys = cfcosta;
+  "localhost.crt.age".publicKeys = cfcosta;
   "localhost.key.age".publicKeys = cfcosta;
+  "mullvad.age".publicKeys = cfcosta;
+  "rootCA-key.pem.age".publicKeys = cfcosta;
 }

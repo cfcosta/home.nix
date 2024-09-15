@@ -7,7 +7,10 @@ let
 in
 {
   config = mkIf cfg.enable {
-    age.secrets.cert-key.file = ../../../secrets/localhost.key.age;
+    age.secrets = {
+      "localhost.crt".file = ../../../secrets/localhost.crt.age;
+      "localhost.key".file = ../../../secrets/localhost.key.age;
+    };
 
     networking.firewall.interfaces.${interface}.allowedTCPPorts = [
       80
@@ -40,8 +43,8 @@ in
       };
 
       dynamicConfigOptions.tls.stores.default.defaultCertificate = {
-        certFile = toString ../../certificates/localhost.crt;
-        keyFile = config.age.secrets.cert-key.path;
+        certFile = config.age.secrets."localhost.crt".path;
+        keyFile = config.age.secrets."localhost.key".path;
       };
     };
   };

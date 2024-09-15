@@ -24,6 +24,8 @@ in
       }
     ];
 
+    age.secrets."rootCA-key.pem".file = ../secrets/rootCA-key.pem.age;
+
     documentation = {
       enable = true;
       doc.enable = true;
@@ -145,8 +147,6 @@ in
 
     programs.gnupg.agent.enable = true;
 
-    security.pki.certificateFiles = [
-      ./certificates/ca.crt
-    ];
+    security.pki.certificateFiles = [ ./certificates/rootCA.pem ];
   };
 }
