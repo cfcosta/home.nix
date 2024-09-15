@@ -177,12 +177,12 @@ in
               font = {
                 family = mkOption {
                   type = types.str;
-                  default = "Inconsolata NerdFont Mono";
+                  default = "Berkeley Mono NerdFont Mono";
                 };
 
                 size = mkOption {
                   type = types.float;
-                  default = 14.0;
+                  default = 13.0;
                 };
               };
             };

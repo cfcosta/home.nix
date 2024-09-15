@@ -40,10 +40,12 @@ in
       systemPackages = with pkgs; [
         age
         b3sum
+        beancount
         cmatrix
         complete-alias
         curl
         eva
+        fava
         fd
         fdupes
         ffmpeg
@@ -59,6 +61,7 @@ in
         ncdu_2
         neofetch
         openssl
+        pricehist
         python3
         python3Packages.yt-dlp
         ripgrep

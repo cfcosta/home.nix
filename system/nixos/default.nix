@@ -60,7 +60,7 @@ in
           PermitUserEnvironment = mkForce false;
           AllowAgentForwarding = mkForce false;
           AllowTcpForwarding = mkForce false;
-          PermitTunnel = mkForce false;
+          PermitTunnel = mkForce true;
         };
       };
 

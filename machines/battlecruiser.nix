@@ -2,7 +2,11 @@ _: {
   config = {
     dusk.system = {
       hostname = "battlecruiser";
-      nixos.server.enable = false;
+
+      nixos = {
+        desktop.alacritty.font.family = "Berkeley Mono NerdFont Mono";
+        server.enable = false;
+      };
     };
 
     boot = {
