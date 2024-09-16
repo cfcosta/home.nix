@@ -269,10 +269,13 @@ in
         "mkcert/rootCA-key.pem".source = mkOutOfStoreSymlink "/etc/mkcert/rootCA-key.pem";
       };
 
-      configFile."pgcli/config".text = ''
-        max_field_width = 
-        less_chatty = True
-      '';
+      configFile = {
+        "gitui/theme.ron".source = "${inputs.catppuccin-gitui}/themes/catppuccin-mocha.ron";
+        "pgcli/config".text = ''
+          max_field_width = 
+          less_chatty = True
+        '';
+      };
     };
   };
 }

@@ -74,6 +74,10 @@
       url = "github:catppuccin/cosmic-desktop";
       flake = false;
     };
+    catppuccin-gitui = {
+      url = "github:catppuccin/gitui";
+      flake = false;
+    };
     catppuccin-refind = {
       url = "github:catppuccin/refind";
       flake = false;

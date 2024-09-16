@@ -88,6 +88,22 @@
         "type": "github"
       }
     },
+    "catppuccin-gitui": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1716604863,
+        "narHash": "sha256-CRxpEDShQcCEYtSXwLV5zFB8u0HVcudNcMruPyrnSEk=",
+        "owner": "catppuccin",
+        "repo": "gitui",
+        "rev": "c7661f043cb6773a1fc96c336738c6399de3e617",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "gitui",
+        "type": "github"
+      }
+    },
     "catppuccin-refind": {
       "flake": false,
       "locked": {
@@ -556,11 +572,11 @@
         "zen-mode": "zen-mode"
       },
       "locked": {
-        "lastModified": 1726327326,
-        "narHash": "sha256-3OkIXR4n3/5EDb295r+UHxlGqGBqLJhmJS96swyw4t8=",
+        "lastModified": 1726448373,
+        "narHash": "sha256-QFnVE82lsHUTfitliflY8oxfA2Sc1dXImQIh4PQRdlQ=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "ad74c893b592ce5768c917ac435e514817ddbc9b",
+        "rev": "382ed96ed497cf53fcf32b2c833f79ae2c6d5630",
         "type": "github"
       },
       "original": {
@@ -943,6 +959,7 @@
         "agenix": "agenix",
         "catppuccin": "catppuccin",
         "catppuccin-cosmic": "catppuccin-cosmic",
+        "catppuccin-gitui": "catppuccin-gitui",
         "catppuccin-refind": "catppuccin-refind",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
