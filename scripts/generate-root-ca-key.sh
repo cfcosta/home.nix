@@ -3,6 +3,10 @@
 set -e
 
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &>/dev/null && pwd)"
+
+# shellcheck source=/dev/null
+. "${ROOT}/scripts/bash-lib.sh"
+
 OUTPUT_DIR="$(mktemp -d)"
 
 cleanup() {
@@ -19,7 +23,7 @@ HOST_IDENTITY_FILE="/etc/ssh/ssh_host_ed25519_key.pub"
 USER_IDENTITY_FILE="${HOME}/.ssh/id_ed25519.pub"
 AGE="age -R ${HOST_IDENTITY_FILE} -R ${USER_IDENTITY_FILE}"
 
-echo ":: Generating a new root CA key..."
+_info "Generating a new root CA key..."
 
 mkcert localhost
 
@@ -31,10 +35,10 @@ ${AGE} "${OUTPUT_DIR}/rootCA-key.pem" >"${ROOT}/secrets/rootCA-key.pem.age"
 
 cd "${ROOT}/secrets"
 
-echo ":: Re-encrypting all keys"
+_info "Re-encrypting all keys"
 
 agenix -r
 
 rm -rf "${OUTPUT_DIR}"
 
-echo ":: Done!"
+_info "Done!"
