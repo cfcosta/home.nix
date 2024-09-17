@@ -17,8 +17,7 @@ let
   inherit (lib)
     mapAttrsToList
     mkForce
-    optionalAttrs
-    optionalString
+    mkIf
     ;
   inherit (pkgs) writeShellApplication;
 
@@ -56,10 +55,10 @@ let
               export PATH="$PATH:/opt/homebrew/bin"
             fi
 
-            complete -F _ssh ssh-tmux
+            complete -F _ssh s
           };
 
-        ${optionalString isDarwin "setup_darwin"}
+        [ "$(uname -s)" == "Darwin" ] && setup_darwin
 
         # shellcheck source=/dev/null
         . ${pkgs.complete-alias}/bin/complete_alias
@@ -161,7 +160,7 @@ in
             vi = "nvim";
             vim = "nvim";
           }
-          // optionalAttrs isDarwin {
+          // mkIf isDarwin {
             s = "${sshTmux}/bin/ssh-tmux";
           };
 
