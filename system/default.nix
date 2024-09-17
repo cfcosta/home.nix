@@ -12,7 +12,7 @@ let
 in
 {
   imports = [
-    ../options.nix
+    ./options.nix
     ../user.nix
   ];
 
@@ -103,7 +103,7 @@ in
 
       users.${config.dusk.username} = _: {
         imports = [
-          ../options.nix
+          ./options.nix
           ../user.nix
           ./home
         ];
