@@ -1,14 +1,17 @@
 { config, lib, ... }:
 let
   inherit (lib) mkIf optionals;
-  inherit (config.dusk.system.nixos.networking) ip;
+  inherit (config.dusk.system.nixos.networking) ip targetLocal;
 
   cfg = config.dusk.system.nixos.server;
   interface = config.dusk.system.nixos.networking.defaultNetworkInterface;
+
+  localIp = if ip == null then "192.168.0.1" else ip;
+  target = if targetLocal == null then localIp else targetLocal;
 in
 {
 
-  config = mkIf cfg.enable {
+  config = mkIf cfg.dnsmasq.enable {
     networking.firewall.allowedUDPPorts = [ 53 ];
 
     services = {
@@ -25,8 +28,7 @@ in
           inherit interface;
 
           server =
-            # Point to dnscrypt as the first entrypoint
-            optionals config.dusk.system.nixos.networking.enable [
+            [
               "127.0.0.1#5354"
               "::1#5354"
             ]
@@ -38,7 +40,7 @@ in
             ++ config.dusk.system.nixos.networking.nameservers;
 
           domain = "local";
-          address = "/.${cfg.domain}/${if ip == null then "192.168.0.1" else ip}";
+          address = "/.${cfg.domain}/${target}";
 
           expand-hosts = true;
           no-resolv = true;

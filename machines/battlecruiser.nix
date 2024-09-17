@@ -11,7 +11,16 @@
 
       nixos = {
         desktop.alacritty.font.family = "Berkeley Mono NerdFont Mono";
-        server.enable = false;
+
+        networking = {
+          defaultNetworkInterface = "eno1";
+          ip = "10.0.0.2";
+        };
+
+        server = {
+          enable = true;
+          dnsmasq.enable = false;
+        };
       };
     };
 

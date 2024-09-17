@@ -1,9 +1,8 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
-  flavor,
+  inputs,
   ...
 }:
 let
@@ -17,62 +16,11 @@ let
   inherit (lib)
     mapAttrsToList
     mkForce
-    mkIf
     ;
-  inherit (pkgs) writeShellApplication;
 
-  isDarwin = flavor == "darwin";
-
-  setupCompletions =
-    let
-      items = map (alias: "complete -F _complete_alias ${alias}") (
-        attrNames config.programs.bash.shellAliases
-      );
-    in
-    writeShellApplication {
-      name = "dusk-setup-completions";
-
-      text = ''
-          # MacOS by default does not load the completions set by Nix, so this
-          # function fixes that.
-          load_darwin_system_completions() {
-            local dir="/run/current-system/sw/share/bash-completion/completions"
-
-            [ ! -d "''${dir}" ] && for f in "''${dir}"/*; do
-              # shellcheck source=/dev/null
-              . "''${f}"
-            done
-          }
-
-          setup_darwin() {
-            load_darwin_system_completions
-
-            if [ -d "/run/current-system/sw/bin" ] && [[ ":$PATH:" != *":/run/current-system/sw/bin:"* ]]; then
-              export PATH="/run/current-system/sw/bin:$PATH"
-            fi
-
-            if [ -d "/opt/homebrew/bin" ] && [[ ":$PATH:" != *":/opt/homebrew/bin:"* ]]; then
-              export PATH="$PATH:/opt/homebrew/bin"
-            fi
-
-            complete -F _ssh s
-          };
-
-        [ "$(uname -s)" == "Darwin" ] && setup_darwin
-
-        # shellcheck source=/dev/null
-        . ${pkgs.complete-alias}/bin/complete_alias
-
-        ${concatStringsSep "\n" items}
-      '';
-    };
-
-  sshTmux = writeShellApplication {
-    name = "ssh-tmux";
-    text = ''
-      ${pkgs.openssh}/bin/ssh "''${1}" -t "tmux -CC new -A -t mac"
-    '';
-  };
+  completeAliases = map (alias: "complete -F _complete_alias ${alias}") (
+    attrNames config.programs.bash.shellAliases
+  );
 in
 {
   imports = [
@@ -94,7 +42,12 @@ in
 
     home = {
       inherit (config.dusk) username;
+
       homeDirectory = mkForce config.dusk.folders.home;
+
+      packages = with pkgs; [
+        (nerdfonts.override { fonts = [ "Inconsolata" ]; })
+      ];
 
       stateVersion = "24.11";
     };
@@ -134,35 +87,31 @@ in
         enable = true;
         enableCompletion = true;
 
-        shellAliases =
-          {
-            ack = "rg";
-            bc = "eva";
-            cat = "bat --decorations=never";
-            g = "git status --short";
-            ga = "git add";
-            gaa = "git add -A";
-            gaai = "git add --intent-to-add -A";
-            gai = "git add --intent-to-add";
-            gc = "git commit";
-            gca = "git commit -a";
-            gco = "git checkout";
-            gcp = "git cherry-pick";
-            gd = "git diff";
-            gf = "git fetch -a --tags";
-            gl = "git log --graph";
-            gp = "git push";
-            gs = "git stash";
-            gsp = "git stash pop";
-            htop = "btop";
-            ll = "lsd -l -A";
-            ls = "lsd -l";
-            vi = "nvim";
-            vim = "nvim";
-          }
-          // mkIf isDarwin {
-            s = "${sshTmux}/bin/ssh-tmux";
-          };
+        shellAliases = {
+          ack = "rg";
+          bc = "eva";
+          cat = "bat --decorations=never";
+          g = "git status --short";
+          ga = "git add";
+          gaa = "git add -A";
+          gaai = "git add --intent-to-add -A";
+          gai = "git add --intent-to-add";
+          gc = "git commit";
+          gca = "git commit -a";
+          gco = "git checkout";
+          gcp = "git cherry-pick";
+          gd = "git diff";
+          gf = "git fetch -a --tags";
+          gl = "git log --graph";
+          gp = "git push";
+          gs = "git stash";
+          gsp = "git stash pop";
+          htop = "btop";
+          ll = "lsd -l -A";
+          ls = "lsd -l";
+          vi = "nvim";
+          vim = "nvim";
+        };
 
         sessionVariables = {
           COLORTERM = "truecolor";
@@ -203,9 +152,23 @@ in
         ];
 
         initExtra = ''
-          ${setupCompletions}/bin/dusk-setup-completions
+          . ${pkgs.complete-alias}/bin/complete_alias
 
-          # shellcheck source=/dev/null
+          ${concatStringsSep "\n" completeAliases}
+
+          if [ "$(uname -s)" == "Darwin" ]; then
+            # MacOS by default does not load the completions set by Nix, so this
+            # function fixes that.
+            local dir="/run/current-system/sw/share/bash-completion/completions"
+
+            [ ! -d "''${dir}" ] && for f in "''${dir}"/*; do
+              # shellcheck source=/dev/null
+              . "''${f}"
+            done
+
+            export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
+          fi
+
           . ${config.age.secrets.env.path}
         '';
       };

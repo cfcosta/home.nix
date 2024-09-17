@@ -275,6 +275,19 @@ in
               parent = cfg.server.enable;
             };
 
+            dnsmasq = {
+              enable = mkEnabledOption {
+                description = "Whether or not to install the DNS Server";
+                parent = cfg.server.enable;
+              };
+
+              targetLocal = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "What IP to point the local server to";
+              };
+            };
+
             gitea.enable = mkEnabledOption {
               description = "Whether or not to install the Gitea Git Server";
               parent = cfg.server.enable;

@@ -10,7 +10,7 @@
       hostname = "pylon";
 
       nixos = {
-        desktop.enable = true;
+        desktop.enable = false;
 
         networking = {
           defaultNetworkInterface = "enp2s0";
@@ -20,8 +20,18 @@
         nvidia.enable = false;
 
         server = {
-          enable = true;
-          domain = "pylon.local";
+          enable = false;
+
+          domain = "battlecruiser.local";
+
+          dnsmasq = {
+            enable = true;
+            targetLocal = "10.0.0.2";
+          };
+
+          gitea.enable = false;
+          cockpit.enable = false;
+          transmission.enable = false;
         };
       };
     };

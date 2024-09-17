@@ -42,7 +42,7 @@ in
         insertNameservers = cfg.nameservers;
       };
 
-      resolvconf.useLocalResolver = true;
+      resolvconf.useLocalResolver = config.dusk.system.nixos.server.dnsmasq.enable;
     };
 
     services = {
