@@ -14,7 +14,29 @@ if [ ! -f "$ROOT/machines/$HOSTNAME.nix" ]; then
 	exit 1
 fi
 
+setup_darwin_xcode_license() {
+	XCODE_VERSION="$(xcodebuild -version | grep '^Xcode\s' | sed -E 's/^Xcode[[:space:]]+([0-9\.]+)/\1/')"
+	ACCEPTED_LICENSE_VERSION="$(defaults read /Library/Preferences/com.apple.dt.Xcode 2>/dev/null | grep IDEXcodeVersionForAgreedToGMLicense | cut -d '"' -f 2)"
+
+	echo "Found XCode version: ${XCODE_VERSION}"
+	echo "Accepted XCode License Version: ${ACCEPTED_LICENSE_VERSION}"
+
+	if [ "$XCODE_VERSION" == "$ACCEPTED_LICENSE_VERSION" ]; then
+		return 0
+	else
+		echo "You need to accept the current version XCode License, please input your password for sudo."
+		echo "Running command: sudo xcodebuild -license accept"
+
+		sudo xcodebuild -license accept && return 0
+
+		echo "Error: could not accept XCode License"
+		exit 1
+	fi
+}
+
 setup_darwin() {
+	setup_darwin_xcode_license
+
 	NIX_ROOT="/run/current-system/sw"
 
 	export PATH="${NIX_ROOT}/bin:$PATH"

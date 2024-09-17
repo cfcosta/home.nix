@@ -34,23 +34,37 @@ let
       name = "dusk-setup-completions";
 
       text = ''
-        . ${pkgs.complete-alias}/bin/complete_alias
-
-        ${optionalString isDarwin "complete -F _ssh ssh-tmux"}
-        ${concatStringsSep "\n" items}
-
-        if [ "$(uname -s)" == "Darwin" ]; then
           # MacOS by default does not load the completions set by Nix, so this
           # function fixes that.
-          local dir="/run/current-system/sw/share/bash-completion/completions"
+          load_darwin_system_completions() {
+            local dir="/run/current-system/sw/share/bash-completion/completions"
 
-          [ ! -d "''${dir}" ] && for f in "''${dir}"/*; do
-            # shellcheck source=/dev/null
-            . "''${f}"
-          done
+            [ ! -d "''${dir}" ] && for f in "''${dir}"/*; do
+              # shellcheck source=/dev/null
+              . "''${f}"
+            done
+          }
 
-          export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
-        fi
+          setup_darwin() {
+            load_darwin_system_completions
+
+            if [ -d "/run/current-system/sw/bin" ] && [[ ":$PATH:" != *":/run/current-system/sw/bin:"* ]]; then
+              export PATH="/run/current-system/sw/bin:$PATH"
+            fi
+
+            if [ -d "/opt/homebrew/bin" ] && [[ ":$PATH:" != *":/opt/homebrew/bin:"* ]]; then
+              export PATH="$PATH:/opt/homebrew/bin"
+            fi
+
+            complete -F _ssh ssh-tmux
+          };
+
+        ${optionalString isDarwin "setup_darwin"}
+
+        # shellcheck source=/dev/null
+        . ${pkgs.complete-alias}/bin/complete_alias
+
+        ${concatStringsSep "\n" items}
       '';
     };
 
@@ -196,6 +210,8 @@ in
 
         initExtra = ''
           ${setupCompletions}/bin/dusk-setup-completions
+
+          # shellcheck source=/dev/null
           . ${config.age.secrets.env.path}
         '';
       };
