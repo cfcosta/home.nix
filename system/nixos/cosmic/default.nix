@@ -29,6 +29,15 @@ in
       "cosmic/com.system76.CosmicTheme.Dark/v1/palette".source = "${inputs.catppuccin-cosmic}/cosmic-settings/Catppuccin-Mocha-Blue.ron";
       "cosmic/com.system76.CosmicTk/v1/apply_theme_global".text = "true";
       "cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom".source = ./shortcuts.ron;
+      "cosmic/com.system76.CosmicTheme.Dark/v1/accent".source = ./accent.ron;
+      "cosmic/com.system76.CosmicTheme.Dark.Builder/v1/bg_color".text = ''
+        Some((
+            red: 0.11764706,
+            green: 0.11764706,
+            blue: 0.18039216,
+            alpha: 1.0,
+        ))
+      '';
     };
 
     services = {

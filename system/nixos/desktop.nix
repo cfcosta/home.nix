@@ -45,7 +45,7 @@ in
           tdesktop
           todoist-electron
           tor-browser
-          wl-clipboard
+          wl-clipboard-rs
           zed-editor
 
           # Fonts
