@@ -47,6 +47,8 @@ in
       };
 
       systemPackages = with pkgs; [
+        (nerdfonts.override { fonts = [ "Inconsolata" ]; })
+
         age
         b3sum
         beancount

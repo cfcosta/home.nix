@@ -95,12 +95,7 @@ in
 
     home = {
       inherit (config.dusk) username;
-
       homeDirectory = mkForce config.dusk.folders.home;
-
-      packages = with pkgs; [
-        (nerdfonts.override { fonts = [ "Inconsolata" ]; })
-      ];
 
       stateVersion = "24.11";
     };
