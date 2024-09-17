@@ -6,7 +6,7 @@ on:
     - cron: "0 0 * * SUN" # Every sunday at midnight
 
 jobs:
-  update-cargo2nix:
+  update-flake:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
