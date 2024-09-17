@@ -11,31 +11,38 @@ in
   config = mkIf cfg.enable {
     networking.firewall.allowedUDPPorts = [ 53 ];
 
-    services.dnsmasq = {
-      enable = true;
-      alwaysKeepRunning = true;
+    services = {
+      dnscrypt-proxy2 = {
+        enable = true;
+        settings.listen_addresses = [ "127.0.0.1:5354" ];
+      };
 
-      settings = {
-        inherit interface;
+      dnsmasq = {
+        enable = true;
+        alwaysKeepRunning = true;
 
-        server =
-          # Point to avahi first if the server is available
-          optionals config.services.avahi.enable [
-            "127.0.0.1#5353"
-            "::1#5353"
-          ]
-          # If dnscrypt-proxy2 is installed, lets point to it for external requests
-          ++ optionals config.dusk.system.nixos.networking.enable [
-            "127.0.0.1#5354"
-            "::1#5354"
-          ]
-          ++ config.dusk.system.nixos.networking.extraNameservers;
+        settings = {
+          inherit interface;
 
-        domain = "local";
-        address = "/.${cfg.domain}/${if ip == null then "192.168.0.1" else ip}";
+          server =
+            # Point to dnscrypt as the first entrypoint
+            optionals config.dusk.system.nixos.networking.enable [
+              "127.0.0.1#5354"
+              "::1#5354"
+            ]
+            # Then, if not found, let's try avahi
+            ++ optionals config.services.avahi.enable [
+              "127.0.0.1#5353"
+              "::1#5353"
+            ]
+            ++ config.dusk.system.nixos.networking.nameservers;
 
-        expand-hosts = true;
-        no-resolv = true;
+          domain = "local";
+          address = "/.${cfg.domain}/${if ip == null then "192.168.0.1" else ip}";
+
+          expand-hosts = true;
+          no-resolv = true;
+        };
       };
     };
   };

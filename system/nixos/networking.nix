@@ -8,11 +8,6 @@ let
   inherit (lib) mkForce mkIf optionals;
 
   cfg = config.dusk.system.nixos.networking;
-
-  nameservers = [
-    "127.0.0.1"
-    "::1"
-  ] ++ cfg.extraNameservers;
 in
 {
   config = mkIf cfg.enable {
@@ -29,7 +24,7 @@ in
     };
 
     networking = {
-      inherit nameservers;
+      inherit (cfg) nameservers;
 
       dhcpcd.enable = false;
       useDHCP = false;
@@ -44,7 +39,7 @@ in
       networkmanager = {
         enable = true;
         dns = mkForce "none";
-        insertNameservers = nameservers;
+        insertNameservers = cfg.nameservers;
       };
 
       resolvconf.useLocalResolver = true;
@@ -74,16 +69,9 @@ in
           nssmdns6 = true;
         };
 
-      dnscrypt-proxy2 = {
-        enable = true;
-
-        # If the server is enabled, we need to change ports to not conflict with dnsmasq
-        settings = mkIf config.dusk.system.nixos.server.enable { listen_addresses = [ "127.0.0.1:5354" ]; };
-      };
-
       i2pd = mkIf cfg.i2p.enable {
         enable = true;
-        address = "10.0.0.0";
+        address = "0.0.0.0";
 
         proto = {
           http.enable = true;

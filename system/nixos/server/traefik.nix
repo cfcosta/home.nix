@@ -8,6 +8,7 @@ in
   imports = [
     ./applications
   ];
+
   config = mkIf config.dusk.system.nixos.server.enable {
     age.secrets = {
       localhost = {

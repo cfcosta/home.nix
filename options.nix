@@ -206,7 +206,7 @@ in
               description = "The static ip for this machine on the local network, if any";
             };
 
-            extraNameservers = mkOption {
+            nameservers = mkOption {
               type = types.listOf types.str;
 
               default = [

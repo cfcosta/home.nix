@@ -9,9 +9,10 @@
       config = lib.mkIf cfg.${name}.enable {
         services.traefik.dynamicConfigOptions.http = {
           routers.${name} = {
-            rule = "HostRegexp(`${name}.${cfg.domain}`)";
+            rule = "Host(`${name}.${cfg.domain}`)";
             service = name;
             entrypoints = [ "websecure" ];
+            tls = true;
           };
 
           services.${name}.loadBalancer.servers = [
