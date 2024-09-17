@@ -1,8 +1,9 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
-  inputs,
+  flavor,
   ...
 }:
 let
@@ -16,11 +17,49 @@ let
   inherit (lib)
     mapAttrsToList
     mkForce
+    optionalAttrs
+    optionalString
     ;
+  inherit (pkgs) writeShellApplication;
 
-  completeAliases = map (alias: "complete -F _complete_alias ${alias}") (
-    attrNames config.programs.bash.shellAliases
-  );
+  isDarwin = flavor == "darwin";
+
+  setupCompletions =
+    let
+      items = map (alias: "complete -F _complete_alias ${alias}") (
+        attrNames config.programs.bash.shellAliases
+      );
+    in
+    writeShellApplication {
+      name = "dusk-setup-completions";
+
+      text = ''
+        . ${pkgs.complete-alias}/bin/complete_alias
+
+        ${optionalString isDarwin "complete -F _ssh ssh-tmux"}
+        ${concatStringsSep "\n" items}
+
+        if [ "$(uname -s)" == "Darwin" ]; then
+          # MacOS by default does not load the completions set by Nix, so this
+          # function fixes that.
+          local dir="/run/current-system/sw/share/bash-completion/completions"
+
+          [ ! -d "''${dir}" ] && for f in "''${dir}"/*; do
+            # shellcheck source=/dev/null
+            . "''${f}"
+          done
+
+          export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
+        fi
+      '';
+    };
+
+  sshTmux = writeShellApplication {
+    name = "ssh-tmux";
+    text = ''
+      ${pkgs.openssh}/bin/ssh "''${1}" -t "tmux -CC new -A -t mac"
+    '';
+  };
 in
 {
   imports = [
@@ -87,31 +126,35 @@ in
         enable = true;
         enableCompletion = true;
 
-        shellAliases = {
-          ack = "rg";
-          bc = "eva";
-          cat = "bat --decorations=never";
-          g = "git status --short";
-          ga = "git add";
-          gaa = "git add -A";
-          gaai = "git add --intent-to-add -A";
-          gai = "git add --intent-to-add";
-          gc = "git commit";
-          gca = "git commit -a";
-          gco = "git checkout";
-          gcp = "git cherry-pick";
-          gd = "git diff";
-          gf = "git fetch -a --tags";
-          gl = "git log --graph";
-          gp = "git push";
-          gs = "git stash";
-          gsp = "git stash pop";
-          htop = "btop";
-          ll = "lsd -l -A";
-          ls = "lsd -l";
-          vi = "nvim";
-          vim = "nvim";
-        };
+        shellAliases =
+          {
+            ack = "rg";
+            bc = "eva";
+            cat = "bat --decorations=never";
+            g = "git status --short";
+            ga = "git add";
+            gaa = "git add -A";
+            gaai = "git add --intent-to-add -A";
+            gai = "git add --intent-to-add";
+            gc = "git commit";
+            gca = "git commit -a";
+            gco = "git checkout";
+            gcp = "git cherry-pick";
+            gd = "git diff";
+            gf = "git fetch -a --tags";
+            gl = "git log --graph";
+            gp = "git push";
+            gs = "git stash";
+            gsp = "git stash pop";
+            htop = "btop";
+            ll = "lsd -l -A";
+            ls = "lsd -l";
+            vi = "nvim";
+            vim = "nvim";
+          }
+          // optionalAttrs isDarwin {
+            s = "${sshTmux}/bin/ssh-tmux";
+          };
 
         sessionVariables = {
           COLORTERM = "truecolor";
@@ -152,23 +195,7 @@ in
         ];
 
         initExtra = ''
-          . ${pkgs.complete-alias}/bin/complete_alias
-
-          ${concatStringsSep "\n" completeAliases}
-
-          if [ "$(uname -s)" == "Darwin" ]; then
-            # MacOS by default does not load the completions set by Nix, so this
-            # function fixes that.
-            local dir="/run/current-system/sw/share/bash-completion/completions"
-
-            [ ! -d "''${dir}" ] && for f in "''${dir}"/*; do
-              # shellcheck source=/dev/null
-              . "''${f}"
-            done
-
-            export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
-          fi
-
+          ${setupCompletions}/bin/dusk-setup-completions
           . ${config.age.secrets.env.path}
         '';
       };
