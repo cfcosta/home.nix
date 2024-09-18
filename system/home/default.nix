@@ -29,7 +29,7 @@ in
     inputs.neovim.hmModule
 
     ./alacritty.nix
-    ./git.nix
+    ./git
     ./zed
   ];
 
@@ -269,13 +269,10 @@ in
         "mkcert/rootCA-key.pem".source = mkOutOfStoreSymlink "/etc/mkcert/rootCA-key.pem";
       };
 
-      configFile = {
-        "gitui/theme.ron".source = "${inputs.catppuccin-gitui}/themes/catppuccin-mocha.ron";
-        "pgcli/config".text = ''
-          max_field_width = 
-          less_chatty = True
-        '';
-      };
+      configFile."pgcli/config".text = ''
+        max_field_width = 
+        less_chatty = True
+      '';
     };
   };
 }

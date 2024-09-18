@@ -50,6 +50,7 @@ in
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
 
         age
+        aider-chat
         b3sum
         beancount
         cachix
