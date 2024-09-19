@@ -18,6 +18,12 @@ in
       };
     };
 
+    dconf.settings."org/gnome/desktop/interface" = {
+      font-name = "Cantarell 11";
+      document-font-name = "Cantarell 11";
+      monospace-font-name = "Cantarell 11";
+    };
+
     home-manager.users.${config.dusk.username}.xdg.configFile = {
       "cosmic/com.system76.CosmicComp/v1/autotile".text = "true";
       "cosmic/com.system76.CosmicComp/v1/autotile_behavior".text = "true";

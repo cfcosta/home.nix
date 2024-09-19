@@ -9,7 +9,7 @@ let
   inherit (import ./lib.nix) exposeHost;
 
   cfg = config.dusk.system.nixos.server;
-  port = 10003;
+  port = 3002;
 in
 {
   imports = [
