@@ -25,6 +25,22 @@
         "type": "github"
       }
     },
+    "aider-chat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1726200555,
+        "narHash": "sha256-2uvIA8TiC0zI8i1Po/hjUsgk/zklGwmkhGaaYPV1rmQ=",
+        "owner": "paul-gauthier",
+        "repo": "aider",
+        "rev": "e6037140be0105ee2575761b69c0e5ec7acf946b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "paul-gauthier",
+        "repo": "aider",
+        "type": "github"
+      }
+    },
     "aiken-neovim": {
       "flake": false,
       "locked": {
@@ -906,6 +922,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "aider-chat": "aider-chat",
         "catppuccin": "catppuccin",
         "catppuccin-cosmic": "catppuccin-cosmic",
         "catppuccin-gitui": "catppuccin-gitui",

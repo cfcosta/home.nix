@@ -49,8 +49,8 @@ in
       systemPackages = with pkgs; [
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
 
-        age
         aider-chat
+        age
         b3sum
         beancount
         cachix

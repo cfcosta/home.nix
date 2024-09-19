@@ -12,8 +12,10 @@
       brews = [ "nss" ];
 
       casks = [
+        "bitwarden"
         "brave-browser"
         "chromedriver"
+        "cool-retro-term"
         "discord"
         "element"
         "firefox"
@@ -36,7 +38,6 @@
         "tor-browser"
         "vlc"
         "zed"
-        "bitwarden"
       ];
 
       caskArgs.no_quarantine = true;

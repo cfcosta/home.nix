@@ -1,30 +1,30 @@
-inputs: _: final: {
-  agenix = inputs.agenix.packages.${final.system}.default;
-
-  catppuccin-refind = import ./refind {
-    inherit inputs;
-    pkgs = final;
-  };
-
-  python3Packages = final.python3Packages // {
+inputs: _: prev: {
+  aider-chat = prev.aider-chat.overrideAttrs (_: {
     litellm =
       let
-        version = "v1.44.7";
+        version = "1.44.7";
       in
-      final.litellm.overrideAttrs (_: {
+      prev.python3Packages.litellm.overrideAttrs (_: {
         inherit version;
 
-        src = final.fetchPypi {
+        src = prev.fetchPypi {
           inherit version;
 
           pname = "litellm";
-          hash = "";
+          hash = "sha256-yPj52ABlvoFYAlgXfzoAbehtLErx+acyrDe9MXoT8EI=";
         };
       });
+  });
+
+  agenix = inputs.agenix.packages.${prev.system}.default;
+
+  catppuccin-refind = import ./refind {
+    inherit inputs;
+    pkgs = prev;
   };
 
   waydroid-script = import ./waydroid {
     inherit inputs;
-    pkgs = final;
+    pkgs = prev;
   };
 }

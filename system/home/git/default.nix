@@ -22,12 +22,15 @@ in
 
     ignores = [
       ".DS_Store"
+      ".aider.*"
       ".direnv"
       ".env"
       ".null_ls*"
       ".vscode"
+      "node_modules"
       "result"
       "result-bin"
+      "target"
     ];
 
     signing = {
