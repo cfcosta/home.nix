@@ -1,10 +1,12 @@
 { config, lib, ... }:
 let
-  inherit (lib) mkIf optionals;
-  inherit (config.dusk.system.nixos.networking) ip targetLocal;
-
   cfg = config.dusk.system.nixos.server;
-  interface = config.dusk.system.nixos.networking.defaultNetworkInterface;
+
+  inherit (lib) mkIf optionals;
+  inherit (config.dusk.system.nixos.networking) ip defaultNetworkInterface nameservers;
+  inherit (cfg.dnsmasq) targetLocal;
+
+  interface = defaultNetworkInterface;
 
   localIp = if ip == null then "192.168.0.1" else ip;
   target = if targetLocal == null then localIp else targetLocal;
@@ -37,7 +39,7 @@ in
               "127.0.0.1#5353"
               "::1#5353"
             ]
-            ++ config.dusk.system.nixos.networking.nameservers;
+            ++ nameservers;
 
           domain = "local";
           address = "/.${cfg.domain}/${target}";
