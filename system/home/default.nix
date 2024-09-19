@@ -152,6 +152,7 @@ in
         ];
 
         initExtra = ''
+          . ${config.age.secrets.env.path}
           . ${pkgs.complete-alias}/bin/complete_alias
 
           ${concatStringsSep "\n" completeAliases}
@@ -159,17 +160,15 @@ in
           if [ "$(uname -s)" == "Darwin" ]; then
             # MacOS by default does not load the completions set by Nix, so this
             # function fixes that.
-            local dir="/run/current-system/sw/share/bash-completion/completions"
+            DIR="/run/current-system/sw/share/bash-completion/completions"
 
-            [ ! -d "''${dir}" ] && for f in "''${dir}"/*; do
+            [ ! -d "''${DIR}" ] && for f in "''${DIR}"/*; do
               # shellcheck source=/dev/null
               . "''${f}"
             done
 
             export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
           fi
-
-          . ${config.age.secrets.env.path}
         '';
       };
 
