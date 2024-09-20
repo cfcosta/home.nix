@@ -62,6 +62,7 @@ in
         fdupes
         ffmpeg
         file
+        gh
         gist
         git-bug
         gitMinimal
