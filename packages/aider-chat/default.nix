@@ -4,7 +4,6 @@
   portaudio,
   python311,
 }:
-
 let
   python3 = python311.override {
     self = python3;
@@ -23,6 +22,19 @@ let
       pname = "litellm";
       inherit version;
       pyproject = true;
+
+      dependencies = with python3.pkgs; [
+        poetry-core
+        click
+        importlib-metadata
+        openai
+        pydantic
+        python-dotenv
+        tiktoken
+        tokenizers
+        jinja2
+        jsonschema
+      ];
 
       src = python3.pkgs.fetchPypi {
         inherit version;
@@ -44,7 +56,44 @@ python3.pkgs.buildPythonApplication {
 
   build-system = with python3.pkgs; [ setuptools-scm ];
 
-  dependencies = [ litellm ];
+  dependencies =
+    [ litellm ]
+    ++ (with python3.pkgs; [
+      aiohappyeyeballs
+      backoff
+      beautifulsoup4
+      configargparse
+      diff-match-patch
+      diskcache
+      flake8
+      gitpython
+      grep-ast
+      importlib-resources
+      jiter
+      json5
+      jsonschema
+      networkx
+      numpy
+      packaging
+      pathspec
+      pexpect
+      pillow
+      playwright
+      prompt-toolkit
+      ptyprocess
+      pypager
+      pypandoc
+      pyperclip
+      pyyaml
+      rich
+      scipy
+      sounddevice
+      soundfile
+      streamlit
+      tokenizers
+      watchdog
+      psutil
+    ]);
 
   buildInputs = [ portaudio ];
 

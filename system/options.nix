@@ -210,7 +210,6 @@ in
               type = types.listOf types.str;
 
               default = [
-                "10.0.0.4"
                 "1.1.1.1" # Cloudflare
                 "1.0.0.1" # Cloudflare
                 "8.8.8.8" # Google

@@ -15,6 +15,13 @@
         networking = {
           defaultNetworkInterface = "eno1";
           ip = "10.0.0.2";
+          nameservers = [
+            "10.0.0.4"
+            "1.1.1.1" # Cloudflare
+            "1.0.0.1" # Cloudflare
+            "8.8.8.8" # Google
+            "4.4.4.4" # Google
+          ];
         };
 
         server = {

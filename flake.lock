@@ -602,11 +602,11 @@
         "zen-mode": "zen-mode"
       },
       "locked": {
-        "lastModified": 1726852499,
-        "narHash": "sha256-gk5d1Hqo/Ey3LesqmCNIqOstcDzwZllgVxU/D+GuNbI=",
+        "lastModified": 1726855062,
+        "narHash": "sha256-rQsIQ3rWjrNCT7JzEOT84osbOzZi8NzbHSv2yhJrj5Q=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "42baf141ea6fbf0c3ca157259c31f4b76151c1e9",
+        "rev": "f6f5b77fe95d6b4c81447cb0354bd5971bc3eb8e",
         "type": "github"
       },
       "original": {
