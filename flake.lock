@@ -587,6 +587,7 @@
         "nvim-treesitter-endwise": "nvim-treesitter-endwise",
         "nvim-treesitter-just": "nvim-treesitter-just",
         "nvim-web-devicons": "nvim-web-devicons",
+        "octo": "octo",
         "plenary": "plenary",
         "pre-commit-hooks": [
           "pre-commit-hooks"
@@ -602,11 +603,11 @@
         "zen-mode": "zen-mode"
       },
       "locked": {
-        "lastModified": 1726855062,
-        "narHash": "sha256-rQsIQ3rWjrNCT7JzEOT84osbOzZi8NzbHSv2yhJrj5Q=",
+        "lastModified": 1726876267,
+        "narHash": "sha256-IJfgMwwuDhiZfuc9v+diRxETbabIVDh/q2oHjhQcpKY=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "f6f5b77fe95d6b4c81447cb0354bd5971bc3eb8e",
+        "rev": "5c8de7cb368f079fe50a810dc7e6af8a07fa688f",
         "type": "github"
       },
       "original": {
@@ -874,6 +875,22 @@
       "original": {
         "owner": "nvim-tree",
         "repo": "nvim-web-devicons",
+        "type": "github"
+      }
+    },
+    "octo": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1726337001,
+        "narHash": "sha256-xVUi4g09qgOqYxgBCP328CYE2Q6nknC2w3+Bod3e4lM=",
+        "owner": "pwntester",
+        "repo": "octo.nvim",
+        "rev": "955f0fdd03b0da23ee1c3368d80bf806f0e36fa5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pwntester",
+        "repo": "octo.nvim",
         "type": "github"
       }
     },
