@@ -26,7 +26,7 @@ jobs:
 
       - name: Remove default tooling that uses way too much space
         if: matrix.items.os == 'ubuntu-latest'
-        run: sudo rm -rf /opt/hostedtoolcache
+        run: sudo find /opt -maxdepth 1 -mindepth 1 '!' -path ./containerd '!' -path ./actionarchivecache '!' -path ./runner '!' -path ./runner-cache -exec rm -rf '{}' ';'
 
       - name: Install Nix Daemon
         uses: DeterminateSystems/nix-installer-action@v4
