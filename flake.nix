@@ -172,26 +172,21 @@
             inherit pre-commit-check;
           };
 
-          packages = pkgs.dusk // {
-            battlecruiser = systemTarget "battlecruiser" "nixos";
-            drone = systemTarget "drone" "darwin";
-            pylon = systemTarget "pylon" "nixos";
-          };
-
           devShells.default = mkShell {
             inherit (pre-commit-check) shellHook;
             packages = with pkgs; [ agenix ];
+          };
+
+          packages = pkgs.dusk // {
+            battlecruiser = systemTarget "battlecruiser" "nixos";
+            drone = systemTarget "drone" "darwin";
           };
         }
       );
     in
     perSystem
     // {
-      nixosConfigurations = {
-        battlecruiser = buildNixos "battlecruiser";
-        pylon = buildNixos "pylon";
-      };
-
       darwinConfigurations.drone = buildDarwin "drone";
+      nixosConfigurations.battlecruiser = buildNixos "battlecruiser";
     };
 }

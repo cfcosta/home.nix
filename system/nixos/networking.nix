@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib) mkForce mkIf optionals;
+  inherit (lib) mkIf optionals;
 
   cfg = config.dusk.system.nixos.networking;
 in
@@ -24,25 +24,12 @@ in
     };
 
     networking = {
-      inherit (cfg) nameservers;
-
-      dhcpcd.enable = false;
-      useDHCP = false;
-
       firewall = {
         checkReversePath = false;
         trustedInterfaces = optionals cfg.tailscale.enable [ "tailscale0" ];
       };
 
-      iproute2.enable = true;
-
-      networkmanager = {
-        enable = true;
-        dns = mkForce "none";
-        insertNameservers = cfg.nameservers;
-      };
-
-      resolvconf.useLocalResolver = config.dusk.system.nixos.server.dnsmasq.enable;
+      networkmanager.enable = true;
     };
 
     services = {
@@ -68,20 +55,6 @@ in
           nssmdns4 = true;
           nssmdns6 = true;
         };
-
-      i2pd = mkIf cfg.i2p.enable {
-        enable = true;
-        address = "0.0.0.0";
-
-        proto = {
-          http.enable = true;
-          httpProxy.enable = true;
-          i2cp.enable = true;
-          socksProxy.enable = true;
-        };
-      };
-
-      resolved.enable = false;
 
       tailscale = {
         inherit (cfg.tailscale) enable;

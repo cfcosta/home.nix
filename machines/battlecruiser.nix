@@ -24,10 +24,7 @@
           ];
         };
 
-        server = {
-          enable = true;
-          dnsmasq.enable = false;
-        };
+        server.enable = true;
       };
     };
 

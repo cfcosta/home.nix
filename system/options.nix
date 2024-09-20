@@ -219,11 +219,6 @@ in
               description = "The DNS Servers to use";
             };
 
-            i2p.enable = mkEnabledOption {
-              description = "Whether or not to enable i2p";
-              parent = cfg.networking.enable;
-            };
-
             mullvad.enable = mkEnabledOption {
               description = "Whether or not to enable Mullvad VPN";
               parent = cfg.networking.enable;
@@ -273,19 +268,6 @@ in
             cockpit.enable = mkEnabledOption {
               description = "Whether or not to install the Cockpit Server Dashboard";
               parent = cfg.server.enable;
-            };
-
-            dnsmasq = {
-              enable = mkEnabledOption {
-                description = "Whether or not to install the DNS Server";
-                parent = cfg.server.enable;
-              };
-
-              targetLocal = mkOption {
-                type = types.nullOr types.str;
-                default = null;
-                description = "What IP to point the local server to";
-              };
             };
 
             gitea.enable = mkEnabledOption {
