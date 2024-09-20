@@ -4,15 +4,18 @@
   lib,
   ...
 }:
+let
+  inherit (lib) mkIf;
+in
 {
-  config = lib.mkIf config.dusk.system.nixos.bootloader.enable {
+  config = mkIf config.dusk.system.nixos.bootloader.enable {
     boot.loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = lib.mkDefault true;
     };
 
     environment.systemPackages = with pkgs; [
-      catppuccin-refind
+      duskOverrides.refind
       efibootmgr
     ];
 
@@ -30,7 +33,7 @@
         if [ -s /run/current-system/sw/bin/refind-install ];then
           OLDPATH="$PATH"
           PATH="/run/current-system/sw/bin"
-          ${pkgs.catppuccin-refind}/bin/refind-install
+          ${pkgs.duskOverrides.refind}/bin/refind-install
           PATH="$OLDPATH"
           printf 'true' > /tmp/refind
         else

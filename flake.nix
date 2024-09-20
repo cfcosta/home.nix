@@ -94,6 +94,8 @@
 
   outputs =
     inputs@{
+      self,
+
       flake-utils,
       nix-darwin,
       nixpkgs,
@@ -112,79 +114,85 @@
       });
 
       buildPkgs = system: ctx.pkgs.${system};
+      builders = {
+        nixos = nixpkgs.lib.nixosSystem;
+        darwin = nix-darwin.lib.darwinSystem;
+      };
 
-      perSystem = flake-utils.lib.eachDefaultSystem (system: rec {
-        checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-          src = ./.;
+      buildSystem =
+        flavor: system: name:
+        builders.${flavor} {
+          pkgs = buildPkgs system;
 
-          hooks = {
-            deadnix.enable = true;
-            nixfmt-rfc-style.enable = true;
-            statix.enable = true;
+          modules = [
+            ./system
+            ./system/${flavor}
+            ./machines/${name}.nix
+          ];
 
-            shellcheck.enable = true;
-            shfmt.enable = true;
+          specialArgs = {
+            inherit inputs flavor;
           };
         };
+      buildNixos = buildSystem "nixos" "x86_64-linux";
+      buildDarwin = buildSystem "darwin" "aarch64-darwin";
 
-        devShells.default =
-          with (buildPkgs system);
-          mkShell {
-            inherit (checks.pre-commit-check) shellHook;
-            packages = [ agenix ];
+      perSystem = flake-utils.lib.eachDefaultSystem (
+        system:
+        let
+          pkgs = buildPkgs system;
+
+          inherit (pkgs) mkShell;
+
+          pre-commit-check = pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+
+            hooks = {
+              deadnix.enable = true;
+              nixfmt-rfc-style.enable = true;
+              statix.enable = true;
+
+              shellcheck.enable = true;
+              shfmt.enable = true;
+            };
           };
-      });
+
+          systemTarget =
+            flavor:
+            let
+              prefix = {
+                nixos = "nixosConfigurations";
+                darwin = "darwinConfigurations";
+              };
+            in
+            self.outputs.${prefix.${flavor}}.config.system.build.toplevel;
+
+        in
+        {
+          checks = {
+            inherit pre-commit-check;
+          };
+
+          packages = pkgs.duskOverrides // {
+            battlecruiser = systemTarget "battlecruiser" "nixos";
+            drone = systemTarget "drone" "darwin";
+            pylon = systemTarget "pylon" "nixos";
+          };
+
+          devShells.default = mkShell {
+            inherit (pre-commit-check) shellHook;
+            packages = with pkgs; [ agenix ];
+          };
+        }
+      );
     in
     perSystem
     // {
       nixosConfigurations = {
-        battlecruiser = nixpkgs.lib.nixosSystem {
-          pkgs = buildPkgs "x86_64-linux";
-
-          modules = [
-            ./system
-            ./system/nixos
-            ./machines/battlecruiser.nix
-          ];
-
-          specialArgs = {
-            inherit inputs;
-
-            flavor = "nixos";
-          };
-        };
-
-        pylon = nixpkgs.lib.nixosSystem {
-          pkgs = buildPkgs "x86_64-linux";
-
-          modules = [
-            ./system
-            ./system/nixos
-            ./machines/pylon.nix
-          ];
-
-          specialArgs = {
-            inherit inputs;
-
-            flavor = "nixos";
-          };
-        };
+        battlecruiser = buildNixos "battlecruiser";
+        pylon = buildNixos "pylon";
       };
 
-      darwinConfigurations.drone = nix-darwin.lib.darwinSystem {
-        pkgs = buildPkgs "aarch64-darwin";
-
-        modules = [
-          ./system
-          ./system/darwin
-          ./machines/drone.nix
-        ];
-
-        specialArgs = {
-          inherit inputs;
-
-          flavor = "darwin";
-        };
-      };
+      darwinConfigurations.drone = buildDarwin "drone";
     };
 }
