@@ -1,6 +1,10 @@
-{ inputs, pkgs }:
+{
+  inputs,
+  refind,
+  stdenvNoCC,
+}:
 let
-  inherit (pkgs.stdenvNoCC) mkDerivation;
+  inherit (stdenvNoCC) mkDerivation;
 in
 mkDerivation {
   pname = "catppuccin-refind";
@@ -13,7 +17,7 @@ mkDerivation {
     mkdir -p $out/share/refind/themes/catppuccin
 
     cp -rf * $out/share/refind/themes/catppuccin
-    cp -rf ${pkgs.refind}/* $out/
+    cp -rf ${refind}/* $out/
 
     chmod +w $out/share/refind/refind.conf-sample
     echo -e "\ninclude themes/catppuccin/mocha.conf" >> $out/share/refind/refind.conf-sample

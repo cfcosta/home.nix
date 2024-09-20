@@ -1,10 +1,17 @@
-{ inputs, pkgs }:
+{
+  inputs,
+  lib,
+  lzip,
+  python3Packages,
+  stdenv,
+  substituteAll,
+  util-linux,
+}:
 let
   inherit (builtins) replaceStrings;
-  inherit (pkgs) substituteAll lzip util-linux;
-  inherit (pkgs.lib.strings) removePrefix;
-  inherit (pkgs.stdenv) mkDerivation;
-  inherit (pkgs.python3Packages)
+  inherit (lib.strings) removePrefix;
+  inherit (stdenv) mkDerivation;
+  inherit (python3Packages)
     buildPythonApplication
     inquirerpy
     requests

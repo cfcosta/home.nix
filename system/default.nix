@@ -48,8 +48,6 @@ in
 
       systemPackages = with pkgs; [
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
-
-        aider-chat
         age
         b3sum
         beancount
@@ -57,6 +55,7 @@ in
         cmatrix
         complete-alias
         curl
+        dusk.aider-chat
         eva
         fava
         fd

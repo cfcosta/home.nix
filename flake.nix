@@ -158,22 +158,21 @@
           };
 
           systemTarget =
-            flavor:
+            name: flavor:
             let
               prefix = {
                 nixos = "nixosConfigurations";
                 darwin = "darwinConfigurations";
               };
             in
-            self.outputs.${prefix.${flavor}}.config.system.build.toplevel;
-
+            self.outputs.${prefix.${flavor}}.${name}.config.system.build.toplevel;
         in
         {
           checks = {
             inherit pre-commit-check;
           };
 
-          packages = pkgs.duskOverrides // {
+          packages = pkgs.dusk // {
             battlecruiser = systemTarget "battlecruiser" "nixos";
             drone = systemTarget "drone" "darwin";
             pylon = systemTarget "pylon" "nixos";

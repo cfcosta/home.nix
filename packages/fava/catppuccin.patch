@@ -1,0 +1,443 @@
+diff --git a/frontend/css/editor.css b/frontend/css/editor.css
+index 7975f7b5..e197cc89 100644
+--- a/frontend/css/editor.css
++++ b/frontend/css/editor.css
+@@ -1,8 +1,14 @@
+ /* Editor */
+ 
++.cm-editor {
++  color: var(--text);
++  background-color: var(--background);
++}
++
+ .cm-editor .cm-gutters {
+-  background: var(--sidebar-background);
+-  border-right: 1px solid var(--sidebar-border);
++  color: var(--subtext1);
++  background: var(--surface0);
++  border-right: 1px solid var(--surface1);
+ }
+ 
+ .cm-editor .cm-scroller {
+@@ -14,7 +20,8 @@
+ }
+ 
+ .cm-editor .cm-tooltip {
+-  background-color: var(--sidebar-border);
++  background-color: var(--surface1);
++  border: 1px solid var(--surface2);
+ }
+ 
+ /* stylelint-disable selector-class-pattern */
+@@ -23,17 +30,57 @@
+ }
+ 
+ .cm-editor .cm-selectionBackground {
+-  background-color: var(--editor-activeline);
++  background-color: var(--surface1);
+ }
+ 
+ .cm-editor.cm-focused
+   > .cm-scroller
+   > .cm-selectionLayer
+   .cm-selectionBackground {
+-  background-color: var(--editor-activeline);
++  background-color: var(--surface1);
+ }
+ 
+ .cm-editor .cm-selectionMatch {
+   background-color: var(--editor-selectionmatch);
+ }
++
++.cm-editor .cm-cursor {
++  border-left-color: var(--text);
++}
++
++.cm-editor .cm-lineNumbers {
++  color: var(--subtext0);
++}
++
++.cm-editor .cm-foldPlaceholder {
++  background-color: var(--surface1);
++  border-color: var(--surface2);
++}
++
++.cm-editor .cm-activeLineGutter {
++  background-color: var(--surface0);
++}
++
++/* Syntax highlighting */
++.cm-editor .cm-keyword { color: var(--mauve); }
++.cm-editor .cm-operator { color: var(--sky); }
++.cm-editor .cm-variable-2 { color: var(--rosewater); }
++.cm-editor .cm-variable-3, .cm-editor .cm-type { color: var(--yellow); }
++.cm-editor .cm-builtin { color: var(--peach); }
++.cm-editor .cm-atom { color: var(--pink); }
++.cm-editor .cm-number { color: var(--peach); }
++.cm-editor .cm-def { color: var(--blue); }
++.cm-editor .cm-string { color: var(--green); }
++.cm-editor .cm-string-2 { color: var(--yellow); }
++.cm-editor .cm-comment { color: var(--overlay0); }
++.cm-editor .cm-variable { color: var(--text); }
++.cm-editor .cm-tag { color: var(--mauve); }
++.cm-editor .cm-meta { color: var(--blue); }
++.cm-editor .cm-attribute { color: var(--green); }
++.cm-editor .cm-property { color: var(--blue); }
++.cm-editor .cm-qualifier { color: var(--green); }
++.cm-editor .cm-bracket { color: var(--overlay2); }
++.cm-editor .cm-link { color: var(--rosewater); text-decoration: underline; }
++.cm-editor .cm-error { color: var(--red); }
++
+ /* stylelint-enable selector-class-pattern */
+diff --git a/frontend/css/style.css b/frontend/css/style.css
+index 5aac33bd..42f21702 100644
+--- a/frontend/css/style.css
++++ b/frontend/css/style.css
+@@ -10,179 +10,196 @@
+   --z-index-overlay: 3;
+   --z-index-keyboard-overlays: 4;
+ 
++  /* Catppuccin Mocha colors */
++  --rosewater: #f5e0dc;
++  --flamingo: #f2cdcd;
++  --pink: #f5c2e7;
++  --mauve: #cba6f7;
++  --red: #f38ba8;
++  --maroon: #eba0ac;
++  --peach: #fab387;
++  --yellow: #f9e2af;
++  --green: #a6e3a1;
++  --teal: #94e2d5;
++  --sky: #89dceb;
++  --sapphire: #74c7ec;
++  --blue: #89b4fa;
++  --lavender: #b4befe;
++  --text: #cdd6f4;
++  --subtext1: #bac2de;
++  --subtext0: #a6adc8;
++  --overlay2: #9399b2;
++  --overlay1: #7f849c;
++  --overlay0: #6c7086;
++  --surface2: #585b70;
++  --surface1: #45475a;
++  --surface0: #313244;
++  --base: #1e1e2e;
++  --mantle: #181825;
++  --crust: #11111b;
++
+   /* Base colors */
+-  --error: hsl(0deg 100% 30%);
+-  --warning: hsl(52deg 84% 56%);
+-  --red: var(--error);
+-  --yellow: var(--warning);
+-  --green: hsl(151deg 100% 25%);
+-  --gray: #aaa;
++  --error: var(--red);
++  --warning: var(--yellow);
++  --gray: var(--overlay1);
+   --transparent-black: hsl(0deg 0% 0% / 50%);
+   --transparent-white: hsl(0deg 0% 100% / 50%);
+-  --background: #fff;
+-  --background-darker: hsl(0deg 0% 85%);
+-  --text-color: hsl(0deg 0% 27%);
+-  --text-color-lighter: hsl(0deg 0% 33%);
+-  --text-color-lightest: hsl(0deg 0% 47%);
+-  --link-color: hsl(203deg 100% 32%);
+-  --link-hover-color: hsl(0deg 0% 33%);
+-  --heading-color: #333;
+-  --code-background: hsl(0deg 0% 97%);
+-  --border: hsl(0deg 0% 85%);
+-  --border-darker: hsl(0deg 0% 80%);
++  --background: var(--base);
++  --background-darker: var(--mantle);
++  --text-color: var(--text);
++  --text-color-lighter: var(--subtext1);
++  --text-color-lightest: var(--subtext0);
++  --link-color: var(--blue);
++  --link-hover-color: var(--lavender);
++  --heading-color: var(--lavender);
++  --code-background: var(--surface0);
++  --border: var(--surface2);
++  --border-darker: var(--overlay0);
+ 
+   /* Box shadows */
+-  --box-shadow-button: 0 0 5px hsl(0deg 0% 50% / 50%);
+-  --box-shadow-dropdown: 3px 3px 3px hsl(0deg 0% 50% / 50%);
++  --box-shadow-button: 0 0 5px var(--crust);
++  --box-shadow-dropdown: 3px 3px 3px var(--crust);
+   --box-shadow-kbd: inset 0 -1px 0 var(--border-darker);
+   --box-shadow-overlay: 0 0 20px var(--overlay-wrapper-background);
+ 
+   /* Buttons */
+-  --button-color: #fff;
+-  --button-background: hsl(203deg 100% 32%);
+-  --button-muted-color: var(--text-color);
+-  --button-muted-background: var(--background-darker);
++  --button-color: var(--crust);
++  --button-background: var(--blue);
++  --button-muted-color: var(--text);
++  --button-muted-background: var(--surface1);
+ 
+   /* Sidebar */
+-  --sidebar-color: #444;
++  --sidebar-color: var(--text);
+   --sidebar-hover-color: var(--link-color);
+-  --sidebar-background: hsl(0deg 0% 96%);
+-  --sidebar-border: hsl(0deg 0% 87%);
++  --sidebar-background: var(--surface0);
++  --sidebar-border: var(--surface1);
+ 
+   /* Details */
+-  --summary-background: hsl(0deg 0% 95%);
+-  --summary-background-darker: hsl(0deg 0% 90%);
++  --summary-background: var(--surface0);
++  --summary-background-darker: var(--surface1);
+ 
+   /* Header */
+-  --header-color: #fff;
+-  --header-background: hsl(203deg 100% 32%);
+-  --header-placeholder-color: hsl(203deg 47% 66%);
+-  --header-placeholder-background: hsl(203deg 56% 45%);
++  --header-color: var(--text);
++  --header-background: var(--surface0);
++  --header-placeholder-color: var(--subtext0);
++  --header-placeholder-background: var(--surface1);
+ 
+   /* Tables */
+-  --table-header-text: hsl(0deg 0% 40%);
+-  --table-header-background: hsl(0deg 0% 90%);
+-  --table-border: hsl(0deg 0% 90%);
+-  --table-background-even: hsl(0deg 0% 95%);
+-  --treetable-expander: #afc1d3;
+-  --budget-negative: #af3d3d;
+-  --budget-positive: #3daf46;
++  --table-header-text: var(--subtext1);
++  --table-header-background: var(--surface1);
++  --table-border: var(--overlay0);
++  --table-background-even: var(--surface1);
++  --treetable-expander: var(--overlay1);
++  --budget-negative: var(--red);
++  --budget-positive: var(--green);
+ 
+   /* Editor elements. */
+-  --editor-activeline: #cef4;
+-  --editor-selectionmatch: hsl(105deg 100% 73% / 50%);
++  --editor-activeline: var(--surface0);
++  --editor-selectionmatch: var(--surface1);
+ 
+   /* Editor contents */
+-  --editor-account: var(--link-color);
+-  --editor-class: #b84;
+-  --editor-comment: #998;
+-  --editor-constant: #008080;
+-  --editor-currencies: #708;
+-  --editor-date: #099;
+-  --editor-directive: #333;
+-  --editor-invalid-background: rgb(255 199 199 / 50%);
+-  --editor-invalid: #333;
+-  --editor-label-name: #221198;
+-  --editor-number: #116543;
+-  --editor-string: #a91111;
++  --editor-account: var(--blue);
++  --editor-class: var(--yellow);
++  --editor-comment: var(--overlay0);
++  --editor-constant: var(--peach);
++  --editor-currencies: var(--mauve);
++  --editor-date: var(--teal);
++  --editor-directive: var(--lavender);
++  --editor-invalid-background: var(--red);
++  --editor-invalid: var(--text);
++  --editor-label-name: var(--sapphire);
++  --editor-number: var(--green);
++  --editor-string: var(--pink);
+ 
+   /* Query Editor */
+-  --bql-keywords: #708;
+-  --bql-values: #085;
+-  --bql-string: #a11;
+-  --bql-errors: #000;
++  --bql-keywords: var(--mauve);
++  --bql-values: var(--green);
++  --bql-string: var(--pink);
++  --bql-errors: var(--red);
+ 
+   /* Misc */
+-  --notification-color: #fff;
+-  --chart-axis: #999;
+-  --autocomplete-match: #ffd27c;
+-  --mobile-button-text: #000;
++  --notification-color: var(--text);
++  --chart-axis: var(--overlay1);
++  --autocomplete-match: var(--peach);
++  --mobile-button-text: var(--text);
+   --placeholder-color: var(--text-color-lightest);
+   --placeholder-background: var(--background);
+-  --dragover-background: hsl(203deg 100% 32% / 50%);
+-  --overlay-wrapper-background: rgb(0 0 0 / 50%);
++  --dragover-background: var(--surface1);
++  --overlay-wrapper-background: var(--crust);
+ 
+   /* Help pages */
+-  --help-sidebar-background: #f8f8f8;
+-  --help-sidebar-border: #eaeaea;
++  --help-sidebar-background: var(--surface0);
++  --help-sidebar-border: var(--surface1);
+ }
+ 
+-@media (prefers-color-scheme: dark) {
++@media (prefers-color-scheme: light) {
+   :root {
+-    color-scheme: dark;
++    /* Softer Catppuccin Latte colors for light mode */
++    --rosewater: #f4dbd6;
++    --flamingo: #f0c6c6;
++    --pink: #f5bde6;
++    --mauve: #c6a0f6;
++    --red: #ed8796;
++    --maroon: #ee99a0;
++    --peach: #f5a97f;
++    --yellow: #eed49f;
++    --green: #a6da95;
++    --teal: #8bd5ca;
++    --sky: #91d7e3;
++    --sapphire: #7dc4e4;
++    --blue: #8aadf4;
++    --lavender: #b7bdf8;
++    --text: #4c4f69;
++    --subtext1: #5c5f77;
++    --subtext0: #6c6f85;
++    --overlay2: #7c7f93;
++    --overlay1: #8c8fa1;
++    --overlay0: #9ca0b0;
++    --surface2: #acb0be;
++    --surface1: #bcc0cc;
++    --surface0: #ccd0da;
++    --base: #eff1f5;
++    --mantle: #e6e9ef;
++    --crust: #dce0e8;
+ 
+-    /* Base colors */
+-    --heading-color: #d7dce2;
+-    --text-color: hsl(0deg 0% 75%);
+-    --text-color-darker: hsl(0deg 0% 25%);
+-    --text-color-lighter: hsl(0deg 0% 85%);
+-    --link-color: hsl(203deg 100% 70%);
+-    --link-hover-color: hsl(0deg 0% 45%);
+-    --code-background: hsl(0deg 0% 25%);
+-    --background: hsl(200deg 6% 15%);
+-    --background-darker: hsl(200deg 5% 30%);
+-    --border: hsl(0deg 0% 35%);
+-    --border-darker: hsl(0deg 0% 30%);
++    /* Adjust other variables for light mode */
++    --background: var(--base);
++    --background-darker: var(--mantle);
++    --text-color: var(--text);
++    --text-color-lighter: var(--subtext1);
++    --text-color-lightest: var(--subtext0);
++    --link-color: var(--blue);
++    --link-hover-color: var(--sapphire);
++    --heading-color: var(--mauve);
++    --code-background: var(--surface0);
++    --border: var(--surface1);
++    --border-darker: var(--surface2);
+ 
+-    /* Box shadows */
+-    --box-shadow-dropdown: 3px 3px 3px hsl(0deg 0% 25% / 50%);
+-
+-    /* Sidebar */
+-    --sidebar-background: hsl(200deg 5% 18%);
+-    --sidebar-color: hsl(0deg 0% 73%);
+-    --sidebar-border: hsl(200deg 5% 25%);
+-
+-    /* Details */
+-    --summary-background: hsl(0deg 0% 25%);
+-    --summary-background-darker: hsl(0deg 0% 20%);
+-
+-    /* Header */
+-    --header-color: #fff;
+-    --header-background: hsl(203deg 100% 25%);
+-
+-    /* Tables */
+-    --table-header-text: hsl(0deg 0% 80%);
+-    --table-header-background: var(--sidebar-background);
+-    --table-border: var(--sidebar-border);
+-    --table-background-even: hsl(0deg 0% 18%);
+-
+-    /* Editor elements. */
+-    --editor-activeline: #44535b44;
+-    --editor-selectionmatch: hsl(105deg 100% 30% / 50%);
+-
+-    /* Editor */
+-    --editor-account: var(--link-color);
+-    --editor-class: #e1a759;
+-    --editor-comment: #998;
+-    --editor-constant: #02a0a0;
+-    --editor-currencies: #cd00e8;
+-    --editor-date: #0ad3d3;
+-    --editor-directive: #c6c6c6;
+-    --editor-invalid-background: rgb(176 82 82 / 50%);
+-    --editor-invalid: #d5c5c5;
+-    --editor-label-name: #9c90f6;
+-    --editor-number: #00b672;
+-    --editor-string: #e87f7f;
+-
+-    /* Query Editor */
+-    --bql-keywords: #c678dd;
+-    --bql-values: #98c379;
+-    --bql-string: #ee5e5e; /* #e5c07b; */
+-    --bql-errors: var(--text-color-lighter);
+-
+-    /* Misc */
+-    --placeholder-color: var(--text-color-lighter);
+-    --placeholder-background: hsl(222deg 7% 29%);
+-    --mobile-button-text: #cacaca;
+-
+-    /* Help pages */
+-    --help-sidebar-background: #3b3b3b;
+-    --help-sidebar-border: #2a2a2a;
+-
+-    input,
+-    textarea {
+-      background: var(--placeholder-background);
+-    }
++    /* Additional adjustments for light mode */
++    --button-color: var(--crust);
++    --button-background: var(--blue);
++    --button-muted-color: var(--text);
++    --button-muted-background: var(--surface2);
++    --sidebar-color: var(--text);
++    --sidebar-hover-color: var(--blue);
++    --sidebar-background: var(--surface0);
++    --sidebar-border: var(--surface1);
++    --header-color: var(--text);
++    --header-background: var(--surface0);
++    --header-placeholder-color: var(--subtext0);
++    --header-placeholder-background: var(--surface1);
++    --table-header-text: var(--subtext1);
++    --table-header-background: var(--surface1);
++    --table-border: var(--overlay0);
++    --table-background-even: var(--surface0);
++    --editor-activeline: var(--surface1);
++    --editor-selectionmatch: var(--surface2);
++    --placeholder-color: var(--subtext0);
++    --placeholder-background: var(--surface0);
++    --dragover-background: var(--surface2);
++    --overlay-wrapper-background: var(--mantle);
++    --help-sidebar-background: var(--surface0);
++    --help-sidebar-border: var(--surface1);
+   }
+ }
+ 
+diff --git a/frontend/css/tree-table.css b/frontend/css/tree-table.css
+index 1f16ad8d..fda629ac 100644
+--- a/frontend/css/tree-table.css
++++ b/frontend/css/tree-table.css
+@@ -12,7 +12,7 @@
+ 
+ .tree-table-new p > span {
+   margin-right: -1px;
+-  border: 1px solid var(--table-border);
++  border: 1px solid var(--overlay0);
+ }
+ 
+ .tree-table-new .num {

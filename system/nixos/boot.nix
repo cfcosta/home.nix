@@ -15,7 +15,7 @@ in
     };
 
     environment.systemPackages = with pkgs; [
-      duskOverrides.refind
+      dusk.refind
       efibootmgr
     ];
 
@@ -33,7 +33,7 @@ in
         if [ -s /run/current-system/sw/bin/refind-install ];then
           OLDPATH="$PATH"
           PATH="/run/current-system/sw/bin"
-          ${pkgs.duskOverrides.refind}/bin/refind-install
+          ${pkgs.dusk.refind}/bin/refind-install
           PATH="$OLDPATH"
           printf 'true' > /tmp/refind
         else
