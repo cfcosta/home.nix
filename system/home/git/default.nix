@@ -42,29 +42,32 @@ in
     extraConfig = {
       blame.pager = "delta";
       commit.verbose = true;
+      github.user = config.dusk.accounts.github;
+      help.autocorrect = 10;
+      merge.conflictstyle = "diff3";
+      pull.ff = "only";
+      push.autoSetupRemote = true;
+      remote.origin.fetch = "+refs/pull/*/head:refs/remotes/origin/pr/*";
+      rerere.enabled = true;
 
       diff = {
         algorithm = "histogram";
         colorMoved = "default";
       };
 
-      github.user = config.dusk.accounts.github;
-      help.autocorrect = 10;
+      fetch = {
+        prune = true;
+        pruneTags = true;
+      };
 
       init = {
         inherit (cfg) defaultBranch;
       };
 
-      merge.conflictstyle = "diff3";
-      pull.ff = "only";
-      push.autoSetupRemote = true;
-
       rebase = {
         autosquash = true;
         autostash = true;
       };
-
-      rerere.enabled = true;
     };
   };
 }
