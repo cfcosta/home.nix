@@ -18,8 +18,8 @@ defineService rec {
           webHome = pkgs.flood-for-transmission;
 
           settings = {
-            download-dir = config.dusk.folders.downloads;
-            watch-dir = "${config.dusk.folders.downloads}/_queue";
+            download-dir = "${config.dusk.folders.downloads}/Media";
+            watch-dir = "${config.dusk.folders.downloads}/Media/_queue";
 
             encryption-required = true;
             rpc-bind-address = "127.0.0.1";

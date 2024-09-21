@@ -15,7 +15,7 @@ defineService rec {
         user = config.dusk.username;
         group = "users";
 
-        dataDir = "${config.dusk.folders.downloads}/sonarr";
+        dataDir = "${config.dusk.folders.downloads}/Media/_data/${name}";
       };
     };
 }
