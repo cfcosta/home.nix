@@ -1,30 +1,28 @@
-{
-  config,
-  lib,
-  ...
-}:
 let
-  inherit (lib) mkIf;
-  inherit (import ./lib.nix) exposeHost;
-
-  cfg = config.dusk.system.nixos.server;
+  inherit (import ./lib.nix) defineService;
   port = 3001;
+  subdomain = "git";
 in
-{
-  imports = [
-    (exposeHost "gitea" port)
-  ];
+defineService {
+  inherit port subdomain;
 
-  config = mkIf cfg.gitea.enable {
-    services.gitea = {
-      enable = true;
+  name = "gitea";
 
-      settings.server = {
-        HTTP_ADDRESS = "127.0.0.1";
-        HTTP_PORT = port;
+  config =
+    { config, ... }:
+    let
+      cfg = config.dusk.system.nixos.server;
+    in
+    {
+      config.services.gitea = {
+        inherit (cfg.gitea) enable;
 
-        ROOT_URL = "https://gitea.${cfg.domain}";
+        settings.server = {
+          HTTP_ADDRESS = "127.0.0.1";
+          HTTP_PORT = port;
+
+          ROOT_URL = "https://${subdomain}.${cfg.domain}";
+        };
       };
     };
-  };
 }

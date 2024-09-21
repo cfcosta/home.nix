@@ -1,22 +1,39 @@
 {
-  exposeHost =
-    name: port:
-    { config, lib, ... }:
+  defineService =
+    {
+      name,
+      port ? null,
+      subdomain ? name,
+      config ?
+        { config, ... }:
+        {
+          services.${name} = {
+            inherit (config.dusk.system.nixos.server.${name}) enable;
+            openFirewall = false;
+          };
+        },
+    }:
+    args:
     let
-      cfg = config.dusk.system.nixos.server;
+      inherit (args.lib) mkIf;
+
+      cfg = args.config.dusk.system.nixos.server;
+      listenPort = if port == null then args.config.services.${name}.port else port;
     in
     {
-      config = lib.mkIf cfg.${name}.enable {
+      imports = [ config ];
+
+      config = mkIf cfg.${name}.enable {
         services.traefik.dynamicConfigOptions.http = {
-          routers.${name} = {
-            rule = "Host(`${name}.${cfg.domain}`)";
+          routers.${subdomain} = {
+            rule = "Host(`${subdomain}.${cfg.domain}`)";
             service = name;
             entrypoints = [ "websecure" ];
             tls = true;
           };
 
           services.${name}.loadBalancer.servers = [
-            { url = "http://127.0.0.1:${toString port}"; }
+            { url = "http://127.0.0.1:${toString listenPort}"; }
           ];
         };
       };

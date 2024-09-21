@@ -78,7 +78,21 @@ in
         enable = true;
 
         dedicatedServer.openFirewall = true;
-        gamescopeSession.enable = true;
+        gamescopeSession = {
+          enable = true;
+          args = [
+            "-r"
+            "120"
+            "-F"
+            "nis"
+            "--sdr-gamut-wideness"
+            "1"
+            "--hdr-enabled"
+            "--adaptive-sync"
+            "--mangoapp"
+            "--expose-wayland"
+          ];
+        };
         localNetworkGameTransfers.openFirewall = true;
         remotePlay.openFirewall = true;
       };
