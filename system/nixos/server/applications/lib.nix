@@ -1,3 +1,31 @@
+let
+  defaultSystemdServiceConfig = {
+    CapabilityBoundingSet = "";
+    LockPersonality = true;
+    NoNewPrivileges = true;
+    PrivateTmp = true;
+    ProtectClock = true;
+    ProtectControlGroups = true;
+    ProtectHostname = true;
+    ProtectKernelLogs = true;
+    ProtectKernelModules = true;
+    ProtectKernelTunables = true;
+    ProtectProc = "invisible";
+    RestrictAddressFamilies = [
+      "AF_UNIX"
+      "AF_INET"
+      "AF_INET6"
+    ];
+    RestrictNamespaces = true;
+    RestrictRealtime = true;
+    RestrictSUIDSGID = true;
+    SystemCallArchitectures = "native";
+    SystemCallFilter = [
+      "@system-service"
+      "~@privileged"
+    ];
+  };
+in
 {
   defineService =
     {
@@ -41,6 +69,8 @@
             { url = "http://127.0.0.1:${toString listenPort}"; }
           ];
         };
+
+        systemd.services.${name}.serviceConfig = defaultSystemdServiceConfig;
       };
     };
 }
