@@ -1,28 +1,28 @@
+{ config, ... }:
 let
   inherit (import ./lib.nix) defineService;
+  cfg = config.dusk.system.nixos.server;
+
   port = 3001;
   subdomain = "git";
-in
-defineService {
-  inherit port subdomain;
 
-  name = "gitea";
+  service = defineService {
+    inherit port subdomain;
 
-  config =
-    { config, ... }:
-    let
-      cfg = config.dusk.system.nixos.server;
-    in
-    {
-      config.services.gitea = {
-        inherit (cfg.gitea) enable;
+    name = "gitea";
 
-        settings.server = {
-          HTTP_ADDRESS = "127.0.0.1";
-          HTTP_PORT = port;
+    config.services.gitea = {
+      enable = true;
 
-          ROOT_URL = "https://${subdomain}.${cfg.domain}";
-        };
+      settings.server = {
+        HTTP_ADDRESS = "127.0.0.1";
+        HTTP_PORT = port;
+
+        ROOT_URL = "https://${subdomain}.${cfg.domain}";
       };
     };
+  };
+in
+{
+  imports = [ service ];
 }

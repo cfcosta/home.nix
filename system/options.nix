@@ -264,46 +264,6 @@ in
               default = "${config.dusk.system.hostname}.local";
               description = "The root domain for all services in the system";
             };
-
-            bazarr.enable = mkEnabledOption {
-              description = "Whether or not to install the Lidarr Music Manager";
-              parent = cfg.server.enable;
-            };
-
-            gitea.enable = mkEnabledOption {
-              description = "Whether or not to install the Gitea Git Server";
-              parent = cfg.server.enable;
-            };
-
-            lidarr.enable = mkEnabledOption {
-              description = "Whether or not to install the Lidarr Music Manager";
-              parent = cfg.server.enable;
-            };
-
-            prowlarr.enable = mkEnabledOption {
-              description = "Whether or not to install the Prowlarr Indexer Manager";
-              parent = cfg.server.enable;
-            };
-
-            radarr.enable = mkEnabledOption {
-              description = "Whether or not to install the Radarr Movie collection manager";
-              parent = cfg.server.enable;
-            };
-
-            sonarr.enable = mkEnabledOption {
-              description = "Whether or not to install the Radarr Series collection manager";
-              parent = cfg.server.enable;
-            };
-
-            readarr.enable = mkEnabledOption {
-              description = "Whether or not to install the Readarr Book collection manager";
-              parent = cfg.server.enable;
-            };
-
-            transmission.enable = mkEnabledOption {
-              description = "Whether or not to install the transmission bittorrent server";
-              parent = cfg.server.enable;
-            };
           };
         };
     };

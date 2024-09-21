@@ -1,168 +1,110 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 let
   inherit (import ./lib.nix) defineService;
-
   cfg = config.dusk.system.nixos.server;
 in
 {
   imports = [
-    (defineService rec {
+    (defineService {
       name = "transmission";
       port = 9091;
 
-      config =
-        { config, ... }:
-        let
-          cfg = config.dusk.system.nixos.server;
-        in
-        {
-          config = {
-            services.transmission = {
-              inherit (cfg.${name}) enable;
+      config = {
+        services.transmission = {
+          enable = true;
+          openFirewall = false;
 
-              openFirewall = false;
+          user = config.dusk.username;
+          webHome = pkgs.flood-for-transmission;
 
-              user = config.dusk.username;
-              webHome = pkgs.flood-for-transmission;
+          settings = {
+            download-dir = config.dusk.folders.downloads;
+            watch-dir = "${config.dusk.folders.downloads}/_queue";
 
-              settings = {
-                download-dir = config.dusk.folders.downloads;
-                watch-dir = "${config.dusk.folders.downloads}/_queue";
-
-                encryption-required = true;
-                rpc-bind-address = "127.0.0.1";
-                rpc-bind-port = 9091;
-                rpc-host-whitelist = "transmission.${cfg.domain}";
-                rpc-whitelist-enabled = true;
-                rpc-whitelist = "10.0.0.*,100.*.*.*";
-              };
-            };
-
-            users.users.${config.dusk.username}.extraGroups = [ "transmission" ];
+            encryption-required = true;
+            rpc-bind-address = "127.0.0.1";
+            rpc-bind-port = 9091;
+            rpc-host-whitelist = "transmission.${cfg.domain}";
+            rpc-whitelist-enabled = true;
+            rpc-whitelist = "10.0.0.*,100.*.*.*";
           };
         };
+
+        users.users.${config.dusk.username}.extraGroups = [ "transmission" ];
+      };
     })
 
-    (defineService rec {
+    (defineService {
       name = "bazarr";
       port = 6767;
-      config =
-        { config, ... }:
-        let
-          cfg = config.dusk.system.nixos.server;
-          inherit (cfg.${name}) enable;
-        in
-        {
-          config.services.bazarr = {
-            inherit (cfg.${name}) enable;
+      config.services.bazarr = {
+        enable = true;
+        openFirewall = false;
 
-            openFirewall = false;
-            user = config.dusk.username;
-
-            group = "users";
-          };
-        };
+        user = config.dusk.username;
+        group = "users";
+      };
     })
-    (defineService rec {
+    (defineService {
       name = "lidarr";
       port = 8686;
-      config =
-        { config, ... }:
-        let
-          cfg = config.dusk.system.nixos.server;
-        in
-        {
-          config.services.lidarr = {
-            inherit (cfg.${name}) enable;
-            openFirewall = false;
+      config.services.lidarr = {
+        enable = true;
+        openFirewall = false;
 
-            user = config.dusk.username;
-            group = "users";
+        user = config.dusk.username;
+        group = "users";
 
-            dataDir = "${config.dusk.folders.downloads}/lidarr";
-          };
-        };
+        dataDir = "${config.dusk.folders.downloads}/lidarr";
+      };
     })
 
-    (defineService rec {
+    (defineService {
       name = "prowlarr";
       port = 9696;
-      config =
-        { config, ... }:
-        let
-          cfg = config.dusk.system.nixos.server;
-        in
-        {
-          config.services.prowlarr = {
-            inherit (cfg.${name}) enable;
-            openFirewall = false;
-          };
-        };
+      config.services.prowlarr = {
+        enable = true;
+        openFirewall = false;
+      };
     })
-    (defineService rec {
+
+    (defineService {
       name = "radarr";
       port = 7878;
-      config =
-        { config, ... }:
-        let
-          cfg = config.dusk.system.nixos.server;
-        in
-        {
-          config.services.radarr = {
-            inherit (cfg.${name}) enable;
-            openFirewall = false;
+      config.services.radarr = {
+        enable = true;
+        openFirewall = false;
 
-            user = config.dusk.username;
-            group = "users";
+        user = config.dusk.username;
+        group = "users";
 
-            dataDir = "${config.dusk.folders.downloads}/radarr";
-          };
-        };
+        dataDir = "${config.dusk.folders.downloads}/radarr";
+      };
     })
 
-    (defineService rec {
+    (defineService {
       name = "readarr";
       port = 8787;
-      config =
-        { config, ... }:
-        let
-          cfg = config.dusk.system.nixos.server;
-        in
-        {
-          config.services.readarr = {
-            inherit (cfg.${name}) enable;
-            openFirewall = false;
+      config.services.readarr = {
+        enable = true;
 
-            user = config.dusk.username;
-            group = "users";
+        user = config.dusk.username;
+        group = "users";
 
-            dataDir = "${config.dusk.folders.downloads}/readarr";
-          };
-        };
+        dataDir = "${config.dusk.folders.downloads}/readarr";
+      };
     })
 
-    (defineService rec {
+    (defineService {
       name = "sonarr";
       port = 8989;
-      config =
-        { config, ... }:
-        let
-          cfg = config.dusk.system.nixos.server;
-        in
-        {
-          config.services.sonarr = {
-            inherit (cfg.${name}) enable;
-
-            openFirewall = false;
-            user = config.dusk.username;
-            group = "users";
-            dataDir = "${config.dusk.folders.downloads}/sonarr";
-          };
-        };
+      config.services.sonarr = {
+        enable = true;
+        openFirewall = false;
+        user = config.dusk.username;
+        group = "users";
+        dataDir = "${config.dusk.folders.downloads}/sonarr";
+      };
     })
   ];
 }
