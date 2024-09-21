@@ -2,6 +2,7 @@
   imports = [
     ./bazarr.nix
     ./gitea.nix
+    ./jellyfin.nix
     ./lidarr.nix
     ./prowlarr.nix
     ./radarr.nix
