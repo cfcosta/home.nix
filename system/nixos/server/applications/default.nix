@@ -6,6 +6,6 @@
     ./radarr.nix
     ./readarr.nix
     ./sonarr.nix
-    ./transmission.nix
+    ./rtorrent.nix
   ];
 }
