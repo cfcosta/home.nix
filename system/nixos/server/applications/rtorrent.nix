@@ -10,13 +10,13 @@ defineService rec {
     {
       config = {
         environment.systemPackages = [
-          pkgs.jesec-rtorrent
+          pkgs.rtorrent
         ];
 
         services.rtorrent = {
           inherit (config.dusk.system.nixos.server.${name}) enable;
 
-          package = pkgs.jesec-rtorrent;
+          package = pkgs.rtorrent;
 
           openFirewall = false;
           port = 10002;
@@ -30,18 +30,7 @@ defineService rec {
           configText = ''
             dht = on
 
-            network.http.max_open.set = 800
-            network.max_open_files.set = 6000
-            network.max_open_sockets.set = 3000
-
             protocol.pex.set = yes
-
-            throttle.max_peers.normal.set = 200
-            throttle.max_peers.seed.set = 100
-            throttle.max_uploads.global.set = 1000
-            throttle.max_uploads.set = 500
-            throttle.min_peers.normal.set = 20
-            throttle.min_peers.seed.set = 30
 
             trackers.numwant.set = 160
             trackers.use_udp.set = yes

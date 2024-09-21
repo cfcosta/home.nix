@@ -76,6 +76,7 @@ in
         neofetch
         nss
         openssl
+        p7zip
         pricehist
         python3
         python3Packages.yt-dlp
