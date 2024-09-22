@@ -1,6 +1,5 @@
 {
   config,
-  flavor,
   lib,
   pkgs,
   ...
@@ -142,16 +141,6 @@ in
           cfg = config.dusk.system.nixos;
         in
         {
-          enable = mkOption {
-            description = "Whether or not to enable NixOS Modules";
-            default = flavor == "nixos";
-          };
-
-          createUser = mkEnabledOption {
-            description = "Whether or not to create the main user";
-            parent = cfg.enable;
-          };
-
           bootloader.enable = mkEnabledOption {
             description = "Whether or not to install a bootloader";
             parent = cfg.enable;

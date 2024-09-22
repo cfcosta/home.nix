@@ -1,12 +1,23 @@
 {
-  lib,
   config,
+  flavor,
   inputs,
+  lib,
   ...
 }:
 let
-  inherit (config.dusk) system username initialPassword;
-  inherit (lib) mkDefault mkForce mkIf;
+  inherit (config.dusk) username initialPassword;
+  inherit (config.dusk.system) locale timezone;
+  inherit (lib)
+    mkDefault
+    mkForce
+    mkIf
+    mkOption
+    types
+    ;
+
+  default = flavor == "nixos";
+  cfg = config.dusk.system.nixos;
 in
 {
   imports = [
@@ -23,7 +34,23 @@ in
     ./virtualisation.nix
   ];
 
-  config = mkIf config.dusk.system.nixos.enable {
+  options.dusk.system.nixos = {
+    enable = mkOption {
+      inherit default;
+
+      type = types.bool;
+      description = "Whether or not to enable NixOS Modules";
+    };
+
+    createUser = mkOption {
+      inherit default;
+
+      type = types.bool;
+      description = "Whether or not to create the main user";
+    };
+  };
+
+  config = mkIf cfg.enable {
     boot.initrd.availableKernelModules = [
       "ahci"
       "nvme"
@@ -40,21 +67,21 @@ in
 
     hardware.graphics.enable = true;
 
-    i18n.defaultLocale = system.locale;
+    i18n.defaultLocale = locale;
 
     i18n.extraLocaleSettings = {
-      LC_ADDRESS = system.locale;
-      LC_IDENTIFICATION = system.locale;
-      LC_MEASUREMENT = system.locale;
-      LC_MONETARY = system.locale;
-      LC_NAME = system.locale;
-      LC_NUMERIC = system.locale;
-      LC_PAPER = system.locale;
-      LC_TELEPHONE = system.locale;
-      LC_TIME = system.locale;
+      LC_ADDRESS = locale;
+      LC_IDENTIFICATION = locale;
+      LC_MEASUREMENT = locale;
+      LC_MONETARY = locale;
+      LC_NAME = locale;
+      LC_NUMERIC = locale;
+      LC_PAPER = locale;
+      LC_TELEPHONE = locale;
+      LC_TIME = locale;
     };
 
-    time.timeZone = system.timezone;
+    time.timeZone = timezone;
 
     services = {
       printing.enable = true;
@@ -101,7 +128,7 @@ in
     # Make clock compatible with windows (for dual boot)
     time.hardwareClockInLocalTime = true;
 
-    users.users.${username} = mkIf config.dusk.system.nixos.createUser {
+    users.users.${username} = mkIf cfg.createUser {
       inherit initialPassword;
 
       isNormalUser = true;
