@@ -6,8 +6,23 @@ defineService rec {
   port = 10001;
 
   config =
-    { config, pkgs, ... }:
     {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      inherit (lib) mkOption types;
+    in
+    {
+      options.dusk.folders.media.watch = mkOption {
+        type = types.str;
+        default = "${config.dusk.folders.media.root}/_watch";
+
+        description = "A folder rtorrent will watch to find new torrents to download.";
+      };
+
       config = {
         environment.systemPackages = [
           pkgs.rtorrent
@@ -24,8 +39,8 @@ defineService rec {
           user = config.dusk.username;
           group = "rtorrent";
 
-          dataDir = "${config.dusk.folders.downloads}/Media/_data/${name}";
-          downloadDir = "${config.dusk.folders.downloads}/Media";
+          dataDir = "${config.dusk.folders.media.data}/${name}";
+          downloadDir = config.dusk.folders.media.root;
 
           configText = ''
             dht = on
@@ -38,29 +53,25 @@ defineService rec {
             # Disable when diskspace is low
             schedule2 = monitor_diskspace, 15, 60, ((close_low_diskspace, 1000M))
 
+            # Add more DHT nodes
             schedule2 = dht_node_1, 5, 0, "dht.add_node=router.utorrent.com:6881"
             schedule2 = dht_node_2, 5, 0, "dht.add_node=dht.transmissionbt.com:6881"
             schedule2 = dht_node_3, 5, 0, "dht.add_node=router.bitcomet.com:6881"
             schedule2 = dht_node_4, 5, 0, "dht.add_node=dht.aelitis.com:6881"
+
+            schedule = watch_directory,5,5,load_start=${config.dusk.folders.media.watch}/*.torrent
           '';
         };
 
-        systemd.services = {
-          flood = {
-            wantedBy = [ "multi-user.target" ];
-            wants = [ "rtorrent.service" ];
-            after = [ "rtorrent.service" ];
+        systemd.services.flood = {
+          wantedBy = [ "multi-user.target" ];
+          wants = [ "rtorrent.service" ];
+          after = [ "rtorrent.service" ];
 
-            serviceConfig = {
-              User = config.dusk.username;
-              Group = "rtorrent";
-              ExecStart = "${pkgs.flood}/bin/flood --auth none --port ${toString port} --rtsocket /run/rtorrent/rpc.sock";
-            };
-          };
-
-          rtorrent.serviceConfig = {
-            LimitNOFILE = 16384;
-            LimitNPROC = 16384;
+          serviceConfig = {
+            User = config.dusk.username;
+            Group = "rtorrent";
+            ExecStart = "${pkgs.flood}/bin/flood --auth none --port ${toString port} --rtsocket ${config.services.rtorrent.rpcSocket}";
           };
         };
 

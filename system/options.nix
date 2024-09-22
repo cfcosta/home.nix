@@ -1,5 +1,6 @@
 {
   config,
+  flavor,
   lib,
   pkgs,
   ...
@@ -143,18 +144,18 @@ in
         {
           bootloader.enable = mkEnabledOption {
             description = "Whether or not to install a bootloader";
-            parent = cfg.enable;
+            parent = flavor == "nixos";
           };
 
           nvidia.enable = mkEnabledOption {
             description = "Whether or not to enable support for Nvidia Cards";
-            parent = cfg.enable;
+            parent = flavor == "nixos";
           };
 
           desktop = {
             enable = mkEnabledOption {
               description = "Whether or not to enable the Graphical Desktop";
-              parent = cfg.enable;
+              parent = flavor == "nixos";
             };
 
             alacritty = {
