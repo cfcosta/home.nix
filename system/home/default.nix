@@ -26,7 +26,6 @@ in
   imports = [
     inputs.agenix.homeManagerModules.default
     inputs.catppuccin.homeManagerModules.catppuccin
-    inputs.neovim.hmModule
 
     ./alacritty.nix
     ./git
@@ -221,6 +220,11 @@ in
           ];
           permission = "rwx";
         };
+      };
+
+      neovim = {
+        enable = true;
+        package = pkgs.nightvim;
       };
 
       readline = {

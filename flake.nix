@@ -42,7 +42,6 @@
       url = "github:cfcosta/neovim.nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home-manager";
         flake-utils.follows = "flake-utils";
         gitignore.follows = "gitignore";
         pre-commit-hooks.follows = "pre-commit-hooks";
@@ -100,6 +99,7 @@
       nix-darwin,
       nixpkgs,
       pre-commit-hooks,
+      neovim,
       ...
     }:
     let
@@ -107,7 +107,10 @@
         pkgs = import nixpkgs {
           inherit system;
 
-          overlays = [ (import ./packages inputs) ];
+          overlays = [
+            neovim.overlays.default
+            (import ./packages inputs)
+          ];
 
           config.allowUnfree = true;
         };
