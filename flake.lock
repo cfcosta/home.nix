@@ -28,11 +28,11 @@
     "aider-chat": {
       "flake": false,
       "locked": {
-        "lastModified": 1726864078,
-        "narHash": "sha256-vmS+5Q6vdawmMJRZQzg7MaRowSmw/Y6/ZUCXudctVkg=",
+        "lastModified": 1726963748,
+        "narHash": "sha256-8DEqI60Q/TkXgY4q+n6ELS4VlUIaHfqDyYGWRBzBgBs=",
         "owner": "paul-gauthier",
         "repo": "aider",
-        "rev": "2753ac6b6285c0caf3e122618830f1e6177dab05",
+        "rev": "7f156830fe672002605474e7cb06ef319d30d4bc",
         "type": "github"
       },
       "original": {
@@ -75,11 +75,11 @@
     },
     "catppuccin": {
       "locked": {
-        "lastModified": 1725509983,
-        "narHash": "sha256-NHCgHVqumPraFJnLrkanoLDuhOoUHUvRhvp/RIHJR+A=",
+        "lastModified": 1726952185,
+        "narHash": "sha256-l/HbsQjJMT6tlf8KCooFYi3J6wjIips3n6/aWAoLY4g=",
         "owner": "catppuccin",
         "repo": "nix",
-        "rev": "45745fe5960acaefef2b60f3455bcac6a0ca6bc9",
+        "rev": "630b559cc1cb4c0bdd525af506935323e4ccd5d1",
         "type": "github"
       },
       "original": {
