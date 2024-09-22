@@ -34,8 +34,10 @@ in
           discord
           easyeffects
           element-desktop
+          feishin
           firefox
           fractal
+          gamemode
           helvum
           mangohud
           moonlight-qt
@@ -78,21 +80,19 @@ in
         enable = true;
 
         dedicatedServer.openFirewall = true;
+
         gamescopeSession = {
           enable = true;
           args = [
             "-r"
-            "120"
-            "-F"
-            "nis"
+            "144"
             "--sdr-gamut-wideness"
             "1"
             "--hdr-enabled"
             "--adaptive-sync"
-            "--mangoapp"
-            "--expose-wayland"
           ];
         };
+
         localNetworkGameTransfers.openFirewall = true;
         remotePlay.openFirewall = true;
       };
@@ -122,5 +122,7 @@ in
         dataDir = "${home}/Sync";
       };
     };
+
+    users.users.${config.dusk.username}.extraGroups = [ "gamemode" ];
   };
 }

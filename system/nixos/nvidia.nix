@@ -11,7 +11,13 @@ in
   config = lib.mkIf cfg.nvidia.enable {
     boot.kernelParams = [ "nvidia_drm.fbdev=1" ];
 
-    environment.systemPackages = with pkgs; [ nvtopPackages.nvidia ];
+    environment = {
+      sessionVariables = {
+        GBM_BACKEND = "nvidia-drm";
+        __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      };
+      systemPackages = with pkgs; [ nvtopPackages.nvidia ];
+    };
 
     hardware = {
       graphics = {
