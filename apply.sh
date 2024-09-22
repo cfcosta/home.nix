@@ -114,7 +114,7 @@ case "$(uname -s)" in
 		_fatal "This script needs to be run as root."
 	fi
 
-	CMD="${NIX} nixos-rebuild $CMD --flake ${ROOT}#${HOSTNAME}"
+	CMD="nixos-rebuild $CMD --flake ${ROOT}#${HOSTNAME}"
 	;;
 *)
 	_fatal "Invalid system"
