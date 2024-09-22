@@ -1,7 +1,8 @@
 {
   config,
-  lib,
   inputs,
+  lib,
+  pkgs,
   ...
 }:
 let
@@ -50,18 +51,19 @@ in
 
     services = {
       desktopManager.cosmic.enable = true;
+      displayManager.cosmic-greeter.enable = true;
       flatpak.enable = true;
       libinput.enable = true;
       packagekit.enable = true;
+    };
 
-      xserver = {
-        enable = true;
-
-        displayManager.gdm = {
-          enable = true;
-          autoSuspend = false;
-          wayland = true;
-        };
+    specialisation = {
+      cosmic.configuration = {
+        environment.systemPackages = with pkgs; [
+          adw-gtk3
+          networkmanagerapplet
+        ];
+        system.nixos.tags = [ "Cosmic" ];
       };
     };
   };

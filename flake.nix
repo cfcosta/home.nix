@@ -9,7 +9,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     flake-compat.url = "github:nix-community/flake-compat";
     nixos-hardware.url = "github:NixOS/nixos-hardware";

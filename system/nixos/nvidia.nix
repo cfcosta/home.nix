@@ -9,6 +9,8 @@ let
 in
 {
   config = lib.mkIf cfg.nvidia.enable {
+    boot.kernelParams = [ "nvidia_drm.fbdev=1" ];
+
     environment.systemPackages = with pkgs; [ nvtopPackages.nvidia ];
 
     hardware = {
