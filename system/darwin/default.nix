@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     inputs.agenix.darwinModules.default
@@ -11,6 +11,10 @@
   ];
 
   config = {
+    environment.systemPackages = with pkgs; [
+      feishin
+    ];
+
     nix.useDaemon = true;
     services.nix-daemon.enable = true;
   };
