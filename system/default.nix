@@ -49,13 +49,13 @@ in
       systemPackages = with pkgs; [
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
         age
+        aider-chat
         b3sum
         beancount
         cachix
         cmatrix
         complete-alias
         curl
-        dusk.aider-chat
         eva
         fava
         fd
