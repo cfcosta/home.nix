@@ -18,8 +18,9 @@ in
     environment = {
       etc."dusk/networking/mullvad.conf".source = config.age.secrets.mullvad.path;
 
-      systemPackages = [
-        pkgs.dnsutils
+      systemPackages = with pkgs; [
+        dnsutils
+        mitmproxy
       ];
     };
 

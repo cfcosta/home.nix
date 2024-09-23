@@ -24,6 +24,7 @@
         "inkscape"
         "iterm2"
         "linearmouse"
+        "mitmproxy"
         "moonlight"
         "mountain-duck"
         "mullvadvpn"
