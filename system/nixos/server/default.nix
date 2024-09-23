@@ -28,5 +28,6 @@ in
     ./rtorrent.nix
     ./sonarr.nix
     ./traefik.nix
+    ./transmission.nix
   ];
 }

@@ -40,6 +40,7 @@ in
           fractal
           gamemode
           google-chrome
+          gossip
           helvum
           mangohud
           moonlight-qt
