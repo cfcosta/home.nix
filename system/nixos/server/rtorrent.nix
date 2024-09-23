@@ -60,6 +60,12 @@ defineService rec {
             schedule2 = dht_node_4, 5, 0, "dht.add_node=dht.aelitis.com:6881"
 
             schedule = watch_directory,5,5,load_start=${config.dusk.folders.media.watch}/*.torrent
+
+            # Read trackers from file and add them to all torrents
+            method.insert = tracker_list, private|const|string, (cat,"${./transmission/trackers.txt}")
+            method.insert = tracker_insert, private|simple, "d.tracker.insert=\"\$argument.0=\",d.save_full_session="
+            method.insert = tracker_insert_from_file, private|simple, "branch=(not, (system.file.exists, (argument.0))), ((print, \"No trackers file: \", (argument.0))), ((import, (argument.0)))"
+            method.set_key = event.download.inserted_new, add_trackers, "tracker_insert_from_file=$tracker_list"
           '';
         };
 
