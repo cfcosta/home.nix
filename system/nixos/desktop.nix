@@ -31,6 +31,7 @@ in
           astroid
           bitwarden
           brave
+          chromedriver
           discord
           easyeffects
           element-desktop
@@ -38,6 +39,7 @@ in
           firefox
           fractal
           gamemode
+          google-chrome
           helvum
           mangohud
           moonlight-qt
