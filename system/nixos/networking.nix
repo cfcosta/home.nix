@@ -20,7 +20,9 @@ in
 
       systemPackages = with pkgs; [
         dnsutils
+        inetutils
         mitmproxy
+        tcpdump
       ];
     };
 
