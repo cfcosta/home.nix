@@ -1,5 +1,5 @@
 let
-  inherit (import ./lib.nix) defineService;
+  inherit (import ../lib.nix) defineService;
 in
 defineService rec {
   name = "transmission";
@@ -37,7 +37,7 @@ defineService rec {
           webHome = pkgs.flood-for-transmission;
 
           settings = {
-            default-trackers = readFile ./transmission/trackers.txt;
+            default-trackers = readFile ./trackers.txt;
             dht-enabled = true;
             download-dir = config.dusk.folders.media.root;
             encryption-required = false;

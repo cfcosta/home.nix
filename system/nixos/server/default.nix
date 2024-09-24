@@ -26,9 +26,8 @@ in
     ./prowlarr.nix
     ./radarr.nix
     ./readarr.nix
-    ./rtorrent.nix
     ./sonarr.nix
     ./traefik.nix
-    ./transmission.nix
+    ./transmission
   ];
 }
