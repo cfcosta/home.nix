@@ -1,7 +1,5 @@
-let
-  inherit (import ./lib.nix) defineService;
-in
-defineService rec {
+{ dusk-lib, ... }:
+dusk-lib.defineService rec {
   name = "deluge";
   port = 8112;
 

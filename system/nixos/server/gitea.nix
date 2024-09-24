@@ -1,10 +1,9 @@
+{ dusk-lib, ... }:
 let
-  inherit (import ./lib.nix) defineService;
-
   port = 3001;
   subdomain = "git";
 in
-defineService {
+dusk-lib.defineService {
   inherit port subdomain;
 
   name = "gitea";

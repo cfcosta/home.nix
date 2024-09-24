@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+args@{ config, lib, ... }:
 let
   inherit (lib) mkOption types;
 in
@@ -18,16 +18,16 @@ in
   };
 
   imports = [
-    ./bazarr.nix
-    ./deluge.nix
-    ./gitea.nix
-    ./jellyfin.nix
-    ./lidarr.nix
-    ./prowlarr.nix
-    ./radarr.nix
-    ./readarr.nix
-    ./sonarr.nix
-    ./traefik.nix
-    ./transmission
+    (import ./bazarr.nix args)
+    (import ./deluge.nix args)
+    (import ./gitea.nix args)
+    (import ./jellyfin.nix args)
+    (import ./lidarr.nix args)
+    (import ./prowlarr.nix args)
+    (import ./radarr.nix args)
+    (import ./readarr.nix args)
+    (import ./sonarr.nix args)
+    (import ./traefik.nix args)
+    (import ./transmission args)
   ];
 }
