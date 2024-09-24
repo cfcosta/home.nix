@@ -19,6 +19,7 @@ in
 
   imports = [
     ./bazarr.nix
+    ./deluge.nix
     ./gitea.nix
     ./jellyfin.nix
     ./lidarr.nix

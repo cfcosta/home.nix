@@ -25,13 +25,13 @@ defineService rec {
 
       config = {
         environment.systemPackages = [
-          pkgs.rtorrent
+          pkgs.jesec-rtorrent
         ];
 
         services.rtorrent = {
           inherit (config.dusk.system.nixos.server.${name}) enable;
 
-          package = pkgs.rtorrent;
+          package = pkgs.jesec-rtorrent;
 
           openFirewall = false;
           port = 10002;
