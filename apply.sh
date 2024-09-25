@@ -18,7 +18,7 @@ fi
 setup_darwin_xcode_cli_tools() {
 
 	if xcode-select -p &>/dev/null; then
-		_info "Found command-line tools at $(xcode-select -p)}"
+		_info "Found command-line tools: $(_blue "$(xcode-select -p)")"
 		return 0
 	fi
 
@@ -38,8 +38,8 @@ setup_darwin_xcode_license() {
 	XCODE_VERSION="$(xcodebuild -version | grep '^Xcode\s' | sed -E 's/^Xcode[[:space:]]+([0-9\.]+)/\1/')"
 	ACCEPTED_LICENSE_VERSION="$(defaults read /Library/Preferences/com.apple.dt.Xcode 2>/dev/null | grep IDEXcodeVersionForAgreedToGMLicense | cut -d '"' -f 2)"
 
-	_info "Found XCode version: ${XCODE_VERSION}"
-	_info "Accepted XCode License Version: ${ACCEPTED_LICENSE_VERSION}"
+	_info "Found XCode version: $(_blue "${XCODE_VERSION}")"
+	_info "Accepted XCode License Version: $(_blue "${ACCEPTED_LICENSE_VERSION}")"
 
 	if [ "$XCODE_VERSION" != "$ACCEPTED_LICENSE_VERSION" ]; then
 		_warn "You need to accept the current version XCode License, please input your password for sudo."
@@ -70,7 +70,7 @@ setup_darwin() {
 	fi
 
 	if which nix &>/dev/null; then
-		_info "Found Nix: $(which nix)"
+		_info "Found Nix: $(_blue "$(which nix)")"
 	else
 		_fatal "Could not find Nix even after install!"
 	fi
@@ -78,7 +78,7 @@ setup_darwin() {
 	# Make sure we are connected to the Nix Daemon
 	# shellcheck source=/dev/null
 	if [ -e "${NIX_ROOT}/etc/profile.d/nix-daemon.sh" ]; then
-		_info "Found Nix Daemon script, loading..."
+		_info "Found Nix Daemon script: $(_blue "${NIX_ROOT}/etc/profile.d/nix-daemon.sh")"
 
 		. "${NIX_ROOT}/etc/profile.d/nix-daemon.sh"
 	fi
@@ -90,7 +90,7 @@ setup_darwin() {
 		NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	fi
 
-	_info "Homebrew found: ${BREW_PATH}"
+	_info "Homebrew found: $(_blue "${BREW_PATH}")"
 }
 
 _info "Found $(uname -s) machine, setting up environment."

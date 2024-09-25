@@ -579,16 +579,17 @@
         "toggleterm-nvim": "toggleterm-nvim",
         "treesj": "treesj",
         "trouble": "trouble",
+        "twilight": "twilight",
         "wakatime": "wakatime",
         "which-key": "which-key",
         "zen-mode": "zen-mode"
       },
       "locked": {
-        "lastModified": 1727204768,
-        "narHash": "sha256-3KqT1HHSTdMc/kM4XHWm1rgX3umkgM3kexBnq85v214=",
+        "lastModified": 1727293249,
+        "narHash": "sha256-Ql42Ya3NM+ozlvGeRQjo2AzkpGY0yk5+/1vHIGr37nk=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "a9ba12a6c5acffb3eeae105624b3697c5a99286c",
+        "rev": "56009d461d3ac805e87163b9e58090956b8e77c8",
         "type": "github"
       },
       "original": {
@@ -1105,6 +1106,22 @@
       "original": {
         "owner": "folke",
         "repo": "trouble.nvim",
+        "type": "github"
+      }
+    },
+    "twilight": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1721651168,
+        "narHash": "sha256-sC9DSgkQw+jHvi+xUP+iWSSLV0kIWWmrom2Mq5q+RJo=",
+        "owner": "folke",
+        "repo": "twilight.nvim",
+        "rev": "1584c0b0a979b71fd86b18d302ba84e9aba85b1b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "twilight.nvim",
         "type": "github"
       }
     },
