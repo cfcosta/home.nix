@@ -61,6 +61,7 @@ in
         fd
         fdupes
         ffmpeg
+        figlet
         file
         gh
         gist
