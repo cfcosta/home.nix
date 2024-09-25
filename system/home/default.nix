@@ -224,7 +224,7 @@ in
 
       neovim = {
         enable = true;
-        package = pkgs.nightvim;
+        package = inputs.neovim.packages.${pkgs.system}.nightvim;
       };
 
       readline = {

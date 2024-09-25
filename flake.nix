@@ -95,7 +95,6 @@
       nix-darwin,
       nixpkgs,
       pre-commit-hooks,
-      neovim,
       ...
     }:
     let
@@ -103,11 +102,7 @@
         pkgs = import nixpkgs {
           inherit system;
 
-          overlays = [
-            neovim.overlays.default
-            (import ./packages inputs)
-          ];
-
+          overlays = [ (import ./packages inputs) ];
           config.allowUnfree = true;
         };
       });

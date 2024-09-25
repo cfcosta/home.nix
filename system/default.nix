@@ -74,7 +74,6 @@ in
         mkcert
         ncdu_2
         neofetch
-        nightvim
         nss
         openssl
         p7zip

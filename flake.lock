@@ -270,6 +270,22 @@
         "type": "github"
       }
     },
+    "dashboard": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1720925192,
+        "narHash": "sha256-RCftOX5ufgByqJJaoU+fO4Pzy/NiuAt+qWZJZ2TXwVE=",
+        "owner": "nvimdev",
+        "repo": "dashboard-nvim",
+        "rev": "fabf5feec96185817c732d47d363f34034212685",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvimdev",
+        "repo": "dashboard-nvim",
+        "type": "github"
+      }
+    },
     "diffview": {
       "flake": false,
       "locked": {
@@ -540,6 +556,7 @@
         "cmp-snippy": "cmp-snippy",
         "comment": "comment",
         "conform-nvim": "conform-nvim",
+        "dashboard": "dashboard",
         "diffview": "diffview",
         "dressing": "dressing",
         "flake-utils": [
@@ -585,11 +602,11 @@
         "zen-mode": "zen-mode"
       },
       "locked": {
-        "lastModified": 1727293249,
-        "narHash": "sha256-Ql42Ya3NM+ozlvGeRQjo2AzkpGY0yk5+/1vHIGr37nk=",
+        "lastModified": 1727294844,
+        "narHash": "sha256-RTiin5xQ1RvH2HNjkpMaDVVIukgihkm6nG0ADg6bwY4=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "56009d461d3ac805e87163b9e58090956b8e77c8",
+        "rev": "47f2a019458fdf860f984864fa0ebd4d6d328d36",
         "type": "github"
       },
       "original": {
