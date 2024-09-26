@@ -3,6 +3,7 @@
   flavor,
   inputs,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -63,7 +64,10 @@ in
 
     catppuccin.enable = true;
 
-    environment.defaultPackages = mkForce [ ];
+    environment = {
+      defaultPackages = mkForce [ ];
+      systemPackages = with pkgs; [ psutils ];
+    };
 
     hardware.graphics.enable = true;
 

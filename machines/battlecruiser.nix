@@ -41,6 +41,16 @@
         fsType = "vfat";
       };
     };
+
+    programs.steam.gamescopeSession.args = [
+      "-r"
+      "120"
+      "--sdr-gamut-wideness"
+      "1"
+      "--hdr-enabled"
+      "--adaptive-sync"
+    ];
+
     swapDevices = [ ];
 
     # Workaround fix for nm-online-service from stalling on Wireguard interface.

@@ -16,6 +16,7 @@ in
         GBM_BACKEND = "nvidia-drm";
         __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       };
+
       systemPackages = with pkgs; [ nvtopPackages.nvidia ];
     };
 
@@ -29,6 +30,7 @@ in
         gsp.enable = true;
         open = true;
         modesetting.enable = true;
+        package = config.boot.kernelPackages.nvidiaPackages.beta;
       };
 
       nvidia-container-toolkit.enable = cfg.virtualisation.enable;

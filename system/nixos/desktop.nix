@@ -83,19 +83,7 @@ in
         enable = true;
 
         dedicatedServer.openFirewall = true;
-
-        gamescopeSession = {
-          enable = true;
-          args = [
-            "-r"
-            "144"
-            "--sdr-gamut-wideness"
-            "1"
-            "--hdr-enabled"
-            "--adaptive-sync"
-          ];
-        };
-
+        gamescopeSession.enable = true;
         localNetworkGameTransfers.openFirewall = true;
         remotePlay.openFirewall = true;
       };
