@@ -16,7 +16,6 @@ if [ ! -f "$ROOT/machines/$HOSTNAME.nix" ]; then
 fi
 
 setup_darwin_xcode_cli_tools() {
-
 	if xcode-select -p &>/dev/null; then
 		_info "Found command-line tools: $(_blue "$(xcode-select -p)")"
 		return 0
@@ -90,7 +89,7 @@ setup_darwin() {
 		NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	fi
 
-	_info "Homebrew found: $(_blue "${BREW_PATH}")"
+	_info "Found Homebrew: $(_blue "${BREW_PATH}")"
 }
 
 _info "Found $(uname -s) machine, setting up environment."

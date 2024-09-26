@@ -66,7 +66,7 @@ in
 
     environment = {
       defaultPackages = mkForce [ ];
-      systemPackages = with pkgs; [ psutils ];
+      systemPackages = with pkgs; [ killall ];
     };
 
     hardware.graphics.enable = true;
@@ -88,6 +88,7 @@ in
     time.timeZone = timezone;
 
     services = {
+      eternal-terminal.enable = true;
       printing.enable = true;
 
       openssh = {

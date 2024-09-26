@@ -56,6 +56,7 @@ in
         cmatrix
         complete-alias
         curl
+        eternal-terminal
         eva
         fava
         fd
