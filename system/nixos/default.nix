@@ -89,7 +89,7 @@ in
 
     services = {
       eternal-terminal.enable = true;
-      printing.enable = true;
+      printing.enable = mkForce false;
 
       openssh = {
         enable = true;

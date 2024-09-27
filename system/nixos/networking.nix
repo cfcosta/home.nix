@@ -41,22 +41,22 @@ in
           net = config.dusk.system.nixos.networking;
         in
         {
-          enable = true;
+          enable = lib.mkForce false;
 
           allowInterfaces = [
             net.defaultNetworkInterface
           ] ++ optionals net.tailscale.enable [ "tailscale0" ];
 
           publish = {
-            enable = true;
+            enable = lib.mkForce false;
 
-            domain = true;
-            userServices = true;
-            workstation = true;
+            domain = lib.mkForce false;
+            userServices = lib.mkForce false;
+            workstation = lib.mkForce false;
           };
 
-          nssmdns4 = true;
-          nssmdns6 = true;
+          nssmdns4 = lib.mkForce false;
+          nssmdns6 = lib.mkForce false;
         };
 
       tailscale = {
