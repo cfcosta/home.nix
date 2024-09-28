@@ -5,6 +5,7 @@
   ...
 }:
 let
+  inherit (builtins) readFile;
   inherit (lib) mkIf optionals;
 
   cfg = config.dusk.system.nixos.networking;
@@ -16,8 +17,6 @@ in
     };
 
     environment = {
-      etc."dusk/networking/mullvad.conf".source = config.age.secrets.mullvad.path;
-
       systemPackages = with pkgs; [
         dnsutils
         inetutils
@@ -73,20 +72,38 @@ in
         in
         {
           text = ''
-            current_hash=$(${sha256sum} /etc/dusk/networking/mullvad.conf 2>/dev/null | cut -d ' ' -f1)
-            new_hash=$(${sha256sum} ${config.age.secrets.mullvad.path} | cut -d ' ' -f1)
+            ${readFile ../../scripts/bash-lib.sh}
 
-            if [ "$current_hash" != "$new_hash" ]; then
-              if ${nm} connection show mullvad &>/dev/null; then
-                ${nm} connection delete mullvad
+            set -e
+
+            _info "Installing Mullvad Connection into NetworkManager"
+
+            mkdir -p /etc/dusk/networking
+
+            if [ -f /etc/dusk/networking/mullvad.conf ]; then
+              CURRENT_HASH=$(${sha256sum} /etc/dusk/networking/mullvad.conf 2>/dev/null | cut -d ' ' -f1)
+              NEW_HASH=$(${sha256sum} ${config.age.secrets.mullvad.path} | cut -d ' ' -f1)
+
+              _info "Found old connection with hash: $(_blue "$CURRENT_HASH")"
+              _debug "New connection hash: $(_blue "$NEW_HASH")"
+
+              if [ "$CURRENT_HASH" == "$NEW_HASH" ] || ! ; then
+                _info "Mullvad is already installed and up to date, nothing else to do."
+                printf 'skipped/true' > /tmp/mullvad
+
+                exit 0
               fi
 
-              ${nm} connection import type wireguard file ${config.age.secrets.mullvad.path}
-              cp ${config.age.secrets.mullvad.path} /etc/dusk/networking/mullvad.conf
-              printf 'installed/true' > /tmp/mullvad
-            else
-              printf 'skipped/true' > /tmp/mullvad
+              _info "Hashes mismatched, removing old connection."
+              ${nm} connection delete mullvad || true
             fi
+
+            cp ${config.age.secrets.mullvad.path} /etc/dusk/networking/mullvad.conf 2>/dev/null
+            ${nm} connection import type wireguard file /etc/dusk/networking/mullvad.conf
+
+            printf 'installed/true' > /tmp/mullvad
+
+            _info "Done, installed new Mullvad connection."
           '';
         };
     };

@@ -1,10 +1,6 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ lib, ... }:
 let
-  inherit (builtins) readFile toJSON;
+  inherit (builtins) readFile;
 in
 {
   config = {
@@ -16,8 +12,9 @@ in
       file = {
         ".config/zed/settings.nix.json" = {
           force = true;
-          text = toJSON (import ./settings.nix);
+          text = lib.generators.toJSON { } (import ./settings.nix);
         };
+
         ".config/zed/keymap.json".text = readFile ./keymap.json;
       };
     };

@@ -42,19 +42,31 @@ _white() {
 	echo -e "${COLORS_WHITE}$1${COLORS_NONE}"
 }
 
+_gray() {
+	echo -e "\033[0;90m$1${COLORS_NONE}"
+}
+
+_timestamp() {
+	_gray "$(date "+%Y-%m-%d %H:%M:%S")"
+}
+
 _info() {
-	echo -e ":: $(_green "[INFO]") $1"
+	echo -e "$(_gray "::") $(_timestamp) $(_green "[INFO]") $1"
+}
+
+_debug() {
+	echo -e "$(_gray "::") $(_timestamp) $(_purple "[DEBUG]") $1"
 }
 
 _warn() {
-	echo -e ":: $(_yellow "[WARN]") $1" >&2
+	echo -e "$(_gray "::") $(_timestamp) $(_yellow "[WARN]") $1" >&2
 }
 
 _error() {
-	echo -e ":: $(_red "[ERROR]") $1" >&2
+	echo -e "$(_gray "::") $(_timestamp) $(_red "[ERROR]") $1" >&2
 }
 
 _fatal() {
-	echo -e ":: $(_red "[FATAL]") $1" >&2
+	echo -e "$(_gray "::") $(_timestamp) $(_red "[FATAL]") $1" >&2
 	exit 1
 }

@@ -101,6 +101,7 @@ in
       useGlobalPkgs = true;
 
       backupFileExtension = "dusk-backup";
+
       extraSpecialArgs = {
         inherit flavor inputs;
       };
