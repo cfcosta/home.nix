@@ -28,6 +28,7 @@ in
 
     networking = {
       firewall = {
+        allowedTCPPorts = optionals config.services.eternal-terminal.enable [ 2022 ];
         checkReversePath = false;
         trustedInterfaces = optionals cfg.tailscale.enable [ "tailscale0" ];
       };
@@ -68,15 +69,24 @@ in
       enable-mullvad =
         let
           nm = "${pkgs.networkmanager}/bin/nmcli";
+          sha256sum = "${pkgs.coreutils}/bin/sha256sum";
         in
         {
           text = ''
-            if ${nm} connection show mullvad &>/dev/null; then
-              ${nm} connection delete mullvad
-            fi
+            current_hash=$(${sha256sum} /etc/dusk/networking/mullvad.conf 2>/dev/null | cut -d ' ' -f1)
+            new_hash=$(${sha256sum} ${config.age.secrets.mullvad.path} | cut -d ' ' -f1)
 
-            ${nm} connection import type wireguard file /etc/dusk/networking/mullvad.conf
-            printf 'installed/true' > /tmp/nullvad
+            if [ "$current_hash" != "$new_hash" ]; then
+              if ${nm} connection show mullvad &>/dev/null; then
+                ${nm} connection delete mullvad
+              fi
+
+              ${nm} connection import type wireguard file ${config.age.secrets.mullvad.path}
+              cp ${config.age.secrets.mullvad.path} /etc/dusk/networking/mullvad.conf
+              printf 'installed/true' > /tmp/mullvad
+            else
+              printf 'skipped/true' > /tmp/mullvad
+            fi
           '';
         };
     };
