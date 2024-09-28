@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   assistant = {
     version = "2";
@@ -16,7 +17,7 @@
     mute_on_join = false;
     share_on_join = false;
   };
-  load_direnv = "direct";
+  load_direnv = "shell_hook";
   file_scan_exclusions = [
     "**/.direnv"
     "**/.git"
@@ -37,10 +38,6 @@
     ".env"
     ".direnv"
   ];
-  journal = {
-    path = "~/Documents/Journal";
-    hour_format = "hour24";
-  };
   lsp = {
     rust-analyzer = {
       initialization_options = {
@@ -99,7 +96,7 @@
     font_size = 15;
     line_height.custom = 1.4;
     max_scroll_history_lines = 10000;
-    shell.program = "/run/current-system/sw/bin/bash";
+    shell.program = "${pkgs.bashInteractive}/bin/bash";
     working_directory = "current_project_directory";
   };
   theme = {
