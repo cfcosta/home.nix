@@ -40,6 +40,7 @@
         "vlc"
         "wireshark"
         "zed"
+        "zen-browser"
       ];
 
       caskArgs.no_quarantine = true;
