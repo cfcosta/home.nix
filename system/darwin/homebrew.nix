@@ -38,6 +38,7 @@
         "syncthing"
         "tor-browser"
         "vlc"
+        "wireshark"
         "zed"
       ];
 

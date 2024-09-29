@@ -50,6 +50,7 @@ in
           tdesktop
           todoist-electron
           tor-browser
+          wireshark
           wl-clipboard-rs
           zed-editor
 

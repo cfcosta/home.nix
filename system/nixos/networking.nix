@@ -22,6 +22,7 @@ in
         inetutils
         mitmproxy
         tcpdump
+        tshark
       ];
     };
 
@@ -108,6 +109,9 @@ in
         };
     };
 
-    users.users.${config.dusk.username}.extraGroups = [ "networkmanager" ];
+    users.users.${config.dusk.username}.extraGroups = [
+      "networkmanager"
+      "wireshark"
+    ];
   };
 }
