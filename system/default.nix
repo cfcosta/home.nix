@@ -48,14 +48,18 @@ in
 
       systemPackages = with pkgs; [
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
+
         age
         aider-chat
         b3sum
+        bat
         beancount
+        btop
         cachix
         cmatrix
         complete-alias
         curl
+        direnv
         eternal-terminal
         eva
         fava
@@ -72,6 +76,8 @@ in
         glow
         imagemagick
         inconsolata
+        jq
+        lsd
         lsof
         mkcert
         ncdu_2
@@ -85,6 +91,7 @@ in
         ripgrep
         rsync
         scc
+        starship
         streamlink
         tmux
         tmuxp
@@ -93,6 +100,7 @@ in
         unzip
         watchexec
         wget
+        zoxide
       ];
     };
 
