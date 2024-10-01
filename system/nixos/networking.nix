@@ -91,12 +91,10 @@ in
               if [ "$CURRENT_HASH" == "$NEW_HASH" ] || ! ; then
                 _info "Mullvad is already installed and up to date, nothing else to do."
                 printf 'skipped/true' > /tmp/mullvad
-
-                exit 0
+              else
+                _info "Hashes mismatched, removing old connection."
+                ${nm} connection delete mullvad || true
               fi
-
-              _info "Hashes mismatched, removing old connection."
-              ${nm} connection delete mullvad || true
             fi
 
             cp ${config.age.secrets.mullvad.path} /etc/dusk/networking/mullvad.conf 2>/dev/null
