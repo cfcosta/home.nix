@@ -46,12 +46,14 @@ in
           moonlight-qt
           mullvad-browser
           obs-studio
+          pinta
           streamlink-twitch-gui-bin
           tdesktop
           todoist-electron
           tor-browser
           wireshark
           wl-clipboard-rs
+          xournalpp
           zed-editor
 
           # Fonts
