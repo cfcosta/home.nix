@@ -1,0 +1,6 @@
+*.md
+*.ron
+*.txt
+apply.sh
+packages
+scripts/*.sh
