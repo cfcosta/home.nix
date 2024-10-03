@@ -51,6 +51,7 @@ in
           tdesktop
           todoist-electron
           tor-browser
+          vlc
           wireshark
           wl-clipboard-rs
           xournalpp
