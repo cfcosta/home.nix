@@ -42,6 +42,13 @@ in
     home = {
       inherit (config.dusk) username;
 
+      file.".aiderignore".text = ''
+        *.lock
+        LICENSE
+        LICENSE*
+        .gitignore
+      '';
+
       homeDirectory = mkForce config.dusk.folders.home;
 
       packages = with pkgs; [

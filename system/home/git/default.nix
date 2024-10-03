@@ -21,12 +21,16 @@ in
     };
 
     ignores = [
+      "*.pyc"
       ".DS_Store"
-      ".aider.*"
+      ".aider.chat.*"
+      ".aider.input.*"
+      ".aider.tags.*"
       ".direnv"
       ".env"
       ".null_ls*"
       ".vscode"
+      "__pycache__"
       "node_modules"
       "result"
       "result-bin"
