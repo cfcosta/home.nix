@@ -46,6 +46,7 @@ in
           moonlight-qt
           mullvad-browser
           obs-studio
+          obsidian
           pinta
           streamlink-twitch-gui-bin
           tdesktop

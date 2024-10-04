@@ -29,6 +29,7 @@
         "mountain-duck"
         "mullvadvpn"
         "obs"
+        "obsidian"
         "ollama"
         "orbstack"
         "secretive"
