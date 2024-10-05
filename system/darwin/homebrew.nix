@@ -34,6 +34,7 @@
         "orbstack"
         "secretive"
         "signal"
+        "simplex"
         "streamlink-twitch-gui"
         "swish"
         "syncthing"

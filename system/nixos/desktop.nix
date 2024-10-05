@@ -48,6 +48,7 @@ in
           obs-studio
           obsidian
           pinta
+          simplex-chat-desktop
           streamlink-twitch-gui-bin
           tdesktop
           todoist-electron
