@@ -42,6 +42,7 @@ in
           google-chrome
           gossip
           helvum
+          inkscape
           mangohud
           moonlight-qt
           mullvad-browser
