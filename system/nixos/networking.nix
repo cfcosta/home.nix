@@ -19,15 +19,13 @@ in
       };
     };
 
-    environment = {
-      systemPackages = with pkgs; [
-        dnsutils
-        inetutils
-        mitmproxy
-        tcpdump
-        tshark
-      ];
-    };
+    environment.systemPackages = with pkgs; [
+      dnsutils
+      inetutils
+      mitmproxy
+      tcpdump
+      tshark
+    ];
 
     networking = {
       firewall = {
@@ -45,22 +43,22 @@ in
           net = config.dusk.system.nixos.networking;
         in
         {
-          enable = lib.mkForce false;
+          enable = true;
 
           allowInterfaces = [
             net.defaultNetworkInterface
           ] ++ optionals net.tailscale.enable [ "tailscale0" ];
 
           publish = {
-            enable = lib.mkForce false;
+            enable = true;
 
-            domain = lib.mkForce false;
-            userServices = lib.mkForce false;
-            workstation = lib.mkForce false;
+            domain = true;
+            userServices = true;
+            workstation = true;
           };
 
-          nssmdns4 = lib.mkForce false;
-          nssmdns6 = lib.mkForce false;
+          nssmdns4 = true;
+          nssmdns6 = true;
         };
 
       tailscale = {

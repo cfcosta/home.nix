@@ -1,4 +1,9 @@
-{ inputs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  ...
+}:
 {
   imports = with inputs.nixos-hardware.nixosModules; [
     common-cpu-amd
@@ -11,19 +16,7 @@
 
       nixos = {
         desktop.alacritty.font.family = "Berkeley Mono NerdFont Mono";
-
-        networking = {
-          defaultNetworkInterface = "eno1";
-          ip = "10.0.0.2";
-          nameservers = [
-            "10.0.0.4"
-            "1.1.1.1" # Cloudflare
-            "1.0.0.1" # Cloudflare
-            "8.8.8.8" # Google
-            "4.4.4.4" # Google
-          ];
-        };
-
+        networking.defaultNetworkInterface = "eno1";
         server.enable = true;
       };
     };
@@ -41,6 +34,10 @@
         fsType = "vfat";
       };
     };
+
+    networking.firewall.allowedTCPPorts = [
+      5000 # Beancount/Fava
+    ] ++ lib.optionals config.services.syncthing.enable [ 22000 ];
 
     programs.steam.gamescopeSession.args = [
       "-r"
