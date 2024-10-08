@@ -142,6 +142,11 @@ in
           cfg = config.dusk.system.nixos;
         in
         {
+          ai.enable = mkEnabledOption {
+            description = "Whether or not to install AI Tools";
+            parent = flavor == "nixos";
+          };
+
           bootloader.enable = mkEnabledOption {
             description = "Whether or not to install a bootloader";
             parent = flavor == "nixos";

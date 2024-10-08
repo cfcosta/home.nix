@@ -27,6 +27,7 @@ in
     inputs.home-manager.nixosModules.default
     inputs.nixos-cosmic.nixosModules.default
 
+    ./ai.nix
     ./boot.nix
     ./desktop.nix
     ./networking.nix
