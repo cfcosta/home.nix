@@ -1,6 +1,6 @@
 { dusk-lib, ... }:
 let
-  port = 3001;
+  port = 9001;
   subdomain = "git";
 in
 dusk-lib.defineService {
