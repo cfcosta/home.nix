@@ -30,6 +30,7 @@ in
       ".env"
       ".null_ls*"
       ".obsidian"
+      ".ruff_cache"
       ".stfolder"
       ".trash"
       ".versions"
