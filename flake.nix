@@ -45,6 +45,7 @@
         flake-utils.follows = "flake-utils";
         gitignore.follows = "gitignore";
         pre-commit-hooks.follows = "pre-commit-hooks";
+        rust-overlay.follows = "rust-overlay";
       };
     };
     nix-darwin = {
@@ -57,6 +58,7 @@
         nixpkgs.follows = "nixpkgs";
         nixpkgs-stable.follows = "nixpkgs";
         flake-compat.follows = "flake-compat";
+        rust-overlay.follows = "rust-overlay";
       };
     };
     pre-commit-hooks = {
@@ -66,6 +68,10 @@
         gitignore.follows = "gitignore";
         flake-compat.follows = "flake-compat";
       };
+    };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Non-flakes
