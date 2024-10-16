@@ -183,6 +183,11 @@ in
             };
           };
 
+          gaming.enable = mkEnabledOption {
+            description = "Whether or not to enable Gaming support (Steam, Gamemode, Gamescope)";
+            parent = cfg.desktop.enable;
+          };
+
           networking = {
             enable = mkEnabledOption {
               description = "Whether or not to enable NetworkManager";

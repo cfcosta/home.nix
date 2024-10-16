@@ -38,7 +38,6 @@ in
           feishin
           firefox
           fractal
-          gamemode
           google-chrome
           gossip
           helvum
@@ -73,28 +72,9 @@ in
     hardware = {
       graphics.enable = true;
       pulseaudio.enable = false;
-
-      # Support for Xbox One Controllers
-      xone.enable = true;
     };
 
-    programs = {
-      gamescope = {
-        enable = true;
-        capSysNice = true;
-      };
-
-      gnupg.agent.pinentryPackage = pkgs.pinentry-all;
-
-      steam = {
-        enable = true;
-
-        dedicatedServer.openFirewall = true;
-        gamescopeSession.enable = true;
-        localNetworkGameTransfers.openFirewall = true;
-        remotePlay.openFirewall = true;
-      };
-    };
+    programs.gnupg.agent.pinentryPackage = pkgs.pinentry-all;
 
     security.rtkit.enable = true;
 
@@ -120,7 +100,5 @@ in
         dataDir = "${home}/Sync";
       };
     };
-
-    users.users.${config.dusk.username}.extraGroups = [ "gamemode" ];
   };
 }

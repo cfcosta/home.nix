@@ -1,9 +1,4 @@
-{
-  config,
-  inputs,
-  lib,
-  ...
-}:
+{ inputs, ... }:
 {
   imports = with inputs.nixos-hardware.nixosModules; [
     common-cpu-amd
@@ -37,7 +32,7 @@
 
     networking.firewall.allowedTCPPorts = [
       5000 # Beancount/Fava
-    ] ++ lib.optionals config.services.syncthing.enable [ 22000 ];
+    ];
 
     programs.steam.gamescopeSession.args = [
       "-r"

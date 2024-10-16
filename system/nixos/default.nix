@@ -30,6 +30,7 @@ in
     ./ai.nix
     ./boot.nix
     ./desktop.nix
+    ./gaming.nix
     ./networking.nix
     ./nvidia.nix
     ./server

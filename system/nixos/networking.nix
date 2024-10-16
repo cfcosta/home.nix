@@ -29,7 +29,9 @@ in
 
     networking = {
       firewall = {
-        allowedTCPPorts = optionals config.services.eternal-terminal.enable [ 2022 ];
+        allowedTCPPorts =
+          optionals config.services.eternal-terminal.enable [ 2022 ]
+          ++ optionals config.services.syncthing.enable [ 22000 ];
         checkReversePath = false;
         trustedInterfaces = optionals cfg.tailscale.enable [ "tailscale0" ];
       };
