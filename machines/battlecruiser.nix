@@ -12,7 +12,10 @@
       nixos = {
         desktop.alacritty.font.family = "Berkeley Mono NerdFont Mono";
         networking.defaultNetworkInterface = "eno1";
-        server.enable = true;
+        server = {
+          enable = true;
+          chat.enable = false;
+        };
       };
     };
 

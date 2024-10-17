@@ -29,7 +29,6 @@ in
         [
           anytype
           astroid
-          bitwarden
           brave
           chromedriver
           discord

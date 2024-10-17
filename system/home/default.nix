@@ -29,6 +29,7 @@ in
 
     ./alacritty.nix
     ./git
+    ./process-compose
     ./zed
   ];
 
