@@ -59,7 +59,9 @@ in
         complete-alias
         curl
         direnv
+        duf
         dusk.aider-chat
+        dust
         eternal-terminal
         eva
         fava
@@ -69,6 +71,7 @@ in
         figlet
         file
         gh
+        gh-dash
         gist
         git-bug
         gitMinimal

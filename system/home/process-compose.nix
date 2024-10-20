@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   theme.style = {
-    name = "Catppuccin Mocha";
+    name = "Catppuccin";
     body = {
       fgColor = "#cdd6f4";
       bgColor = "#1e1e2e";
@@ -47,13 +47,17 @@ let
       {
         buildInputs = with pkgs; [ yj ];
         json = builtins.toJSON data;
-        passAsFile = [ "json" ]; # will be available as `$jsonPath`
+        passAsFile = [ "json" ];
       }
       ''
         mkdir -p $out
-        yj -jy < "$jsonPath" > $out/theme.yaml
+        yj -jy < "$jsonPath" > $out/out.yaml
       '';
 in
 {
-  config.xdg.configFile."process-compose/theme.yaml".text = builtins.readFile "${toYAML theme}/theme.yaml";
+  config = {
+    xdg.configFile = {
+      "process-compose/settings.yaml".text = builtins.readFile "${toYAML theme}/out.yaml";
+    };
+  };
 }

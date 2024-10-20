@@ -29,7 +29,7 @@ in
 
     ./alacritty.nix
     ./git
-    ./process-compose
+    ./process-compose.nix
     ./zed
   ];
 
@@ -101,6 +101,8 @@ in
           ack = "rg";
           bc = "eva";
           cat = "bat --decorations=never";
+          df = "duf";
+          du = "dust";
           g = "git status --short";
           ga = "git add";
           gaa = "git add -A";
