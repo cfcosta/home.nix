@@ -1,27 +1,18 @@
 { pkgs, lib, ... }:
 let
-  inherit (builtins) readFile toJSON;
+  inherit (builtins) toJSON;
+
+  settingsFile = pkgs.writeText "zed-settings.json" (
+    toJSON (
+      import ./settings.nix {
+        inherit pkgs;
+      }
+    )
+  );
 in
 {
-  config = {
-    home = {
-      activation.setupZedConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        cp -Lrf $HOME/.config/zed/settings.nix.json $HOME/.config/zed/settings.json
-      '';
-
-      file = {
-        ".config/zed/settings.nix.json" = {
-          force = true;
-          text = toJSON (
-            import ./settings.nix {
-              inherit pkgs;
-            }
-          );
-        };
-
-        ".config/zed/keymap.json".text = readFile ./keymap.json;
-      };
-    };
-
-  };
+  config.home.activation.setupZedConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${pkgs.jq}/bin/jq '.' ${settingsFile} > $HOME/.config/zed/settings.json
+    ${pkgs.jq}/bin/jq '.' ${./keymap.json} > $HOME/.config/zed/keymap.json
+  '';
 }
