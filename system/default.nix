@@ -80,6 +80,7 @@ in
         imagemagick
         inconsolata
         jq
+        jujutsu
         lsd
         lsof
         mkcert

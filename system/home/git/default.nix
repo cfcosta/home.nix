@@ -57,7 +57,10 @@ in
       pull.ff = "only";
       push.autoSetupRemote = true;
       remote.origin.fetch = "+refs/pull/*/head:refs/remotes/origin/pr/*";
-      rerere.enabled = true;
+      rerere = {
+        enabled = true;
+        autoupdate = true;
+      };
 
       diff = {
         algorithm = "histogram";

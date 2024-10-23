@@ -9,9 +9,13 @@ let
 in
 {
   config = mkIf config.dusk.system.nixos.bootloader.enable {
-    boot.loader = {
-      efi.canTouchEfiVariables = true;
-      systemd-boot.enable = lib.mkDefault true;
+    boot = {
+      loader = {
+        efi.canTouchEfiVariables = true;
+        systemd-boot.enable = lib.mkDefault true;
+      };
+
+      plymouth.enable = true;
     };
 
     environment.systemPackages = with pkgs; [
@@ -21,6 +25,7 @@ in
 
     hardware = {
       enableRedistributableFirmware = true;
+      enableAllFirmware = true;
 
       cpu = {
         amd.updateMicrocode = true;

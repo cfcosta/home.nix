@@ -37,23 +37,16 @@ in
       home.activation.setupCosmicConfig = inputs.home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         mkdir -p $HOME/.config/cosmic/com.system76.CosmicComp/v1
         mkdir -p $HOME/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1
-        mkdir -p $HOME/.config/cosmic/com.system76.CosmicTheme.{Dark,Light}/v1
-        mkdir -p $HOME/.config/cosmic/com.system76.CosmicTheme.{Dark,Light}.Builder/v1
+        mkdir -p $HOME/.config/cosmic/com.system76.CosmicTheme.{Dark,Dark.Builder}/v1
         mkdir -p $HOME/.config/cosmic/com.system76.CosmicTk/v1
 
-        cp ${shortcuts} $HOME/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/
+        cp ${shortcuts} $HOME/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom
 
-        cp ${accent} $HOME/.config/cosmic/com.system76.CosmicTheme.Dark/v1/
-        cp ${palette} $HOME/.config/cosmic/com.system76.CosmicTheme.Dark.Builder/v1/
-        cp ${palette} $HOME/.config/cosmic/com.system76.CosmicTheme.Dark/v1/
+        cp ${accent} $HOME/.config/cosmic/com.system76.CosmicTheme.Dark/v1/accent
+        cp ${palette} $HOME/.config/cosmic/com.system76.CosmicTheme.Dark.Builder/v1/palette
+        cp ${palette} $HOME/.config/cosmic/com.system76.CosmicTheme.Dark/v1/palette
         echo "(8, 24)" > $HOME/.config/cosmic/com.system76.CosmicTheme.Dark.Builder/v1/gaps
         echo "(8, 24)" > $HOME/.config/cosmic/com.system76.CosmicTheme.Dark/v1/gaps
-
-        cp ${accent} $HOME/.config/cosmic/com.system76.CosmicTheme.Light/v1/
-        cp ${palette} $HOME/.config/cosmic/com.system76.CosmicTheme.Light.Builder/v1/
-        cp ${palette} $HOME/.config/cosmic/com.system76.CosmicTheme.Light/v1/
-        echo "(8, 24)" > $HOME/.config/cosmic/com.system76.CosmicTheme.Light.Builder/v1/gaps
-        echo "(8, 24)" > $HOME/.config/cosmic/com.system76.CosmicTheme.Light/v1/gaps
 
         echo "true" > $HOME/.config/cosmic/com.system76.CosmicComp/v1/autotile
         echo "true" > $HOME/.config/cosmic/com.system76.CosmicComp/v1/autotile_behavior

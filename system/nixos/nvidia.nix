@@ -27,10 +27,15 @@ in
       };
 
       nvidia = {
-        gsp.enable = true;
-        open = true;
-        modesetting.enable = true;
         package = config.boot.kernelPackages.nvidiaPackages.beta;
+        open = false;
+        gsp.enable = true;
+        forceFullCompositionPipeline = false;
+        modesetting.enable = true;
+        powerManagement = {
+          enable = true;
+          finegrained = false;
+        };
       };
 
       nvidia-container-toolkit.enable = cfg.virtualisation.enable;
