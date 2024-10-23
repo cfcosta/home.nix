@@ -31,7 +31,6 @@ in
 
       libvirtd = {
         inherit (cfg.libvirt) enable;
-        qemuOvmf = true;
       };
 
       lxd.enable = cfg.libvirt.enable or cfg.waydroid.enable;
