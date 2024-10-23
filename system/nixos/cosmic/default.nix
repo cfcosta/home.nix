@@ -40,6 +40,9 @@ in
         mkdir -p $HOME/.config/cosmic/com.system76.CosmicTheme.{Dark,Dark.Builder}/v1
         mkdir -p $HOME/.config/cosmic/com.system76.CosmicTk/v1
 
+        ${pkgs.findutils}/bin/find $HOME/.config/cosmic -type d -exec chmod 0755 '{}' \;
+        ${pkgs.findutils}/bin/find $HOME/.config/cosmic -type f -exec chmod 0644 '{}' \;
+
         cp ${shortcuts} $HOME/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom
 
         cp ${accent} $HOME/.config/cosmic/com.system76.CosmicTheme.Dark/v1/accent
