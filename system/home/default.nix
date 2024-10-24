@@ -120,6 +120,7 @@ in
           gsp = "git stash pop";
           htop = "btop";
           j = "jj";
+          jc = "jj commit";
           jd = "jj diff";
           jl = "jj log";
           ll = "lsd -l -A";
