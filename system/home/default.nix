@@ -119,6 +119,8 @@ in
           gs = "git stash";
           gsp = "git stash pop";
           htop = "btop";
+          j = "jj";
+          jl = "jj log";
           ll = "lsd -l -A";
           ls = "lsd -l";
           vi = "nvim";
