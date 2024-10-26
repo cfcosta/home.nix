@@ -35,9 +35,9 @@ buildPythonApplication {
     gitpython
     grep-ast
     importlib-resources
+    jiter
     json5
     jsonschema
-    jiter
     litellm
     networkx
     numpy
@@ -47,12 +47,14 @@ buildPythonApplication {
     pillow
     playwright
     prompt-toolkit
+    propcache
+    psutil
     ptyprocess
+    pydub
     pypager
     pypandoc
     pyperclip
     pyyaml
-    psutil
     rich
     scipy
     sounddevice
@@ -60,6 +62,5 @@ buildPythonApplication {
     streamlit
     tokenizers
     watchdog
-    pydub
   ];
 }
