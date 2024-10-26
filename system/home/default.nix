@@ -241,7 +241,7 @@ in
 
       neovim = {
         enable = true;
-        package = inputs.neovim.packages.${pkgs.system}.nightvim;
+        package = pkgs.dusk.nightvim;
       };
 
       readline = {
