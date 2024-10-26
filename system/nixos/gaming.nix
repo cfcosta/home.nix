@@ -23,6 +23,14 @@ in
       xone.enable = true;
     };
 
+    home-manager.users.${config.dusk.username}.xdg.configFile."gamemode.ini".text = ''
+      [general]
+      softrealtime=on
+
+      [cpu]
+      pin_cores=no
+    '';
+
     programs = {
       gamescope = {
         enable = true;
