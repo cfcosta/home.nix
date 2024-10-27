@@ -93,10 +93,11 @@ in
         };
 
         ui = {
+          default-command = [ "status" ];
+          diff-editor = ":builtin";
+          diff.format = "git";
           editor = "nvim";
           pager = "delta";
-          default-command = [ "status" ];
-          diff.format = "git";
         };
       };
     };
