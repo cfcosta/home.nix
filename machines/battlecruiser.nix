@@ -33,6 +33,9 @@
       };
     };
 
+    # Enable wacom tablets support
+    hardware.opentabletdriver.enable = true;
+
     networking.firewall.allowedTCPPorts = [
       5000 # Beancount/Fava
     ];
