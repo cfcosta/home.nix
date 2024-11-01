@@ -39,6 +39,8 @@ buildPythonApplication {
     json5
     jsonschema
     litellm
+    mixpanel
+    monotonic
     networkx
     numpy
     packaging
@@ -46,6 +48,7 @@ buildPythonApplication {
     pexpect
     pillow
     playwright
+    posthog
     prompt-toolkit
     propcache
     psutil
