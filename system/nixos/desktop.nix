@@ -38,7 +38,6 @@ in
           firefox
           fractal
           google-chrome
-          gossip
           helvum
           inkscape
           mangohud
