@@ -174,15 +174,6 @@ in
           ${concatStringsSep "\n" completeAliases}
 
           if [ "$(uname -s)" == "Darwin" ]; then
-            # MacOS by default does not load the completions set by Nix, so this
-            # function fixes that.
-            DIR="/run/current-system/sw/share/bash-completion/completions"
-
-            [ ! -d "''${DIR}" ] && for f in "''${DIR}"/*; do
-              # shellcheck source=/dev/null
-              . "''${f}"
-            done
-
             export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
           fi
         '';
