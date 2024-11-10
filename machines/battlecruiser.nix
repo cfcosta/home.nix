@@ -31,13 +31,18 @@
         device = "/dev/disk/by-uuid/0B55-0450";
         fsType = "vfat";
       };
+
+      "/media" = {
+        device = "/dev/disk/by-uuid/12cdcfc5-77b8-4182-994d-a081c22669dd";
+        fsType = "ext4";
+      };
     };
 
     # Enable wacom tablets support
     hardware.opentabletdriver.enable = true;
 
     networking.firewall.allowedTCPPorts = [
-      5000 # Beancount/Fava
+      8096 # Jellyfin
     ];
 
     programs.steam.gamescopeSession.args = [
