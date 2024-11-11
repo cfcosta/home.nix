@@ -50,6 +50,7 @@ in
         (nerdfonts.override { fonts = [ "Inconsolata" ]; })
 
         age
+        aider-chat
         b3sum
         bat
         beancount
@@ -60,7 +61,6 @@ in
         curl
         direnv
         duf
-        dusk.aider-chat
         dust
         eternal-terminal
         eva

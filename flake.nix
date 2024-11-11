@@ -75,10 +75,6 @@
     };
 
     # Non-flakes
-    aider-chat = {
-      url = "github:paul-gauthier/aider";
-      flake = false;
-    };
     catppuccin-cosmic = {
       url = "github:catppuccin/cosmic-desktop";
       flake = false;
