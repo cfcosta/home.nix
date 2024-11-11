@@ -12,7 +12,10 @@ let
   inherit (lib) mkIf optionals;
 in
 {
-  imports = [ ./cosmic ];
+  imports = [
+    ./cosmic
+    ./gnome
+  ];
 
   config = mkIf cfg.enable {
     environment = {
