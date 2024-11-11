@@ -145,7 +145,6 @@ in
       settings = {
         accept-flake-config = true;
         allow-import-from-derivation = true;
-        auto-optimise-store = true;
 
         extra-substituters = [ "https://cfcosta-home.cachix.org/" ];
         extra-trusted-public-keys = [
