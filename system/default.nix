@@ -84,7 +84,6 @@ in
         lsd
         lsof
         mkcert
-        ncdu_2
         neofetch
         nss
         openssl

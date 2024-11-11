@@ -68,7 +68,12 @@ in
 
     environment = {
       defaultPackages = mkForce [ ];
-      systemPackages = with pkgs; [ killall ];
+      systemPackages = with pkgs; [
+        killall
+
+        # FIXME: zig is currently broken on Darwin, for some reason.
+        ncdu_2
+      ];
     };
 
     hardware.graphics.enable = true;
