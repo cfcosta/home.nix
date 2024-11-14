@@ -34,9 +34,10 @@ dusk-lib.defineService rec {
           inherit (cfg.${name}) enable;
           web.enable = true;
           dataDir = "${config.dusk.folders.media.data}/${name}";
-          openFirewall = false;
+          openFirewall = true;
           declarative = true;
           authFile = config.age.secrets.deluge.path;
+          openFilesLimit = 65536;
 
           user = config.dusk.username;
           group = name;
@@ -45,13 +46,27 @@ dusk-lib.defineService rec {
             download_location = "${config.dusk.folders.media.root}/_incomplete";
             move_completed_path = config.dusk.folders.media.root;
             move_completed = true;
-            max_active_limit = 32;
-            max_active_downloading = 8;
-            max_active_seeding = 16;
-            max_connections_global = 200;
-            max_upload_speed = 1000;
-            max_download_speed = 1000;
             allow_remote = true;
+            dont_count_slow_torrents = true;
+            max_active_downloading = 32;
+            max_active_limit = -1;
+            max_active_seeding = -1;
+            max_connections_global = -1;
+            max_download_speed = -1;
+            max_upload_speed = -1;
+
+            # Listen on specific port
+            random_port = false;
+            listen_ports = [
+              16880
+              16880
+            ];
+
+            # Outgoing is random
+            random_outgoing_ports = true;
+
+            upnp = true;
+            utpex = true;
           };
         };
 
