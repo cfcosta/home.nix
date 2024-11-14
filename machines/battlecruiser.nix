@@ -42,6 +42,7 @@
     hardware.opentabletdriver.enable = true;
 
     networking.firewall.allowedTCPPorts = [
+      3000
       8096 # Jellyfin
     ];
 
