@@ -98,9 +98,9 @@ in
           sync = [
             "rebase"
             "-s"
-            "'all:roots(main..@)'"
+            "all:roots(main@origin..@)"
             "-d"
-            "main"
+            "main@origin"
             "--skip-emptied"
           ];
         };
@@ -123,6 +123,10 @@ in
             command = [
               "${pkgs.rustfmt}/rustfmt"
               "$path"
+            ];
+
+            patterns = [
+              "glob:'**/*.rs'"
             ];
           };
         };
