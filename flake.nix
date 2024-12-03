@@ -191,6 +191,7 @@
     perSystem
     // {
       darwinConfigurations.drone = buildDarwin "drone";
+      darwinConfigurations.firebat = buildDarwin "firebat";
       nixosConfigurations.battlecruiser = buildNixos "battlecruiser";
     };
 }
