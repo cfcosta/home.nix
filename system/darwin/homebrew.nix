@@ -29,6 +29,7 @@
         "ollama"
         "orbstack"
         "secretive"
+        "simplex"
         "streamlink-twitch-gui"
         "swish"
         "syncthing"
