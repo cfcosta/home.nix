@@ -14,7 +14,7 @@ let
   accent = writeText "accent" (readFile ./accent.ron);
   shortcuts = writeText "custom" (readFile ./shortcuts.ron);
   palette = writeText "palette" (
-    readFile "${inputs.catppuccin-cosmic}/cosmic-settings/Catppuccin-Mocha-Blue.ron"
+    readFile "${inputs.catppuccin-cosmic}/themes/cosmic-settings/catppuccin-mocha-lavender+round.ron"
   );
 in
 {
