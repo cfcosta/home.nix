@@ -47,8 +47,6 @@ in
       };
 
       systemPackages = with pkgs; [
-        (nerdfonts.override { fonts = [ "Inconsolata" ]; })
-
         age
         aider-chat
         b3sum
@@ -85,6 +83,7 @@ in
         lsof
         mkcert
         neofetch
+        nerd-fonts.inconsolata
         nss
         openssl
         p7zip
