@@ -4,6 +4,7 @@
   pkgs,
   ...
 }:
+with pkgs;
 let
   cfg = config.dusk.system.nixos.desktop;
 
@@ -67,7 +68,15 @@ in
           source-sans
         ]
         ++ optionals cfg.alacritty.enable [ alacritty ]
-        ++ optionals config.dusk.system.nixos.virtualisation.libvirt.enable [ virt-manager ];
+        ++ optionals config.dusk.system.nixos.virtualisation.libvirt.enable [
+          (virt-manager.overrideAttrs (old: {
+            nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.wrapGAppsHook ];
+            buildInputs = lib.lists.subtractLists [ pkgs.wrapGAppsHook ] old.buildInputs ++ [
+              pkgs.gst_all_1.gst-plugins-base
+              pkgs.gst_all_1.gst-plugins-good
+            ];
+          }))
+        ];
     };
 
     hardware = {
