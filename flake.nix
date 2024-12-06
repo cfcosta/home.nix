@@ -111,6 +111,7 @@
           overlays = [ (import ./packages inputs) ];
           config = {
             allowUnfree = true;
+            allowBroken = true;
 
             permittedInsecurePackages = [
               "aspnetcore-runtime-wrapped-6.0.36"
