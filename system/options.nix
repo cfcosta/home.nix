@@ -170,6 +170,13 @@ in
               };
             };
 
+            hyprland = {
+              enable = mkEnabledOption {
+                description = "Whether or not to enable the Hyprland compositor";
+                parent = cfg.desktop.enable;
+              };
+            };
+
             alacritty = {
               enable = mkEnabledOption {
                 description = "Whether or not to enable the Alacritty Terminal";
