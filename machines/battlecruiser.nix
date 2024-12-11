@@ -13,7 +13,36 @@
         desktop = {
           alacritty.font.family = "Berkeley Mono NerdFont Mono";
 
-          hyprland.enable = true;
+          hyprland = {
+            enable = true;
+
+            monitors = [
+              # Vertical 1440p Monitor
+              {
+                name = "DP-1";
+                resolution = {
+                  width = 2560;
+                  height = 1440;
+                };
+                refreshRate = 144;
+                scale = 1.0;
+                position.special = "auto-left";
+                transform = 1; # 90 degrees
+              }
+
+              # 4K monitor with 10-bit color and VRR
+              {
+                name = "HDMI-A-1";
+                resolution.special = "highres";
+                position.special = "auto-right";
+                scale = "auto";
+                bitDepth = 10;
+                vrr = 1;
+              }
+            ];
+          };
+
+          gnome.enable = true;
         };
 
         networking.defaultNetworkInterface = "eno1";
