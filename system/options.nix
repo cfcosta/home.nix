@@ -64,13 +64,13 @@ in
       browser = mkOption {
         type = types.str;
         description = "Your default browser";
-        default = "firefox";
+        default = "${pkgs.firefox}/bin/firefox";
       };
 
       terminal = mkOption {
         type = types.str;
         description = "Your default terminal emulator";
-        default = if config.dusk.system.nixos.desktop.alacritty.enable then "alacritty" else "cosmic-term";
+        default = "${pkgs.alacritty}/bin/alacritty";
       };
     };
 
@@ -163,6 +163,13 @@ in
               parent = flavor == "nixos";
             };
 
+            gnome = {
+              enable = mkEnabledOption {
+                description = "Whether or not to enable the Gnome Desktop";
+                parent = cfg.desktop.enable;
+              };
+            };
+
             alacritty = {
               enable = mkEnabledOption {
                 description = "Whether or not to enable the Alacritty Terminal";
@@ -172,7 +179,7 @@ in
               font = {
                 family = mkOption {
                   type = types.str;
-                  default = "Berkeley Mono NerdFont Mono";
+                  default = "Inconsolata Nerd Font";
                 };
 
                 size = mkOption {

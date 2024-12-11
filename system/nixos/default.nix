@@ -25,7 +25,6 @@ in
     inputs.agenix.nixosModules.default
     inputs.catppuccin.nixosModules.catppuccin
     inputs.home-manager.nixosModules.default
-    inputs.nixos-cosmic.nixosModules.default
 
     ./ai.nix
     ./boot.nix

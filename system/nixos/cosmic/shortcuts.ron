@@ -1,5 +1,0 @@
-{
-  ( modifiers: [ Super, ], key: "f",): Maximize,
-  (modifiers: [Super], key: "Return"): Spawn("/run/current-system/sw/bin/alacritty"),
-}
-

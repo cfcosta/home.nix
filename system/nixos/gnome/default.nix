@@ -6,7 +6,7 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.dusk.system.nixos.desktop;
+  cfg = config.dusk.system.nixos.desktop.gnome;
 in
 {
   config = mkIf cfg.enable {
@@ -16,13 +16,13 @@ in
       QT_QPA_PLATFORM = "wayland";
     };
 
-    home-manager.users.${config.dusk.username} =
-      {
-      };
-
     services.xserver = {
       enable = true;
       desktopManager.gnome.enable = true;
+      displayManager.gdm = {
+        enable = true;
+        autoSuspend = false;
+      };
     };
   };
 }

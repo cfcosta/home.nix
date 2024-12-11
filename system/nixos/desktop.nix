@@ -14,7 +14,6 @@ let
 in
 {
   imports = [
-    ./cosmic
     ./gnome
   ];
 

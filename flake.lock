@@ -72,22 +72,6 @@
         "type": "github"
       }
     },
-    "catppuccin-cosmic": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1731775648,
-        "narHash": "sha256-P9RFwivSAVJaaX0xpt6Kgn2s7U0O9+yF195BIimn1oI=",
-        "owner": "catppuccin",
-        "repo": "cosmic-desktop",
-        "rev": "fea2e508f3ab53cf5762a7610f4b6cc3a8f42a95",
-        "type": "github"
-      },
-      "original": {
-        "owner": "catppuccin",
-        "repo": "cosmic-desktop",
-        "type": "github"
-      }
-    },
     "catppuccin-gitui": {
       "flake": false,
       "locked": {
@@ -654,35 +638,6 @@
         "type": "github"
       }
     },
-    "nixos-cosmic": {
-      "inputs": {
-        "flake-compat": [
-          "flake-compat"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "nixpkgs-stable": [
-          "nixpkgs"
-        ],
-        "rust-overlay": [
-          "rust-overlay"
-        ]
-      },
-      "locked": {
-        "lastModified": 1733496282,
-        "narHash": "sha256-DLFCP9kaek/pcOsttkMjKJYqgsklMMTlMRco2my+Grc=",
-        "owner": "lilyinstarlight",
-        "repo": "nixos-cosmic",
-        "rev": "6cafc3d142fcebfe038add3cf02a13385c9dc47f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lilyinstarlight",
-        "repo": "nixos-cosmic",
-        "type": "github"
-      }
-    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1733481457,
@@ -1001,7 +956,6 @@
       "inputs": {
         "agenix": "agenix",
         "catppuccin": "catppuccin",
-        "catppuccin-cosmic": "catppuccin-cosmic",
         "catppuccin-gitui": "catppuccin-gitui",
         "catppuccin-refind": "catppuccin-refind",
         "flake-compat": "flake-compat",
@@ -1010,7 +964,6 @@
         "home-manager": "home-manager",
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",
-        "nixos-cosmic": "nixos-cosmic",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks": "pre-commit-hooks",

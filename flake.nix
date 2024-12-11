@@ -52,15 +52,6 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-cosmic = {
-      url = "github:lilyinstarlight/nixos-cosmic";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        nixpkgs-stable.follows = "nixpkgs";
-        flake-compat.follows = "flake-compat";
-        rust-overlay.follows = "rust-overlay";
-      };
-    };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
@@ -75,10 +66,6 @@
     };
 
     # Non-flakes
-    catppuccin-cosmic = {
-      url = "github:catppuccin/cosmic-desktop";
-      flake = false;
-    };
     catppuccin-gitui = {
       url = "github:catppuccin/gitui";
       flake = false;
