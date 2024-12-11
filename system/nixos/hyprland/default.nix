@@ -41,11 +41,15 @@ in
       };
 
       systemPackages = with pkgs; [
+        dunst
         grimblast
       ];
     };
 
     home-manager.users.${config.dusk.username} = {
+      imports = [
+        ./dunst
+      ];
       home.pointerCursor = {
         gtk.enable = true;
         package = pkgs.bibata-cursors;
