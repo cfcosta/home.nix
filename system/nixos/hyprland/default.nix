@@ -49,7 +49,9 @@ in
     home-manager.users.${config.dusk.username} = {
       imports = [
         ./dunst
+        ./waybar
       ];
+
       home.pointerCursor = {
         gtk.enable = true;
         package = pkgs.bibata-cursors;
