@@ -10,7 +10,11 @@
       hostname = "battlecruiser";
 
       nixos = {
-        desktop.alacritty.font.family = "Berkeley Mono NerdFont Mono";
+        desktop = {
+          alacritty.font.family = "Berkeley Mono NerdFont Mono";
+
+          hyprland.enable = true;
+        };
 
         networking.defaultNetworkInterface = "eno1";
 

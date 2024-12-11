@@ -10,7 +10,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
+    catppuccin.url = "github:catppuccin/nix";
     flake-compat.url = "github:nix-community/flake-compat";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     systems.url = "github:nix-systems/default";
@@ -28,8 +28,6 @@
       };
     };
 
-    catppuccin.url = "github:catppuccin/nix";
-
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,6 +36,7 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs = {
