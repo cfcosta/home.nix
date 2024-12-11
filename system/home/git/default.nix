@@ -98,9 +98,9 @@ in
           sync = [
             "rebase"
             "-s"
-            "all:roots(main@origin..@)"
+            "all:roots(main..@)"
             "-d"
-            "main@origin"
+            "main"
             "--skip-emptied"
           ];
         };
@@ -137,7 +137,7 @@ in
           push-bookmark-prefix = "${config.dusk.accounts.github}/";
         };
 
-        revsets.log = "main@origin-..mine() | bookmarks()";
+        revsets.log = "main-..mine() | bookmarks()";
         snapshot.max-new-file-size = "10MiB";
 
         signing = {
