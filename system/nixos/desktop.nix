@@ -15,6 +15,7 @@ in
 {
   imports = [
     ./gnome
+    ./hyprland
   ];
 
   config = mkIf cfg.enable {
