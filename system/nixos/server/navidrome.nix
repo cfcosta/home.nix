@@ -6,7 +6,7 @@ dusk-lib.defineService rec {
     { config, ... }:
     {
       config.services.navidrome = {
-        inherit (config.dusk.system.server.${name}) enable;
+        inherit (config.dusk.system.nixos.server.${name}) enable;
 
         user = config.dusk.username;
         group = "users";
@@ -15,10 +15,11 @@ dusk-lib.defineService rec {
 
         settings = {
           MusicFolder = "/media/Music2";
+
           # Server settings
           Address = "0.0.0.0";
           Port = port;
-          BaseUrl = "https://${name}.${config.dusk.system.server.domain}";
+          BaseUrl = "https://${name}.${config.dusk.system.nixos.server.domain}";
           UILoginBackground = "";
 
           # Scanning settings
