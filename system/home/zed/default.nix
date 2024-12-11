@@ -1,14 +1,8 @@
-{ pkgs, lib, ... }:
+args@{ pkgs, lib, ... }:
 let
   inherit (builtins) toJSON;
 
-  settingsFile = pkgs.writeText "zed-settings.json" (
-    toJSON (
-      import ./settings.nix {
-        inherit pkgs;
-      }
-    )
-  );
+  settingsFile = pkgs.writeText "zed-settings.json" (toJSON (import ./settings.nix args));
 in
 {
   config.home.activation.setupZedConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
