@@ -1,14 +1,37 @@
 {
   config,
+  inputs,
   lib,
+  pkgs,
   ...
 }:
 let
   inherit (lib) mkIf;
+  inherit (builtins) concatLists genList;
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
+
+  keybindings = {
+    # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+    switch-workspace = concatLists (
+      genList (
+        i:
+        let
+          ws = i + 1;
+        in
+        [
+          "$mod, code:1${toString i}, workspace, ${toString ws}"
+          "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+        ]
+      ) 9
+    );
+  };
 in
 {
+  imports = [
+    ./monitors.nix
+  ];
+
   config = mkIf cfg.enable {
     environment = {
       sessionVariables = {
@@ -64,6 +87,8 @@ in
       withUWSM = true;
       xwayland.enable = true;
     };
+
+    security.pam.services.hyprlock = { };
 
     services.xserver = {
       enable = true;
