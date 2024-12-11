@@ -65,6 +65,10 @@
     };
 
     # Non-flakes
+    catppuccin-hyprland = {
+      url = "github:catppuccin/hyprland";
+      flake = false;
+    };
     catppuccin-refind = {
       url = "github:catppuccin/refind";
       flake = false;
