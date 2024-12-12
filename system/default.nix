@@ -47,6 +47,8 @@ in
       };
 
       systemPackages = with pkgs; [
+        dusk.scripts
+
         age
         aider-chat
         b3sum

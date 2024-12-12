@@ -173,7 +173,9 @@
 
           devShells.default = mkShell {
             inherit (pre-commit-check) shellHook;
-            packages = with pkgs; [ agenix ];
+            packages = with pkgs; [
+              agenix
+            ];
           };
 
           packages = pkgs.dusk // {
