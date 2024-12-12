@@ -6,15 +6,17 @@
 }:
 let
   cfg = config.dusk.system.nixos.gaming;
-  inherit (lib) mkIf;
+  inherit (lib) mkIf mkEnableOption mkOption;
 in
 {
+  options.dusk.system.nixos.gaming = {
+    gamescope = {
+      enable = mkEnableOption "Gamescope support";
+    };
+  };
+
   config = mkIf cfg.enable {
     boot.kernel.sysctl."vm.max_map_count" = 1048576;
-
-    environment.systemPackages = with pkgs; [
-      gamemode
-    ];
 
     hardware = {
       graphics.enable = true;
@@ -32,7 +34,12 @@ in
     '';
 
     programs = {
-      gamescope = {
+      gamemode = {
+        enable = true;
+        enableRenice = true;
+      };
+
+      gamescope = mkIf cfg.gamescope.enable {
         enable = true;
         capSysNice = true;
       };
@@ -41,9 +48,28 @@ in
         enable = true;
 
         dedicatedServer.openFirewall = true;
-        gamescopeSession.enable = true;
         localNetworkGameTransfers.openFirewall = true;
         remotePlay.openFirewall = true;
+
+        extraCompatPackages = with pkgs; [
+          proton-ge-bin
+        ];
+        protontricks.enable = true;
+
+        gamescopeSession = mkIf cfg.gamescope.enable {
+          enable = true;
+
+          env = {
+            WLR_RENDERER = "vulkan";
+            ENABLE_GAMESCOPE_WSI = "1";
+            WINE_FULLSCREEN_FSR = "1";
+          };
+
+          args = [
+            "--steam"
+            "--adaptive-sync"
+          ];
+        };
       };
     };
 

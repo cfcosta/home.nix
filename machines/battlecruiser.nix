@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = with inputs.nixos-hardware.nixosModules; [
     common-cpu-amd
@@ -50,18 +50,34 @@
     # Enable wacom tablets support
     hardware.opentabletdriver.enable = true;
 
-    networking.firewall.allowedTCPPorts = [
-      3000
-      8096 # Jellyfin
-    ];
+    networking.firewall = {
+      allowedTCPPorts = [
+        3000
+        8096 # Jellyfin
+        48010 # Sunshine
+      ];
+
+      allowedUDPPorts = [
+        48000 # Sunshine
+        48010 # Sunshine
+      ];
+    };
 
     programs.steam.gamescopeSession.args = [
+      "--steam"
+      "--adaptive-sync"
+
       "-r"
       "120"
-      "--sdr-gamut-wideness"
-      "1"
-      "--hdr-enabled"
-      "--adaptive-sync"
+
+      "--prefer-output"
+      "HDMI-2"
+
+      "--output-width"
+      "1920"
+
+      "--output-height"
+      "1080"
     ];
 
     swapDevices = [ ];
