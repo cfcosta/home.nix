@@ -173,12 +173,15 @@
             inherit (pre-commit-check) shellHook;
             packages = with pkgs; [
               agenix
+              pkgs.dusk.scripts.python
+              pkgs.dusk.scripts.all
             ];
           };
 
-          packages = pkgs.dusk // {
+          packages = {
             battlecruiser = systemTarget "battlecruiser" "nixos";
             drone = systemTarget "drone" "darwin";
+            scripts = pkgs.dusk.scripts.all;
           };
         }
       );

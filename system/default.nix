@@ -47,7 +47,7 @@ in
       };
 
       systemPackages = with pkgs; [
-        dusk.scripts
+        dusk.scripts.all
 
         age
         aider-chat
