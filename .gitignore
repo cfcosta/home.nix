@@ -1,8 +1,8 @@
 *.log
 *.qcow2
 .DS_Store
+.aider*
 .direnv
-.idea
+.env
 .pre-commit-config.yaml
 result
-tmp/

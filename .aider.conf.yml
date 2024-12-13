@@ -1,0 +1,14 @@
+model: openrouter/qwen/qwq-32b-preview
+editor-model: openrouter/qwen/qwen-2.5-coder-32b-instruct
+editor-edit-format: editor-whole
+
+# Git
+git: true
+auto-commits: false
+
+# Linting and Testing
+auto-lint: true
+lint-cmd: pre-commit run
+
+auto-test: false
+test-cmd: nix flake check
