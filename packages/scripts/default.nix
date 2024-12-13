@@ -4,55 +4,51 @@
   symlinkJoin,
 }:
 let
-  inherit (builtins) readFile;
+  inherit (builtins) attrValues concatMap;
+
+  python = python312.withPackages (ps: concatMap (pkg: pkg.deps ps) (attrValues packages));
 
   mkScript =
     {
       name,
       file,
-      deps ? (ps: [ ]),
+      ...
     }:
-    let
-      python = python312.withPackages deps;
-    in
-    writeScriptBin name ''
-      #!${python}/bin/python
+    writeScriptBin name file;
 
-      ${readFile file}
-    '';
+  packages = {
+    ai = {
+      name = "ai";
+      file = ./ai/ai;
+      deps = ps: [
+        ps.click
+      ];
+    };
 
-  ai = mkScript {
-    name = "ai";
-    file = ./ai.py;
-    deps = ps: [
-      ps.click
-    ];
-  };
+    ai-describe = {
+      name = "ai-describe";
+      file = ./ai/ai-describe;
+      deps = ps: [
+        ps.litellm
+      ];
+    };
 
-  ai-describe = mkScript {
-    name = "ai-describe";
-    file = ./ai-describe.py;
-    deps = ps: [
-      ps.litellm
-    ];
-  };
-
-  ai-get-github = mkScript {
-    name = "ai-github";
-    file = ./ai-get-github.py;
-    deps = ps: [
-      ps.click
-      ps.requests
-      ps.pydantic
-    ];
+    ai-get-github = {
+      name = "ai-github";
+      file = ./ai/ai-get-github;
+      deps = ps: [
+        ps.click
+        ps.requests
+        ps.pydantic
+      ];
+    };
   };
 in
-symlinkJoin {
-  name = "ai";
+{
+  inherit python;
 
-  paths = [
-    ai
-    ai-describe
-    ai-get-github
-  ];
+  ai = symlinkJoin {
+    name = "ai";
+    paths = map mkScript (attrValues packages);
+  };
 }

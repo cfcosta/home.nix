@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """Generate commit messages using LLM and describe JJ commits."""
 
 import asyncio

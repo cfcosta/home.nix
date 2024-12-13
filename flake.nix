@@ -178,7 +178,7 @@
             inherit (pre-commit-check) shellHook;
             packages = with pkgs; [
               agenix
-              pkgs.dusk.scripts
+              pkgs.dusk.scripts.python
             ];
           };
 

@@ -1,6 +1,9 @@
+#!/usr/bin/env python
+
 import os
 import sys
 from pathlib import Path
+
 import click
 
 
@@ -8,14 +11,14 @@ def find_executables() -> list[str]:
     """Find all ai-* executables in PATH."""
     commands = []
     paths = os.environ.get("PATH", "").split(os.pathsep)
-    
+
     for path in paths:
         if not path:
             continue
         path_dir = Path(path)
         if not path_dir.exists():
             continue
-            
+
         for item in path_dir.iterdir():
             if item.name.startswith("ai-") and os.access(item, os.X_OK):
                 name = item.name[3:]  # Remove 'ai-' prefix
