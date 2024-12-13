@@ -14,7 +14,7 @@ let
     {
       name,
       file,
-      deps ? (ps: [ ]),
+      deps ? (_: [ ]),
     }:
     let
       python = python312.withPackages deps;
@@ -31,6 +31,15 @@ let
       file = ./ai/ai;
       deps = ps: [
         ps.click
+      ];
+    };
+
+    ai-describe = {
+      name = "ai-describe";
+      file = ./ai/ai-describe;
+      deps = ps: [
+        ps.click
+        ps.litellm
       ];
     };
   };
