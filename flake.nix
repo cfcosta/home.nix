@@ -168,6 +168,7 @@
             packages = with pkgs; [
               agenix
               dusk-treefmt
+              dusk-ai-tools.python
 
               (writeShellScriptBin "dusk-apply" "nix run $(pwd)#dusk-apply")
             ];

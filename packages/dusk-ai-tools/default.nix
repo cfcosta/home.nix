@@ -17,6 +17,16 @@ let
     '';
 
   packages = {
+    ai-github = {
+      name = "ai-github";
+      file = ./ai-github.py;
+      deps = ps: [
+        ps.click
+        ps.pydantic
+        ps.rich
+        ps.requests
+      ];
+    };
     ai-describe = {
       name = "ai-describe";
       file = ./ai-describe.py;
