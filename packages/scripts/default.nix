@@ -10,7 +10,7 @@ let
     {
       name,
       file,
-      deps ? [ ],
+      deps ? (ps: [ ]),
     }:
     let
       python = python312.withPackages deps;
@@ -21,6 +21,14 @@ let
       ${readFile file}
     '';
 
+  ai = mkScript {
+    name = "ai";
+    file = ./ai.py;
+    deps = ps: [
+      ps.click
+    ];
+  };
+
   ai-describe = mkScript {
     name = "ai-describe";
     file = ./ai-describe.py;
@@ -30,8 +38,10 @@ let
   };
 in
 symlinkJoin {
-  name = "dusk-scripts";
+  name = "ai";
+
   paths = [
+    ai
     ai-describe
   ];
 }
