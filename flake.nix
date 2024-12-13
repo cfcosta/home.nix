@@ -100,6 +100,8 @@
             allowUnfree = true;
             allowBroken = true;
 
+            enableCudaSupport = true;
+
             permittedInsecurePackages = [
               "aspnetcore-runtime-wrapped-6.0.36"
               "aspnetcore-runtime-6.0.36"

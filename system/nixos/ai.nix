@@ -10,7 +10,7 @@ in
   config = mkIf config.dusk.system.nixos.ai.enable {
     services.ollama = {
       enable = true;
-      acceleration = null;
+      acceleration = if config.dusk.system.nixos.nvidia.enable then "cuda" else null;
     };
   };
 }
