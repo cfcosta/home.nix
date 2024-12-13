@@ -58,21 +58,15 @@ def run(args):
         sys.exit(1)
 
     subcommand = args[0]
-    # Search in PATH for the executable
-    executable = None
-    for path in os.environ.get("PATH", "").split(os.pathsep):
-        if not path:
-            continue
-        candidate = Path(path) / f"ai-{subcommand}"
-        if candidate.exists() and os.access(candidate, os.X_OK):
-            executable = candidate
-            break
 
-    if executable:
-        os.execv(executable, [str(executable)] + list(args[1:]))
-    else:
+    # Find all available commands
+    available_commands = find_executables()
+
+    if subcommand not in available_commands:
         click.echo(f"Error: No command found for '{subcommand}'", err=True)
         sys.exit(1)
+
+    os.execv(f"ai-{subcommand}", list(args[1:]))
 
 
 def main():

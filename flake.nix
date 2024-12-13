@@ -175,11 +175,16 @@
           };
 
           devShells.default = mkShell {
-            inherit (pre-commit-check) shellHook;
             packages = with pkgs; [
               agenix
               pkgs.dusk.scripts.python
             ];
+
+            shellHook = ''
+              export PATH="./packages/scripts/ai:$PATH"
+
+              ${pre-commit-check.shellHook}
+            '';
           };
 
           packages = pkgs.dusk // {
