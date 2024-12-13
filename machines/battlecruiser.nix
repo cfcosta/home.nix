@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, ... }:
 {
   imports = with inputs.nixos-hardware.nixosModules; [
     common-cpu-amd
@@ -17,6 +17,7 @@
         server = {
           enable = true;
           chat.enable = false;
+          sonarr.enable = false;
         };
       };
 
