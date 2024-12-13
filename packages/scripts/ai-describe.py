@@ -1,9 +1,9 @@
-#!/usr/bin/env python312
 """Generate commit messages using LLM and describe JJ commits."""
 
 import asyncio
 import os
 import string
+import click
 import subprocess
 import sys
 from typing import Any, cast
@@ -12,42 +12,63 @@ import litellm
 
 
 PROMPT_TEMPLATE = string.Template("""
-You are an expert software engineer who creates concise, one-line Git commit messages and then provides a detailed, factual explanation of the changes.
+You are an expert software engineer who creates precise, meaningful Git commit messages that serve as reliable documentation of changes.
 
-**Context**:
+**Summary of the changes since `main`**:
 ```
-${TASK_CONTEXT}
+${REPOSITORY_CONTEXT}
 ```
 
-**Commit Summary**:
+**Current Changes**:
 ```
 ${CURRENT_SUMMARY}
 ```
 
-**Commit Contents**:
-```
-${CURRENT_DIFF}
-```
-
 **Instructions**:
 
-1. **Commit Message (First Line)**:
-   - Review the provided context and diff.
+1. **E-Prime Rules (MANDATORY)**:
+   - Avoid ALL forms of the verb "to be" (is, are, was, were, be, been, being)
+   - Replace "is/are" constructions with active verbs
+   - Examples:
+     * Instead of "This is a bug fix" → "This fixes a bug"
+     * Instead of "API was updated" → "API now supports"
+     * Instead of "Changes are needed" → "Changes improve"
+
+2. **Commit Message (First Line)**:
+   - Review the provided context and diff thoroughly.
    - Produce a single-line commit message of the form:
      ```
      <type>(<program>): <description>
      ```
      where:
      - `<type>` ∈ {`fix`, `feat`, `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`}
-     - `<program>` is one of the available "sections" of this repository (e.g., `ingest`, `review`).
-     - `<description>` uses the imperative mood and fits within 72 characters total.
+     - `<program>` identifies the primary component affected
+     - `<description>` must:
+       * Use imperative mood ("add" not "added")
+       * Start with a specific, meaningful verb
+       * Describe WHAT changed, not HOW it changed
+       * Fit within 72 characters total
+       * Avoid vague terms like "update", "fix", "improve"
+       * Include key impact or scope (e.g., "udd retry logic to API calls")
    
 2. **Explanation (Subsequent Lines)**:
    - After the commit message, add a blank line.
-   - Provide a neutral, factual explanation of the reasoning, background, and context behind the changes.
-   - Avoid instructions, opinions, or subjective descriptions.
-   - Use E-Prime (omit forms of "be") and adhere to a reference-like style: concise, clear, and authoritative.
-   - Consider alternatives and explain why the chosen approach fits best.
+   - The explanation must include:
+     * The primary motivation for the change
+     * Technical context necessary for understanding
+     * Impact on system behavior or performance
+     * Any important limitations or constraints considered
+     * Relationship to other recent changes if relevant
+   - Format requirements:
+     * Use clear, factual language
+     * Avoid subjective descriptions or opinions
+     * STRICTLY use E-Prime:
+       - NO forms of "to be" (is/are/was/were/be/been/being)
+       - Use active verbs instead of state descriptions
+       - Convert "X is Y" to "X does/has/provides Y"
+     * Structure in logical paragraphs
+     * Focus on WHY over HOW
+     * Include technical details only when they affect future maintenance
    
 **Output Format**:
 ```markdown
@@ -74,22 +95,32 @@ def run_command(cmd: list[str]) -> str:
     return result.stdout.strip()
 
 
-def get_jj_files() -> list[str]:
-    """Get list of files tracked by jj, excluding CURRENT_TASK.md."""
-    files = run_command(["jj", "files", "list"]).splitlines()
-    return [f for f in files if f != "CURRENT_TASK.md"]
-
-
-def get_context() -> dict:
+def get_context(revision: str = "@", context: str = "main..@") -> dict:
     """Gather all the context needed for the commit message."""
     return {
-        "CURRENT_SUMMARY": run_command(["jj", "show", "--summary"]),
-        "CURRENT_DIFF": run_command(["jj", "diff", "-r", "@-..@", *get_jj_files()]),
-        "TASK_CONTEXT": run_command(["jj", "diff", "-r", "@-..@", "./CURRENT_TASK.md"]),
+        "CURRENT_SUMMARY": run_command(
+            ["jj", "show", "-r", revision, "--summary", "--color-words"]
+        ),
+        "REPOSITORY_CONTEXT": run_command(
+            [
+                "jj",
+                "log",
+                "-r",
+                context,
+                "--summary",
+                "--reversed",
+                "--ignore-all-space",
+                "--ignore-working-copy",
+            ]
+        ),
     }
 
 
-async def generate_commit_message(context: dict) -> str:
+async def generate_commit_message(
+    context: dict,
+    temperature: float = 1.0,
+    max_tokens: int = 1024,
+) -> str:
     """Generate a commit message using LLM."""
     prompt = PROMPT_TEMPLATE.substitute(context)
 
@@ -100,8 +131,8 @@ async def generate_commit_message(context: dict) -> str:
     async for chunk in await litellm.acompletion(
         model=model,
         messages=[{"role": "user", "content": prompt}],
-        temperature=1.0,
-        max_tokens=1024,
+        temperature=temperature,
+        max_tokens=max_tokens,
         stream=True,
     ):
         content = cast(Any, chunk).choices[0].delta.content
@@ -132,21 +163,83 @@ async def generate_commit_message(context: dict) -> str:
     return message
 
 
-async def main():
-    """Main function to generate and apply commit message."""
-    try:
-        context = get_context()
-        commit_msg = await generate_commit_message(context)
+@click.command()
+@click.option(
+    "-r",
+    "--revision",
+    default="@",
+    help="Revision to describe (default: @)",
+)
+@click.option(
+    "--context",
+    default="main..@",
+    help="Revision range for context (default: main..@)",
+)
+@click.option(
+    "--model",
+    envvar="AI_MODEL",
+    default="cerebras/llama-3.3-70b",
+    help="LLM model to use for generation",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    help="Print the commit message without applying it",
+)
+@click.option(
+    "--temperature",
+    type=float,
+    default=1.0,
+    help="Temperature for LLM generation (0.0-2.0)",
+)
+@click.option(
+    "--max-tokens",
+    type=int,
+    default=1024,
+    help="Maximum tokens in the generated response",
+)
+def main(
+    revision: str = "@",
+    context: str = "main..@",
+    model: str = "cerebras/llama-3.3-70b",
+    dry_run: bool = False,
+    temperature: float = 1.0,
+    max_tokens: int = 1024,
+):
+    async def run(
+        revision: str,
+        context: str,
+        model: str,
+        dry_run: bool,
+        temperature: float,
+        max_tokens: int,
+    ):
+        """Generate and apply AI-powered commit messages for JJ commits."""
+        try:
+            # Override the model in the generate function
+            os.environ["AI_MODEL"] = model
 
-        # Apply the commit message using jj describe
-        subprocess.run(["jj", "describe", "-m", commit_msg], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error running command: {e}")
-        sys.exit(1)
-    except Exception as e:
-        print(f"Error: {e}")
-        sys.exit(1)
+            commit_msg = await generate_commit_message(
+                get_context(revision=revision, context=context),
+                temperature=temperature,
+                max_tokens=max_tokens,
+            )
+
+            if dry_run:
+                print(commit_msg)
+            else:
+                # Apply the commit message using jj describe
+                subprocess.run(["jj", "describe", "-m", commit_msg], check=True)
+
+        except subprocess.CalledProcessError as e:
+            print(f"Error running command: {e}", file=sys.stderr)
+            sys.exit(1)
+        except Exception as e:
+            print(f"Error: {e}", file=sys.stderr)
+            sys.exit(1)
+
+    asyncio.run(run(revision, context, model, dry_run, temperature, max_tokens))
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
