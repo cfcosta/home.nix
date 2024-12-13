@@ -3,23 +3,35 @@
 import asyncio
 import os
 import string
-import click
 import subprocess
 import sys
 from typing import Any, cast
 
+import click
 import litellm
 
+REASON_PROMPT_TEMPLATE = string.Template("""
+You are an expert software engineer analyzing the historical context of recent changes. Your task involves reviewing previous commits to build a clear picture of the development context that led to the current changes.
+
+Your goal: Create a concise narrative of the development history that:
+1. Establishes the historical context and evolution of the codebase
+2. Identifies recurring themes or ongoing development efforts
+3. Highlights relevant technical decisions made previously
+4. Maps out dependencies and relationships between past changes
+5. Provides background knowledge needed to understand current changes
+
+Historical commits to analyze:
+```
+${CHANGES}
+```
+
+Provide a clear summary of this historical context, focusing on how past changes inform and relate to ongoing development. This context will help frame new changes within the broader development narrative.
+""")
 
 PROMPT_TEMPLATE = string.Template("""
 You are an expert software engineer who creates precise, meaningful Git commit messages that serve as reliable documentation of changes.
 
-**Summary of the changes since `main`**:
-```
-${REPOSITORY_CONTEXT}
-```
-
-**Current Changes**:
+**Historical Context and Related Changes**:
 ```
 ${CURRENT_SUMMARY}
 ```
@@ -95,25 +107,81 @@ def run_command(cmd: list[str]) -> str:
     return result.stdout.strip()
 
 
-def get_context(revision: str = "@", context: str = "main..@") -> dict:
+async def get_context(
+    revision: str = "@",
+    context: str = "main..@-",
+    use_reason: bool = False,
+    temperature: float = 1.0,
+    max_tokens: int = 1024,
+) -> dict:
     """Gather all the context needed for the commit message."""
-    return {
-        "CURRENT_SUMMARY": run_command(
-            ["jj", "show", "-r", revision, "--summary", "--color-words"]
-        ),
-        "REPOSITORY_CONTEXT": run_command(
+    current_summary = run_command(
+        ["jj", "show", "-r", revision, "--summary", "--color-words"]
+    )
+
+    if use_reason:
+        changes = run_command(
+            [
+                "jj",
+                "log",
+                "--git",
+                "--no-pager",
+                "--no-graph",
+                "--ignore-all-space",
+                "-r",
+                context,
+            ]
+        )
+        repository_context = await generate_reason(
+            changes, temperature=temperature, max_tokens=max_tokens
+        )
+    else:
+        repository_context = run_command(
             [
                 "jj",
                 "log",
                 "-r",
                 context,
                 "--summary",
-                "--reversed",
                 "--ignore-all-space",
                 "--ignore-working-copy",
             ]
-        ),
+        )
+
+    return {
+        "CURRENT_SUMMARY": current_summary,
+        "REPOSITORY_CONTEXT": repository_context,
     }
+
+
+async def generate_reason(
+    changes: str,
+    temperature: float = 1.0,
+    max_tokens: int = 1024,
+) -> str:
+    """Generate a reasoned analysis of the changes using LLM."""
+    prompt = REASON_PROMPT_TEMPLATE.substitute({"CHANGES": changes})
+
+    full_message = []
+    model = os.getenv(
+        "REASON_AI_MODEL", os.getenv("AI_MODEL", "cerebras/llama-3.3-70b")
+    )
+    print(f"Generating change analysis using {model}:", file=sys.stderr)
+
+    async for chunk in await litellm.acompletion(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=temperature,
+        max_tokens=max_tokens,
+        stream=True,
+    ):
+        content = cast(Any, chunk).choices[0].delta.content
+        if content:
+            print(content, end="", file=sys.stderr, flush=True)
+            full_message.append(content)
+
+    print("\n", file=sys.stderr)
+    return "".join(full_message).strip()
 
 
 async def generate_commit_message(
@@ -172,8 +240,8 @@ async def generate_commit_message(
 )
 @click.option(
     "--context",
-    default="main..@",
-    help="Revision range for context (default: main..@)",
+    default="main..@-",
+    help="Revision range for context (default: main..@-)",
 )
 @click.option(
     "--model",
@@ -198,10 +266,22 @@ async def generate_commit_message(
     default=1024,
     help="Maximum tokens in the generated response",
 )
+@click.option(
+    "--reason/--no-reason",
+    default=False,
+    help="Use AI reasoning for repository context analysis",
+)
+@click.option(
+    "--reason-model",
+    envvar="REASON_AI_MODEL",
+    help="LLM model to use for reasoning (defaults to AI_MODEL)",
+)
 def main(
     revision: str = "@",
-    context: str = "main..@",
+    context: str = "main..@-",
     model: str = "cerebras/llama-3.3-70b",
+    reason_model: str | None = None,
+    reason: bool = False,
     dry_run: bool = False,
     temperature: float = 1.0,
     max_tokens: int = 1024,
@@ -219,8 +299,19 @@ def main(
             # Override the model in the generate function
             os.environ["AI_MODEL"] = model
 
+            if reason_model:
+                os.environ["REASON_AI_MODEL"] = reason_model
+
+            context_data = await get_context(
+                revision=revision,
+                context=context,
+                use_reason=reason,
+                temperature=temperature,
+                max_tokens=max_tokens,
+            )
+
             commit_msg = await generate_commit_message(
-                get_context(revision=revision, context=context),
+                context_data,
                 temperature=temperature,
                 max_tokens=max_tokens,
             )
