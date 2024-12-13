@@ -10,7 +10,7 @@ ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &>/dev/null && pwd)"
 OUTPUT_DIR="$(mktemp -d)"
 
 cleanup() {
-  rm -rf "${OUTPUT_DIR}"
+	rm -rf "${OUTPUT_DIR}"
 }
 
 trap cleanup EXIT
@@ -24,8 +24,8 @@ MKCERT_CMD="mkcert -cert-file localhost.crt -key-file localhost.key"
 cd "${OUTPUT_DIR}"
 
 for file in "${ROOT}"/machines/*.nix; do
-  MACHINE_NAME=$(basename "$file" .nix)
-  MKCERT_CMD="${MKCERT_CMD} *.$MACHINE_NAME.internal $MACHINE_NAME.internal"
+	MACHINE_NAME=$(basename "$file" .nix)
+	MKCERT_CMD="${MKCERT_CMD} *.$MACHINE_NAME.internal $MACHINE_NAME.internal"
 done
 
 _info "Running command: $(_blue "${MKCERT_CMD}")"

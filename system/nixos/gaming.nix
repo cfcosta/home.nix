@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.dusk.system.nixos.gaming;
-  inherit (lib) mkIf mkEnableOption mkOption;
+  inherit (lib) mkIf mkEnableOption;
 in
 {
   options.dusk.system.nixos.gaming = {
