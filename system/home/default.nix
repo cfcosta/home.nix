@@ -118,7 +118,7 @@ in
           j = "jj";
           jc = "jj commit";
           jd = "jj diff";
-          jl = "jj log";
+          jl = "jj log --no-pager --ignore-working-copy";
           ll = "lsd -l -A";
           ls = "lsd -l";
           vi = "nvim";
