@@ -75,7 +75,6 @@ in
         gist
         git-bug
         gitMinimal
-        gitui
         glow
         imagemagick
         inconsolata

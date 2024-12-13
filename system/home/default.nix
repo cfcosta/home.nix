@@ -28,7 +28,7 @@ in
     inputs.catppuccin.homeManagerModules.catppuccin
 
     ./alacritty.nix
-    ./git
+    ./git.nix
     ./process-compose.nix
     ./zed
   ];

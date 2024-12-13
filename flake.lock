@@ -72,22 +72,6 @@
         "type": "github"
       }
     },
-    "catppuccin-gitui": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1716604863,
-        "narHash": "sha256-CRxpEDShQcCEYtSXwLV5zFB8u0HVcudNcMruPyrnSEk=",
-        "owner": "catppuccin",
-        "repo": "gitui",
-        "rev": "c7661f043cb6773a1fc96c336738c6399de3e617",
-        "type": "github"
-      },
-      "original": {
-        "owner": "catppuccin",
-        "repo": "gitui",
-        "type": "github"
-      }
-    },
     "catppuccin-nvim": {
       "flake": false,
       "locked": {
@@ -956,7 +940,6 @@
       "inputs": {
         "agenix": "agenix",
         "catppuccin": "catppuccin",
-        "catppuccin-gitui": "catppuccin-gitui",
         "catppuccin-refind": "catppuccin-refind",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
