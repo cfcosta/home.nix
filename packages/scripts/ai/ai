@@ -3,81 +3,68 @@
 import os
 import sys
 from pathlib import Path
-import click
+from typing import Optional, Set
 
 
-def find_executables() -> list[str]:
-    """Find all ai-* executables in the same directory as this script."""
-    commands = []
-    paths = os.environ.get("PATH", "").split(os.pathsep)
-
-    for path in paths:
-        if not path:
-            continue
-        path_dir = Path(path)
-        if not path_dir.exists():
-            continue
-
-        for item in path_dir.iterdir():
-            if item.name.startswith("ai-") and os.access(item, os.X_OK):
-                name = item.name[3:]  # Remove 'ai-' prefix
-                if name not in commands:  # Avoid duplicates from multiple PATH entries
-                    commands.append(name)
-
-    return sorted(commands)
+def get_base_command() -> str:
+    """Get the base command name from the script name."""
+    return Path(__file__).stem
 
 
-@click.group(invoke_without_command=True)
-@click.pass_context
-def cli(ctx):
-    """AI command suite."""
-    if ctx.invoked_subcommand is None:
-        commands = find_executables()
-        if not commands:
-            click.echo("No AI commands found", err=True)
-            sys.exit(1)
+def find_executables() -> Set[str]:
+    """Find all {base}-* executables in PATH."""
+    commands: Set[str] = set()
+    base_cmd: str = get_base_command()
+    prefix: str = f"{base_cmd}-"
 
-        # If no specific command given, show the list
-        if len(sys.argv) == 1:
-            click.echo("Available commands:")
-            for cmd in commands:
-                click.echo(f"  {cmd}")
-            sys.exit(1)
-        else:
-            # Handle the command by calling run
-            run.callback(sys.argv[1:])
-
-
-@cli.command(context_settings={"ignore_unknown_options": True})
-@click.argument("args", nargs=-1, type=click.UNPROCESSED)
-def run(args):
-    """Run an AI command."""
-    if not args:
-        click.echo("Error: Command name required", err=True)
-        sys.exit(1)
-
-    subcommand = args[0]
-    # Search in PATH for the executable
-    executable = None
     for path in os.environ.get("PATH", "").split(os.pathsep):
         if not path:
             continue
-        candidate = Path(path) / f"ai-{subcommand}"
+        path_dir = Path(path)
+        if not path_dir.is_dir():
+            continue
+
+        for item in path_dir.iterdir():
+            if item.name.startswith(prefix) and os.access(item, os.X_OK):
+                cmd_name = item.name[len(prefix) :]  # Remove '{base}-' prefix
+                commands.add(cmd_name)
+
+    return commands
+
+
+def main() -> None:
+    """Main entry point."""
+    commands = find_executables()
+
+    if not commands:
+        print("No AI commands found", file=sys.stderr)
+        sys.exit(1)
+
+    if len(sys.argv) < 2:
+        print("Available commands:")
+        for cmd in commands:
+            print(f"  {cmd}")
+        sys.exit(1)
+
+    subcommand: str = sys.argv[1]
+    args = sys.argv[2:]
+    base_cmd: str = get_base_command()
+
+    executable: Optional[Path] = None
+    for path in os.environ.get("PATH", "").split(os.pathsep):
+        if not path:
+            continue
+        candidate = Path(path) / f"{base_cmd}-{subcommand}"
 
         if candidate.exists() and os.access(candidate, os.X_OK):
             executable = candidate
             break
 
     if not executable or not executable.exists() or not os.access(executable, os.X_OK):
-        click.echo(f"Error: No command found for '{subcommand}'", err=True)
+        print(f"Error: No command found for '{subcommand}'", file=sys.stderr)
         sys.exit(1)
 
-    os.execv(executable, [str(executable)] + list(args[1:]))
-
-
-def main():
-    """Main entry point."""
-    cli()
+    os.execv(executable, [str(executable)] + args)
 
 
 if __name__ == "__main__":

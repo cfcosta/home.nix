@@ -38,8 +38,6 @@ in
 {
   inherit python;
 
-  ai = mkScript packages.ai;
-
   all = symlinkJoin {
     name = "dusk-scripts";
     paths = map mkScript (attrValues packages);
