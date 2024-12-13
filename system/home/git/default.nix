@@ -98,9 +98,11 @@ in
           sync = [
             "rebase"
             "-s"
-            "all:roots(main..@)"
+            "dev"
             "-d"
             "main"
+            "-d"
+            "all:heads(roots(remote_bookmarks()+::)..(description(glob:'wip:*') | description(glob:'private:*'))-)"
             "--skip-emptied"
           ];
         };
