@@ -38,7 +38,7 @@
       fix.tools = {
         clang-format = {
           command = [
-            "${pkgs.clang-tools}/clang-format"
+            "${pkgs.clang-tools}/bin/clang-format"
             "--sort-includes"
             "--assume-filename=$path"
           ];
@@ -51,12 +51,35 @@
 
         rustfmt = {
           command = [
-            "${pkgs.rustfmt}/rustfmt"
+            "${pkgs.rust-bin.nightly.latest.default}/bin/rustfmt"
             "$path"
           ];
 
           patterns = [
             "glob:'**/*.rs'"
+          ];
+        };
+
+        nixfmt = {
+          command = [
+            "${pkgs.nixfmt-rfc-style}/bin/nixfmt"
+            "$path"
+          ];
+
+          patterns = [
+            "glob:'**/*.nix'"
+          ];
+        };
+
+        ruff = {
+          command = [
+            "${pkgs.ruff}/bin/ruff"
+            "format"
+            "$path"
+          ];
+
+          patterns = [
+            "glob:'**/*.py'"
           ];
         };
       };

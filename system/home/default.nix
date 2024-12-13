@@ -29,6 +29,7 @@ in
 
     ./alacritty.nix
     ./git.nix
+    ./jujutsu.nix
     ./process-compose.nix
     ./zed
   ];

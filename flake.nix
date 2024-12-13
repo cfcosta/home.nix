@@ -84,6 +84,7 @@
       nix-darwin,
       nixpkgs,
       pre-commit-hooks,
+      rust-overlay,
       ...
     }:
     let
@@ -91,7 +92,11 @@
         pkgs = import nixpkgs {
           inherit system;
 
-          overlays = [ (import ./packages inputs) ];
+          overlays = [
+            (import rust-overlay)
+            (import ./packages inputs)
+          ];
+
           config = {
             allowUnfree = true;
             allowBroken = true;
