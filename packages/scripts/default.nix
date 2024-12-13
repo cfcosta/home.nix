@@ -36,6 +36,16 @@ let
       ps.litellm
     ];
   };
+
+  ai-get-github = mkScript {
+    name = "ai-github";
+    file = ./ai-get-github.py;
+    deps = ps: [
+      ps.click
+      ps.requests
+      ps.pydantic
+    ];
+  };
 in
 symlinkJoin {
   name = "ai";
@@ -43,5 +53,6 @@ symlinkJoin {
   paths = [
     ai
     ai-describe
+    ai-get-github
   ];
 }
