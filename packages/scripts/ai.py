@@ -5,13 +5,22 @@ import click
 
 
 def find_executables() -> list[str]:
-    """Find all ai-* executables in the same directory as this script."""
-    script_dir = Path(__file__).parent
+    """Find all ai-* executables in PATH."""
     commands = []
-
-    for item in script_dir.iterdir():
-        if item.name.startswith("ai-") and os.access(item, os.X_OK):
-            commands.append(item.name[3:])  # Remove 'ai-' prefix
+    paths = os.environ.get("PATH", "").split(os.pathsep)
+    
+    for path in paths:
+        if not path:
+            continue
+        path_dir = Path(path)
+        if not path_dir.exists():
+            continue
+            
+        for item in path_dir.iterdir():
+            if item.name.startswith("ai-") and os.access(item, os.X_OK):
+                name = item.name[3:]  # Remove 'ai-' prefix
+                if name not in commands:  # Avoid duplicates from multiple PATH entries
+                    commands.append(name)
 
     return sorted(commands)
 
@@ -46,10 +55,17 @@ def run(args):
         sys.exit(1)
 
     subcommand = args[0]
-    script_dir = Path(__file__).parent
-    executable = script_dir / f"ai-{subcommand}"
+    # Search in PATH for the executable
+    executable = None
+    for path in os.environ.get("PATH", "").split(os.pathsep):
+        if not path:
+            continue
+        candidate = Path(path) / f"ai-{subcommand}"
+        if candidate.exists() and os.access(candidate, os.X_OK):
+            executable = candidate
+            break
 
-    if executable.exists() and os.access(executable, os.X_OK):
+    if executable:
         os.execv(executable, [str(executable)] + list(args[1:]))
     else:
         click.echo(f"Error: No command found for '{subcommand}'", err=True)
