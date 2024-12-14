@@ -283,11 +283,6 @@ in
               description = "Whether or not to enable Podman";
               parent = cfg.virtualisation.enable;
             };
-
-            waydroid.enable = mkEnabledOption {
-              description = "Whether or not to enable Waydroid (run android apps on Linux)";
-              parent = cfg.virtualisation.enable;
-            };
           };
 
           server = {

@@ -64,16 +64,6 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Non-flakes
-    catppuccin-refind = {
-      url = "github:catppuccin/refind";
-      flake = false;
-    };
-    waydroid-script = {
-      url = "github:casualsnek/waydroid_script";
-      flake = false;
-    };
   };
 
   outputs =

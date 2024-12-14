@@ -88,22 +88,6 @@
         "type": "github"
       }
     },
-    "catppuccin-refind": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1692040299,
-        "narHash": "sha256-itUMo0lA23bJzH0Ndq7L2IaEYoVdNPYxbB/VWkRfRso=",
-        "owner": "catppuccin",
-        "repo": "refind",
-        "rev": "ff0b593c19bb9b469ee0ee36068b8d373f0fadc5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "catppuccin",
-        "repo": "refind",
-        "type": "github"
-      }
-    },
     "cmp-buffer": {
       "flake": false,
       "locked": {
@@ -871,7 +855,6 @@
       "inputs": {
         "agenix": "agenix",
         "catppuccin": "catppuccin",
-        "catppuccin-refind": "catppuccin-refind",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "gitignore": "gitignore",
@@ -882,8 +865,7 @@
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks": "pre-commit-hooks",
         "rust-overlay": "rust-overlay",
-        "systems": "systems_2",
-        "waydroid-script": "waydroid-script"
+        "systems": "systems_2"
       }
     },
     "rust-overlay": {
@@ -1045,22 +1027,6 @@
       "original": {
         "owner": "wakatime",
         "repo": "vim-wakatime",
-        "type": "github"
-      }
-    },
-    "waydroid-script": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1705758268,
-        "narHash": "sha256-OiZO62cvsFyCUPGpWjhxVm8fZlulhccKylOCX/nEyJU=",
-        "owner": "casualsnek",
-        "repo": "waydroid_script",
-        "rev": "1a2d3ad643206ad5f040e0155bb7ab86c0430365",
-        "type": "github"
-      },
-      "original": {
-        "owner": "casualsnek",
-        "repo": "waydroid_script",
         "type": "github"
       }
     },

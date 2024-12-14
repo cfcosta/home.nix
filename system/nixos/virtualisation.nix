@@ -20,8 +20,7 @@ in
       ++ optionals cfg.podman.enable [
         podman-compose
         ctop
-      ]
-      ++ optionals cfg.waydroid.enable [ dusk.waydroid-script ];
+      ];
 
     virtualisation = {
       docker = {
@@ -33,23 +32,16 @@ in
         inherit (cfg.libvirt) enable;
       };
 
-      lxd.enable = cfg.libvirt.enable or cfg.waydroid.enable;
-
       podman = {
         inherit (cfg.podman) enable;
 
         autoPrune.enable = true;
-      };
-
-      waydroid = {
-        inherit (cfg.waydroid) enable;
       };
     };
 
     users.users.${config.dusk.username}.extraGroups =
       optionals cfg.libvirt.enable [ "libvirtd" ]
       ++ optionals cfg.podman.enable [ "podman" ]
-      ++ optionals cfg.waydroid.enable [ "lxd" ]
       ++ optionals cfg.docker.enable [ "docker" ];
   };
 }
