@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -10,10 +11,16 @@ let
 in
 {
   config = mkIf cfg.enable {
-    environment.sessionVariables = {
-      BROWSER = config.dusk.defaults.browser;
-      TERMINAL = config.dusk.defaults.terminal;
-      QT_QPA_PLATFORM = "wayland";
+    environment = {
+      sessionVariables = {
+        BROWSER = config.dusk.defaults.browser;
+        TERMINAL = config.dusk.defaults.terminal;
+        QT_QPA_PLATFORM = "wayland";
+      };
+
+      systemPackages = with pkgs; [
+        gnome-monitor-config
+      ];
     };
 
     services.xserver = {

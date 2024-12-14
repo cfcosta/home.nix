@@ -14,6 +14,7 @@ let
 in
 {
   imports = [
+    ./gaming
     ./gnome
   ];
 
@@ -74,13 +75,6 @@ in
     security.rtkit.enable = true;
 
     services = {
-      sunshine = {
-        enable = true;
-        autoStart = true;
-        capSysAdmin = true;
-        openFirewall = true;
-      };
-
       pipewire = {
         enable = true;
         socketActivation = true;

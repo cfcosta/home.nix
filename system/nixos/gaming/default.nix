@@ -5,15 +5,13 @@
   ...
 }:
 let
-  cfg = config.dusk.system.nixos.gaming;
-  inherit (lib) mkIf mkEnableOption;
+  cfg = config.dusk.system.nixos.desktop.gaming;
+  inherit (lib) mkIf;
 in
 {
-  options.dusk.system.nixos.gaming = {
-    gamescope = {
-      enable = mkEnableOption "Gamescope support";
-    };
-  };
+  imports = [
+    ./sunshine.nix
+  ];
 
   config = mkIf cfg.enable {
     boot.kernel.sysctl."vm.max_map_count" = 1048576;

@@ -190,13 +190,6 @@ in
               parent = flavor == "nixos";
             };
 
-            gnome = {
-              enable = mkEnabledOption {
-                description = "Whether or not to enable the Gnome Desktop";
-                parent = cfg.desktop.enable;
-              };
-            };
-
             alacritty = {
               enable = mkEnabledOption {
                 description = "Whether or not to enable the Alacritty Terminal";
@@ -215,11 +208,32 @@ in
                 };
               };
             };
-          };
 
-          gaming.enable = mkEnabledOption {
-            description = "Whether or not to enable Gaming support (Steam, Gamemode, Gamescope)";
-            parent = cfg.desktop.enable;
+            gnome = {
+              enable = mkEnabledOption {
+                description = "Whether or not to enable the Gnome Desktop";
+                parent = cfg.desktop.enable;
+              };
+            };
+
+            hyprland = {
+              enable = mkEnabledOption {
+                description = "Whether or not to enable the Hyprland compositor";
+                parent = cfg.desktop.enable && !cfg.desktop.gnome.enable;
+              };
+            };
+
+            gaming = {
+              enable = mkEnabledOption {
+                description = "Whether or not to enable Gaming support (Steam, Gamemode, Gamescope)";
+                parent = cfg.desktop.enable;
+              };
+
+              gamescope.enable = mkEnabledOption {
+                description = "Whether or not to enable the Gamescope compositor";
+                parent = cfg.desktop.gaming.enable;
+              };
+            };
           };
 
           networking = {
