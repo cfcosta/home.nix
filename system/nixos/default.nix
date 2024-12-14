@@ -69,9 +69,6 @@ in
       defaultPackages = mkForce [ ];
       systemPackages = with pkgs; [
         killall
-
-        # FIXME: zig is currently broken on Darwin, for some reason.
-        ncdu_2
       ];
     };
 

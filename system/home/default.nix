@@ -30,7 +30,6 @@ in
     ./alacritty.nix
     ./git.nix
     ./jujutsu.nix
-    ./process-compose.nix
     ./zed
   ];
 
@@ -165,7 +164,7 @@ in
         ];
 
         initExtra = ''
-          . ${config.age.secrets.env.path}
+          [ -f ${config.age.secrets.env.path} ] && . ${config.age.secrets.env.path}
           . ${pkgs.complete-alias}/bin/complete_alias
 
           ${concatStringsSep "\n" completeAliases}

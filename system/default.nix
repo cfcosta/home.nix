@@ -51,31 +51,23 @@ in
 
         age
         aider-chat
-        b3sum
         bat
         beancount
         btop
         cachix
-        cmatrix
         complete-alias
         curl
         direnv
         duf
         dust
-        eternal-terminal
         eva
         fava
         fd
         fdupes
         ffmpeg
-        figlet
         file
-        gh
-        gh-dash
         gist
-        git-bug
         gitMinimal
-        glow
         imagemagick
         inconsolata
         jq
@@ -83,12 +75,12 @@ in
         lsd
         lsof
         mkcert
+        ncdu
         neofetch
         nerd-fonts.inconsolata
         nss
         openssl
         p7zip
-        pricehist
         python3
         python3Packages.yt-dlp
         ripgrep
@@ -97,7 +89,6 @@ in
         starship
         streamlink
         tmux
-        tmuxp
         tree
         unixtools.watch
         unzip

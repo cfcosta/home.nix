@@ -18,6 +18,11 @@ in
   config = mkIf cfg.enable {
     boot.kernel.sysctl."vm.max_map_count" = 1048576;
 
+    environment.systemPackages = with pkgs; [
+      mangohud
+      moonlight-qt
+    ];
+
     hardware = {
       graphics.enable = true;
 

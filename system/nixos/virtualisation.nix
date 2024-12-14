@@ -14,12 +14,9 @@ in
       with pkgs;
       optionals cfg.docker.enable [
         docker-compose
-        ctop
-        lazydocker
       ]
       ++ optionals cfg.podman.enable [
         podman-compose
-        ctop
       ];
 
     virtualisation = {

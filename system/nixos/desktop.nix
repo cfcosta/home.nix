@@ -30,34 +30,20 @@ in
       systemPackages =
         with pkgs;
         [
-          anytype
-          astroid
-          brave
-          chromedriver
           discord
           easyeffects
           element-desktop
-          feishin
           firefox
           fractal
-          google-chrome
           helvum
           inkscape
-          mangohud
-          moonlight-qt
-          mullvad-browser
           obs-studio
           obsidian
-          pinta
           simplex-chat-desktop
           streamlink-twitch-gui-bin
-          tdesktop
           todoist-electron
-          tor-browser
           vlc
-          wireshark
           wl-clipboard-rs
-          xournalpp
           zed-editor
 
           # Fonts

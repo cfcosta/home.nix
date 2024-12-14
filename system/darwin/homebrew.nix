@@ -34,6 +34,7 @@
         "syncthing"
         "tailscale"
         "telegram"
+        "todoist"
         "tor-browser"
         "vlc"
         "whatsapp"

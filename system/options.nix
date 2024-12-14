@@ -253,11 +253,6 @@ in
               description = "The DNS Servers to use";
             };
 
-            mullvad.enable = mkEnabledOption {
-              description = "Whether or not to enable Mullvad VPN";
-              parent = cfg.networking.enable;
-            };
-
             tailscale.enable = mkEnabledOption {
               description = "Whether or not to enable Tailscale VPN";
               parent = cfg.networking.enable;
