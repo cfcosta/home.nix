@@ -44,6 +44,8 @@ let
   };
 in
 {
+  imports = [ ./sunshine.nix ];
+
   config = mkIf cfg.enable {
     environment = {
       sessionVariables = {
@@ -57,6 +59,19 @@ in
         grimblast
         rofi
       ];
+    };
+
+    programs.hyprland = {
+      enable = true;
+      withUWSM = true;
+      xwayland.enable = true;
+    };
+
+    security.pam.services.hyprlock = { };
+
+    services.xserver.displayManager.gdm = {
+      enable = true;
+      autoSuspend = false;
     };
 
     home-manager.users.${config.dusk.username} = {
@@ -131,23 +146,6 @@ in
         };
 
         systemd.variables = [ "--all" ];
-      };
-    };
-
-    programs.hyprland = {
-      enable = true;
-      withUWSM = true;
-      xwayland.enable = true;
-    };
-
-    security.pam.services.hyprlock = { };
-
-    services.xserver = {
-      enable = true;
-
-      displayManager.gdm = {
-        enable = true;
-        autoSuspend = false;
       };
     };
   };
