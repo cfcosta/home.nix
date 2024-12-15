@@ -171,6 +171,10 @@ in
 
           if [ "$(uname -s)" == "Darwin" ]; then
             export PATH="/run/current-system/sw/bin:$PATH:/opt/homebrew/bin"
+
+            ssh-tmux() {
+              ssh ''${@} -t "tmux -CC attach-session || tmux -CC new-session"
+            }
           fi
         '';
       };
