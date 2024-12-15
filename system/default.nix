@@ -25,14 +25,6 @@ in
       }
     ];
 
-    age.secrets.rootCA-key = {
-      file = ../secrets/rootCA-key.pem.age;
-      path = "/etc/mkcert/rootCA-key.pem";
-
-      owner = config.dusk.username;
-      mode = "600";
-    };
-
     documentation = {
       enable = true;
       doc.enable = true;
@@ -44,7 +36,6 @@ in
       etc = {
         "nix/inputs/nix-darwin" = mkForce { source = inputs.nix-darwin; };
         "nix/inputs/nixpkgs" = mkForce { source = inputs.nixpkgs; };
-        "mkcert/rootCA.pem".source = ../secrets/rootCA.pem;
       };
 
       systemPackages = with pkgs; [
@@ -161,13 +152,5 @@ in
     };
 
     programs.gnupg.agent.enable = true;
-
-    security.pki.certificateFiles = [ ../secrets/rootCA.pem ];
-
-    system.activationScripts.install-self-signed-certs = {
-      text = ''
-        CAROOT=/etc/mkcert ${pkgs.mkcert}/bin/mkcert -install
-      '';
-    };
   };
 }

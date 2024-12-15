@@ -10,7 +10,5 @@ in
 {
   "deluge.age".publicKeys = cfcosta;
   "env.sh.age".publicKeys = cfcosta;
-  "localhost.crt.age".publicKeys = cfcosta;
-  "localhost.key.age".publicKeys = cfcosta;
-  "rootCA-key.pem.age".publicKeys = cfcosta;
+  "cloudflare-api-token.age".publicKeys = cfcosta;
 }

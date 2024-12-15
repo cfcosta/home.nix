@@ -63,6 +63,7 @@
 
         server = {
           enable = true;
+          domain = "cfcosta.cloud";
           sonarr.enable = false;
         };
       };
@@ -92,19 +93,6 @@
         device = "/dev/disk/by-uuid/12cdcfc5-77b8-4182-994d-a081c22669dd";
         fsType = "ext4";
       };
-    };
-
-    networking.firewall = {
-      allowedTCPPorts = [
-        3000
-        8096 # Jellyfin
-        48010 # Sunshine
-      ];
-
-      allowedUDPPorts = [
-        48000 # Sunshine
-        48010 # Sunshine
-      ];
     };
 
     programs.steam.gamescopeSession.args = [
