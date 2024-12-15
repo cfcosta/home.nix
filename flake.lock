@@ -72,6 +72,22 @@
         "type": "github"
       }
     },
+    "catppuccin-hyprland": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1718784939,
+        "narHash": "sha256-xSa/z0Pu+ioZ0gFH9qSo9P94NPkEMovstm1avJ7rvzM=",
+        "owner": "catppuccin",
+        "repo": "hyprland",
+        "rev": "c388ac55563ddeea0afe9df79d4bfff0096b146b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "hyprland",
+        "type": "github"
+      }
+    },
     "catppuccin-nvim": {
       "flake": false,
       "locked": {
@@ -855,6 +871,7 @@
       "inputs": {
         "agenix": "agenix",
         "catppuccin": "catppuccin",
+        "catppuccin-hyprland": "catppuccin-hyprland",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "gitignore": "gitignore",
