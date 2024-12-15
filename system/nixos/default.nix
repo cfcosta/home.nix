@@ -22,7 +22,6 @@ let
 in
 {
   imports = [
-    inputs.agenix.nixosModules.default
     inputs.catppuccin.nixosModules.catppuccin
     inputs.home-manager.nixosModules.default
 

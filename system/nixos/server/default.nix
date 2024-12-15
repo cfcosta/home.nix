@@ -1,4 +1,9 @@
-args@{ config, lib, ... }:
+args@{
+  config,
+  inputs,
+  lib,
+  ...
+}:
 let
   inherit (lib) mkOption types;
 in
@@ -18,6 +23,8 @@ in
   };
 
   imports = [
+    inputs.agenix.nixosModules.default
+
     (import ./bazarr.nix args)
     (import ./deluge.nix args)
     (import ./gitea.nix args)

@@ -165,6 +165,7 @@ in
 
         initExtra = ''
           [ -f ${config.age.secrets.env.path} ] && . ${config.age.secrets.env.path}
+
           . ${pkgs.complete-alias}/bin/complete_alias
 
           ${concatStringsSep "\n" completeAliases}
