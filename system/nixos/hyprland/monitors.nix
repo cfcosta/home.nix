@@ -109,7 +109,7 @@ in
             };
 
             refreshRate = mkOption {
-              type = types.int;
+              type = types.either types.int types.float;
               default = 60;
               description = "Monitor refresh rate in Hz";
             };
