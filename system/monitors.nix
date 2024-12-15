@@ -6,9 +6,37 @@ let
   # Merge user monitors with fallback rule
   monitorConfigs = cfg.monitors;
 
+  # Calculate effective pixels accounting for scaling
+  getEffectivePixels =
+    monitor:
+    let
+      scale = if monitor.scale == "auto" then 1.0 else monitor.scale;
+    in
+    (monitor.resolution.width * monitor.resolution.height) / scale;
+
+  # Find monitor with highest effective pixel count if no primary is set
+  defaultPrimaryMonitor =
+    monitors:
+    let
+      # Sort by effective pixels descending
+      sorted = builtins.sort (a: b: getEffectivePixels a > getEffectivePixels b) monitors;
+    in
+    if builtins.length sorted > 0 then (builtins.head sorted).name else null;
+
+  # Get primary monitor name, falling back to calculated default
+  getPrimaryMonitor =
+    monitors:
+    let
+      explicit = builtins.filter (m: m.primary) monitors;
+    in
+    if builtins.length explicit > 0 then
+      (builtins.head explicit).name
+    else
+      defaultPrimaryMonitor monitors;
+
   # Format the monitor config string
   formatMonitor =
-    monitor:
+    monitors: monitor:
     let
       resolutionStr = "${toString monitor.resolution.width}x${toString monitor.resolution.height}";
       positionStr = "${toString monitor.position.x}x${toString monitor.position.y}";
@@ -34,10 +62,10 @@ let
         in
         if monitor.transform.flipped then rotateNum + 4 else rotateNum;
     in
-    "${monitor.name}, ${resolutionStr}@${toString monitor.refreshRate}, ${positionStr}, ${toString monitor.scale}, ${vrr}, transform,${toString transform}";
+    "${monitor.name}, ${resolutionStr}@${toString monitor.refreshRate}, ${positionStr}, ${toString monitor.scale}, vrr, ${vrr}, transform, ${toString transform}";
 
   # Format GNOME monitor config
-  formatGnomeMonitor = monitor: {
+  formatGnomeMonitor = monitors: monitor: {
     connector = monitor.name;
     x = monitor.position.x;
     y = monitor.position.y;
@@ -45,6 +73,7 @@ let
     height = monitor.resolution.height;
     refresh-rate = monitor.refreshRate * 1000.0; # GNOME uses mHz
     scale = if monitor.scale == "auto" then 0 else monitor.scale;
+    is-primary = monitor.name == getPrimaryMonitor monitors;
     rotation =
       if monitor.transform.rotate == 0 then
         1
@@ -68,6 +97,11 @@ in
             name = mkOption {
               type = types.str;
               description = "Monitor name/identifier";
+            };
+            primary = mkOption {
+              type = types.bool;
+              default = false;
+              description = "Whether this is the primary display";
             };
             resolution = mkOption {
               type = types.submodule {
@@ -182,13 +216,13 @@ in
           monitors-config-format = "json";
           monitors-config = builtins.toJSON {
             version = 2;
-            monitors = map formatGnomeMonitor monitorConfigs;
+            monitors = map (formatGnomeMonitor monitorConfigs) monitorConfigs;
           };
         };
       };
 
       wayland.windowManager.hyprland = mkIf cfg.nixos.desktop.hyprland.enable {
-        settings.monitor = map formatMonitor monitorConfigs;
+        settings.monitor = map (formatMonitor monitorConfigs) monitorConfigs;
       };
     };
   };

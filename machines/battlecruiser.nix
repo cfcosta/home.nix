@@ -38,7 +38,7 @@
             x = 1440;
             y = 2560 - 2160;
           };
-          refreshRate = 120;
+          refreshRate = 119.88;
           resolution = {
             width = 3840;
             height = 2160;
