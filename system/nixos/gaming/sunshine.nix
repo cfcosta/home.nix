@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 let
   cfg = config.dusk.system.nixos.desktop;
   inherit (lib) mkIf;

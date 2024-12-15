@@ -1,3 +1,1 @@
-{
-  defineService = import ./define-service.nix;
-}
+{ defineService = import ./define-service.nix; }

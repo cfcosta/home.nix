@@ -18,9 +18,7 @@ in
         QT_QPA_PLATFORM = "wayland";
       };
 
-      systemPackages = with pkgs; [
-        gnome-monitor-config
-      ];
+      systemPackages = with pkgs; [ gnome-monitor-config ];
     };
 
     services.xserver = {

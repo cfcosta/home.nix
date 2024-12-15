@@ -65,20 +65,17 @@
             "stdout"
           ];
 
-          patterns = [
-            "glob:'**/*.rs'"
-          ];
+          patterns = [ "glob:'**/*.rs'" ];
         };
 
         nixfmt = {
           command = [
             "${pkgs.nixfmt-rfc-style}/bin/nixfmt"
+            "--strict"
             "--filename=$path"
           ];
 
-          patterns = [
-            "glob:'**/*.nix'"
-          ];
+          patterns = [ "glob:'**/*.nix'" ];
         };
 
         shfmt = {
@@ -90,9 +87,7 @@
             "-"
           ];
 
-          patterns = [
-            "glob:'**/*.sh'"
-          ];
+          patterns = [ "glob:'**/*.sh'" ];
         };
 
         ruff = {
@@ -103,9 +98,7 @@
             "$path"
           ];
 
-          patterns = [
-            "glob:'**/*.py'"
-          ];
+          patterns = [ "glob:'**/*.py'" ];
         };
       };
 

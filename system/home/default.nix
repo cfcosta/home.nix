@@ -13,10 +13,7 @@ let
     map
     readFile
     ;
-  inherit (lib)
-    mapAttrsToList
-    mkForce
-    ;
+  inherit (lib) mapAttrsToList mkForce;
 
   completeAliases = map (alias: "complete -F _complete_alias ${alias}") (
     attrNames config.programs.bash.shellAliases

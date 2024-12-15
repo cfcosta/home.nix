@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 let
   cfg = config.dusk.system.zed;
 in

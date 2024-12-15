@@ -38,9 +38,7 @@ let
       "$mod SHIFT, l, movewindow, r"
     ];
 
-    window-management = [
-      "$mod, Q, killactive"
-    ];
+    window-management = [ "$mod, Q, killactive" ];
   };
 in
 {

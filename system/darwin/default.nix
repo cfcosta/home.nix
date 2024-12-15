@@ -19,9 +19,7 @@
       settings.trusted-users = [ "@admin" ];
     };
 
-    environment.systemPackages = with pkgs; [
-      feishin
-    ];
+    environment.systemPackages = with pkgs; [ feishin ];
 
     services.nix-daemon.enable = true;
   };

@@ -4,11 +4,7 @@ dusk-lib.defineService rec {
   port = 8112;
 
   config =
-    {
-      config,
-      lib,
-      ...
-    }:
+    { config, lib, ... }:
     let
       inherit (builtins) toFile;
       inherit (lib) removePrefix;

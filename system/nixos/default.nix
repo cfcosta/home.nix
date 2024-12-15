@@ -65,9 +65,7 @@ in
 
     environment = {
       defaultPackages = mkForce [ ];
-      systemPackages = with pkgs; [
-        killall
-      ];
+      systemPackages = with pkgs; [ killall ];
     };
 
     hardware.graphics.enable = true;

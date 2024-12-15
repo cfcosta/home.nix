@@ -127,9 +127,7 @@
             ./machines/${name}.nix
           ];
 
-          specialArgs = {
-            inherit inputs flavor dusk-lib;
-          };
+          specialArgs = { inherit inputs flavor dusk-lib; };
         };
       buildNixos = buildSystem "nixos" "x86_64-linux";
       buildDarwin = buildSystem "darwin" "aarch64-darwin";
@@ -165,9 +163,7 @@
             self.outputs.${prefix.${flavor}}.${name}.config.system.build.toplevel;
         in
         {
-          checks = {
-            inherit pre-commit-check;
-          };
+          checks = { inherit pre-commit-check; };
 
           devShells.default = mkShell {
             name = "home";

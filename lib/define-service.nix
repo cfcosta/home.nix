@@ -62,9 +62,7 @@ in
         tls = true;
       };
 
-      services.${name}.loadBalancer.servers = [
-        { url = "http://127.0.0.1:${toString listenPort}"; }
-      ];
+      services.${name}.loadBalancer.servers = [ { url = "http://127.0.0.1:${toString listenPort}"; } ];
     };
 
     systemd.services.${name}.serviceConfig = defaultSystemdServiceConfig;

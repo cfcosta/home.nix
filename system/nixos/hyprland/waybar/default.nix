@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 let
   inherit (builtins) readFile;
 in
@@ -107,7 +104,5 @@ in
     style = readFile ./style.css;
   };
 
-  wayland.windowManager.hyprland.settings.exec-once = [
-    "${pkgs.waybar}/bin/waybar"
-  ];
+  wayland.windowManager.hyprland.settings.exec-once = [ "${pkgs.waybar}/bin/waybar" ];
 }

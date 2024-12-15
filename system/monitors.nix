@@ -148,8 +148,6 @@ in
   config = {
     home-manager.users.${config.dusk.username}.wayland.windowManager.hyprland =
       mkIf cfg.nixos.desktop.hyprland.enable
-        {
-          settings.monitor = map formatMonitor monitorConfigs;
-        };
+        { settings.monitor = map formatMonitor monitorConfigs; };
   };
 }

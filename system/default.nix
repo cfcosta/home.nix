@@ -105,9 +105,7 @@ in
 
       backupFileExtension = "dusk-backup";
 
-      extraSpecialArgs = {
-        inherit flavor inputs;
-      };
+      extraSpecialArgs = { inherit flavor inputs; };
 
       users.${config.dusk.username} = _: {
         imports = [

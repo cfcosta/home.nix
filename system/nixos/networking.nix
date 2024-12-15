@@ -50,13 +50,9 @@ in
           nssmdns6 = true;
         };
 
-      tailscale = {
-        inherit (cfg.tailscale) enable;
-      };
+      tailscale = { inherit (cfg.tailscale) enable; };
     };
 
-    users.users.${config.dusk.username}.extraGroups = [
-      "networkmanager"
-    ];
+    users.users.${config.dusk.username}.extraGroups = [ "networkmanager" ];
   };
 }

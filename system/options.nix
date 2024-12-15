@@ -6,10 +6,7 @@
   ...
 }:
 let
-  inherit (lib)
-    mkOption
-    types
-    ;
+  inherit (lib) mkOption types;
   inherit (pkgs.stdenv) isLinux;
 
   mkEnabledOption =
@@ -274,9 +271,7 @@ in
           };
 
           virtualisation = {
-            enable = mkEnabledOption {
-              description = "Whether or not to enable Virtualisation Tooling";
-            };
+            enable = mkEnabledOption { description = "Whether or not to enable Virtualisation Tooling"; };
 
             docker.enable = mkEnabledOption {
               description = "Whether or not to enable Docker";

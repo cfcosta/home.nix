@@ -75,9 +75,7 @@ in
           pruneTags = true;
         };
 
-        init = {
-          inherit (cfg) defaultBranch;
-        };
+        init = { inherit (cfg) defaultBranch; };
 
         rebase = {
           autosquash = true;

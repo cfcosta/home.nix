@@ -9,9 +9,7 @@ let
   inherit (lib) mkIf;
 in
 {
-  imports = [
-    ./sunshine.nix
-  ];
+  imports = [ ./sunshine.nix ];
 
   config = mkIf cfg.enable {
     boot.kernel.sysctl."vm.max_map_count" = 1048576;
@@ -54,9 +52,7 @@ in
         localNetworkGameTransfers.openFirewall = true;
         remotePlay.openFirewall = true;
 
-        extraCompatPackages = with pkgs; [
-          proton-ge-bin
-        ];
+        extraCompatPackages = with pkgs; [ proton-ge-bin ];
         protontricks.enable = true;
 
         gamescopeSession = mkIf cfg.gamescope.enable {

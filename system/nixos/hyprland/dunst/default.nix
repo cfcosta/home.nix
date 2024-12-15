@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 {
   services.dunst = {
     enable = true;
@@ -46,7 +43,5 @@
     };
   };
 
-  wayland.windowManager.hyprland.settings.exec-once = [
-    "${pkgs.dunst}/bin/dunst"
-  ];
+  wayland.windowManager.hyprland.settings.exec-once = [ "${pkgs.dunst}/bin/dunst" ];
 }

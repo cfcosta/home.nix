@@ -12,12 +12,7 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages =
       with pkgs;
-      optionals cfg.docker.enable [
-        docker-compose
-      ]
-      ++ optionals cfg.podman.enable [
-        podman-compose
-      ];
+      optionals cfg.docker.enable [ docker-compose ] ++ optionals cfg.podman.enable [ podman-compose ];
 
     virtualisation = {
       docker = {
@@ -25,9 +20,7 @@ in
         autoPrune.enable = true;
       };
 
-      libvirtd = {
-        inherit (cfg.libvirt) enable;
-      };
+      libvirtd = { inherit (cfg.libvirt) enable; };
 
       podman = {
         inherit (cfg.podman) enable;

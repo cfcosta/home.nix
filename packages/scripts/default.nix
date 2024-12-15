@@ -29,9 +29,7 @@ let
     ai = {
       name = "ai";
       file = ./ai/ai;
-      deps = ps: [
-        ps.click
-      ];
+      deps = ps: [ ps.click ];
     };
 
     ai-describe = {
