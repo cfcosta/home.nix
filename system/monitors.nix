@@ -35,6 +35,28 @@ let
         if monitor.transform.flipped then rotateNum + 4 else rotateNum;
     in
     "${monitor.name}, ${resolutionStr}@${toString monitor.refreshRate}, ${positionStr}, ${toString monitor.scale}, ${vrr}, transform,${toString transform}";
+
+  # Format GNOME monitor config
+  formatGnomeMonitor = monitor: {
+    connector = monitor.name;
+    x = monitor.position.x;
+    y = monitor.position.y;
+    width = monitor.resolution.width;
+    height = monitor.resolution.height;
+    refresh-rate = monitor.refreshRate * 1000.0; # GNOME uses mHz
+    scale = if monitor.scale == "auto" then 0 else monitor.scale;
+    rotation =
+      if monitor.transform.rotate == 0 then
+        1
+      else if monitor.transform.rotate == 90 then
+        2
+      else if monitor.transform.rotate == 180 then
+        4
+      else if monitor.transform.rotate == 270 then
+        8
+      else
+        throw "Invalid rotation value";
+  };
 in
 {
   options.dusk.system.monitors =
@@ -146,8 +168,28 @@ in
     };
 
   config = {
-    home-manager.users.${config.dusk.username}.wayland.windowManager.hyprland =
-      mkIf cfg.nixos.desktop.hyprland.enable
-        { settings.monitor = map formatMonitor monitorConfigs; };
+    home-manager.users.${config.dusk.username} = {
+      dconf.settings = mkIf cfg.nixos.desktop.gnome.enable {
+        "org/gnome/mutter" = {
+          experimental-features = [ "scale-monitor-framebuffer" ];
+        };
+
+        "org/gnome/desktop/interface" = {
+          scaling-factor = 1;
+        };
+
+        "org/gnome/mutter/displays" = {
+          monitors-config-format = "json";
+          monitors-config = builtins.toJSON {
+            version = 2;
+            monitors = map formatGnomeMonitor monitorConfigs;
+          };
+        };
+      };
+
+      wayland.windowManager.hyprland = mkIf cfg.nixos.desktop.hyprland.enable {
+        settings.monitor = map formatMonitor monitorConfigs;
+      };
+    };
   };
 }
