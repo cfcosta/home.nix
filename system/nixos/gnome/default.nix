@@ -21,6 +21,39 @@ in
       systemPackages = with pkgs; [ gnome-monitor-config ];
     };
 
+    home-manager.users.${config.dusk.username} = {
+      gtk = {
+        enable = true;
+
+        iconTheme = {
+          name = "Papirus-Dark";
+          package = pkgs.papirus-icon-theme;
+        };
+
+        theme = {
+          name = "palenight";
+          package = pkgs.palenight-theme;
+        };
+
+        cursorTheme = {
+          name = "Numix-Cursor";
+          package = pkgs.numix-cursor-theme;
+        };
+
+        gtk3.extraConfig = {
+          Settings = ''
+            gtk-application-prefer-dark-theme=1
+          '';
+        };
+
+        gtk4.extraConfig = {
+          Settings = ''
+            gtk-application-prefer-dark-theme=1
+          '';
+        };
+      };
+    };
+
     services.xserver = {
       enable = true;
       desktopManager.gnome.enable = true;
