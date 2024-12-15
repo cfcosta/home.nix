@@ -13,6 +13,7 @@ in
 {
   imports = [
     ./options.nix
+    ./monitors.nix
     ../user.nix
   ];
 

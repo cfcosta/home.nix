@@ -9,43 +9,54 @@
     dusk.system = {
       hostname = "battlecruiser";
 
+      monitors = [
+        {
+          name = "DP-4";
+
+          bitDepth = 10;
+          position = {
+            x = 0;
+            y = 0;
+          };
+          refreshRate = 239.96;
+          resolution = {
+            width = 1440;
+            height = 2560;
+          };
+          scale = 1.0;
+          transform = {
+            rotate = 90;
+            flipped = false;
+          };
+          vrr = true;
+        }
+        {
+          name = "HDMI-A-2";
+
+          bitDepth = 10;
+          position = {
+            x = 1440;
+            y = 2560 - 2160;
+          };
+          refreshRate = 120;
+          resolution = {
+            width = 3840;
+            height = 2160;
+          };
+          scale = 1.0;
+          transform = {
+            rotate = 0;
+            flipped = false;
+          };
+          vrr = true;
+        }
+      ];
+
       nixos = {
         desktop = {
           alacritty.font.family = "Berkeley Mono NerdFont Mono";
           gaming.gamescope.enable = true;
-
-          hyprland = {
-            enable = true;
-            monitors = [
-              {
-                name = "DP-4";
-
-                resolution = {
-                  width = 1440;
-                  height = 2560;
-                };
-
-                position.special = "auto-left";
-                refreshRate = 239.96;
-                scale = 1.0;
-                transform = 1; # Rotate 90 degrees
-                vrr = 1;
-                bitDepth = 10;
-              }
-              {
-                name = "HDMI-A-2";
-                resolution = {
-                  width = 3840;
-                  height = 2160;
-                };
-                position.special = "auto-right";
-                refreshRate = 120;
-                scale = 1.0;
-                vrr = 1;
-                bitDepth = 10;
-              }
-            ];
-          };
+          hyprland.enable = true;
         };
 
         networking.defaultNetworkInterface = "eno1";

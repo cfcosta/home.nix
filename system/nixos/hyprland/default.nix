@@ -44,10 +44,6 @@ let
   };
 in
 {
-  imports = [
-    ./monitors.nix
-  ];
-
   config = mkIf cfg.enable {
     environment = {
       sessionVariables = {
