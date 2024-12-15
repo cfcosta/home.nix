@@ -20,25 +20,30 @@ in
       };
 
       ignores = [
+        "!.aider.conf.*"
+        "**/.direnv/**"
+        "**/.git/**"
+        "**/.jj/**"
+        "**/.obsidian/**"
+        "**/.ruff_cache/**"
+        "**/.stfolder/**"
+        "**/.trash/**"
+        "**/.versions/**"
+        "**/.vscode/**"
+        "**/target/**"
+        "**/__pycache__/**"
+        "**/node_modules/**"
+        "**/result-bin/**"
+        "**/result/**"
+        "**/target/**"
+        "*.lock"
+        "*.log"
         "*.pyc"
         ".DS_Store"
-        ".aider.chat.*"
-        ".aider.input.*"
-        ".aider.tags.*"
+        ".aider*"
         ".direnv"
         ".env"
         ".null_ls*"
-        ".obsidian"
-        ".ruff_cache"
-        ".stfolder"
-        ".trash"
-        ".versions"
-        ".vscode"
-        "__pycache__"
-        "node_modules"
-        "result"
-        "result-bin"
-        "target"
       ];
 
       signing = {
@@ -55,7 +60,6 @@ in
         merge.conflictstyle = "diff3";
         pull.ff = "only";
         push.autoSetupRemote = true;
-        remote.origin.fetch = "+refs/pull/*/head:refs/remotes/origin/pr/*";
         rerere = {
           enabled = true;
           autoupdate = true;
