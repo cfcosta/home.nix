@@ -81,6 +81,20 @@
           ];
         };
 
+        shfmt = {
+          command = [
+            "${pkgs.shfmt}/bin/shfmt"
+            "--ln"
+            "bash"
+            "-s"
+            "-"
+          ];
+
+          patterns = [
+            "glob:'**/*.sh'"
+          ];
+        };
+
         ruff = {
           command = [
             "${pkgs.ruff}/bin/ruff"
