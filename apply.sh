@@ -102,7 +102,7 @@ case "$(uname -s)" in
 
 	setup_darwin
 
-	CMD="${NIX} run nix-darwin -- $CMD --flake ${ROOT}#${HOSTNAME}"
+	CMD="${NIX} run nix-darwin -- $CMD --flake ${ROOT}#${HOSTNAME} -L"
 
 	_info "Running command: $(_blue "${CMD}")"
 
@@ -113,7 +113,7 @@ case "$(uname -s)" in
 		_fatal "This script needs to be run as root."
 	fi
 
-	CMD="nixos-rebuild $CMD --flake ${ROOT}#${HOSTNAME}"
+	CMD="nixos-rebuild $CMD --flake ${ROOT}#${HOSTNAME} -L"
 	;;
 *)
 	_fatal "Invalid system"
