@@ -11,7 +11,7 @@
           "::mine()"
         ];
 
-        sync = [
+        prs-update-trunk = [
           "rebase"
           "-s"
           "trunk_commit"
@@ -19,6 +19,15 @@
           "main"
           "-d"
           "all:heads(clean_prs | my_prs)"
+          "--skip-emptied"
+        ];
+
+        sync-main = [
+          "rebase"
+          "-s"
+          "roots(main@origin)..trunk_commit-"
+          "-d"
+          "main"
           "--skip-emptied"
         ];
 
