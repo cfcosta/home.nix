@@ -3,9 +3,6 @@ let
   inherit (lib) mkIf;
   cfg = config.dusk.system;
 
-  # Merge user monitors with fallback rule
-  monitorConfigs = cfg.monitors;
-
   # Calculate effective pixels accounting for scaling
   getEffectivePixels =
     monitor:
@@ -36,7 +33,7 @@ let
 
   # Format the monitor config string
   formatMonitor =
-    monitors: monitor:
+    monitor:
     let
       resolutionStr = "${toString monitor.resolution.width}x${toString monitor.resolution.height}";
       positionStr = "${toString monitor.position.x}x${toString monitor.position.y}";
@@ -66,11 +63,10 @@ let
 
   # Format GNOME monitor config
   formatGnomeMonitor = monitors: monitor: {
+    inherit (monitor.position) x y;
+    inherit (monitor.resolution) width height;
+
     connector = monitor.name;
-    x = monitor.position.x;
-    y = monitor.position.y;
-    width = monitor.resolution.width;
-    height = monitor.resolution.height;
     refresh-rate = monitor.refreshRate * 1000.0; # GNOME uses mHz
     scale = if monitor.scale == "auto" then 0 else monitor.scale;
     is-primary = monitor.name == getPrimaryMonitor monitors;
@@ -202,6 +198,52 @@ in
     };
 
   config = {
+    environment.etc."gnome-settings-daemon/monitors.xml" = mkIf cfg.nixos.desktop.gnome.enable {
+      text = ''
+        <?xml version="1.0" encoding="UTF-8"?>
+        <monitors version="2">
+          ${lib.concatMapStrings (monitor: ''
+            <configuration>
+              <logicalmonitor>
+                <x>${toString monitor.position.x}</x>
+                <y>${toString monitor.position.y}</y>
+                <scale>${if monitor.scale == "auto" then "1" else toString monitor.scale}</scale>
+                <primary>${if monitor.name == getPrimaryMonitor cfg.monitors then "yes" else "no"}</primary>
+                <monitor>
+                  <monitorspec>
+                    <connector>${monitor.name}</connector>
+                    <vendor>unknown</vendor>
+                    <product>unknown</product>
+                    <serial>unknown</serial>
+                  </monitorspec>
+                  <mode>
+                    <width>${toString monitor.resolution.width}</width>
+                    <height>${toString monitor.resolution.height}</height>
+                    <rate>${toString (monitor.refreshRate * 1000.0)}</rate>
+                  </mode>
+                  <transform>
+                    <rotation>${
+                      if monitor.transform.rotate == 0 then
+                        "normal"
+                      else if monitor.transform.rotate == 90 then
+                        "right"
+                      else if monitor.transform.rotate == 180 then
+                        "upside_down"
+                      else if monitor.transform.rotate == 270 then
+                        "left"
+                      else
+                        throw "Invalid rotation value"
+                    }</rotation>
+                    <flipped>${if monitor.transform.flipped then "yes" else "no"}</flipped>
+                  </transform>
+                </monitor>
+              </logicalmonitor>
+            </configuration>
+          '') cfg.monitors}
+        </monitors>
+      '';
+    };
+
     home-manager.users.${config.dusk.username} = {
       dconf.settings = mkIf cfg.nixos.desktop.gnome.enable {
         "org/gnome/mutter" = {
@@ -216,13 +258,13 @@ in
           monitors-config-format = "json";
           monitors-config = builtins.toJSON {
             version = 2;
-            monitors = map (formatGnomeMonitor monitorConfigs) monitorConfigs;
+            monitors = map (formatGnomeMonitor cfg.monitors) cfg.monitors;
           };
         };
       };
 
       wayland.windowManager.hyprland = mkIf cfg.nixos.desktop.hyprland.enable {
-        settings.monitor = map (formatMonitor monitorConfigs) monitorConfigs;
+        settings.monitor = map formatMonitor cfg.monitors;
       };
     };
   };
