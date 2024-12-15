@@ -35,7 +35,7 @@ dusk-lib.defineService rec {
 
           # Playback settings
           EnableDownloads = true;
-          EnableCoverAnimation = false;
+          EnableCoverAnimation = true;
 
           # Security settings
           AuthRequestLimit = 5;

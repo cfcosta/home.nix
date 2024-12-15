@@ -63,7 +63,6 @@
 
         server = {
           enable = true;
-          chat.enable = false;
           sonarr.enable = false;
         };
       };
@@ -94,9 +93,6 @@
         fsType = "ext4";
       };
     };
-
-    # Enable wacom tablets support
-    hardware.opentabletdriver.enable = true;
 
     networking.firewall = {
       allowedTCPPorts = [

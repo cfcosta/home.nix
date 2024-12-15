@@ -31,7 +31,6 @@ in
     (import ./jellyfin.nix args)
     (import ./lidarr.nix args)
     (import ./navidrome.nix args)
-    (import ./open-webui.nix args)
     (import ./prowlarr.nix args)
     (import ./radarr.nix args)
     (import ./readarr.nix args)
