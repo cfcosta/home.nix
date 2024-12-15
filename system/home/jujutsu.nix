@@ -61,7 +61,8 @@
         rustfmt = {
           command = [
             "${pkgs.rust-bin.nightly.latest.default}/bin/rustfmt"
-            "$path"
+            "--emit"
+            "stdout"
           ];
 
           patterns = [
@@ -72,7 +73,7 @@
         nixfmt = {
           command = [
             "${pkgs.nixfmt-rfc-style}/bin/nixfmt"
-            "$path"
+            "--filename=$path"
           ];
 
           patterns = [
@@ -84,6 +85,7 @@
           command = [
             "${pkgs.ruff}/bin/ruff"
             "format"
+            "--stdin-filename"
             "$path"
           ];
 
