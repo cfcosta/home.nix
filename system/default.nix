@@ -68,8 +68,8 @@ in
         file
         gist
         gitMinimal
+        hyperfine
         imagemagick
-        inconsolata
         jq
         jujutsu
         lsd
