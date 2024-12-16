@@ -2,6 +2,7 @@
 {
   imports = with inputs.nixos-hardware.nixosModules; [
     common-cpu-amd
+    common-gpu-amd
     common-pc-ssd
   ];
 
@@ -12,24 +13,15 @@
       monitors = [ ];
 
       nixos = {
+        nvidia.enable = false;
+
         desktop = {
-          alacritty.font.family = "Berkeley Mono NerdFont Mono";
           gaming.gamescope.enable = true;
+          gnome.enable = true;
           hyprland.enable = true;
         };
 
-        server = {
-          enable = true;
-          domain = "cfcosta.cloud";
-          sonarr.enable = false;
-        };
-      };
-
-      zed = {
-        buffer_font_family = "Berkeley Mono NerdFont Mono";
-        buffer_font_size = "Berkeley Mono NerdFont Mono";
-        ui_font_family = "Berkeley Mono NerdFont Mono";
-        ui_font_size = "Berkeley Mono NerdFont Mono";
+        server.enable = false;
       };
     };
 
@@ -51,23 +43,6 @@
         fsType = "ext4";
       };
     };
-
-    programs.steam.gamescopeSession.args = [
-      "--steam"
-      "--adaptive-sync"
-
-      "-r"
-      "120"
-
-      "--prefer-output"
-      "HDMI-2"
-
-      "--output-width"
-      "1920"
-
-      "--output-height"
-      "1080"
-    ];
 
     swapDevices = [ ];
 
