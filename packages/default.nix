@@ -1,7 +1,9 @@
-inputs: _: super: {
+inputs: _: super: rec {
   dusk = {
-    scripts = super.callPackage ./scripts/default.nix { };
     nightvim = inputs.neovim.packages.${super.system}.default;
+    scripts = super.callPackage ./scripts { };
+    dusk-stdlib = super.callPackage ./dusk-stdlib { };
+    dusk-system-verify = super.callPackage ./dusk-system-verify { inherit dusk; };
   };
 
   agenix = inputs.agenix.packages.${super.system}.default;

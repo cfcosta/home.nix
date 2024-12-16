@@ -180,10 +180,11 @@
             '';
           };
 
-          packages = {
+          packages = pkgs.dusk // {
+            scripts = pkgs.dusk.scripts.all;
+
             battlecruiser = systemTarget "battlecruiser" "nixos";
             drone = systemTarget "drone" "darwin";
-            scripts = pkgs.dusk.scripts.all;
           };
         }
       );

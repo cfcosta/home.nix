@@ -51,22 +51,59 @@ _timestamp() {
 }
 
 _info() {
-	echo -e "$(_gray "::") $(_timestamp) $(_green "[INFO]") $1"
+	__info "${@}"
+	echo
+}
+
+__info() {
+	echo -ne "$(_gray "::") $(_timestamp) $(_green "[INFO]") $1"
 }
 
 _debug() {
-	echo -e "$(_gray "::") $(_timestamp) $(_purple "[DEBUG]") $1"
+	__debug "${@}"
+	echo
+}
+
+__debug() {
+	echo -ne "$(_gray "::") $(_timestamp) $(_purple "[DEBUG]") $1"
 }
 
 _warn() {
-	echo -e "$(_gray "::") $(_timestamp) $(_yellow "[WARN]") $1" >&2
+	__warn "${@}"
+	echo
+}
+
+__warn() {
+	echo -ne "$(_gray "::") $(_timestamp) $(_yellow "[WARN]") $1" >&2
 }
 
 _error() {
-	echo -e "$(_gray "::") $(_timestamp) $(_red "[ERROR]") $1" >&2
+	__error "${@}"
+	echo
+}
+
+__error() {
+	echo -ne "$(_gray "::") $(_timestamp) $(_red "[ERROR]") $1" >&2
 }
 
 _fatal() {
-	echo -e "$(_gray "::") $(_timestamp) $(_red "[FATAL]") $1" >&2
+	echo -ne "$(_gray "::") $(_timestamp) $(_red "[FATAL]") $1" >&2
 	exit 1
+}
+
+_run_quietly() {
+	local cmd="$*"
+	__info "Running: $(_blue "$cmd")..."
+
+	if ! output=$("$@" 2>&1); then
+		_red " (ERROR)"
+
+		_debug "Output:"
+		echo "${output}"
+
+		return 1
+	fi
+
+	_green " (OK)"
+	return 0
 }
