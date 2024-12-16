@@ -8,16 +8,27 @@ let
   inherit (pkgs) writeTextFile;
   inherit (inputs.nix-std.lib.serde) toTOML;
 
-  rustfmtConfig = writeTextFile {
-    name = "rustfmt.toml";
-    text = toTOML {
-      reorder_imports = true;
-      imports_granularity = "Crate";
-      imports_layout = "HorizontalVertical";
-      max_width = 80;
-      group_imports = "StdExternalCrate";
-      trailing_comma = "Vertical";
-      trailing_semicolon = true;
+  configs = {
+    rustfmt = writeTextFile {
+      name = "rustfmt.toml";
+      text = toTOML {
+        reorder_imports = true;
+        imports_granularity = "Crate";
+        imports_layout = "HorizontalVertical";
+        max_width = 80;
+        group_imports = "StdExternalCrate";
+        trailing_comma = "Vertical";
+        trailing_semicolon = true;
+      };
+    };
+
+    stylua = writeTextFile {
+      name = "stylua.toml";
+      text = toTOML {
+        style = "LuaJit";
+        indent_type = "Spaces";
+        indent_width = 2;
+      };
     };
   };
 in
@@ -102,7 +113,7 @@ in
           command = [
             "${pkgs.rust-bin.nightly.latest.default}/bin/rustfmt"
             "--config-path"
-            "${rustfmtConfig.outPath}"
+            "${configs.rustfmt.outPath}"
             "--emit"
             "stdout"
           ];
@@ -118,6 +129,16 @@ in
             "-"
           ];
           patterns = [ "glob:'**/*.sh'" ];
+        };
+
+        stylua = {
+          command = [
+            "${pkgs.stylua}/bin/stylua"
+            "--config-path"
+            "${configs.stylua.outPath}"
+            "-"
+          ];
+          patterns = [ "glob:'**/*.lua'" ];
         };
 
         taplo = {
