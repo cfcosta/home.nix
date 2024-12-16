@@ -3,6 +3,8 @@ let
   inherit (lib) mkIf;
   cfg = config.dusk.system;
 
+  inherit (import ../lib) hyprland;
+
   # Calculate effective pixels accounting for scaling
   getEffectivePixels =
     monitor:
@@ -30,36 +32,6 @@ let
       (builtins.head explicit).name
     else
       defaultPrimaryMonitor monitors;
-
-  # Format the monitor config string
-  formatMonitor =
-    monitor:
-    let
-      resolutionStr = "${toString monitor.resolution.width}x${toString monitor.resolution.height}";
-      positionStr = "${toString monitor.position.x}x${toString monitor.position.y}";
-      vrr =
-        if monitor.vrr == "fullscreen-only" then
-          "2"
-        else if monitor.vrr then
-          "1"
-        else if !monitor.vrr then
-          "0"
-        else
-          throw "Invalid VRR value: ${toString monitor.vrr}";
-      transform =
-        let
-          rotateNum =
-            {
-              "0" = 0;
-              "90" = 1;
-              "180" = 2;
-              "270" = 3;
-            }
-            .${toString monitor.transform.rotate};
-        in
-        if monitor.transform.flipped then rotateNum + 4 else rotateNum;
-    in
-    "${monitor.name}, ${resolutionStr}@${toString monitor.refreshRate}, ${positionStr}, ${toString monitor.scale}, vrr, ${vrr}, transform, ${toString transform}";
 
   # Format GNOME monitor config
   formatGnomeMonitor = monitors: monitor: {
@@ -266,7 +238,7 @@ in
       };
 
       wayland.windowManager.hyprland = mkIf (cfg.nixos.desktop.hyprland.enable && (cfg.monitors != [ ])) {
-        settings.monitor = map formatMonitor cfg.monitors;
+        settings.monitor = map hyprland.format-monitor cfg.monitors;
       };
     };
   };

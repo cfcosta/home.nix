@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, ... }:
 let
   cfg = config.dusk.system.nixos.desktop;
   inherit (lib) mkIf;
@@ -16,17 +11,11 @@ in
       enable = true;
       autoStart = true;
       capSysAdmin = true;
-      openFirewall = true;
+      openFirewall = false;
 
-      applications = {
-        apps = [
-          {
-            name = "Desktop";
-            image-path = "${pkgs.sunshine}/assets/desktop.png";
-            exclude-global-prep-cmd = "false";
-            auto-detach = "true";
-          }
-        ];
+      settings = {
+        qp = 20;
+        min_log_level = "info";
       };
     };
   };
