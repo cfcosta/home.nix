@@ -26,6 +26,7 @@ in
     ./alacritty.nix
     ./git.nix
     ./jujutsu.nix
+    ./starship
     ./zed
   ];
 
@@ -251,11 +252,6 @@ in
       };
 
       ssh.hashKnownHosts = true;
-
-      starship = {
-        enable = true;
-        enableBashIntegration = true;
-      };
 
       tmux = {
         enable = true;
