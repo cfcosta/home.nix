@@ -1,16 +1,24 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
-  rustfmtConfig = pkgs.writeTextFile {
+  inherit (pkgs) writeTextFile;
+  inherit (inputs.nix-std.lib.serde) toTOML;
+
+  rustfmtConfig = writeTextFile {
     name = "rustfmt.toml";
-    text = ''
-      reorder_imports = true
-      imports_granularity = "Crate"
-      imports_layout = "HorizontalVertical"
-      max_width = 80
-      group_imports = "StdExternalCrate"
-      trailing_comma = "Vertical"
-      trailing_semicolon = true
-    '';
+    text = toTOML {
+      reorder_imports = true;
+      imports_granularity = "Crate";
+      imports_layout = "HorizontalVertical";
+      max_width = 80;
+      group_imports = "StdExternalCrate";
+      trailing_comma = "Vertical";
+      trailing_semicolon = true;
+    };
   };
 in
 {

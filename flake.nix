@@ -29,6 +29,7 @@
     };
 
     catppuccin.url = "github:catppuccin/nix";
+    nix-std.url = "github:chessai/nix-std";
 
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
