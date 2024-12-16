@@ -22,7 +22,7 @@ let
     };
 
   packages = {
-    log = (callPackage ./log { inherit namespace; });
+    log = callPackage ./log { inherit namespace; };
   };
 in
 symlinkJoin {

@@ -14,7 +14,7 @@ dusk-lib.defineService rec {
         openFirewall = false;
 
         settings = {
-          MusicFolder = "/media/Music2";
+          MusicFolder = "/media/Music";
 
           # Server settings
           Address = "127.0.0.1";

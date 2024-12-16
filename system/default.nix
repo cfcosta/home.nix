@@ -39,7 +39,7 @@ in
       };
 
       systemPackages = with pkgs; [
-        dusk.scripts.all
+        dusk.dusk-jujutsu
 
         age
         aider-chat
