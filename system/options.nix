@@ -25,7 +25,7 @@ in
   options.dusk = {
     initialPassword = mkOption {
       type = types.str;
-      description = "Initial password for the created user in the system ";
+      description = "Initial password for the created user in the system";
       default = "dusk";
     };
 
@@ -54,7 +54,7 @@ in
 
     username = mkOption {
       type = types.str;
-      description = "User name of the main user of the system ";
+      description = "User name of the main user of the system";
     };
 
     defaults = {
@@ -111,7 +111,7 @@ in
       locale = mkOption {
         type = types.str;
         default = "en_US.utf8";
-        description = "Locale of the system ";
+        description = "Locale of the system";
       };
 
       timezone = mkOption {
@@ -142,7 +142,7 @@ in
 
         ui_font_family = mkOption {
           type = types.str;
-          default = "Inconsolata Nerd Font";
+          default = "Inconsolata NerdFont";
         };
 
         ui_font_size = mkOption {
@@ -152,7 +152,7 @@ in
 
         buffer_font_family = mkOption {
           type = types.str;
-          default = "Inconsolata Nerd Font";
+          default = "Inconsolata NerdFont";
         };
 
         buffer_font_size = mkOption {
@@ -196,12 +196,12 @@ in
               font = {
                 family = mkOption {
                   type = types.str;
-                  default = "Inconsolata Nerd Font";
+                  default = "Inconsolata NerdFont";
                 };
 
                 size = mkOption {
                   type = types.float;
-                  default = 13.0;
+                  default = 14.0;
                 };
               };
             };
