@@ -37,7 +37,10 @@ let
       "$mod SHIFT, l, movewindow, r"
     ];
 
-    window-management = [ "$mod, Q, killactive" ];
+    window-management = [
+      "$mod, Q, killactive"
+      "$mod, F, fullscreen"
+    ];
   };
 in
 {
@@ -75,6 +78,24 @@ in
 
         settings = {
           "$mod" = "SUPER";
+
+          general = {
+            gaps_in = 8;
+            gaps_out = 24;
+            border_size = 2;
+          };
+
+          decoration = {
+            inactive_opacity = 0.90;
+            fullscreen_opacity = 1.0;
+            rounding = 0;
+
+            blur = {
+              enabled = true;
+              size = 8;
+              passes = 2;
+            };
+          };
 
           bind =
             [

@@ -26,7 +26,15 @@ in
           bold_italic = font "Bold Italic";
         };
 
-        window.decorations = "None";
+        window = {
+          blur = true;
+          decorations = "None";
+          decorations_theme_variant = "Dark";
+          dynamic_padding = true;
+          opacity = 0.8;
+        };
+
+        terminal.osc52 = "CopyPaste";
       };
     };
   };
