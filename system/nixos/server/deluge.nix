@@ -7,14 +7,14 @@ dusk-lib.defineService rec {
     { config, lib, ... }:
     let
       inherit (builtins) toFile;
-      inherit (lib) removePrefix;
+      inherit (lib) mkIf removePrefix;
 
       relativeMediaFolder = removePrefix "${config.dusk.folders.home}/" config.dusk.folders.media.root;
 
       cfg = config.dusk.system.nixos.server;
     in
     {
-      config = {
+      config = mkIf cfg.enable {
         age.secrets.deluge = {
           file = ../../../secrets/deluge.age;
           owner = config.dusk.username;
