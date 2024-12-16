@@ -199,6 +199,9 @@
     // {
       darwinConfigurations.drone = buildDarwin "drone";
       darwinConfigurations.firebat = buildDarwin "firebat";
-      nixosConfigurations.battlecruiser = buildNixos "battlecruiser";
+      nixosConfigurations = {
+        battlecruiser = buildNixos "battlecruiser";
+        terminus = buildNixos "terminus";
+      };
     };
 }
