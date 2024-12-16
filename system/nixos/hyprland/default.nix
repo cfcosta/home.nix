@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
   ...
@@ -76,8 +75,6 @@ in
 
         settings = {
           "$mod" = "SUPER";
-
-          source = [ "${inputs.catppuccin-hyprland}/themes/mocha.conf" ];
 
           bind =
             [
