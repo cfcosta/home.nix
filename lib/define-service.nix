@@ -60,9 +60,13 @@ in
         service = name;
         entrypoints = [ "websecure" ];
         tls = true;
+        middlewares = [ "strip-prefix" ];
       };
 
-      services.${name}.loadBalancer.servers = [ { url = "http://127.0.0.1:${toString listenPort}"; } ];
+      services.${name}.loadBalancer = {
+        servers = [ { url = "http://127.0.0.1:${toString listenPort}"; } ];
+        passHostHeader = true;
+      };
     };
 
     systemd.services.${name}.serviceConfig = defaultSystemdServiceConfig;

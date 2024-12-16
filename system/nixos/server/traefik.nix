@@ -31,6 +31,10 @@ in
         entryPoints = {
           web = {
             address = ":80";
+            http.redirections.entryPoint = {
+              to = "websecure";
+              scheme = "https";
+            };
           };
 
           websecure = {
@@ -56,6 +60,10 @@ in
         };
 
         docker.exposedByDefault = false;
+      };
+
+      dynamicConfigOptions.http.middlewares = {
+        strip-prefix.stripPrefix.prefixes = [ "/" ];
       };
 
       environmentFiles = [ config.age.secrets.cloudflare-api-token.path ];

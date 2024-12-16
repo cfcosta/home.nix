@@ -17,7 +17,7 @@ dusk-lib.defineService rec {
           MusicFolder = "/media/Music2";
 
           # Server settings
-          Address = "0.0.0.0";
+          Address = "127.0.0.1";
           Port = port;
           BaseUrl = "https://${name}.${config.dusk.system.nixos.server.domain}";
           UILoginBackground = "";
