@@ -65,11 +65,29 @@ in
             "--sort-includes"
             "--assume-filename=$path"
           ];
-
           patterns = [
             "glob:'**/*.c'"
             "glob:'**/*.h'"
           ];
+        };
+
+        nixfmt = {
+          command = [
+            "${pkgs.nixfmt-rfc-style}/bin/nixfmt"
+            "--strict"
+            "--filename=$path"
+          ];
+          patterns = [ "glob:'**/*.nix'" ];
+        };
+
+        ruff = {
+          command = [
+            "${pkgs.ruff}/bin/ruff"
+            "format"
+            "--stdin-filename"
+            "$path"
+          ];
+          patterns = [ "glob:'**/*.py'" ];
         };
 
         rustfmt = {
@@ -80,18 +98,7 @@ in
             "--emit"
             "stdout"
           ];
-
           patterns = [ "glob:'**/*.rs'" ];
-        };
-
-        nixfmt = {
-          command = [
-            "${pkgs.nixfmt-rfc-style}/bin/nixfmt"
-            "--strict"
-            "--filename=$path"
-          ];
-
-          patterns = [ "glob:'**/*.nix'" ];
         };
 
         shfmt = {
@@ -102,19 +109,17 @@ in
             "-s"
             "-"
           ];
-
           patterns = [ "glob:'**/*.sh'" ];
         };
 
-        ruff = {
+        taplo = {
           command = [
-            "${pkgs.ruff}/bin/ruff"
-            "format"
-            "--stdin-filename"
-            "$path"
+            "${pkgs.taplo}/bin/taplo"
+            "fmt"
+            "--stdin-filepath=$path"
+            "-"
           ];
-
-          patterns = [ "glob:'**/*.py'" ];
+          patterns = [ "glob:**/*.toml" ];
         };
       };
 
