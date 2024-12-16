@@ -7,7 +7,7 @@
 
   config = {
     dusk.system = {
-      hostname = "battlecruiser";
+      hostname = "terminus";
 
       monitors = [
         {
