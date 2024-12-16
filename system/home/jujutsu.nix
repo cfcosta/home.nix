@@ -1,4 +1,18 @@
 { config, pkgs, ... }:
+let
+  rustfmtConfig = pkgs.writeTextFile {
+    name = "rustfmt.toml";
+    text = ''
+      reorder_imports = true
+      imports_granularity = "Crate"
+      imports_layout = "HorizontalVertical"
+      max_width = 80
+      group_imports = "StdExternalCrate"
+      trailing_comma = "Vertical"
+      trailing_semicolon = true
+    '';
+  };
+in
 {
   config.programs.jujutsu = {
     enable = true;
@@ -61,6 +75,8 @@
         rustfmt = {
           command = [
             "${pkgs.rust-bin.nightly.latest.default}/bin/rustfmt"
+            "--config-path"
+            "${rustfmtConfig.outPath}"
             "--emit"
             "stdout"
           ];
