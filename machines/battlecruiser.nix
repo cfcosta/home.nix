@@ -59,8 +59,6 @@
           hyprland.enable = true;
         };
 
-        networking.defaultNetworkInterface = "eno1";
-
         server = {
           enable = true;
           domain = "cfcosta.cloud";

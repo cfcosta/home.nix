@@ -34,9 +34,7 @@ in
         {
           enable = true;
 
-          allowInterfaces = [
-            net.defaultNetworkInterface
-          ] ++ optionals net.tailscale.enable [ "tailscale0" ];
+          allowInterfaces = optionals net.tailscale.enable [ "tailscale0" ];
 
           publish = {
             enable = true;

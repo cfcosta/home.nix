@@ -1,7 +1,6 @@
 { config, lib, ... }:
 let
   inherit (lib) mkIf;
-  interface = config.dusk.system.nixos.networking.defaultNetworkInterface;
 in
 {
   config = mkIf config.dusk.system.nixos.server.enable {
@@ -9,11 +8,6 @@ in
       file = ../../../secrets/cloudflare-api-token.age;
       owner = "traefik";
     };
-
-    networking.firewall.interfaces.${interface}.allowedTCPPorts = [
-      80
-      443
-    ];
 
     services.traefik = {
       enable = true;

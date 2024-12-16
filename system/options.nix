@@ -239,29 +239,10 @@ in
               parent = cfg.enable;
             };
 
-            defaultNetworkInterface = mkOption {
-              type = types.str;
-              default = "eno1";
-              description = "The name of the main network interface for the host";
-            };
-
             ip = mkOption {
               type = types.nullOr types.str;
               default = null;
               description = "The static ip for this machine on the local network, if any";
-            };
-
-            nameservers = mkOption {
-              type = types.listOf types.str;
-
-              default = [
-                "1.1.1.1" # Cloudflare
-                "1.0.0.1" # Cloudflare
-                "8.8.8.8" # Google
-                "4.4.4.4" # Google
-              ];
-
-              description = "The DNS Servers to use";
             };
 
             tailscale.enable = mkEnabledOption {
