@@ -31,8 +31,6 @@ in
   ];
 
   config = {
-    age.secrets.env.file = ../../secrets/env.sh.age;
-
     catppuccin.enable = true;
 
     fonts.fontconfig.enable = true;
@@ -161,8 +159,6 @@ in
         ];
 
         initExtra = ''
-          [ -f ${config.age.secrets.env.path} ] && . ${config.age.secrets.env.path}
-
           . ${pkgs.complete-alias}/bin/complete_alias
 
           ${concatStringsSep "\n" completeAliases}

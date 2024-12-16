@@ -9,6 +9,5 @@ let
 in
 {
   "deluge.age".publicKeys = cfcosta;
-  "env.sh.age".publicKeys = cfcosta;
   "cloudflare-api-token.age".publicKeys = cfcosta;
 }
