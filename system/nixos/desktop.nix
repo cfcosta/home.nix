@@ -45,6 +45,7 @@ in
           inkscape
           obs-studio
           obsidian
+          pavucontrol
           simplex-chat-desktop
           streamlink-twitch-gui-bin
           todoist-electron
