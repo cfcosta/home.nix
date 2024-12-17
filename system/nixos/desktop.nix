@@ -36,6 +36,7 @@ in
           easyeffects
           element-desktop
           firefox
+          flacon
           fractal
           helvum
           inkscape
