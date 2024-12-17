@@ -7,11 +7,9 @@
 let
   inherit (lib) mkIf;
   inherit (lib.strings) sanitizeDerivationName;
-  inherit (import ../../../lib) hyprland;
+  inherit ((import ../../../lib).hyprland) getPrimaryMonitor;
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
-
-  output_name = "SUNSHINE";
 
   generateImage =
     name: resolution:
@@ -34,27 +32,6 @@ let
           $out
       '';
 
-  headless =
-    {
-      width,
-      height,
-      refreshRate,
-      ...
-    }:
-    hyprland.format-monitor {
-      inherit refreshRate;
-
-      name = output_name;
-      bitDepth = 8;
-      position = {
-        x = 0;
-        y = 0;
-      };
-      resolution = { inherit width height; };
-      scale = 1.0;
-      vrr = true;
-    };
-
   prelude = ''
     set_hypr_instance_path() {
         local socket_dir
@@ -76,92 +53,73 @@ let
     set_hypr_instance_path
   '';
 
-  run =
+  prepare =
     target:
     with pkgs;
+    let
+      primary = getPrimaryMonitor config.dusk.system.monitors;
+    in
     writeShellApplication {
-      name = "hyprland-sunshine-run";
+      name = "prepare-${toString target.height}p";
+      runtimeInputs = [
+        hyprland
+        findutils
+      ];
       text = ''
         ${prelude}
 
-        teardown() {
-          hyprctl output remove ${output_name}
+        format_monitor() {
+          local name=$1
+          local width=$2
+          local height=$3
+          local refresh_rate=$4
+          echo "$name,''${width}x''${height}@''${refresh_rate},auto,1"
         }
-        trap teardown EXIT
 
-        if hyprctl monitors all | grep -q "${output_name}"; then
-          hyprctl output remove "${output_name}" || true
-        fi
+        echo "Setting monitor ${primary} to ${toString target.width}x${toString target.height}@${toString target.refreshRate}"
+        hyprctl keyword monitor "$(format_monitor "${primary}" "${toString target.width}" "${toString target.height}" "${toString target.refreshRate}")"
 
-        hyprctl output create headless ${output_name}
-        hyprctl keyword monitor '${headless target}'
-
-        # Ensure Steam Big Picture windows move to SUNSHINE monitor
-        hyprctl keyword windowrule "move,steam,${output_name}"
-
-        # Move the mouse cursor to the center of the SUNSHINE monitor
-        hyprctl dispatch focusmonitor ${output_name}
+        hyprctl dispatch focusmonitor "${primary}"
         hyprctl dispatch movecursor ${toString (target.width / 2)} ${toString (target.height / 2)}
+      '';
+    };
 
-        # shellcheck disable=2068
-        hyprctl execr $@
+  teardown =
+    with pkgs;
+    writeShellApplication {
+      name = "teardown";
+      runtimeInputs = [ hyprland ];
+      text = ''
+        ${prelude}
+        hyprctl reload
+      '';
+    };
 
-        teardown
+  run =
+    with pkgs;
+    writeShellApplication {
+      name = "run";
+      runtimeInputs = [ hyprland ];
+      text = ''
+        ${prelude}
+
+        # shellcheck disable=SC2068
+        exec $@
       '';
     };
 
   targets = [
     {
-      name = "1080p@60";
+      name = "1080p (60Hz)";
       width = 1920;
       height = 1080;
       refreshRate = 60.00;
     }
     {
-      name = "1080p@120";
+      name = "1080p (120Hz)";
       width = 1920;
       height = 1080;
-      refreshRate = 120.00;
-    }
-    {
-      name = "4k@60";
-      width = 3840;
-      height = 2160;
-      refreshRate = 60.00;
-    }
-    {
-      name = "4k@120";
-      width = 3840;
-      height = 2160;
-      refreshRate = 120.00;
-    }
-    {
-      name = "Macbook@60\n\n(No Notch)";
-      width = 3024;
-      height = 1890;
-      refreshRate = 60.00;
-      scale = 2.0;
-    }
-    {
-      name = "Macbook@120\n\n(No Notch)";
-      width = 3024;
-      height = 1890;
-      refreshRate = 120.00;
-      scale = 2.0;
-    }
-    {
-      name = "Macbook@60\n\n(Notch)";
-      width = 3024;
-      height = 1964;
-      refreshRate = 60.00;
-      scale = 2.0;
-    }
-    {
-      name = "Macbook@120\n\n(Notch)";
-      width = 3024;
-      height = 1964;
-      refreshRate = 120.00;
-      scale = 2.0;
+      refreshRate = 119.88;
     }
   ];
 
@@ -174,9 +132,13 @@ let
     {
       name = "${prefix} (${target.name})";
       image-path = "${generateImage prefix target.name}";
-      cmd = "${run target}/bin/hyprland-sunshine-run ${cmd}";
-      exclude-global-prep-cmd = "false";
-      auto-detach = if cmd == "${pkgs.coreutils}/bin/true" then "true" else "false";
+      cmd = "${run}/bin/run ${cmd}";
+      prep-cmd = [
+        {
+          do = "${prepare target}/bin/prepare-${toString target.height}p";
+          undo = "${teardown}/bin/teardown";
+        }
+      ];
     };
 
   mkDesktop =
@@ -190,14 +152,13 @@ let
     mkApp {
       inherit target;
       prefix = "Steam";
-      cmd = "${pkgs.gamemode}/bin/gamemoderun ${pkgs.steam}/bin/steam steam://open/bigpicture";
+      cmd = "${pkgs.steam}/bin/steam steam://open/bigpicture";
     };
 in
 {
   config = mkIf (cfg.enable && config.services.sunshine.enable) {
     services.sunshine = {
-      settings = { inherit output_name; };
-
+      settings.output_name = getPrimaryMonitor config.dusk.system.monitors;
       applications.apps = (map mkDesktop targets) ++ (map mkSteam targets);
     };
   };

@@ -1,4 +1,32 @@
-{
+rec {
+  # Calculate effective pixels accounting for scaling
+  getEffectivePixels =
+    monitor:
+    let
+      scale = if monitor.scale == "auto" then 1.0 else monitor.scale;
+    in
+    (monitor.resolution.width * monitor.resolution.height) / scale;
+
+  # Find monitor with highest effective pixel count if no primary is set
+  defaultPrimaryMonitor =
+    monitors:
+    let
+      # Sort by effective pixels descending
+      sorted = builtins.sort (a: b: getEffectivePixels a > getEffectivePixels b) monitors;
+    in
+    if builtins.length sorted > 0 then (builtins.head sorted).name else null;
+
+  # Get primary monitor name, falling back to calculated default
+  getPrimaryMonitor =
+    monitors:
+    let
+      explicit = builtins.filter (m: m.primary) monitors;
+    in
+    if builtins.length explicit > 0 then
+      (builtins.head explicit).name
+    else
+      defaultPrimaryMonitor monitors;
+
   format-monitor =
     {
       name,
