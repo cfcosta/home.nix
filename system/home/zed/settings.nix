@@ -159,5 +159,5 @@ in
     use_smartcase_find = true;
   };
 
-  vim_mode = true;
+  vim_mode = false;
 }
