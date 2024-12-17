@@ -16,11 +16,9 @@ _: {
       fennel.symbol = " ";
       fossil_branch.symbol = " ";
       git_branch = {
-        disabled = true;
         symbol = " ";
       };
       git_commit = {
-        disabled = true;
         tag_symbol = "  ";
       };
       golang.symbol = " ";
@@ -102,40 +100,6 @@ _: {
         Unknown = " ";
         Void = " ";
         Windows = "󰍲 ";
-      };
-
-      custom = {
-        jj = {
-          command = ''
-            jj log -r@ -n1 --ignore-working-copy --no-graph --color always  -T '
-              separate(" ",
-                if(description.first_line() == "",
-                  "(no message)",
-                  if(
-                     description.first_line().substr(0, 24).starts_with(description.first_line()),
-                     description.first_line().substr(0, 24),
-                     description.first_line().substr(0, 23) ++ "…"
-                  )
-                ),
-                if(conflict, "conflict"),
-                if(divergent, "divergent"),
-                if(hidden, "hidden"),
-                bookmarks.map(|x| if(
-                    x.name().substr(0, 10).starts_with(x.name()),
-                    x.name().substr(0, 10),
-                    x.name().substr(0, 9) ++ "…")
-                  ).join(" "),
-                tags.map(|x| if(
-                    x.name().substr(0, 10).starts_with(x.name()),
-                    x.name().substr(0, 10),
-                    x.name().substr(0, 9) ++ "…")
-                  ).join(" "),
-              )
-            '
-          '';
-          when = "jj root";
-          symbol = "  ";
-        };
       };
     };
   };
