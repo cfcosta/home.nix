@@ -44,7 +44,6 @@ in
           inkscape
           obs-studio
           obsidian
-          qpwgraph
           simplex-chat-desktop
           streamlink-twitch-gui-bin
           todoist-electron
