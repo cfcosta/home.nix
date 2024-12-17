@@ -36,8 +36,8 @@ in
         };
 
         cursorTheme = {
-          name = "Numix-Cursor";
-          package = pkgs.numix-cursor-theme;
+          name = "Adwaita";
+          package = pkgs.adwaita-icon-theme;
         };
 
         gtk3.extraConfig = {
