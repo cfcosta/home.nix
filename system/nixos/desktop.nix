@@ -46,6 +46,7 @@ in
           streamlink-twitch-gui-bin
           todoist-electron
           vlc
+          vscode
           wl-clipboard-rs
           zed-editor
 
