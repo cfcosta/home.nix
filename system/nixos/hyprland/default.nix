@@ -113,14 +113,15 @@ in
 
       programs = {
         hyprlock.enable = true;
-
         rofi = {
           enable = true;
           package = pkgs.rofi-wayland;
         };
+        wlogout.enable = true;
       };
 
       services = {
+        clipman.enable = true;
         hypridle.enable = true;
         hyprpaper.enable = true;
       };
@@ -163,8 +164,13 @@ in
 
           bind =
             [
+              ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
+              "$mod SHIFT, escape, exec, ${pkgs.wlogout}/bin/wlogout"
+
               # Application launchers
               ''$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun''
+              ''$mod SHIFT, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show run''
+
               "$mod, Return, exec, ${config.dusk.defaults.terminal}"
               "$mod, B, exec, ${config.dusk.defaults.browser}"
               ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
