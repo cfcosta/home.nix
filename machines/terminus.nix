@@ -10,7 +10,28 @@
     dusk.system = {
       hostname = "terminus";
 
-      monitors = [ ];
+      monitors = [
+        {
+          name = "DP-1";
+
+          bitDepth = 8;
+          position = {
+            x = 0;
+            y = 0;
+          };
+          refreshRate = 74.99;
+          resolution = {
+            width = 2560;
+            height = 1080;
+          };
+          scale = 1.0;
+          transform = {
+            rotate = 0;
+            flipped = false;
+          };
+          vrr = false;
+        }
+      ];
 
       nixos = {
         nvidia.enable = false;
