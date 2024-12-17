@@ -55,6 +55,7 @@ in
       systemPackages = with pkgs; [
         dunst
         grimblast
+        rofi
       ];
     };
 
@@ -66,7 +67,14 @@ in
 
       gtk.enable = true;
 
-      programs.hyprlock.enable = true;
+      programs = {
+        hyprlock.enable = true;
+
+        rofi = {
+          enable = true;
+          package = pkgs.rofi-wayland;
+        };
+      };
 
       services = {
         hypridle.enable = true;
@@ -112,10 +120,10 @@ in
           bind =
             [
               # Application launchers
-              "$mod, Space, exec, ${pkgs.yofi}/bin/yofi apps"
+              ''$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun''
               "$mod, Return, exec, ${config.dusk.defaults.terminal}"
               "$mod, B, exec, ${config.dusk.defaults.browser}"
-              ", Print, exec, grimblast copy area"
+              ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
             ]
             ++ keybindings.window-movement
             ++ keybindings.window-management
