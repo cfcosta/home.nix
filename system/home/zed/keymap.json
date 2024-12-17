@@ -1,5 +1,4 @@
 [
-  // Standard Linux bindings
   {
     "bindings": {
       "shift-tab": "menu::SelectPrev",
@@ -55,7 +54,6 @@
       "tab": "editor::Tab",
       "shift-tab": "editor::TabPrev",
       "ctrl-k": "editor::CutToEndOfLine",
-      // "ctrl-t": "editor::Transpose",
       "ctrl-k ctrl-q": "editor::Rewrap",
       "ctrl-k q": "editor::Rewrap",
       "ctrl-backspace": "editor::DeleteToPreviousWordStart",
@@ -88,20 +86,15 @@
       "shift-down": "editor::SelectDown",
       "shift-left": "editor::SelectLeft",
       "shift-right": "editor::SelectRight",
-      "ctrl-shift-left": "editor::SelectToPreviousWordStart", // cursorWordLeftSelect
-      "ctrl-shift-right": "editor::SelectToNextWordEnd", // cursorWordRightSelect
+      "ctrl-shift-left": "editor::SelectToPreviousWordStart",
+      "ctrl-shift-right": "editor::SelectToNextWordEnd",
       "ctrl-shift-home": "editor::SelectToBeginning",
       "ctrl-shift-end": "editor::SelectToEnd",
       "ctrl-a": "editor::SelectAll",
       "ctrl-l": "editor::SelectLine",
       "ctrl-shift-i": "editor::Format",
-      // "cmd-shift-left": ["editor::SelectToBeginningOfLine", {"stop_at_soft_wraps": true }],
       "shift-home": ["editor::SelectToBeginningOfLine", { "stop_at_soft_wraps": true }],
-      // "ctrl-shift-a": ["editor::SelectToBeginningOfLine", { "stop_at_soft_wraps": true }],
-      // "cmd-shift-right": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
       "shift-end": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
-      // "ctrl-shift-e": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
-      // "alt-v": ["editor::MovePageUp", { "center_cursor": true }],
       "ctrl-alt-space": "editor::ShowCharacterPalette",
       "ctrl-;": "editor::ToggleLineNumbers",
       "ctrl-k ctrl-r": "editor::RevertSelectedHunks",
@@ -112,7 +105,6 @@
     }
   },
   {
-    // Separate block with same context so these display in context menus
     "context": "Editor",
     "bindings": {
       "ctrl-x": "editor::Cut",
@@ -131,7 +123,6 @@
       "ctrl-k z": "editor::ToggleSoftWrap",
       "ctrl-f": "buffer_search::Deploy",
       "ctrl-h": ["buffer_search::Deploy", { "replace_enabled": true }],
-      // "cmd-e": ["buffer_search::Deploy", { "focus": false }],
       "ctrl->": "assistant::QuoteSelection",
       "ctrl-<": "assistant::InsertIntoEditor",
       "ctrl-alt-e": "editor::SelectEnclosingSymbol"
@@ -274,25 +265,24 @@
       "ctrl-k shift-enter": "pane::TogglePinTab"
     }
   },
-  // Bindings from VS Code
   {
     "context": "Editor",
     "bindings": {
       "ctrl-[": "editor::Outdent",
       "ctrl-]": "editor::Indent",
-      "shift-alt-up": "editor::AddSelectionAbove", // Insert Cursor Above
-      "shift-alt-down": "editor::AddSelectionBelow", // Insert Cursor Below
+      "shift-alt-up": "editor::AddSelectionAbove",
+      "shift-alt-down": "editor::AddSelectionBelow",
       "ctrl-shift-k": "editor::DeleteLine",
       "alt-up": "editor::MoveLineUp",
       "alt-down": "editor::MoveLineDown",
       "ctrl-alt-shift-up": "editor::DuplicateLineUp",
       "ctrl-alt-shift-down": "editor::DuplicateLineDown",
-      "alt-shift-right": "editor::SelectLargerSyntaxNode", // Expand Selection
-      "alt-shift-left": "editor::SelectSmallerSyntaxNode", // Shrink Selection
-      "ctrl-shift-l": "editor::SelectAllMatches", // Select all occurrences of current selection
-      "ctrl-f2": "editor::SelectAllMatches", // Select all occurrences of current word
+      "alt-shift-right": "editor::SelectLargerSyntaxNode",
+      "alt-shift-left": "editor::SelectSmallerSyntaxNode",
+      "ctrl-shift-l": "editor::SelectAllMatches",
+      "ctrl-f2": "editor::SelectAllMatches",
       "ctrl-d": ["editor::SelectNext", { "replace_newest": false }],
-      "ctrl-shift-down": ["editor::SelectNext", { "replace_newest": false }], // Add selection to Next Find Match
+      "ctrl-shift-down": ["editor::SelectNext", { "replace_newest": false }],
       "ctrl-shift-up": ["editor::SelectPrevious", { "replace_newest": false }],
       "ctrl-k ctrl-d": ["editor::SelectNext", { "replace_newest": true }],
       "ctrl-k ctrl-shift-d": ["editor::SelectPrevious", { "replace_newest": true }],
@@ -369,8 +359,6 @@
   {
     "context": "Workspace",
     "bindings": {
-      // Change the default action on `menu::Confirm` by setting the parameter
-      // "alt-ctrl-o": ["projects::OpenRecent", { "create_new_window": true }],
       "alt-ctrl-o": "projects::OpenRecent",
       "alt-ctrl-shift-b": "branches::OpenRecent",
       "ctrl-~": "workspace::NewTerminal",
@@ -426,7 +414,6 @@
       "alt-shift-t": "task::Spawn"
     }
   },
-  // Bindings from Sublime Text
   {
     "context": "Editor",
     "bindings": {
@@ -438,7 +425,6 @@
       "ctrl-alt-delete": "editor::DeleteToNextSubwordEnd",
       "ctrl-alt-d": "editor::DeleteToNextSubwordEnd",
       "ctrl-alt-left": "editor::MoveToPreviousSubwordStart",
-      // "ctrl-alt-b": "editor::MoveToPreviousSubwordStart",
       "ctrl-alt-right": "editor::MoveToNextSubwordEnd",
       "ctrl-alt-f": "editor::MoveToNextSubwordEnd",
       "ctrl-alt-shift-left": "editor::SelectToPreviousSubwordStart",
@@ -447,7 +433,6 @@
       "ctrl-alt-shift-f": "editor::SelectToNextSubwordEnd"
     }
   },
-  // Bindings from Atom
   {
     "context": "Pane",
     "bindings": {
@@ -457,7 +442,6 @@
       "ctrl-k right": "pane::SplitRight"
     }
   },
-  // Bindings that should be unified with bindings for more general actions
   {
     "context": "Editor && renaming",
     "bindings": {
@@ -494,7 +478,6 @@
       "pagedown": "editor::ContextMenuLast"
     }
   },
-  // Custom bindings
   {
     "bindings": {
       "ctrl-alt-shift-f": "workspace::FollowNextCollaborator",
@@ -602,7 +585,6 @@
     }
   },
   {
-    // Separate block with same context so these display in context menus
     "context": "ProjectPanel",
     "bindings": {
       "f2": "project_panel::Rename",
@@ -691,7 +673,6 @@
       "ctrl-insert": "terminal::Copy",
       "shift-insert": "terminal::Paste",
       "ctrl-enter": "assistant::InlineAssist",
-      // Overrides for conflicting keybindings
       "ctrl-w": ["terminal::SendKeystroke", "ctrl-w"],
       "ctrl-shift-a": "editor::SelectAll",
       "ctrl-shift-f": "buffer_search::Deploy",
@@ -715,7 +696,6 @@
     }
   },
   {
-    // Separate block with same context so these display in context menus
     "context": "Terminal",
     "bindings": {
       "ctrl-shift-c": "terminal::Copy",
