@@ -33,6 +33,7 @@ in
         with pkgs;
         [
           alsa-utils
+          google-chrome
           discord
           easyeffects
           element-desktop
