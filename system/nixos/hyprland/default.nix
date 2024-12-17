@@ -6,7 +6,7 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (builtins) concatLists genList;
+  inherit (builtins) concatLists genList toString;
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
 
@@ -123,7 +123,13 @@ in
       services = {
         clipman.enable = true;
         hypridle.enable = true;
-        hyprpaper.enable = true;
+        hyprpaper = {
+          enable = true;
+          settings = {
+            ipc = "on";
+            splash = false;
+          };
+        };
       };
 
       wayland.windowManager.hyprland = {

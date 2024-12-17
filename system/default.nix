@@ -14,6 +14,7 @@ in
   imports = [
     ./options.nix
     ./monitors.nix
+    ./wallpapers.nix
     ../user.nix
   ];
 
