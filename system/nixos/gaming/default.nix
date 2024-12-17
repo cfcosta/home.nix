@@ -5,8 +5,9 @@
   ...
 }:
 let
-  cfg = config.dusk.system.nixos.desktop.gaming;
   inherit (lib) mkIf;
+
+  cfg = config.dusk.system.nixos.desktop.gaming;
 in
 {
   imports = [ ./sunshine.nix ];

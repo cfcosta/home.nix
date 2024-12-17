@@ -5,32 +5,26 @@
   ...
 }:
 let
-  inherit (lib) mkIf;
-  inherit (lib.strings) sanitizeDerivationName;
-  inherit ((import ../../../lib).hyprland) getPrimaryMonitor;
+  inherit (lib) mkIf optionals;
+
+  dusk-lib = import ../../../lib;
+  inherit (dusk-lib.monitors) getPrimaryMonitor;
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
 
   generateImage =
     name: resolution:
     with pkgs;
-    runCommand "sunshine-${sanitizeDerivationName name}.png"
-      {
-        buildInputs = [
-          imagemagick
-          nerd-fonts.inconsolata
-        ];
-      }
-      ''
-        magick -size 600x800 \
-          -background black \
-          -fill white \
-          -font ${nerd-fonts.inconsolata}/share/fonts/truetype/NerdFonts/Inconsolata/InconsolataNerdFont-Regular.ttf \
-          -gravity center \
-          -pointsize 48 \
-          label:"${name}\n${resolution}" \
-          $out
-      '';
+    runCommand "cover.png" { buildInputs = [ imagemagick ]; } ''
+      magick -size 600x800 \
+        -background black \
+        -fill white \
+        -font ${nerd-fonts.inconsolata}/share/fonts/truetype/NerdFonts/Inconsolata/InconsolataNerdFont-Regular.ttf \
+        -gravity center \
+        -pointsize 64 \
+        label:"${name}\n\n${resolution}" \
+        $out
+    '';
 
   prelude = ''
     set_hypr_instance_path() {
@@ -60,7 +54,7 @@ let
       primary = getPrimaryMonitor config.dusk.system.monitors;
     in
     writeShellApplication {
-      name = "prepare-${toString target.height}p";
+      name = "prepare";
       runtimeInputs = [
         hyprland
         findutils
@@ -135,7 +129,7 @@ let
       cmd = "${run}/bin/run ${cmd}";
       prep-cmd = [
         {
-          do = "${prepare target}/bin/prepare-${toString target.height}p";
+          do = "${prepare target}/bin/prepare";
           undo = "${teardown}/bin/teardown";
         }
       ];
@@ -147,6 +141,7 @@ let
       inherit target;
       prefix = "Desktop";
     };
+
   mkSteam =
     target:
     mkApp {
@@ -154,12 +149,17 @@ let
       prefix = "Steam";
       cmd = "${pkgs.steam}/bin/steam steam://open/bigpicture";
     };
+
+  primary = getPrimaryMonitor config.dusk.system.monitors;
+  enable = cfg.enable && config.services.sunshine.enable && primary != null;
 in
 {
-  config = mkIf (cfg.enable && config.services.sunshine.enable) {
+  config = mkIf enable {
     services.sunshine = {
-      settings.output_name = getPrimaryMonitor config.dusk.system.monitors;
-      applications.apps = (map mkDesktop targets) ++ (map mkSteam targets);
+      settings.output_name = primary;
+      applications.apps =
+        (map mkDesktop targets)
+        ++ optionals config.programs.steam.enable (map mkSteam targets);
     };
   };
 }

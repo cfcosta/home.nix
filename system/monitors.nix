@@ -3,29 +3,7 @@ let
   inherit (lib) mkIf;
   cfg = config.dusk.system;
 
-  inherit (import ../lib) hyprland;
-
-  # Format GNOME monitor config
-  formatGnomeMonitor = monitors: monitor: {
-    inherit (monitor.position) x y;
-    inherit (monitor.resolution) width height;
-
-    connector = monitor.name;
-    refresh-rate = monitor.refreshRate * 1000.0; # GNOME uses mHz
-    scale = if monitor.scale == "auto" then 0 else monitor.scale;
-    is-primary = monitor.name == hyprland.getPrimaryMonitor monitors;
-    rotation =
-      if monitor.transform.rotate == 0 then
-        1
-      else if monitor.transform.rotate == 90 then
-        2
-      else if monitor.transform.rotate == 180 then
-        4
-      else if monitor.transform.rotate == 270 then
-        8
-      else
-        throw "Invalid rotation value";
-  };
+  inherit (import ../lib/monitors.nix) formatMonitor getPrimaryMonitor;
 in
 {
   options.dusk.system.monitors =
@@ -154,9 +132,7 @@ in
                     <x>${toString monitor.position.x}</x>
                     <y>${toString monitor.position.y}</y>
                     <scale>${if monitor.scale == "auto" then "1" else toString monitor.scale}</scale>
-                    <primary>${
-                      if monitor.name == hyprland.getPrimaryMonitor cfg.monitors then "yes" else "no"
-                    }</primary>
+                    <primary>${if monitor.name == getPrimaryMonitor cfg.monitors then "yes" else "no"}</primary>
                     <monitor>
                       <monitorspec>
                         <connector>${monitor.name}</connector>
@@ -206,13 +182,13 @@ in
           monitors-config-format = "json";
           monitors-config = builtins.toJSON {
             version = 2;
-            monitors = map (formatGnomeMonitor cfg.monitors) cfg.monitors;
+            monitors = map (formatMonitor.gnome cfg.monitors) cfg.monitors;
           };
         };
       };
 
       wayland.windowManager.hyprland = mkIf (cfg.nixos.desktop.hyprland.enable && (cfg.monitors != [ ])) {
-        settings.monitor = map hyprland.format-monitor cfg.monitors;
+        settings.monitor = map formatMonitor.hyprland cfg.monitors;
       };
     };
   };

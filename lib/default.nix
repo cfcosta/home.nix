@@ -1,4 +1,4 @@
 {
   defineService = import ./define-service.nix;
-  hyprland = import ./hyprland.nix;
+  monitors = import ./monitors.nix;
 }
