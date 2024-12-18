@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib)
     attrByPath
@@ -38,26 +43,34 @@ in
       default = { };
     };
 
-  config = mkIf (cfg.nixos.desktop.enable && cfg.monitors != [ ]) {
-    home-manager.users.${config.dusk.username} = {
-      services.hyprpaper = mkIf cfg.nixos.desktop.hyprland.enable {
-        settings = {
-          preload = map (pair: pair.value) all;
-          wallpaper = map (pair: "${pair.name}, ${pair.value}") all;
-        };
-      };
+  config =
+    let
+      inherit (cfg.nixos.desktop) hyprland gnome;
+    in
+    {
+      home-manager.users.${config.dusk.username} = _: {
+        services.hyprpaper = {
+          inherit (hyprland) enable;
 
-      dconf.settings = mkIf cfg.nixos.desktop.gnome.enable (
-        listToAttrs (
-          map (monitor: {
-            name = "org/gnome/desktop/background/picture-options-${monitor.name}";
-            value = {
-              picture-uri = "file://${getPath monitor}";
-              picture-uri-dark = "file://${getPath monitor}";
-            };
-          }) all
-        )
-      );
+          settings = {
+            preload = map (pair: pair.value) all;
+            wallpaper = map (pair: "${pair.name}, ${pair.value}") all;
+          };
+        };
+
+        dconf.settings = mkIf gnome.enable (
+          listToAttrs (
+            map (monitor: {
+              name = "org/gnome/desktop/background/picture-options-${monitor.name}";
+              value = {
+                picture-uri = "file://${getPath monitor}";
+                picture-uri-dark = "file://${getPath monitor}";
+              };
+            }) all
+          )
+        );
+
+        wayland.windowManager.hyprland.settings.exec-once = [ "${pkgs.hyprpaper}/bin/hyprpaper" ];
+      };
     };
-  };
 }
