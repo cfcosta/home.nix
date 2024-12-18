@@ -171,7 +171,7 @@
           };
 
           packages = pkgs.dusk // {
-            battlecruiser = systemTarget "battlecruiser" "nixos";
+            terminus = systemTarget "terminus" "nixos";
             drone = systemTarget "drone" "darwin";
           };
         }
@@ -180,6 +180,6 @@
     perSystem
     // {
       darwinConfigurations.drone = buildDarwin "drone";
-      nixosConfigurations.battlecruiser = buildNixos "battlecruiser";
+      nixosConfigurations.terminus = buildNixos "terminus";
     };
 }

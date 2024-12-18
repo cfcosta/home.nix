@@ -13,7 +13,7 @@ jobs:
         items:
           - os: ubuntu-latest
             arch: x86_64-linux
-            parent: .#nixosConfigurations.battlecruiser
+            parent: .#nixosConfigurations.terminus
           - os: macos-latest
             arch: aarch64-darwin
             parent: .#darwinConfigurations.drone
@@ -31,7 +31,7 @@ jobs:
       - uses: cachix/cachix-action@v14
         with:
           name: cfcosta-home
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
       - run: nix flake check
 

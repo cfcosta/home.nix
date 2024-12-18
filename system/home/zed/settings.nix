@@ -124,9 +124,8 @@ in
   show_whitespaces = "boundary";
   soft_wrap = "preferred_line_length";
 
-  tab_bar = {
-    show = false;
-  };
+  # vim style tabs set false
+  tab_bar.show = true;
 
   telemetry = {
     diagnostics = false;
@@ -159,5 +158,5 @@ in
     use_smartcase_find = true;
   };
 
-  vim_mode = true;
+  vim_mode = false;
 }
