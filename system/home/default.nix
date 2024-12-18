@@ -160,7 +160,6 @@ in
 
         initExtra = ''
           . ${pkgs.complete-alias}/bin/complete_alias
-
           ${concatStringsSep "\n" completeAliases}
 
           if [ "$(uname -s)" == "Darwin" ]; then
@@ -170,6 +169,9 @@ in
               ssh ''${@} -t "tmux -CC attach-session || tmux -CC new-session"
             }
           fi
+
+          # shellcheck disable=SC2086
+          [ -f $HOME/dusk-env.sh ] && . $HOME/dusk-env.sh
         '';
       };
 
