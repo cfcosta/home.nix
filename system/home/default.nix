@@ -26,7 +26,6 @@ in
     ./alacritty.nix
     ./git.nix
     ./jujutsu.nix
-    ./starship
     ./zed
   ];
 

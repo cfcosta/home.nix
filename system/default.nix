@@ -15,6 +15,7 @@ in
     ./options.nix
     ./monitors.nix
     ./wallpapers.nix
+    ./shell
     ../user.nix
   ];
 
