@@ -14,6 +14,10 @@ _: {
       elixir.symbol = " ";
       elm.symbol = " ";
       fennel.symbol = " ";
+      fill = {
+        symbol = " ";
+        style = "black";
+      };
       fossil_branch.symbol = " ";
       git_branch = {
         disabled = true;
@@ -28,7 +32,12 @@ _: {
       haskell.symbol = " ";
       haxe.symbol = " ";
       hg_branch.symbol = " ";
-      hostname.ssh_symbol = " ";
+      hostname = {
+        ssh_only = false;
+        ssh_symbol = "";
+        format = "[@$hostname]($style) in ";
+        style = "bold blue";
+      };
       java.symbol = " ";
       julia.symbol = " ";
       kotlin.symbol = " ";
@@ -37,9 +46,8 @@ _: {
       meson.symbol = "󰔷 ";
       nim.symbol = "󰆥 ";
       nix_shell = {
-        symbol = " ";
-        impure_msg = "";
-        format = "[$symbol $name]($style)";
+        symbol = "";
+        format = "[$symbol $name]($style) ";
       };
       nodejs.symbol = " ";
       ocaml.symbol = " ";
@@ -56,6 +64,11 @@ _: {
       rust.symbol = "󱘗 ";
       scala.symbol = " ";
       swift.symbol = " ";
+      username = {
+        format = "[$user]($style)";
+        show_always = true;
+        style_user = "bold green";
+      };
       zig.symbol = " ";
 
       os.symbols = {
@@ -104,39 +117,33 @@ _: {
         Windows = "󰍲 ";
       };
 
-      custom = {
-        jj = {
+      custom.jj =
+        let
+          jj = "${pkgs.jujutsu}/bin/jj --ignore-working-copy";
+        in
+        {
           command = ''
-            jj log -r@ -n1 --ignore-working-copy --no-graph --color always  -T '
-              separate(" ",
-                if(description.first_line() == "",
-                  "(no message)",
-                  if(
-                     description.first_line().substr(0, 24).starts_with(description.first_line()),
-                     description.first_line().substr(0, 24),
-                     description.first_line().substr(0, 23) ++ "…"
-                  )
-                ),
-                if(conflict, "conflict"),
-                if(divergent, "divergent"),
-                if(hidden, "hidden"),
-                bookmarks.map(|x| if(
-                    x.name().substr(0, 10).starts_with(x.name()),
-                    x.name().substr(0, 10),
-                    x.name().substr(0, 9) ++ "…")
-                  ).join(" "),
-                tags.map(|x| if(
-                    x.name().substr(0, 10).starts_with(x.name()),
-                    x.name().substr(0, 10),
-                    x.name().substr(0, 9) ++ "…")
-                  ).join(" "),
-              )
-            '
+            GREEN='\033[32m'
+            RED='\033[31m'
+            RESET='\033[0m'
+            GRAY='\033[0;90m'
+
+            CHANGES="$(${jj} log -r@ -n1 --no-graph --color=always -T "
+            separate(' $GRAY←$RESET ', change_id.shortest(4), parents.map(|p| p.change_id().shortest(3)).join(\", \"))
+            ")"
+            change_id="$(echo -e "$CHANGES")"
+
+            stats=$(${jj} diff --no-pager --color=never | awk '
+                /^[+]/ && !/^[+]{3}/ {ins++}
+                /^[-]/ && !/^[-]{3}/ {del++}
+                END {printf "%d %d", ins, del}
+            ')
+
+            # shellcheck disable=SC2086
+            printf "$GREEN$RESET %s $GREEN+%d$RESET $RED-%d$RESET" "$change_id" $stats
           '';
-          when = "jj root";
-          symbol = "  ";
+          when = "${jj} root";
         };
-      };
     };
   };
 }
