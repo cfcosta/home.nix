@@ -99,6 +99,20 @@ in
           patterns = [ "glob:'**/*.nix'" ];
         };
 
+        prettier = {
+          command = [
+            "${pkgs.nodePackages.prettier}/bin/prettier"
+            "--stdin-filepath"
+            "$path"
+          ];
+          patterns = [
+            "glob:'**/*.js'"
+            "glob:'**/*.jsx'"
+            "glob:'**/*.ts'"
+            "glob:'**/*.tsx'"
+          ];
+        };
+
         ruff = {
           command = [
             "${pkgs.ruff}/bin/ruff"
