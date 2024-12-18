@@ -51,6 +51,16 @@ _: {
           StageManagerHideWidgets = 0;
           StandardHideWidgets = 0;
         };
+
+        "com.if.Amphetamine" = {
+          "Start Session At Launch" = 1;
+          "Start Session On Wake" = 1;
+        };
+
+        "dev.kdrag0n.MacVirt" = {
+          SUHasLaunchedBefore = 1;
+          SUAutomaticallyUpdate = 0;
+        };
       };
 
       dock = {
