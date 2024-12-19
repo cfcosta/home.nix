@@ -8,6 +8,10 @@ _: {
     };
 
     system.defaults.CustomUserPreferences."com.raycast.macos" = {
+      SUAutomaticallyUpdate = 0;
+      SUEnableAutomaticChecks = 0;
+      SUHasLaunchedBefore = 1;
+
       initialSpotlightHotkey = "Command-49";
       raycastGlobalHotkey = "Command-49";
       onboardingCompleted = 1;
