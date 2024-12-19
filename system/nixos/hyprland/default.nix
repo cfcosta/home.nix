@@ -52,6 +52,11 @@ in
         BROWSER = config.dusk.defaults.browser;
         TERMINAL = config.dusk.defaults.terminal;
         QT_QPA_PLATFORM = "wayland";
+        SDL_VIDEODRIVER = "wayland";
+        CLUTTER_BACKEND = "wayland";
+        XDG_CURRENT_DESKTOP = "Hyprland";
+        XDG_SESSION_TYPE = "wayland";
+        XDG_SESSION_DESKTOP = "Hyprland";
       };
 
       systemPackages = with pkgs; [
