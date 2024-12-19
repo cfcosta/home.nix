@@ -1,3 +1,5 @@
+# Maccy, a clipboard manager
+# https://maccy.app/
 _: {
   homebrew = {
     enable = true;
@@ -5,12 +7,13 @@ _: {
   };
 
   system.defaults.CustomUserPreferences."org.p0deje.Maccy" = {
-    SUAutomaticallyUpdate = 1;
-    SUEnableAutomaticChecks = 1;
+    SUAutomaticallyUpdate = 0;
+    SUEnableAutomaticChecks = 0;
     SUHasLaunchedBefore = 1;
+
     searchMode = "fuzzy";
-    previewDelay = 300;
-    maxMenuItemLength = 75;
+    previewDelay = 150;
+    maxMenuItemLength = 25;
     menuIcon = "clipboard";
   };
 }

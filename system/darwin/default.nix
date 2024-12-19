@@ -4,7 +4,7 @@
     inputs.agenix.darwinModules.default
     inputs.home-manager.darwinModules.default
 
-    ./clipboard.nix
+    ./applications
     ./homebrew.nix
     ./raycast.nix
     ./system.nix
