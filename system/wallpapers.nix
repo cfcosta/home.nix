@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, ... }:
 let
   inherit (lib)
     attrByPath
@@ -11,7 +6,12 @@ let
     listToAttrs
     mkIf
     ;
-  inherit (builtins) pathExists toString;
+  inherit (builtins)
+    head
+    pathExists
+    tail
+    toString
+    ;
   cfg = config.dusk.system;
 
   getWallpaper =
@@ -20,14 +20,28 @@ let
       inherit (monitor) name;
       inherit (monitor.resolution) width height;
 
-      coalesce = a: b: if a != null then a else b;
-      user = attrByPath [ name ] null cfg.wallpapers;
-      default = ../../assets/wallpapers + "/${toString width}x${toString height}.jpg";
-      value = coalesce user default;
+      coalesce =
+        list:
+        let
+          go =
+            xs:
+            if xs == [ ] then
+              null
+            else if head xs != null then
+              head xs
+            else
+              go (tail xs);
+        in
+        go list;
     in
     {
       inherit name;
-      value = if value == null then null else toString value;
+
+      value = coalesce [
+        (attrByPath [ name ] null cfg.wallpapers)
+        (../../assets/wallpapers + "/${toString width}x${toString height}.jpg")
+        ../../assets/wallpapers/default.jpg
+      ];
     };
 
   exists = p: (p.value != null) && (pathExists p.value);
@@ -69,8 +83,6 @@ in
             }) all
           )
         );
-
-        wayland.windowManager.hyprland.settings.exec-once = [ "${pkgs.hyprpaper}/bin/hyprpaper" ];
       };
     };
 }
