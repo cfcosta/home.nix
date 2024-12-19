@@ -129,10 +129,9 @@
             RESET='\033[0m'
             GRAY='\033[0;90m'
 
-            CHANGES="$(${jj} log -r@ -n1 --no-graph --color=always -T "
+            change_id="$(${jj} log -r@ -n1 --no-graph --color=always -T "
             separate(' $GRAY←$RESET ', change_id.shortest(4), parents.map(|p| p.change_id().shortest(3)).join(\", \"))
             ")"
-            change_id="$(echo -e "$CHANGES")"
 
             stats=$(${jj} diff --no-pager --color=never | awk '
                 /^[+]/ && !/^[+]{3}/ {ins++}
@@ -141,9 +140,11 @@
             ')
 
             # shellcheck disable=SC2086
-            printf "$GREEN$RESET %s $GREEN+%d$RESET $RED-%d$RESET" "$change_id" $stats
+            printf "%s $GREEN+%d$RESET $RED-%d$RESET" "$change_id" $stats
           '';
           when = "${jj} root";
+          symbol = " ";
+          format = "[$symbol]($style) $output";
         };
     };
   };
