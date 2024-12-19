@@ -1,12 +1,28 @@
 { config, lib, ... }:
 let
   inherit (lib) mkIf;
+  inherit (config) dusk;
+  inherit (config.dusk.system.nixos.server) domain;
 in
 {
   config = mkIf config.dusk.system.nixos.server.enable {
     age.secrets.cloudflare-api-token = {
       file = ../../../secrets/cloudflare-api-token.age;
       owner = "traefik";
+    };
+
+    security.acme = {
+      acceptTerms = true;
+
+      certs.${domain} = {
+        inherit domain;
+
+        email = dusk.emails.primary;
+        extraDomainNames = [ "*.${domain}" ];
+        group = "traefik";
+        dnsProvider = "cloudflare";
+        environmentFile = config.age.secrets.cloudflare-api-token.path;
+      };
     };
 
     services.traefik = {
@@ -20,7 +36,7 @@ in
           sendAnonymousUsage = false;
         };
 
-        log.level = "DEBUG";
+        log.level = "INFO";
 
         entryPoints = {
           web = {
@@ -28,6 +44,7 @@ in
             http.redirections.entryPoint = {
               to = "websecure";
               scheme = "https";
+              permanent = true;
             };
           };
 
@@ -39,28 +56,27 @@ in
           };
         };
 
-        certificatesResolvers.letsencrypt = {
-          acme = {
-            email = config.dusk.emails.primary;
-            storage = "/var/lib/traefik/acme.json";
-            dnsChallenge = {
-              provider = "cloudflare";
-              resolvers = [
-                "1.1.1.1:53"
-                "8.8.8.8:53"
-              ];
-            };
-          };
-        };
-
         docker.exposedByDefault = false;
       };
 
-      dynamicConfigOptions.http.middlewares = {
-        strip-prefix.stripPrefix.prefixes = [ "/" ];
-      };
+      dynamicConfigOptions = {
+        http.middlewares.strip-prefix.stripPrefix.prefixes = [ "/" ];
 
-      environmentFiles = [ config.age.secrets.cloudflare-api-token.path ];
+        tls = {
+          stores.default.defaultCertificate = {
+            certFile = "/var/lib/acme/${domain}/cert.pem";
+            keyFile = "/var/lib/acme/${domain}/key.pem";
+          };
+
+          certificates = [
+            {
+              certFile = "/var/lib/acme/${domain}/cert.pem";
+              keyFile = "/var/lib/acme/${domain}/key.pem";
+              stores = "default";
+            }
+          ];
+        };
+      };
     };
 
     users.users.traefik.extraGroups = [ "docker" ];
