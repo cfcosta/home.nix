@@ -31,7 +31,6 @@
         "secretive"
         "simplex"
         "streamlink-twitch-gui"
-        "swish"
         "syncthing"
         "tailscale"
         "telegram"
