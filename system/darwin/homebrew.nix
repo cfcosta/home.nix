@@ -43,7 +43,6 @@
       ];
 
       caskArgs.no_quarantine = true;
-      masApps.Amphetamine = 937984704;
 
       onActivation = {
         autoUpdate = true;
