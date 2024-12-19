@@ -6,7 +6,6 @@
 
     ./applications
     ./homebrew.nix
-    ./raycast.nix
     ./system.nix
   ];
 

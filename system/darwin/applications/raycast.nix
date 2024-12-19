@@ -1,8 +1,9 @@
+# Raycast - A better replacement for Spotlight
+# https://www.raycast.com/
 _: {
   config = {
     homebrew = {
       enable = true;
-
       casks = [ "raycast" ];
     };
 
