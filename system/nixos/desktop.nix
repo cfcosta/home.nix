@@ -25,6 +25,9 @@ in
         # Enable Wayland support on most Electron applications
         NIXOS_OZONE_WL = "1";
 
+        # Enable newer freetype features
+        FREETYPE_PROPERTIES = "truetype:interpreter-version=40";
+
         BROWSER = config.dusk.defaults.browser;
         TERMINAL = config.dusk.defaults.terminal;
       };
@@ -53,6 +56,7 @@ in
           # Fonts
           cantarell-fonts
           dejavu_fonts
+          noto-fonts
           source-code-pro
           source-sans
         ]
@@ -66,6 +70,23 @@ in
             ];
           }))
         ];
+    };
+
+    fonts.fontconfig = {
+      enable = true;
+
+      antialias = true;
+
+      hinting = {
+        enable = true;
+        autohint = false;
+        style = "slight";
+      };
+
+      subpixel = {
+        lcdfilter = "default";
+        rgba = "rgb";
+      };
     };
 
     hardware = {

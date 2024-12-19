@@ -25,7 +25,6 @@ let
     stylua = writeTextFile {
       name = "stylua.toml";
       text = toTOML {
-        style = "LuaJit";
         indent_type = "Spaces";
         indent_width = 2;
       };
