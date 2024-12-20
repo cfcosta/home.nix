@@ -41,6 +41,7 @@ in
 
       systemPackages = with pkgs; [
         dusk.dusk-jujutsu
+        dusk.dusk-treefmt
 
         age
         aider-chat

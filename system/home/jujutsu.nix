@@ -1,193 +1,113 @@
+{ config, ... }:
 {
-  config,
-  pkgs,
-  inputs,
-  ...
-}:
-let
-  inherit (pkgs) writeTextFile;
-
-  rustfmtTOML = writeTextFile {
-    name = "rustfmt.toml";
-    text = ''
-      edition = "2024"
-      reorder_imports = true
-      imports_granularity = "Crate"
-      imports_layout = "HorizontalVertical"
-      max_width = 102
-      group_imports = "StdExternalCrate"
-      trailing_comma = "Vertical"
-      trailing_semicolon = true
-    '';
-  };
-
-  styluaTOML = writeTextFile {
-    name = "stylua.toml";
-    text = ''
-      indent_type = "Spaces"
-      indent_width = 2
-    '';
-  };
-
-  treefmt = inputs.treefmt-nix.lib.evalModule pkgs {
-    projectRootFile = "flake.nix";
+  config.programs.jujutsu = {
+    enable = true;
 
     settings = {
-      global.excludes = [
-        "*.jpg"
-        "*.lock"
-        "*.png"
-        "*.svg"
-        "*-lock.*"
-      ];
+      aliases = {
+        xl = [
+          "log"
+          "-r"
+          "::mine()"
+        ];
 
-      formatter = {
-        nixfmt.options = [ "--strict" ];
-        rustfmt.options = [
-          "--config-path"
-          rustfmtTOML.outPath
+        prs-update-trunk = [
+          "rebase"
+          "-s"
+          "trunk_commit"
+          "-d"
+          "main"
+          "-d"
+          "all:heads(clean_prs | my_prs)"
+          "--skip-emptied"
         ];
-        shfmt.options = [
-          "--ln"
-          "bash"
+
+        sync-main = [
+          "rebase"
+          "-s"
+          "roots(main@origin)..trunk_commit-"
+          "-d"
+          "main"
+          "--skip-emptied"
         ];
-        stylua.options = [
-          "--config-path"
-          styluaTOML.outPath
+
+        prs = [
+          "log"
+          "-r"
+          "all_prs"
         ];
-        prettier.excludes = [ "*.md" ];
+
+        my-prs = [
+          "log"
+          "-r"
+          "my_prs"
+        ];
       };
-    };
 
-    programs = {
-      clang-format.enable = true;
-      nixfmt.enable = true;
-      prettier.enable = true;
-      ruff.enable = true;
-      shfmt.enable = true;
-      stylua.enable = true;
-      taplo.enable = true;
+      fix.tools.treefmt = {
+        command = [
+          "treefmt"
+          "$path"
+          "--stdin"
+        ];
 
-      rustfmt = {
-        enable = true;
-        package = pkgs.rust-bin.nightly.latest.default;
+        patterns = [
+          "glob:'**/*.js'"
+          "glob:'**/*.jsx'"
+          "glob:'**/*.lua'"
+          "glob:'**/*.nix'"
+          "glob:'**/*.py'"
+          "glob:'**/*.rs'"
+          "glob:'**/*.ts'"
+          "glob:'**/*.toml'"
+          "glob:'**/*.tsx'"
+          "glob:'**/*.sh'"
+        ];
       };
-    };
-  };
-in
-{
-  config = {
-    home.packages = [ treefmt.config.build.wrapper ];
 
-    programs.jujutsu = {
-      enable = true;
+      git = {
+        auto-local-bookmark = true;
+        private-commits = "private_commits | trunk_commit";
+        push-bookmark-prefix = "${config.dusk.accounts.github}/";
+      };
 
-      settings = {
-        aliases = {
-          xl = [
-            "log"
-            "-r"
-            "::mine()"
-          ];
+      revset-aliases = {
+        all_prs = ''
+          tracked_remote_bookmarks() ~ ::main@origin
+        '';
 
-          prs-update-trunk = [
-            "rebase"
-            "-s"
-            "trunk_commit"
-            "-d"
-            "main"
-            "-d"
-            "all:heads(clean_prs | my_prs)"
-            "--skip-emptied"
-          ];
+        clean_prs = "all_prs ~ conflicts()";
+        broken_prs = "all_prs & conflicts()";
 
-          sync-main = [
-            "rebase"
-            "-s"
-            "roots(main@origin)..trunk_commit-"
-            "-d"
-            "main"
-            "--skip-emptied"
-          ];
+        my_prs = "all_prs & mine()";
+        other_prs = "all_prs & mine()";
+        private_commits = "description(glob:'wip:*') | description(glob:'private:*') | trunk_commit::";
+        trunk_commit = ''bookmarks("trunk") & mine()'';
+      };
 
-          prs = [
-            "log"
-            "-r"
-            "all_prs"
-          ];
+      snapshot.max-new-file-size = "10MiB";
 
-          my-prs = [
-            "log"
-            "-r"
-            "my_prs"
-          ];
-        };
+      signing = {
+        sign-all = true;
+        backend = "gpg";
+      };
 
-        fix.tools.treefmt = {
-          command = [
-            "treefmt-nix"
-            "--stdin"
-            "$path"
-          ];
+      template-aliases = {
+        "format_short_signature(signature)" = "signature.username()";
+        "format_short_id(id)" = "id.shortest()";
+      };
 
-          patterns = [
-            "glob:'**/*.js'"
-            "glob:'**/*.jsx'"
-            "glob:'**/*.lua'"
-            "glob:'**/*.nix'"
-            "glob:'**/*.py'"
-            "glob:'**/*.rs'"
-            "glob:'**/*.ts'"
-            "glob:'**/*.toml'"
-            "glob:'**/*.tsx'"
-            "glob:'**/*.sh'"
-          ];
-        };
+      user = {
+        inherit (config.dusk) name;
+        email = config.dusk.emails.primary;
+      };
 
-        git = {
-          auto-local-bookmark = true;
-          private-commits = "private_commits | trunk_commit";
-          push-bookmark-prefix = "${config.dusk.accounts.github}/";
-        };
-
-        revset-aliases = {
-          all_prs = ''
-            bookmarks(glob:"pr/*") ~ ::main@origin
-          '';
-
-          clean_prs = "all_prs ~ conflicts()";
-          broken_prs = "all_prs & conflicts()";
-
-          my_prs = "all_prs & mine()";
-          other_prs = "all_prs & mine()";
-          private_commits = "description(glob:'wip:*') | description(glob:'private:*')";
-          trunk_commit = "description(glob:'trunk:*') & mine()";
-        };
-
-        snapshot.max-new-file-size = "10MiB";
-
-        signing = {
-          sign-all = true;
-          backend = "gpg";
-        };
-
-        template-aliases = {
-          "format_short_signature(signature)" = "signature.username()";
-          "format_short_id(id)" = "id.shortest()";
-        };
-
-        user = {
-          inherit (config.dusk) name;
-          email = config.dusk.emails.primary;
-        };
-
-        ui = {
-          default-command = [ "status" ];
-          diff-editor = ":builtin";
-          diff.format = "git";
-          editor = "nvim";
-          pager = "delta";
-        };
+      ui = {
+        default-command = [ "status" ];
+        diff-editor = ":builtin";
+        diff.format = "git";
+        editor = "nvim";
+        pager = "delta";
       };
     };
   };
