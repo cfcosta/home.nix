@@ -47,6 +47,8 @@
       fix.tools.treefmt = {
         command = [
           "treefmt"
+          "--no-cache"
+          "-v=0"
           "$path"
           "--stdin"
         ];

@@ -31,18 +31,16 @@ let
     projectRootFile = "flake.nix";
 
     settings = {
-      global = {
-        allow_missing_formatter = true;
-        verbose = 0;
+      allow-missing-formatter = true;
+      verbose = 0;
 
-        excludes = [
-          "*.jpg"
-          "*.lock"
-          "*.png"
-          "*.svg"
-          "*-lock.*"
-        ];
-      };
+      global.excludes = [
+        "*.jpg"
+        "*.lock"
+        "*.png"
+        "*.svg"
+        "*-lock.*"
+      ];
 
       formatter = {
         nixfmt.options = [ "--strict" ];
