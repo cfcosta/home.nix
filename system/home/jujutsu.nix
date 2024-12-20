@@ -6,208 +6,188 @@
 }:
 let
   inherit (pkgs) writeTextFile;
-  inherit (inputs.nix-std.lib.serde) toTOML;
 
-  configs = {
-    rustfmt = writeTextFile {
-      name = "rustfmt.toml";
-      text = toTOML {
-        reorder_imports = true;
-        imports_granularity = "Crate";
-        imports_layout = "HorizontalVertical";
-        max_width = 80;
-        group_imports = "StdExternalCrate";
-        trailing_comma = "Vertical";
-        trailing_semicolon = true;
+  rustfmtTOML = writeTextFile {
+    name = "rustfmt.toml";
+    text = ''
+      edition = "2024"
+      reorder_imports = true
+      imports_granularity = "Crate"
+      imports_layout = "HorizontalVertical"
+      max_width = 102
+      group_imports = "StdExternalCrate"
+      trailing_comma = "Vertical"
+      trailing_semicolon = true
+    '';
+  };
+
+  styluaTOML = writeTextFile {
+    name = "stylua.toml";
+    text = ''
+      indent_type = "Spaces"
+      indent_width = 2
+    '';
+  };
+
+  treefmt = inputs.treefmt-nix.lib.evalModule pkgs {
+    projectRootFile = "flake.nix";
+
+    settings = {
+      global.excludes = [
+        "*.jpg"
+        "*.lock"
+        "*.png"
+        "*.svg"
+        "*-lock.*"
+      ];
+
+      formatter = {
+        nixfmt.options = [ "--strict" ];
+        rustfmt.options = [
+          "--config-path"
+          rustfmtTOML.outPath
+        ];
+        shfmt.options = [
+          "--ln"
+          "bash"
+        ];
+        stylua.options = [
+          "--config-path"
+          styluaTOML.outPath
+        ];
+        prettier.excludes = [ "*.md" ];
       };
     };
 
-    stylua = writeTextFile {
-      name = "stylua.toml";
-      text = toTOML {
-        indent_type = "Spaces";
-        indent_width = 2;
+    programs = {
+      clang-format.enable = true;
+      nixfmt.enable = true;
+      prettier.enable = true;
+      ruff.enable = true;
+      shfmt.enable = true;
+      stylua.enable = true;
+      taplo.enable = true;
+
+      rustfmt = {
+        enable = true;
+        package = pkgs.rust-bin.nightly.latest.default;
       };
     };
   };
 in
 {
-  config.programs.jujutsu = {
-    enable = true;
+  config = {
+    home.packages = [ treefmt.config.build.wrapper ];
 
-    settings = {
-      aliases = {
-        xl = [
-          "log"
-          "-r"
-          "::mine()"
-        ];
+    programs.jujutsu = {
+      enable = true;
 
-        prs-update-trunk = [
-          "rebase"
-          "-s"
-          "trunk_commit"
-          "-d"
-          "main"
-          "-d"
-          "all:heads(clean_prs | my_prs)"
-          "--skip-emptied"
-        ];
-
-        sync-main = [
-          "rebase"
-          "-s"
-          "roots(main@origin)..trunk_commit-"
-          "-d"
-          "main"
-          "--skip-emptied"
-        ];
-
-        prs = [
-          "log"
-          "-r"
-          "all_prs"
-        ];
-
-        my-prs = [
-          "log"
-          "-r"
-          "my_prs"
-        ];
-      };
-
-      fix.tools = {
-        clang-format = {
-          command = [
-            "${pkgs.clang-tools}/bin/clang-format"
-            "--sort-includes"
-            "--assume-filename=$path"
+      settings = {
+        aliases = {
+          xl = [
+            "log"
+            "-r"
+            "::mine()"
           ];
-          patterns = [
-            "glob:'**/*.c'"
-            "glob:'**/*.h'"
+
+          prs-update-trunk = [
+            "rebase"
+            "-s"
+            "trunk_commit"
+            "-d"
+            "main"
+            "-d"
+            "all:heads(clean_prs | my_prs)"
+            "--skip-emptied"
+          ];
+
+          sync-main = [
+            "rebase"
+            "-s"
+            "roots(main@origin)..trunk_commit-"
+            "-d"
+            "main"
+            "--skip-emptied"
+          ];
+
+          prs = [
+            "log"
+            "-r"
+            "all_prs"
+          ];
+
+          my-prs = [
+            "log"
+            "-r"
+            "my_prs"
           ];
         };
 
-        nixfmt = {
+        fix.tools.treefmt = {
           command = [
-            "${pkgs.nixfmt-rfc-style}/bin/nixfmt"
-            "--strict"
-            "--filename=$path"
-          ];
-          patterns = [ "glob:'**/*.nix'" ];
-        };
-
-        prettier = {
-          command = [
-            "${pkgs.nodePackages.prettier}/bin/prettier"
-            "--stdin-filepath"
+            "treefmt-nix"
+            "--stdin"
             "$path"
           ];
+
           patterns = [
             "glob:'**/*.js'"
             "glob:'**/*.jsx'"
+            "glob:'**/*.lua'"
+            "glob:'**/*.nix'"
+            "glob:'**/*.py'"
+            "glob:'**/*.rs'"
             "glob:'**/*.ts'"
+            "glob:'**/*.toml'"
             "glob:'**/*.tsx'"
+            "glob:'**/*.sh'"
           ];
         };
 
-        ruff = {
-          command = [
-            "${pkgs.ruff}/bin/ruff"
-            "format"
-            "--stdin-filename"
-            "$path"
-          ];
-          patterns = [ "glob:'**/*.py'" ];
+        git = {
+          auto-local-bookmark = true;
+          private-commits = "private_commits | trunk_commit";
+          push-bookmark-prefix = "${config.dusk.accounts.github}/";
         };
 
-        rustfmt = {
-          command = [
-            "${pkgs.rust-bin.nightly.latest.default}/bin/rustfmt"
-            "--config-path"
-            "${configs.rustfmt.outPath}"
-            "--emit"
-            "stdout"
-          ];
-          patterns = [ "glob:'**/*.rs'" ];
+        revset-aliases = {
+          all_prs = ''
+            bookmarks(glob:"pr/*") ~ ::main@origin
+          '';
+
+          clean_prs = "all_prs ~ conflicts()";
+          broken_prs = "all_prs & conflicts()";
+
+          my_prs = "all_prs & mine()";
+          other_prs = "all_prs & mine()";
+          private_commits = "description(glob:'wip:*') | description(glob:'private:*')";
+          trunk_commit = "description(glob:'trunk:*') & mine()";
         };
 
-        shfmt = {
-          command = [
-            "${pkgs.shfmt}/bin/shfmt"
-            "--ln"
-            "bash"
-            "-s"
-            "-"
-          ];
-          patterns = [ "glob:'**/*.sh'" ];
+        snapshot.max-new-file-size = "10MiB";
+
+        signing = {
+          sign-all = true;
+          backend = "gpg";
         };
 
-        stylua = {
-          command = [
-            "${pkgs.stylua}/bin/stylua"
-            "--config-path"
-            "${configs.stylua.outPath}"
-            "-"
-          ];
-          patterns = [ "glob:'**/*.lua'" ];
+        template-aliases = {
+          "format_short_signature(signature)" = "signature.username()";
+          "format_short_id(id)" = "id.shortest()";
         };
 
-        taplo = {
-          command = [
-            "${pkgs.taplo}/bin/taplo"
-            "fmt"
-            "--stdin-filepath=$path"
-            "-"
-          ];
-          patterns = [ "glob:**/*.toml" ];
+        user = {
+          inherit (config.dusk) name;
+          email = config.dusk.emails.primary;
         };
-      };
 
-      git = {
-        auto-local-bookmark = true;
-        private-commits = "private_commits | trunk_commit";
-        push-bookmark-prefix = "${config.dusk.accounts.github}/";
-      };
-
-      revset-aliases = {
-        all_prs = ''
-          bookmarks(glob:"pr/*") ~ ::main@origin
-        '';
-
-        clean_prs = "all_prs ~ conflicts()";
-        broken_prs = "all_prs & conflicts()";
-
-        my_prs = "all_prs & mine()";
-        other_prs = "all_prs & mine()";
-        private_commits = "description(glob:'wip:*') | description(glob:'private:*')";
-        trunk_commit = "description(glob:'trunk:*') & mine()";
-      };
-
-      snapshot.max-new-file-size = "10MiB";
-
-      signing = {
-        sign-all = true;
-        backend = "gpg";
-      };
-
-      template-aliases = {
-        "format_short_signature(signature)" = "signature.username()";
-        "format_short_id(id)" = "id.shortest()";
-      };
-
-      user = {
-        inherit (config.dusk) name;
-        email = config.dusk.emails.primary;
-      };
-
-      ui = {
-        default-command = [ "status" ];
-        diff-editor = ":builtin";
-        diff.format = "git";
-        editor = "nvim";
-        pager = "delta";
+        ui = {
+          default-command = [ "status" ];
+          diff-editor = ":builtin";
+          diff.format = "git";
+          editor = "nvim";
+          pager = "delta";
+        };
       };
     };
   };
