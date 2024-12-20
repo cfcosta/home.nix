@@ -8,39 +8,39 @@
         xl = [
           "log"
           "-r"
-          "::mine()"
+          "::mine() | ::remote_bookmarks()"
         ];
 
-        prs-update-trunk = [
+        update-trunk = [
           "rebase"
           "-s"
-          "trunk_commit"
+          "trunk"
           "-d"
           "main"
           "-d"
-          "all:heads(clean_prs | my_prs)"
+          "all:heads(my(upstreams))"
           "--skip-emptied"
         ];
 
         sync-main = [
           "rebase"
           "-s"
-          "roots(main@origin)..trunk_commit-"
+          "roots(main@origin)..trunk-"
           "-d"
           "main"
           "--skip-emptied"
         ];
 
-        prs = [
+        remotes = [
           "log"
           "-r"
-          "all_prs"
+          "upstreams"
         ];
 
-        my-prs = [
+        my-remotes = [
           "log"
           "-r"
-          "my_prs"
+          "my(upstreams)"
         ];
       };
 
@@ -67,22 +67,21 @@
 
       git = {
         auto-local-bookmark = true;
-        private-commits = "private_commits | trunk_commit";
+        private-commits = "private | trunk";
         push-bookmark-prefix = "${config.dusk.accounts.github}/";
       };
 
       revset-aliases = {
-        all_prs = ''
+        upstreams = ''
           tracked_remote_bookmarks() ~ ::main@origin
         '';
 
-        clean_prs = "all_prs ~ conflicts()";
-        broken_prs = "all_prs & conflicts()";
+        "clean(a)" = "a ~ conflicts()";
+        "broken(a)" = "a & conflicts()";
+        "my(a)" = "a & mine()";
 
-        my_prs = "all_prs & mine()";
-        other_prs = "all_prs & mine()";
-        private_commits = "description(glob:'wip:*') | description(glob:'private:*') | trunk_commit::";
-        trunk_commit = ''bookmarks("trunk") & mine()'';
+        private = "description(glob:'wip:*') | description(glob:'private:*') | trunk::";
+        trunk = ''bookmarks("trunk") & mine()'';
       };
 
       snapshot.max-new-file-size = "10MiB";
