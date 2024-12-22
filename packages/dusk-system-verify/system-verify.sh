@@ -2,6 +2,8 @@
 
 set -e
 
+ROOT="$(git rev-parse --show-toplevel)"
+
 setup_linux() {
   _run_quietly which nix || _fatal "Error: 'nix' command not found in PATH"
   _run_quietly pgrep -x nix-daemon || _fatal "Error: nix-daemon is not running"
@@ -82,6 +84,41 @@ setup_darwin() {
 
   _info "Found Homebrew: $(_blue "${BREW_PATH}")"
 }
+
+check_ssh_key_requirements() {
+  local key github_user username
+
+  github_user="$(nix eval --json --file "${ROOT}/user.nix" | jq -r '.config.dusk.accounts.github')"
+  username="$(nix eval --json --file "${ROOT}/user.nix" | jq -r '.config.dusk.username')"
+  HOME=$(eval echo "~${username}")
+
+  _info "Found username: $(_green "${username}")."
+
+  _info "Checking for SSH keys in $(_blue "${HOME}/.ssh")..."
+
+  if [ ! -f "${HOME}/.ssh/id_ed25519.pub" ]; then
+    _error "Could not find a valid SSH key in $(_blue "${HOME}/.ssh")."
+    _info "You can generate one by running this command: $(_blue "ssh-keygen -t ed25519")"
+
+    return 127
+  fi
+
+  key="$(cut -f 2 -d" " <"${HOME}/.ssh/id_ed25519.pub")"
+
+  _info "Checking if the user SSH key is properly registered on Github..."
+
+  [[ -n "${github_user}" ]] || _fatal "Could not find your github user on the $(_blue "${ROOT}/user.nix") file."
+  _info "Found Github User: $(_green "${github_user}")"
+
+  if ! timeout 2s curl "https://github.com/${github_user}.keys" 2>&1 | grep -q "${key}"; then
+    _error "The SSH key you are using was not added to the configured GitHub account."
+    _info "This might mean you either need to add this key to your user, change the $(_blue "${ROOT}/user.nix") file, or verify your network connection."
+
+    return 1
+  fi
+}
+
+check_ssh_key_requirements
 
 _info "Found $(uname -s) machine, verifying environment."
 
