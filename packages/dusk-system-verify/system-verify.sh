@@ -124,14 +124,14 @@ check_secrets() {
 
   _info "Verifying if your user is allowed to decrypt secrets"
 
-  pushd "${ROOT}/secrets" || _fatal "Failed to cd to secrets folder in $(_blue "${ROOT}/secrets")."
+  cd "${ROOT}/secrets" || _fatal "Failed to cd to secrets folder in $(_blue "${ROOT}/secrets")."
 
-  if ! _run_quietly agenix -d cloudflare-api-token.age; then
+  if ! agenix -d cloudflare-api-token.age &>/dev/null; then
     _warn "The secrets are inaccessible! Be careful."
     _info "You should re-generate and re-encrypt them with your key."
   fi
 
-  popd || _fatal "Failed to return to root folder at $(_blue "${ROOT}")."
+  cd "${ROOT}"
 
   return 0
 }
