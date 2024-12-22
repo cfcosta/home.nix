@@ -1,4 +1,18 @@
-{ config, ... }:
+{ config, pkgs, ... }:
+let
+  inherit (pkgs) dusk makeWrapper symlinkJoin;
+
+  treefmt = symlinkJoin {
+    name = "jujutsu-treefmt";
+    paths = [ dusk.dusk-treefmt ];
+    buildInputs = [ makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/treefmt \
+        --set NO_COLOR 1 \
+        --set TREEFMT_VERBOSE 0
+    '';
+  };
+in
 {
   config.programs.jujutsu = {
     enable = true;
@@ -46,9 +60,8 @@
 
       fix.tools.treefmt = {
         command = [
-          "treefmt"
+          "${treefmt}/bin/treefmt"
           "--no-cache"
-          "-v=0"
           "$path"
           "--stdin"
         ];
