@@ -38,6 +38,7 @@ in
           discord
           easyeffects
           element-desktop
+          feishin
           firefox
           flacon
           fractal

@@ -82,6 +82,7 @@ in
         ripgrep
         rsync
         scc
+        shntool
         starship
         streamlink
         tmux
@@ -89,6 +90,7 @@ in
         unixtools.watch
         unzip
         watchexec
+        wavpack
         wget
         zoxide
       ];
