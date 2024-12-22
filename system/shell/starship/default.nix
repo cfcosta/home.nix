@@ -155,8 +155,8 @@ in
           "$localip"
           "$directory"
           "$cmd_duration"
-          "$fill"
           "$custom"
+          "$nix_shell"
           "$all"
           "$line_break"
           "$character"
@@ -165,6 +165,10 @@ in
         aws.symbol = "  ";
         buf.symbol = " ";
         c.symbol = " ";
+        character = {
+          success_symbol = "[λ](bold green)";
+          error_symbol = "[λ](bold red)";
+        };
         conda.symbol = " ";
         crystal.symbol = " ";
         dart.symbol = " ";
@@ -291,7 +295,7 @@ in
             ')
 
             # shellcheck disable=SC2086
-            printf "$GREEN$RESET %s $GREEN+%d$RESET $RED-%d$RESET" "$change_id" $stats
+            printf "$GREEN$RESET %s $GRAY($GREEN+%d $RED-%d$GRAY)$RESET" "$change_id" $stats
           '';
           when = "${jj} root";
           format = "on $output ";
