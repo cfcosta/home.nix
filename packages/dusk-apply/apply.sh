@@ -29,13 +29,13 @@ case "$(uname -s)" in
   exec ${CMD}
   ;;
 "Linux")
-  if [ "$(whoami)" != "root" ] && [ "${CMD}" == "switch" ]; then
-    _fatal "This script needs to be run as root."
+  if [ "$(whoami)" == "root" ]; then
+    _fatal "This script must be run as a normal user. Sudo password will be asked from you when required."
   fi
 
   dusk-system-verify || _fatal "System failed minimum requirements to run"
 
-  CMD="nixos-rebuild $CMD --flake ${ROOT}#${HOSTNAME} -L"
+  CMD="sudo nixos-rebuild $CMD --flake ${ROOT}#${HOSTNAME} -L"
   ;;
 *)
   _fatal "Invalid system"

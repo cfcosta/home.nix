@@ -85,17 +85,7 @@ setup_darwin() {
   _info "Found Homebrew: $(_blue "${BREW_PATH}")"
 }
 
-check_ssh_key_requirements() {
-  local key github_user username
-
-  github_user="$(nix eval --json --file "${ROOT}/user.nix" | jq -r '.config.dusk.accounts.github')"
-  username="$(nix eval --json --file "${ROOT}/user.nix" | jq -r '.config.dusk.username')"
-  HOME=$(eval echo "~${username}")
-
-  _info "Found username: $(_green "${username}")."
-
-  _info "Checking for SSH keys in $(_blue "${HOME}/.ssh")..."
-
+get_pubkey() {
   if [ ! -f "${HOME}/.ssh/id_ed25519.pub" ]; then
     _error "Could not find a valid SSH key in $(_blue "${HOME}/.ssh")."
     _info "You can generate one by running this command: $(_blue "ssh-keygen -t ed25519")"
@@ -103,22 +93,51 @@ check_ssh_key_requirements() {
     return 127
   fi
 
-  key="$(cut -f 2 -d" " <"${HOME}/.ssh/id_ed25519.pub")"
+  cut -f 2 -d" " <"${HOME}/.ssh/id_ed25519.pub"
+}
+
+check_ssh_key_requirements() {
+  local github_user username
+
+  github_user="$(nix eval --json --file "${ROOT}/user.nix" | jq -r '.config.dusk.accounts.github')"
+  username="$(nix eval --json --file "${ROOT}/user.nix" | jq -r '.config.dusk.username')"
+  HOME=$(eval echo "~${username}")
 
   _info "Checking if the user SSH key is properly registered on Github..."
 
-  [[ -n "${github_user}" ]] || _fatal "Could not find your github user on the $(_blue "${ROOT}/user.nix") file."
+  [[ -n ${github_user} ]] || _fatal "Could not find your github user on the $(_blue "${ROOT}/user.nix") file."
+  _info "Found username: $(_green "${github_user}")"
   _info "Found Github User: $(_green "${github_user}")"
 
-  if ! timeout 2s curl "https://github.com/${github_user}.keys" 2>&1 | grep -q "${key}"; then
-    _error "The SSH key you are using was not added to the configured GitHub account."
+  if ! timeout 2s curl "https://github.com/${github_user}.keys" 2>&1 | grep -q "$(get_pubkey)"; then
+    _warn "The SSH key you are using was not added to the configured GitHub account."
     _info "This might mean you either need to add this key to your user, change the $(_blue "${ROOT}/user.nix") file, or verify your network connection."
-
-    return 1
   fi
 }
 
+check_secrets() {
+  if grep -q "$(get_pubkey)" "${ROOT}/secrets/secrets.nix"; then
+    _warn "The SSH key you are using is not set as a recipient for secrets."
+    _info "Some things might behave weirdly."
+    _info "You should add your key to the  $(_blue "${ROOT}/secrets/secrets.nix") file."
+  fi
+
+  _info "Verifying if your user is allowed to decrypt secrets"
+
+  pushd "${ROOT}/secrets" || _fatal "Failed to cd to secrets folder in $(_blue "${ROOT}/secrets")."
+
+  if ! _run_quietly agenix -d cloudflare-api-token.age; then
+    _warn "The secrets are inaccessible! Be careful."
+    _info "You should re-generate and re-encrypt them with your key."
+  fi
+
+  popd || _fatal "Failed to return to root folder at $(_blue "${ROOT}")."
+
+  return 0
+}
+
 check_ssh_key_requirements
+check_secrets
 
 _info "Found $(uname -s) machine, verifying environment."
 
