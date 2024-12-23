@@ -25,16 +25,13 @@ in
   imports = [
     inputs.agenix.nixosModules.default
 
-    (import ./bazarr.nix args)
     (import ./deluge.nix args)
     (import ./gitea.nix args)
     (import ./jellyfin.nix args)
     (import ./lidarr.nix args)
     (import ./navidrome.nix args)
     (import ./prowlarr.nix args)
-    (import ./radarr.nix args)
     (import ./readarr.nix args)
-    (import ./sonarr.nix args)
     (import ./traefik.nix args)
   ];
 }

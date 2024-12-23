@@ -83,7 +83,6 @@
           server = {
             enable = true;
             domain = "cfcosta.cloud";
-            sonarr.enable = false;
           };
         };
 
