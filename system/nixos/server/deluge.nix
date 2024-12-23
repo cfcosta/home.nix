@@ -4,7 +4,12 @@ dusk-lib.defineService rec {
   port = 8112;
 
   config =
-    { config, lib, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       inherit (builtins) toFile;
       inherit (lib) mkIf removePrefix;
@@ -12,6 +17,12 @@ dusk-lib.defineService rec {
       relativeMediaFolder = removePrefix "${config.dusk.folders.home}/" config.dusk.folders.media.root;
 
       cfg = config.dusk.system.nixos.server;
+      package = pkgs.deluge.overrideAttrs (old: {
+        postPatch = ''
+          ${old.postPatch or ""}
+          sed -i '122,130c\        return True' deluge/ui/web/auth.py
+        '';
+      });
     in
     {
       config = mkIf cfg.enable {
@@ -28,8 +39,9 @@ dusk-lib.defineService rec {
 
         services.deluge = {
           inherit (cfg.${name}) enable;
+          inherit package;
+
           web.enable = true;
-          dataDir = "${config.dusk.folders.media.data}/${name}";
           openFirewall = true;
           declarative = true;
           authFile = config.age.secrets.deluge.path;
@@ -40,27 +52,18 @@ dusk-lib.defineService rec {
 
           config = {
             download_location = "${config.dusk.folders.media.root}/_incomplete";
-            move_completed_path = config.dusk.folders.media.root;
+            move_completed_path = "${config.dusk.folders.media.root}/_complete";
             move_completed = true;
             allow_remote = true;
             dont_count_slow_torrents = true;
-            max_active_downloading = 32;
+            max_active_downloading = 64;
             max_active_limit = -1;
             max_active_seeding = -1;
             max_connections_global = -1;
             max_download_speed = -1;
             max_upload_speed = -1;
-
-            # Listen on specific port
-            random_port = false;
-            listen_ports = [
-              16880
-              16880
-            ];
-
-            # Outgoing is random
+            random_port = true;
             random_outgoing_ports = true;
-
             upnp = true;
             utpex = true;
           };
