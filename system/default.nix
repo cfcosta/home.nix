@@ -86,7 +86,6 @@ in
         shntool
         starship
         streamlink
-        tmux
         tree
         unixtools.watch
         unzip

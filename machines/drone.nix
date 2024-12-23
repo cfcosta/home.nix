@@ -12,7 +12,7 @@ _: {
         };
       };
 
-      tmux.showBattery = true;
+      shell.tmux.showBattery = true;
     };
   };
 }

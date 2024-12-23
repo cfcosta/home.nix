@@ -281,7 +281,5 @@ in
           };
         };
     };
-
-    tmux.showBattery = lib.mkEnableOption "tmux show battery level";
   };
 }

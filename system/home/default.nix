@@ -6,12 +6,7 @@
   ...
 }:
 let
-  inherit (builtins)
-    attrNames
-    concatStringsSep
-    map
-    readFile
-    ;
+  inherit (builtins) attrNames concatStringsSep map;
   inherit (lib) mapAttrsToList mkForce;
 
   completeAliases = map (alias: "complete -F _complete_alias ${alias}") (
@@ -249,16 +244,6 @@ in
       };
 
       ssh.hashKnownHosts = true;
-
-      tmux = {
-        enable = true;
-
-        escapeTime = 0;
-        keyMode = "vi";
-        terminal = "xterm-256color";
-        extraConfig = readFile ./tmux/config;
-      };
-
       zoxide.enable = true;
     };
 

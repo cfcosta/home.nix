@@ -7,7 +7,7 @@
 
   config = {
     dusk = {
-      starship.disabledModules = [
+      shell.starship.disabledModules = [
         "cmd_duration"
         "dart"
         "fossil_branch"

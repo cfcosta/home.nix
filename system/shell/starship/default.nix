@@ -7,7 +7,7 @@
 let
   inherit (builtins) concatStringsSep listToAttrs;
   inherit (lib) mkOption types;
-  inherit (config.dusk.starship) disabledModules;
+  inherit (config.dusk.shell.starship) disabledModules;
 
   allModules = [
     "aws"
@@ -113,27 +113,20 @@ let
   jj = "${pkgs.jujutsu}/bin/jj --ignore-working-copy";
 in
 {
-  options.dusk.starship = {
-    format = {
-      type = types.listOf (types.enum allModules);
-      default = allModules;
-    };
-
-    disabledModules = mkOption {
-      type = types.listOf (types.enum allModules);
-      default = [
-        "dart"
-        "fossil_branch"
-        "fossil_metrics"
-        "gradle"
-        "guix_shell"
-        "hg_branch"
-        "java"
-        "package"
-        "pijul_channel"
-        "vagrant"
-      ];
-    };
+  options.dusk.shell.starship.disabledModules = mkOption {
+    type = types.listOf (types.enum allModules);
+    default = [
+      "dart"
+      "fossil_branch"
+      "fossil_metrics"
+      "gradle"
+      "guix_shell"
+      "hg_branch"
+      "java"
+      "package"
+      "pijul_channel"
+      "vagrant"
+    ];
   };
 
   config.home-manager.users.${config.dusk.username} = _: {

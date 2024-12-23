@@ -1,1 +1,6 @@
-{ imports = [ ./starship ]; }
+{
+  imports = [
+    ./starship
+    ./tmux
+  ];
+}
