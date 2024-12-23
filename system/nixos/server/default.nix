@@ -36,6 +36,5 @@ in
     (import ./readarr.nix args)
     (import ./sonarr.nix args)
     (import ./traefik.nix args)
-    (import ./transmission args)
   ];
 }
