@@ -29,6 +29,12 @@ setup_darwin_xcode_cli_tools() {
 }
 
 setup_darwin_xcode_license() {
+  if ! which xcodebuild &>/dev/null; then
+    _warn "$(_blue xcodebuild) could not be found, things might behave weirdly."
+
+    return 0
+  fi
+
   XCODE_VERSION="$(xcodebuild -version | grep '^Xcode\s' | sed -E 's/^Xcode[[:space:]]+([0-9\.]+)/\1/')"
   ACCEPTED_LICENSE_VERSION="$(defaults read /Library/Preferences/com.apple.dt.Xcode 2>/dev/null | grep IDEXcodeVersionForAgreedToGMLicense | cut -d '"' -f 2)"
 
