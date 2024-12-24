@@ -82,8 +82,6 @@
       ...
     }:
     let
-      inherit (builtins) attrValues;
-
       ctx = flake-utils.lib.eachDefaultSystem (system: {
         pkgs = import nixpkgs {
           inherit system;
@@ -173,7 +171,12 @@
             inherit (pre-commit-check) shellHook;
             name = "home";
 
-            packages = with pkgs; [ agenix ] ++ (attrValues pkgs.dusk);
+            packages = with pkgs; [
+              agenix
+              dusk.dusk-treefmt
+
+              (writeShellScriptBin "dusk-apply" "nix run $(pwd)#dusk-apply")
+            ];
           };
 
           packages = pkgs.dusk // {
