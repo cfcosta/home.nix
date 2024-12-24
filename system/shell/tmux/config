@@ -1,6 +1,3 @@
-# Enable mouse support
-set mouse
-
 # Enable OSC 52 clipboard handling
 set -as terminal-features ',xterm-256color:clipboard'
 set -s set-clipboard external
