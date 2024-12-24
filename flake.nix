@@ -168,6 +168,7 @@
         in
         {
           checks = { inherit pre-commit-check; };
+          formatter = pkgs.dusk.dusk-treefmt;
 
           devShells.default = mkShell {
             inherit (pre-commit-check) shellHook;
