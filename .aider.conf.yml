@@ -6,7 +6,7 @@ auto-commits: false
 
 # Linting and Testing
 auto-lint: true
-lint-cmd: pre-commit run -a
+lint-cmd: treefmt
 
 auto-test: true
 test-cmd: nix flake check

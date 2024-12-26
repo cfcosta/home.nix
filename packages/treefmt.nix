@@ -5,20 +5,6 @@
   ...
 }:
 let
-  rustfmtTOML = writeTextFile {
-    name = "rustfmt.toml";
-    text = ''
-      edition = "2024"
-      reorder_imports = true
-      imports_granularity = "Crate"
-      imports_layout = "HorizontalVertical"
-      max_width = 102
-      group_imports = "StdExternalCrate"
-      trailing_comma = "Vertical"
-      trailing_semicolon = true
-    '';
-  };
-
   styluaTOML = writeTextFile {
     name = "stylua.toml";
     text = ''
@@ -44,10 +30,6 @@ let
 
       formatter = {
         nixfmt.options = [ "--strict" ];
-        rustfmt.options = [
-          "--config-path"
-          rustfmtTOML.outPath
-        ];
         shfmt.options = [
           "--ln"
           "bash"

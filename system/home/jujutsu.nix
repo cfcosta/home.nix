@@ -14,114 +14,128 @@ let
   };
 in
 {
-  config.programs.jujutsu = {
-    enable = true;
+  config = {
+    home.file.".config/rustfmt/rustfmt.toml".text = ''
+      edition = "2024"
 
-    settings = {
-      aliases = {
-        xl = [
-          "log"
-          "-r"
-          "::mine() | ::remote_bookmarks()"
-        ];
+      reorder_imports = true
+      imports_granularity = "Crate"
+      imports_layout = "HorizontalVertical"
+      max_width = 102
+      group_imports = "StdExternalCrate"
+      trailing_comma = "Vertical"
+      trailing_semicolon = true
+    '';
 
-        update-trunk = [
-          "rebase"
-          "-s"
-          "trunk"
-          "-d"
-          "main"
-          "-d"
-          "all:heads(my(upstreams))"
-          "--skip-emptied"
-        ];
+    programs.jujutsu = {
+      enable = true;
 
-        sync-main = [
-          "rebase"
-          "-s"
-          "roots(main@origin)..trunk-"
-          "-d"
-          "main"
-          "--skip-emptied"
-        ];
+      settings = {
+        aliases = {
+          xl = [
+            "log"
+            "-r"
+            "::mine() | ::remote_bookmarks()"
+          ];
 
-        remotes = [
-          "log"
-          "-r"
-          "upstreams"
-        ];
+          update-trunk = [
+            "rebase"
+            "-s"
+            "trunk"
+            "-d"
+            "main"
+            "-d"
+            "all:heads(my(upstreams))"
+            "--skip-emptied"
+          ];
 
-        my-remotes = [
-          "log"
-          "-r"
-          "my(upstreams)"
-        ];
-      };
+          sync-main = [
+            "rebase"
+            "-s"
+            "roots(main@origin)..trunk-"
+            "-d"
+            "main"
+            "--skip-emptied"
+          ];
 
-      fix.tools.treefmt = {
-        command = [
-          "${treefmt}/bin/treefmt"
-          "--no-cache"
-          "$path"
-          "--stdin"
-        ];
+          remotes = [
+            "log"
+            "-r"
+            "upstreams"
+          ];
 
-        patterns = [
-          "glob:'**/*.js'"
-          "glob:'**/*.jsx'"
-          "glob:'**/*.lua'"
-          "glob:'**/*.nix'"
-          "glob:'**/*.py'"
-          "glob:'**/*.rs'"
-          "glob:'**/*.ts'"
-          "glob:'**/*.toml'"
-          "glob:'**/*.tsx'"
-          "glob:'**/*.sh'"
-        ];
-      };
+          my-remotes = [
+            "log"
+            "-r"
+            "my(upstreams)"
+          ];
+        };
 
-      git = {
-        auto-local-bookmark = true;
-        private-commits = "private | trunk";
-        push-bookmark-prefix = "${config.dusk.accounts.github}/";
-      };
+        fix.tools.treefmt = {
+          command = [
+            "${treefmt}/bin/treefmt"
+            "--no-cache"
+            "$path"
+            "--stdin"
+          ];
 
-      revset-aliases = {
-        upstreams = ''
-          tracked_remote_bookmarks() ~ ::main@origin
-        '';
+          patterns = [
+            "glob:'**/*.js'"
+            "glob:'**/*.jsx'"
+            "glob:'**/*.lua'"
+            "glob:'**/*.nix'"
+            "glob:'**/*.py'"
+            "glob:'**/*.rs'"
+            "glob:'**/*.sh'"
+            "glob:'**/*.toml'"
+            "glob:'**/*.ts'"
+            "glob:'**/*.tsx'"
+          ];
+        };
 
-        "clean(a)" = "a ~ conflicts()";
-        "broken(a)" = "a & conflicts()";
-        "my(a)" = "a & mine()";
+        git = {
+          auto-local-bookmark = true;
+          private-commits = "private | trunk";
+          push-bookmark-prefix = "${config.dusk.accounts.github}/";
+        };
 
-        private = "description(glob:'wip:*') | description(glob:'private:*') | trunk::";
-        trunk = ''bookmarks("trunk") & mine()'';
-      };
+        revset-aliases = {
+          upstreams = ''
+            tracked_remote_bookmarks() ~ ::main@origin
+          '';
 
-      snapshot.max-new-file-size = "10MiB";
+          "clean(a)" = "a ~ conflicts()";
+          "broken(a)" = "a & conflicts()";
+          "my(a)" = "a & mine()";
 
-      signing = {
-        sign-all = true;
-        backend = "gpg";
-      };
+          private = "description(glob:'wip:*') | description(glob:'private:*') | trunk::";
+          trunk = ''bookmarks("trunk") & mine()'';
+        };
 
-      template-aliases = {
-        "format_short_signature(signature)" = "signature.username()";
-        "format_short_id(id)" = "id.shortest()";
-      };
+        snapshot.max-new-file-size = "10MiB";
 
-      user = {
-        inherit (config.dusk) name;
-        email = config.dusk.emails.primary;
-      };
+        signing = {
+          sign-all = true;
+          backend = "gpg";
+        };
 
-      ui = {
-        default-command = [ "status" ];
-        diff-editor = ":builtin";
-        diff.format = "git";
-        editor = "nvim";
-        pager = "delta";
+        template-aliases = {
+          "format_short_signature(signature)" = "signature.username()";
+          "format_short_id(id)" = "id.shortest()";
+        };
+
+        user = {
+          inherit (config.dusk) name;
+          email = config.dusk.emails.primary;
+        };
+
+        ui = {
+          default-command = [ "status" ];
+          diff-editor = ":builtin";
+          diff.format = "git";
+          editor = "nvim";
+          pager = "delta";
+        };
       };
     };
   };
