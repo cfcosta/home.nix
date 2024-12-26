@@ -143,7 +143,7 @@ in
                       <mode>
                         <width>${toString monitor.resolution.width}</width>
                         <height>${toString monitor.resolution.height}</height>
-                        <rate>${toString (monitor.refreshRate * 1000.0)}</rate>
+                        <rate>${toString monitor.refreshRate}</rate>
                       </mode>
                       <transform>
                         <rotation>${

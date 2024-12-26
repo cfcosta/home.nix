@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib)
     attrByPath
@@ -12,6 +17,16 @@ let
     tail
     toString
     ;
+
+  wallpapers = pkgs.stdenvNoCC.mkDerivation {
+    name = "dusk-wallpapers";
+    src = ../assets/wallpapers;
+    installPhase = ''
+      mkdir -p $out/share/wallpapers
+      cp -r * $out/share/wallpapers/
+    '';
+  };
+
   cfg = config.dusk.system;
 
   getWallpaper =
@@ -37,11 +52,11 @@ let
     {
       inherit name;
 
-      value = toString (coalesce [
+      value = coalesce [
         (attrByPath [ name ] null cfg.wallpapers)
-        (../assets/wallpapers + "/${toString width}x${toString height}.jpg")
-        ../assets/wallpapers/default.jpg
-      ]);
+        ("${wallpapers}/share/wallpapers/${toString width}x${toString height}.jpg")
+        "${wallpapers}/share/wallpapers/default.jpg"
+      ];
     };
 
   exists = p: (p.value != null) && (pathExists p.value);
@@ -62,6 +77,8 @@ in
     in
     {
       home-manager.users.${config.dusk.username} = _: {
+        home.packages = [ wallpapers ];
+
         services.hyprpaper = mkIf hyprland.enable {
           enable = true;
 
@@ -73,13 +90,16 @@ in
 
         dconf.settings = mkIf gnome.enable (
           listToAttrs (
-            map (monitor: {
-              name = "org/gnome/desktop/background/picture-options-${monitor.name}";
-              value = {
-                picture-uri = "file://${monitor.value}";
-                picture-uri-dark = "file://${monitor.value}";
-              };
-            }) all
+            map (
+              { name, value }:
+              {
+                name = "org/gnome/desktop/background/picture-options-${name}";
+                value = {
+                  picture-uri = "file://${value}";
+                  picture-uri-dark = "file://${value}";
+                };
+              }
+            ) all
           )
         );
       };
