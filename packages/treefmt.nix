@@ -21,11 +21,14 @@ let
       verbose = 0;
 
       global.excludes = [
+        "*.age"
         "*.jpg"
         "*.lock"
         "*.png"
         "*.svg"
         "*-lock.*"
+        "*ignore"
+        "*.md"
       ];
 
       formatter = {
@@ -38,7 +41,6 @@ let
           "--config-path"
           styluaTOML.outPath
         ];
-        prettier.excludes = [ "*.md" ];
       };
     };
 
