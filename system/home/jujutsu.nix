@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 let
-  inherit (pkgs) dusk makeWrapper symlinkJoin;
+  inherit (pkgs) dusk-treefmt makeWrapper symlinkJoin;
 
   treefmt = symlinkJoin {
     name = "jujutsu-treefmt";
-    paths = [ dusk.dusk-treefmt ];
+    paths = [ dusk-treefmt ];
     buildInputs = [ makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/treefmt \

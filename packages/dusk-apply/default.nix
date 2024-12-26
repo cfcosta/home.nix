@@ -1,4 +1,8 @@
-{ writeShellApplication, dusk }:
+{
+  dusk-stdlib,
+  dusk-system-verify,
+  writeShellApplication,
+}:
 let
   inherit (builtins) readFile;
 in
@@ -6,8 +10,8 @@ writeShellApplication {
   name = "dusk-apply";
 
   runtimeInputs = [
-    dusk.dusk-stdlib.entrypoint
-    dusk.dusk-system-verify
+    dusk-stdlib.entrypoint
+    dusk-system-verify
   ];
 
   text = ''

@@ -148,7 +148,7 @@
 
               treefmt = {
                 enable = true;
-                package = pkgs.dusk.dusk-treefmt;
+                package = pkgs.dusk-treefmt;
               };
             };
           };
@@ -165,7 +165,7 @@
         in
         {
           checks = { inherit pre-commit-check; };
-          formatter = pkgs.dusk.dusk-treefmt;
+          formatter = pkgs.dusk-treefmt;
 
           devShells.default = mkShell {
             inherit (pre-commit-check) shellHook;
@@ -173,13 +173,15 @@
 
             packages = with pkgs; [
               agenix
-              dusk.dusk-treefmt
+              dusk-treefmt
 
               (writeShellScriptBin "dusk-apply" "nix run $(pwd)#dusk-apply")
             ];
           };
 
-          packages = pkgs.dusk // {
+          packages = {
+            inherit (pkgs) dusk-apply dusk-system-verify;
+
             battlecruiser = systemTarget "battlecruiser" "nixos";
             drone = systemTarget "drone" "darwin";
           };

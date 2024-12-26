@@ -18,8 +18,8 @@ let
 
   packages = {
     ai-describe = {
-      name = "jj-ai-describe";
-      file = ./jj-ai-describe;
+      name = "ai-describe";
+      file = ./ai-describe.py;
       deps = ps: [
         ps.click
         ps.litellm
@@ -28,7 +28,7 @@ let
   };
 in
 symlinkJoin {
-  name = "dusk-jujutsu";
+  name = "dusk-ai-tools";
   paths = map mkScript (attrValues packages);
   passthru = { inherit python; };
 }

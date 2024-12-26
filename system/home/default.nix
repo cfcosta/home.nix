@@ -222,7 +222,7 @@ in
 
       neovim = {
         enable = true;
-        package = pkgs.dusk.nightvim;
+        package = pkgs.nightvim;
       };
 
       readline = {

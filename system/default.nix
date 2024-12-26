@@ -41,10 +41,6 @@ in
       };
 
       systemPackages = with pkgs; [
-        dusk.dusk-stdlib
-        dusk.dusk-jujutsu
-        dusk.dusk-treefmt
-
         age
         aider-chat
         bat
@@ -56,6 +52,9 @@ in
         curl
         direnv
         duf
+        dusk-ai-tools
+        dusk-stdlib
+        dusk-treefmt
         dust
         eva
         fava

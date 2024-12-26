@@ -111,7 +111,7 @@ def run_command(cmd: list[str]) -> str:
 
 async def get_context(
     revision: str = "@",
-    context: str = "main..@-",
+    context: str = "main..@- ~ private",
     use_reason: bool = False,
     temperature: float = 1.0,
     max_tokens: int = 1024,
