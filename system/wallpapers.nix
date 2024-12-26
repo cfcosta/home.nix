@@ -37,16 +37,15 @@ let
     {
       inherit name;
 
-      value = coalesce [
+      value = toString (coalesce [
         (attrByPath [ name ] null cfg.wallpapers)
-        (../../assets/wallpapers + "/${toString width}x${toString height}.jpg")
-        ../../assets/wallpapers/default.jpg
-      ];
+        (../assets/wallpapers + "/${toString width}x${toString height}.jpg")
+        ../assets/wallpapers/default.jpg
+      ]);
     };
 
   exists = p: (p.value != null) && (pathExists p.value);
   all = filter exists (map getWallpaper cfg.monitors);
-  getPath = m: (getWallpaper m).value;
 in
 {
   options.dusk.system.wallpapers =
@@ -63,8 +62,8 @@ in
     in
     {
       home-manager.users.${config.dusk.username} = _: {
-        services.hyprpaper = {
-          inherit (hyprland) enable;
+        services.hyprpaper = mkIf hyprland.enable {
+          enable = true;
 
           settings = {
             preload = map (pair: pair.value) all;
@@ -77,8 +76,8 @@ in
             map (monitor: {
               name = "org/gnome/desktop/background/picture-options-${monitor.name}";
               value = {
-                picture-uri = "file://${getPath monitor}";
-                picture-uri-dark = "file://${getPath monitor}";
+                picture-uri = "file://${monitor.value}";
+                picture-uri-dark = "file://${monitor.value}";
               };
             }) all
           )
