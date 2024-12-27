@@ -10,6 +10,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
 
     flake-compat.url = "github:nix-community/flake-compat";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -25,10 +26,26 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
+        systems.follows = "systems";
       };
     };
 
-    catppuccin.url = "github:catppuccin/nix";
+    nuscht-search = {
+      url = "github:NuschtOS/search";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs-stable";
+        home-manager.follows = "home-manager";
+        nuscht-search.follows = "nuscht-search";
+      };
+    };
 
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
@@ -46,6 +63,7 @@
         gitignore.follows = "gitignore";
         pre-commit-hooks.follows = "pre-commit-hooks";
         rust-overlay.follows = "rust-overlay";
+        treefmt-nix.follows = "treefmt-nix";
       };
     };
     nix-darwin = {
@@ -56,6 +74,7 @@
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs-stable";
         gitignore.follows = "gitignore";
         flake-compat.follows = "flake-compat";
       };

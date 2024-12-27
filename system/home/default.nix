@@ -24,7 +24,10 @@ in
   ];
 
   config = {
-    catppuccin.enable = true;
+    catppuccin = {
+      enable = true;
+      nvim.enable = false;
+    };
 
     fonts.fontconfig.enable = true;
 
