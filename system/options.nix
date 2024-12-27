@@ -67,7 +67,7 @@ in
       terminal = mkOption {
         type = types.str;
         description = "Your default terminal emulator";
-        default = "${pkgs.alacritty}/bin/alacritty";
+        default = config.dusk.terminal.flavor;
       };
     };
 
@@ -185,25 +185,6 @@ in
             enable = mkEnabledOption {
               description = "Whether or not to enable the Graphical Desktop";
               parent = flavor == "nixos";
-            };
-
-            alacritty = {
-              enable = mkEnabledOption {
-                description = "Whether or not to enable the Alacritty Terminal";
-                parent = cfg.desktop.enable;
-              };
-
-              font = {
-                family = mkOption {
-                  type = types.str;
-                  default = "Inconsolata NerdFont";
-                };
-
-                size = mkOption {
-                  type = types.float;
-                  default = 14.0;
-                };
-              };
             };
 
             gnome = {

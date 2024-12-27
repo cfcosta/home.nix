@@ -54,7 +54,7 @@ let
 
       value = coalesce [
         (attrByPath [ name ] null cfg.wallpapers)
-        ("${wallpapers}/share/wallpapers/${toString width}x${toString height}.jpg")
+        "${wallpapers}/share/wallpapers/${toString width}x${toString height}.jpg"
         "${wallpapers}/share/wallpapers/default.jpg"
       ];
     };

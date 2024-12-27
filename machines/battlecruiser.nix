@@ -7,6 +7,12 @@
 
   config = {
     dusk = {
+      terminal = {
+        flavor = "alacritty";
+        font-family = "Berkeley Mono NerdFont Mono";
+        font-size = 16;
+      };
+
       shell.starship.disabledModules = [
         "cmd_duration"
         "dart"
@@ -75,7 +81,6 @@
 
         nixos = {
           desktop = {
-            alacritty.font.family = "Berkeley Mono NerdFont Mono";
             gaming.gamescope.enable = true;
             hyprland.enable = true;
           };

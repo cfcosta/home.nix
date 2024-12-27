@@ -61,7 +61,7 @@ in
           source-code-pro
           source-sans
         ]
-        ++ optionals cfg.alacritty.enable [ alacritty ]
+        ++ optionals (config.dusk.terminal.flavor == "alacritty") [ alacritty ]
         ++ optionals config.dusk.system.nixos.virtualisation.libvirt.enable [
           (virt-manager.overrideAttrs (old: {
             nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.wrapGAppsHook ];

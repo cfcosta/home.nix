@@ -18,8 +18,6 @@ in
     inputs.agenix.homeManagerModules.default
     inputs.catppuccin.homeManagerModules.catppuccin
 
-    ./alacritty.nix
-    ./ghostty.nix
     ./git.nix
     ./jujutsu.nix
     ./zed

@@ -1,24 +1,22 @@
-{ config, lib, ... }:
+{ config, ... }:
 let
-  inherit (lib) mkIf;
-
-  cfg = config.dusk.system.nixos.desktop.alacritty;
+  cfg = config.dusk.terminal;
 
   font = style: {
     inherit style;
-    inherit (cfg.font) family;
+    family = cfg.font-family;
   };
 in
 {
-  config = mkIf cfg.enable {
+  config.home-manager.users.${config.dusk.username} = {
     programs.alacritty = {
-      enable = true;
+      enable = cfg.flavor == "alacritty";
 
       settings = {
         env.TERM = "xterm-256color";
 
         font = {
-          inherit (cfg.font) size;
+          size = cfg.font-size;
 
           normal = font "Medium";
           bold = font "Bold";

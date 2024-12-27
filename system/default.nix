@@ -17,6 +17,7 @@ in
     ./wallpapers.nix
     ./shell
     ../user.nix
+    ./terminal
   ];
 
   config = {
