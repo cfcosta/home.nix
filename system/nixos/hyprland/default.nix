@@ -44,6 +44,8 @@ let
   };
 in
 {
+  imports = [ ./sunshine.nix ];
+
   config = mkIf cfg.enable {
     environment = {
       sessionVariables = {
