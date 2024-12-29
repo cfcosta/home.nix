@@ -10,7 +10,7 @@
       terminal = {
         flavor = "alacritty";
         font-family = "Berkeley Mono NerdFont Mono";
-        font-size = 16;
+        font-size = 12;
       };
 
       shell.starship.disabledModules = [
