@@ -1,9 +1,31 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  flavor,
+  pkgs,
+  ...
+}:
 let
-  inherit (lib) mkIf mkOption types;
+  inherit (lib)
+    mkIf
+    mkOption
+    optionals
+    types
+    ;
   cfg = config.dusk.terminal;
 in
 {
+  imports =
+    optionals (flavor == "nixos") [ { environment.systemPackages = with pkgs; [ ghostty ]; } ]
+    ++ optionals (flavor == "darwin") [
+      {
+        homebrew = {
+          enable = true;
+          casks = [ "ghostty" ];
+        };
+      }
+    ];
+
   options.dusk.terminal.ghostty.theme = mkOption {
     description = "What theme to use on ghostty";
     type = types.str;

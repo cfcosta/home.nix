@@ -17,7 +17,6 @@
         "discord"
         "element"
         "firefox"
-        "ghostty"
         "gitify"
         "inkscape"
         "iterm2"
