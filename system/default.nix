@@ -46,7 +46,7 @@ in
         aider-chat
         bat
         beancount
-        # beets
+        beets
         btop
         cachix
         complete-alias
