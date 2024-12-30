@@ -57,18 +57,10 @@ in
       description = "User name of the main user of the system";
     };
 
-    defaults = {
-      browser = mkOption {
-        type = types.str;
-        description = "Your default browser";
-        default = "${pkgs.firefox}/bin/firefox";
-      };
-
-      terminal = mkOption {
-        type = types.str;
-        description = "Your default terminal emulator";
-        default = config.dusk.terminal.default;
-      };
+    defaults.browser = mkOption {
+      type = types.str;
+      description = "Your default browser";
+      default = "${pkgs.firefox}/bin/firefox";
     };
 
     folders =

@@ -175,7 +175,7 @@ in
               ''$mod SHIFT, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show run''
               ''$mod CTRL, L, exec, ${pkgs.hyprlock}/bin/hyprlock''
 
-              "$mod, Return, exec, ${config.dusk.defaults.terminal}"
+              "$mod, Return, exec, ${config.dusk.terminal.default}"
               "$mod, B, exec, ${config.dusk.defaults.browser}"
               ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
             ]
