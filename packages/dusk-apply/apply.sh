@@ -2,7 +2,7 @@
 
 set -e
 
-CMD="${1:-switch}"
+ACTION="${1:-switch}"
 
 HOSTNAME="$(hostname -s)"
 NIX="nix --extra-experimental-features flakes --extra-experimental-features nix-command"
@@ -22,7 +22,7 @@ case "$(uname -s)" in
 
   dusk-system-verify || _fatal "System failed minimum requirements to run"
 
-  CMD="${NIX} run nix-darwin -- $CMD --flake ${ROOT}#${HOSTNAME} -L"
+  CMD="${NIX} run nix-darwin -- $ACTION --flake ${ROOT}#${HOSTNAME} -L"
 
   _info "Running command: $(_blue "${CMD}")"
 
@@ -35,7 +35,16 @@ case "$(uname -s)" in
 
   dusk-system-verify || _fatal "System failed minimum requirements to run"
 
-  CMD="sudo nixos-rebuild $CMD --flake ${ROOT}#${HOSTNAME} -L"
+  CMD="nixos-rebuild $ACTION --flake ${ROOT}#${HOSTNAME} -L"
+
+  case "$ACTION" in
+  switch)
+    CMD="sudo ${CMD}"
+    ;;
+  boot)
+    CMD="sudo ${CMD}"
+    ;;
+  esac
   ;;
 *)
   _fatal "Invalid system"
