@@ -22,8 +22,7 @@ setup_darwin_xcode_cli_tools() {
 
   _run_quietly xcode-select --install
 
-  _info "Please follow the prompts to install Xcode Command Line Tools."
-  _info "After installation is complete, please run this script again."
+  _info "Please follow the prompts to install Xcode Command Line Tools. After installation is complete, please run this script again."
 
   exit 1
 }
@@ -112,20 +111,18 @@ check_ssh_key_requirements() {
   _info "Checking if the user SSH key is properly registered on Github..."
 
   [[ -n ${github_user} ]] || _fatal "Could not find your github user on the $(_blue "${ROOT}/user.nix") file."
-  _info "Found username: $(_green "${github_user}")"
-  _info "Found Github User: $(_green "${github_user}")"
+  _debug "Found username: $(_green "${github_user}")"
+  _debug "Found Github User: $(_green "${github_user}")"
 
   if ! timeout 2s curl "https://github.com/${github_user}.keys" 2>&1 | grep -q "$(get_pubkey)"; then
-    _warn "The SSH key you are using was not added to the configured GitHub account."
-    _info "This might mean you either need to add this key to your user, change the $(_blue "${ROOT}/user.nix") file, or verify your network connection."
+    _warn "The SSH key you are using was not added to the configured GitHub account. This might mean you either need to add this key to your user, change the $(_blue "${ROOT}/user.nix") file, or verify your network connection."
   fi
 }
 
 check_secrets() {
   if grep -q "$(get_pubkey)" "${ROOT}/secrets/secrets.nix"; then
-    _warn "The SSH key you are using is not set as a recipient for secrets."
-    _info "Some things might behave weirdly."
-    _info "You should add your key to the  $(_blue "${ROOT}/secrets/secrets.nix") file."
+    _warn "The SSH key you are using is not set as a recipient for secrets. Some things might behave weirdly."
+    _warn "You should add your key to the  $(_blue "${ROOT}/secrets/secrets.nix") file."
   fi
 
   _info "Verifying if your user is allowed to decrypt secrets"
@@ -133,8 +130,7 @@ check_secrets() {
   cd "${ROOT}/secrets" || _fatal "Failed to cd to secrets folder in $(_blue "${ROOT}/secrets")."
 
   if ! agenix -d cloudflare-api-token.age &>/dev/null; then
-    _warn "The secrets are inaccessible! Be careful."
-    _info "You should re-generate and re-encrypt them with your key."
+    _warn "The secrets are inaccessible! Be careful. You should re-generate and re-encrypt them with your key."
   fi
 
   cd "${ROOT}"
@@ -145,7 +141,8 @@ check_secrets() {
 check_ssh_key_requirements
 check_secrets
 
-_info "Found $(uname -s) machine, verifying environment."
+_info "Found $(_red "$(uname -s)") machine."
+_info "Hostname: $(_blue "$(hostname)")"
 
 case "$(uname -s)" in
 "Darwin")
