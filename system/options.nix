@@ -67,7 +67,7 @@ in
       terminal = mkOption {
         type = types.str;
         description = "Your default terminal emulator";
-        default = config.dusk.terminal.flavor;
+        default = config.dusk.terminal.default;
       };
     };
 

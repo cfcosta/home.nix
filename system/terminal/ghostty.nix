@@ -34,7 +34,7 @@ in
     default = "catppuccin-mocha";
   };
 
-  config = mkIf (cfg.flavor == "ghostty") {
+  config = mkIf (cfg.default == "ghostty") {
     home-manager.users.${config.dusk.username} = {
       programs.bash.initExtra = ''
         . ${pkgs.ghostty}/share/ghostty/shell-integration/bash/ghostty.bash

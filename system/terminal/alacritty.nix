@@ -10,7 +10,7 @@ in
 {
   config.home-manager.users.${config.dusk.username} = {
     programs.alacritty = {
-      enable = cfg.flavor == "alacritty";
+      enable = cfg.default == "alacritty";
 
       settings = {
         env.TERM = "xterm-256color";

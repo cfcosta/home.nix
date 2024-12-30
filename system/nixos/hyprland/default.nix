@@ -48,7 +48,6 @@ in
     environment = {
       sessionVariables = {
         BROWSER = config.dusk.defaults.browser;
-        TERMINAL = config.dusk.defaults.terminal;
         QT_QPA_PLATFORM = "wayland";
         SDL_VIDEODRIVER = "wayland";
         CLUTTER_BACKEND = "wayland";

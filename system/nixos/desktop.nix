@@ -11,6 +11,8 @@ let
   inherit (config.dusk) username;
   inherit (config.dusk.folders) home;
   inherit (lib) mkIf optionals;
+
+  terminal = config.dusk.terminal.default;
 in
 {
   imports = [
@@ -29,7 +31,7 @@ in
         FREETYPE_PROPERTIES = "truetype:interpreter-version=40";
 
         BROWSER = config.dusk.defaults.browser;
-        TERMINAL = config.dusk.defaults.terminal;
+        TERMINAL = "${pkgs."${terminal}"}/bin/${terminal}";
       };
 
       systemPackages =
@@ -59,7 +61,7 @@ in
           source-code-pro
           source-sans
         ]
-        ++ optionals (config.dusk.terminal.flavor == "alacritty") [ alacritty ]
+        ++ optionals (config.dusk.terminal.default == "alacritty") [ alacritty ]
         ++ optionals config.dusk.system.nixos.virtualisation.libvirt.enable [
           (virt-manager.overrideAttrs (old: {
             nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.wrapGAppsHook ];

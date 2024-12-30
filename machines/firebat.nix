@@ -2,8 +2,6 @@
   config = {
     dusk = {
       terminal = {
-        flavor = "ghostty";
-
         font-family = "Berkeley Mono NerdFont Mono";
         font-size = 16;
       };

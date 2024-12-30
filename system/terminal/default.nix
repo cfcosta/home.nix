@@ -9,13 +9,13 @@ in
   ];
 
   options.dusk.terminal = {
-    flavor = mkOption {
+    default = mkOption {
       description = "What terminal emulator to use";
       type = types.enum [
         "ghostty"
         "alacritty"
       ];
-      default = "alacritty";
+      default = "ghostty";
     };
 
     font-family = mkOption {
