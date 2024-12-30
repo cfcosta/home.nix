@@ -1,10 +1,10 @@
 {
   config = {
     dusk = {
-      username = "cfcosta";
-      name = "Cainã Costa";
-      emails.primary = "me@cfcosta.com";
-      accounts.github = "cfcosta";
+      username = "lucas";
+      name = "Lucas Barros";
+      emails.primary = "lucasnbarros@gmail.com";
+      accounts.github = "lucasnbarros";
     };
   };
 }

@@ -42,6 +42,8 @@ in
       systemPackages =
         with pkgs;
         [
+          alsa-utils
+          google-chrome
           discord
           easyeffects
           element-desktop
@@ -51,11 +53,12 @@ in
           inkscape
           obs-studio
           obsidian
-          qpwgraph
+          pavucontrol
           simplex-chat-desktop
           streamlink-twitch-gui-bin
           todoist-electron
           vlc
+          vscode
           wl-clipboard-rs
           zed-editor
 
