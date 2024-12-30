@@ -173,6 +173,7 @@ in
               # Application launchers
               ''$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun''
               ''$mod SHIFT, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show run''
+              ''$mod CTRL, L, exec, ${pkgs.hyprlock}/bin/hyprlock''
 
               "$mod, Return, exec, ${config.dusk.defaults.terminal}"
               "$mod, B, exec, ${config.dusk.defaults.browser}"
