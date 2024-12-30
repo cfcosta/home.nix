@@ -11,14 +11,7 @@ let
 in
 {
   config = mkIf cfg.enable {
-    environment = {
-      sessionVariables = {
-        BROWSER = config.dusk.defaults.browser;
-        QT_QPA_PLATFORM = "wayland";
-      };
-
-      systemPackages = with pkgs; [ gnome-monitor-config ];
-    };
+    environment.systemPackages = with pkgs; [ gnome-monitor-config ];
 
     home-manager.users.${config.dusk.username} = {
       gtk = {
