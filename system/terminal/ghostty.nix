@@ -13,6 +13,8 @@ let
     types
     ;
   cfg = config.dusk.terminal;
+
+  window-theme = if (flavor == "nixos") then "ghostty" else "system";
 in
 {
   imports =
@@ -33,10 +35,19 @@ in
   };
 
   config = mkIf (cfg.flavor == "ghostty") {
-    home-manager.users.${config.dusk.username}.xdg.configFile."ghostty/config".text = ''
-      theme = ${cfg.ghostty.theme}
-      font-family = ${cfg.font-family}
-      font-size = ${toString cfg.font-size}
-    '';
+    home-manager.users.${config.dusk.username} = {
+      programs.bash.initExtra = ''
+        . ${pkgs.ghostty}/share/ghostty/shell-integration/bash/ghostty.bash
+      '';
+
+      xdg.configFile."ghostty/config".text = ''
+        theme = ${cfg.ghostty.theme}
+        font-family = ${cfg.font-family}
+        font-size = ${toString cfg.font-size}
+        background-opacity = 0.8
+        background-blur-radius = 20
+        window-theme = ${window-theme}
+      '';
+    };
   };
 }
