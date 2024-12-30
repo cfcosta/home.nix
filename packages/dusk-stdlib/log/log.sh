@@ -56,7 +56,7 @@ _info() {
 }
 
 __info() {
-  echo -ne "$(_gray "::") $(_timestamp) $(_green "[INFO]") $1"
+  echo -ne "$(_gray "::") $(_timestamp) $(_green "INFO") $1"
 }
 
 _debug() {
@@ -65,7 +65,7 @@ _debug() {
 }
 
 __debug() {
-  echo -ne "$(_gray "::") $(_timestamp) $(_purple "[DEBUG]") $1"
+  echo -ne "$(_gray "::") $(_timestamp) $(_purple "DEBUG") $1"
 }
 
 _warn() {
@@ -74,7 +74,7 @@ _warn() {
 }
 
 __warn() {
-  echo -ne "$(_gray "::") $(_timestamp) $(_yellow "[WARN]") $1" >&2
+  echo -ne "$(_gray "::") $(_timestamp) $(_yellow "WARN") $1" >&2
 }
 
 _error() {
@@ -83,11 +83,11 @@ _error() {
 }
 
 __error() {
-  echo -ne "$(_gray "::") $(_timestamp) $(_red "[ERROR]") $1" >&2
+  echo -ne "$(_gray "::") $(_timestamp) $(_red "ERROR") $1" >&2
 }
 
 _fatal() {
-  echo -ne "$(_gray "::") $(_timestamp) $(_red "[FATAL]") $1" >&2
+  echo -ne "$(_gray "::") $(_timestamp) $(_red "FATAL") $1" >&2
   exit 1
 }
 
@@ -105,5 +105,22 @@ _run_quietly() {
   fi
 
   _green " (OK)"
+  return 0
+}
+
+_run() {
+  local cmd="$*"
+  __info "Running: $(_blue "$cmd")..."
+
+  if ! output=$("$@" 2>&1); then
+    _red " (ERROR)"
+
+    echo "${output}"
+    return 1
+  fi
+
+  _green " (OK)"
+
+  echo "${output}"
   return 0
 }
