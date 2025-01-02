@@ -97,8 +97,6 @@ in
           PermitRootLogin = mkForce "no";
           PasswordAuthentication = mkForce false;
           ChallengeResponseAuthentication = mkForce false;
-          GSSAPIAuthentication = mkForce false;
-          KerberosAuthentication = mkForce false;
           X11Forwarding = mkForce false;
           PermitUserEnvironment = mkForce false;
           AllowAgentForwarding = mkForce false;

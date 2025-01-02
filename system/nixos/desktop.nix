@@ -10,7 +10,7 @@ let
 
   inherit (config.dusk) username;
   inherit (config.dusk.folders) home;
-  inherit (lib) mkIf optionals;
+  inherit (lib) mkForce mkIf optionals;
 
   terminal = config.dusk.terminal.default;
 in
@@ -95,16 +95,15 @@ in
       };
     };
 
-    hardware = {
-      graphics.enable = true;
-      pulseaudio.enable = false;
-    };
+    hardware.graphics.enable = true;
 
     programs.gnupg.agent.pinentryPackage = pkgs.pinentry-all;
 
     security.rtkit.enable = true;
 
     services = {
+      pulseaudio.enable = mkForce false;
+
       pipewire = {
         enable = true;
         socketActivation = true;
