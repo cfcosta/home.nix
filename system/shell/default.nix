@@ -2,5 +2,6 @@
   imports = [
     ./starship
     ./tmux
+    ./zellij
   ];
 }
