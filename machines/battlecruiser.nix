@@ -121,18 +121,16 @@
     programs.steam.gamescopeSession.args = [
       "--steam"
       "--adaptive-sync"
+      "--hdr-enabled"
 
       "-r"
       "120"
 
-      "--prefer-output"
-      "HDMI-2"
-
       "--output-width"
-      "1920"
+      "3840"
 
       "--output-height"
-      "1080"
+      "2160"
     ];
 
     swapDevices = [ ];
