@@ -120,7 +120,7 @@ in
         };
 
         template-aliases = {
-          "format_short_signature(signature)" = "signature.username()";
+          "format_short_signature(signature)" = "signature.email()";
           "format_short_id(id)" = "id.shortest()";
         };
 
