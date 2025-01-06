@@ -74,7 +74,6 @@
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nixpkgs-stable.follows = "nixpkgs-stable";
         gitignore.follows = "gitignore";
         flake-compat.follows = "flake-compat";
       };
