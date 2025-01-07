@@ -61,9 +61,17 @@ in
 
   config = mkIf (cfg.default == "ghostty") {
     home-manager.users.${config.dusk.username} = {
-      programs.bash.initExtra = ''
-        . ${pkgs.ghostty}/share/ghostty/shell-integration/bash/ghostty.bash
-      '';
+      programs.bash.initExtra =
+        if (flavor == "nixos") then
+          ''
+            . ${pkgs.ghostty}/share/ghostty/shell-integration/bash/ghostty.bash
+          ''
+        else
+          ''
+            if [ -n "''${GHOSTTY_RESOURCES_DIR}" ]; then
+              builtin source "''${GHOSTTY_RESOURCES_DIR}/shell-integration/bash/ghostty.bash"
+            fi
+          '';
 
       xdg.configFile."ghostty/config".text = ''
         theme = ${cfg.ghostty.theme}
