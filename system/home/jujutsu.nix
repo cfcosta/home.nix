@@ -32,12 +32,30 @@ in
 
       settings = {
         aliases = {
-          xl = [
+          ai-describe = [
+            "util"
+            "exec"
+            "--"
+            "${pkgs.dusk-ai-tools}/bin/ai-describe"
+          ];
+          my-remotes = [
             "log"
             "-r"
-            "::mine() | ::remote_bookmarks()"
+            "my(upstreams)"
           ];
-
+          remotes = [
+            "log"
+            "-r"
+            "upstreams"
+          ];
+          sync-main = [
+            "rebase"
+            "-s"
+            "roots(main@origin)..trunk-"
+            "-d"
+            "main"
+            "--skip-emptied"
+          ];
           update-trunk = [
             "rebase"
             "-s"
@@ -48,26 +66,10 @@ in
             "all:heads(my(upstreams))"
             "--skip-emptied"
           ];
-
-          sync-main = [
-            "rebase"
-            "-s"
-            "roots(main@origin)..trunk-"
-            "-d"
-            "main"
-            "--skip-emptied"
-          ];
-
-          remotes = [
+          xl = [
             "log"
             "-r"
-            "upstreams"
-          ];
-
-          my-remotes = [
-            "log"
-            "-r"
-            "my(upstreams)"
+            "::mine() | ::remote_bookmarks()"
           ];
         };
 
@@ -94,7 +96,6 @@ in
         };
 
         git = {
-          auto-local-bookmark = true;
           private-commits = "private | trunk";
           push-bookmark-prefix = "${config.dusk.accounts.github}/";
         };
