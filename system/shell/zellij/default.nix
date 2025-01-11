@@ -21,7 +21,7 @@ in
     home-manager.users.${config.dusk.username} = _: {
       programs.zellij = {
         enable = true;
-        enableBashIntegration = true;
+        enableBashIntegration = false;
         settings.pane_frames = false;
       };
     };
