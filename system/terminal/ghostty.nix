@@ -46,7 +46,9 @@ in
         font-size = ${toString cfg.font-size}
         background-opacity = 0.8
         background-blur-radius = 20
+        window-decoration = false
         window-theme = ${window-theme}
+        macos-titlebar-style = hidden
       '';
     };
   };
