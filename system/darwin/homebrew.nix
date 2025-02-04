@@ -11,6 +11,7 @@
 
       brews = [ "nss" ];
       casks = [
+        "betaflight-configurator"
         "bitwarden"
         "brave-browser"
         "chatgpt"
