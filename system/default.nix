@@ -58,7 +58,6 @@ in
         dusk-treefmt
         dust
         eva
-        fava
         fd
         fdupes
         ffmpeg
