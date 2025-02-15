@@ -28,6 +28,7 @@
         "obsidian"
         "ollama"
         "orbstack"
+        "orion"
         "secretive"
         "simplex"
         "streamlink-twitch-gui"
