@@ -50,6 +50,7 @@ in
         inherit (cfg) signByDefault;
 
         key = null;
+        format = "ssh";
       };
 
       extraConfig = {
