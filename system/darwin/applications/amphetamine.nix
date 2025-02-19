@@ -3,7 +3,7 @@
 _: {
   homebrew = {
     enable = true;
-    casks = [ "amphetamine" ];
+    masApps."Amphetamine" = 937984704;
   };
 
   system.defaults.CustomUserPreferences."com.if.Amphetamine" = {
