@@ -16,7 +16,6 @@
         "chatgpt"
         "discord"
         "element"
-        "firefox"
         "gitify"
         "inkscape"
         "iterm2"
@@ -28,7 +27,6 @@
         "obsidian"
         "ollama"
         "orbstack"
-        "orion"
         "secretive"
         "simplex"
         "streamlink-twitch-gui"
@@ -40,7 +38,6 @@
         "vlc"
         "whatsapp"
         "zed"
-        "zen-browser"
       ];
 
       caskArgs.no_quarantine = true;
