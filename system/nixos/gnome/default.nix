@@ -10,6 +10,8 @@ let
   cfg = config.dusk.system.nixos.desktop.gnome;
 in
 {
+  imports = [ ./drone.nix ];
+
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ gnome-monitor-config ];
 

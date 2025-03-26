@@ -24,6 +24,7 @@ in
   imports = [
     inputs.catppuccin.nixosModules.catppuccin
     inputs.home-manager.nixosModules.default
+    inputs.nix-flatpak.nixosModules.nix-flatpak
 
     ./ai.nix
     ./boot.nix

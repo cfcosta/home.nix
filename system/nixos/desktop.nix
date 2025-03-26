@@ -42,7 +42,6 @@ in
       systemPackages =
         with pkgs;
         [
-          betaflight-configurator
           discord
           easyeffects
           element-desktop
