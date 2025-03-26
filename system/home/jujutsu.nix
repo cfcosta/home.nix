@@ -116,7 +116,7 @@ in
         snapshot.max-new-file-size = "10MiB";
 
         signing = {
-          sign-all = true;
+          behavior = "own";
           backend = "gpg";
         };
 
