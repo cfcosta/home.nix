@@ -52,8 +52,8 @@ in
           obs-studio
           obsidian
           qpwgraph
-          simplex-chat-desktop
           streamlink-twitch-gui-bin
+          telegram-desktop
           todoist-electron
           vlc
           wl-clipboard-rs
