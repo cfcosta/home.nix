@@ -134,9 +134,5 @@
     ];
 
     swapDevices = [ ];
-
-    # Workaround fix for nm-online-service from stalling on Wireguard interface.
-    # https://github.com/NixOS/nixpkgs/issues/180175
-    systemd.services.NetworkManager-wait-online.enable = false;
   };
 }
