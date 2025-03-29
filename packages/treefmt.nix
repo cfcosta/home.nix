@@ -55,7 +55,12 @@ let
 
       rustfmt = {
         enable = true;
-        package = pkgs.rust-bin.nightly.latest.default;
+
+        package = pkgs.rust-bin.nightly.latest.default.overrideAttrs (oldAttrs: {
+          meta = oldAttrs.meta // {
+            mainProgram = "rustfmt";
+          };
+        });
       };
     };
   };
