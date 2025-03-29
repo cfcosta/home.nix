@@ -13,9 +13,24 @@ in
   imports = [ ./drone.nix ];
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ gnome-monitor-config ];
+    environment.systemPackages = with pkgs; [
+      gnome-monitor-config
+      gnomeExtensions.pop-shell
+    ];
 
     home-manager.users.${config.dusk.username} = {
+      dconf = {
+        enable = true;
+        settings = {
+          "org/gnome/shell" = {
+            disable-user-extensions = false;
+            enabled-extensions = with pkgs.gnomeExtensions; [
+              pop-shell.extensionUuid
+            ];
+          };
+        };
+      };
+
       gtk = {
         enable = true;
 
