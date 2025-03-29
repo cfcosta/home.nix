@@ -18,47 +18,64 @@ in
       gnomeExtensions.pop-shell
     ];
 
-    home-manager.users.${config.dusk.username} = {
-      dconf = {
-        enable = true;
-        settings = {
-          "org/gnome/shell" = {
-            disable-user-extensions = false;
-            enabled-extensions = with pkgs.gnomeExtensions; [
-              pop-shell.extensionUuid
-            ];
+    home-manager.users.${config.dusk.username} =
+      { lib, ... }:
+      let
+        inherit (lib.hm.gvariant) mkUint32;
+      in
+      {
+        dconf = {
+          enable = true;
+          settings = {
+            "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+
+            "org/gnome/shell" = {
+              disable-user-extensions = false;
+              enabled-extensions = with pkgs.gnomeExtensions; [
+                pop-shell.extensionUuid
+              ];
+            };
+
+            "org/gnome/shell/extensions/pop-shell" = {
+              gap-inner = mkUint32 2;
+              gap-outer = mkUint32 2;
+            };
+          };
+        };
+
+        gtk = {
+          enable = true;
+
+          iconTheme = {
+            name = "Papirus-Dark";
+            package = pkgs.papirus-icon-theme;
+          };
+
+          theme = {
+            name = "palenight";
+            package = pkgs.palenight-theme;
+          };
+
+          cursorTheme = {
+            name = "Adwaita";
+            package = pkgs.adwaita-icon-theme;
           };
         };
       };
 
-      gtk = {
+    services = {
+      xserver = {
         enable = true;
 
-        iconTheme = {
-          name = "Papirus-Dark";
-          package = pkgs.papirus-icon-theme;
-        };
-
-        theme = {
-          name = "palenight";
-          package = pkgs.palenight-theme;
-        };
-
-        cursorTheme = {
-          name = "Adwaita";
-          package = pkgs.adwaita-icon-theme;
+        desktopManager.gnome.enable = true;
+        displayManager.gdm = {
+          enable = true;
+          wayland = true;
+          autoSuspend = false;
         };
       };
-    };
 
-    services.xserver = {
-      enable = true;
-      desktopManager.gnome.enable = true;
-      displayManager.gdm = {
-        enable = true;
-        wayland = true;
-        autoSuspend = false;
-      };
+      udev.packages = with pkgs; [ gnome-settings-daemon ];
     };
 
     xdg = {
