@@ -34,15 +34,12 @@ in
 
             "org/gnome/desktop/wm/keybindings" = {
               close = [ "<Super>q" ];
-
               maximize = [ ];
               minimize = [ ];
-
               move-to-monitor-down = [ ];
               move-to-monitor-left = [ ];
               move-to-monitor-right = [ ];
               move-to-monitor-up = [ ];
-
               move-to-workspace-1 = [ "<Shift><Super>1" ];
               move-to-workspace-2 = [ "<Shift><Super>2" ];
               move-to-workspace-3 = [ "<Shift><Super>3" ];
@@ -52,10 +49,8 @@ in
               move-to-workspace-7 = [ "<Shift><Super>7" ];
               move-to-workspace-8 = [ "<Shift><Super>8" ];
               move-to-workspace-9 = [ "<Shift><Super>9" ];
-
               move-to-workspace-down = [ ];
               move-to-workspace-up = [ ];
-
               switch-to-workspace-1 = [ "<Super>1" ];
               switch-to-workspace-2 = [ "<Super>2" ];
               switch-to-workspace-3 = [ "<Super>3" ];
@@ -65,12 +60,11 @@ in
               switch-to-workspace-7 = [ "<Super>7" ];
               switch-to-workspace-8 = [ "<Super>8" ];
               switch-to-workspace-9 = [ "<Super>9" ];
-
               switch-to-workspace-down = [ ];
               switch-to-workspace-left = [ ];
               switch-to-workspace-right = [ ];
               switch-to-workspace-up = [ ];
-
+              toggle-fullscreen = [ "<Super>f" ];
               toggle-maximized = [ ];
               unmaximize = [ ];
             };
@@ -84,6 +78,12 @@ in
             "org/gnome/shell/extensions/pop-shell" = {
               gap-inner = mkUint32 4;
               gap-outer = mkUint32 4;
+            };
+
+            "org/gnome/settings-daemon/plugins/media-keys" = {
+              screensaver = [ "<super>escape" ];
+              www = [ "<super>b" ];
+              terminal = [ "<super>enter" ];
             };
           };
         };
