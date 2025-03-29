@@ -164,6 +164,11 @@ in
             ];
           };
 
+          input = {
+            accel_profile = "flat";
+            sensitivity = 0;
+          };
+
           bind =
             [
               ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
