@@ -27,12 +27,13 @@ in
         dconf = {
           enable = true;
           settings = {
-            "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+            "org/gnome/desktop/interface" = {
+              color-scheme = "prefer-dark";
+              gtk-theme = "palenight";
+            };
 
             "org/gnome/desktop/wm/keybindings" = {
-              close = [
-                "<Super>q"
-              ];
+              close = [ "<Super>q" ];
 
               maximize = [ ];
               minimize = [ ];
@@ -76,20 +77,24 @@ in
 
             "org/gnome/shell" = {
               disable-user-extensions = false;
-              enabled-extensions = with pkgs.gnomeExtensions; [
-                pop-shell.extensionUuid
-              ];
+              enabled-extensions = with pkgs.gnomeExtensions; [ pop-shell.extensionUuid ];
+              favorite-apps = [ ];
             };
 
             "org/gnome/shell/extensions/pop-shell" = {
-              gap-inner = mkUint32 2;
-              gap-outer = mkUint32 2;
+              gap-inner = mkUint32 4;
+              gap-outer = mkUint32 4;
             };
           };
         };
 
         gtk = {
           enable = true;
+
+          cursorTheme = {
+            name = "Adwaita";
+            package = pkgs.adwaita-icon-theme;
+          };
 
           iconTheme = {
             name = "Papirus-Dark";
@@ -101,10 +106,8 @@ in
             package = pkgs.palenight-theme;
           };
 
-          cursorTheme = {
-            name = "Adwaita";
-            package = pkgs.adwaita-icon-theme;
-          };
+          gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+          gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
         };
       };
 
