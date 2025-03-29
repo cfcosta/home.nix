@@ -64,6 +64,7 @@ in
         file
         gist
         gitMinimal
+        glimpse
         hyperfine
         imagemagick
         jq

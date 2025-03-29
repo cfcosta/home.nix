@@ -332,6 +332,32 @@
         "type": "github"
       }
     },
+    "glimpse": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ]
+      },
+      "locked": {
+        "lastModified": 1741319051,
+        "narHash": "sha256-mXGUWmTIJQSGrKrluHrKzZ9IRnt31Firchj10FQIk00=",
+        "owner": "seatedro",
+        "repo": "glimpse",
+        "rev": "1a23004bf0d4f9641c194a3ced357d0c45a86600",
+        "type": "github"
+      },
+      "original": {
+        "owner": "seatedro",
+        "repo": "glimpse",
+        "type": "github"
+      }
+    },
     "grug-far": {
       "flake": false,
       "locked": {
@@ -891,6 +917,7 @@
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "gitignore": "gitignore",
+        "glimpse": "glimpse",
         "home-manager": "home-manager",
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",

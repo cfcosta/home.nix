@@ -39,6 +39,14 @@
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    glimpse = {
+      url = "github:seatedro/glimpse";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "rust-overlay";
+        flake-utils.follows = "flake-utils";
+      };
+    };
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
