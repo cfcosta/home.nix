@@ -42,10 +42,6 @@ setup_darwin_xcode_license() {
 
   if [ "$XCODE_VERSION" != "$ACCEPTED_LICENSE_VERSION" ]; then
     _warn "You need to accept the current version XCode License, please input your password for sudo."
-
-    _info "Checking for sudo access, you might need to enter your password."
-    sudo true
-
     _run_quietly sudo xcodebuild -license accept || _fatal "Could not accept XCode License"
   fi
 
@@ -120,11 +116,6 @@ check_ssh_key_requirements() {
 }
 
 check_secrets() {
-  if grep -q "$(get_pubkey)" "${ROOT}/secrets/secrets.nix"; then
-    _warn "The SSH key you are using is not set as a recipient for secrets. Some things might behave weirdly."
-    _warn "You should add your key to the  $(_blue "${ROOT}/secrets/secrets.nix") file."
-  fi
-
   _info "Verifying if your user is allowed to decrypt secrets"
 
   cd "${ROOT}/secrets" || _fatal "Failed to cd to secrets folder in $(_blue "${ROOT}/secrets")."
@@ -133,7 +124,7 @@ check_secrets() {
     _warn "The secrets are inaccessible! Be careful. You should re-generate and re-encrypt them with your key."
   fi
 
-  cd "${ROOT}"
+  cd "${ROOT}" || _fatal "Failed to cd back to repository root at $(_blue "${ROOT}")"
 
   return 0
 }
@@ -141,8 +132,8 @@ check_secrets() {
 check_ssh_key_requirements
 check_secrets
 
-_info "Found $(_red "$(uname -s)") machine."
-_info "Hostname: $(_blue "$(hostname)")"
+_debug "Found $(_red "$(uname -s)") machine."
+_debug "Hostname: $(_blue "$(hostname)")"
 
 case "$(uname -s)" in
 "Darwin")
