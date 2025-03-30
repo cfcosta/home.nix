@@ -39,41 +39,30 @@ in
         XDG_SESSION_TYPE = "wayland";
       };
 
-      systemPackages =
-        with pkgs;
-        [
-          discord
-          easyeffects
-          element-desktop
-          firefox
-          fractal
-          helvum
-          inkscape
-          obs-studio
-          obsidian
-          qpwgraph
-          telegram-desktop
-          todoist-electron
-          vlc
-          wl-clipboard-rs
-          zed-editor
+      systemPackages = with pkgs; [
+        discord
+        easyeffects
+        element-desktop
+        firefox
+        fractal
+        helvum
+        inkscape
+        obs-studio
+        obsidian
+        qpwgraph
+        telegram-desktop
+        todoist-electron
+        vlc
+        wl-clipboard-rs
+        zed-editor
 
-          # Fonts
-          cantarell-fonts
-          dejavu_fonts
-          noto-fonts
-          source-code-pro
-          source-sans
-        ]
-        ++ optionals config.dusk.system.nixos.virtualisation.libvirt.enable [
-          (virt-manager.overrideAttrs (old: {
-            nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.wrapGAppsHook ];
-            buildInputs = lib.lists.subtractLists [ pkgs.wrapGAppsHook ] old.buildInputs ++ [
-              pkgs.gst_all_1.gst-plugins-base
-              pkgs.gst_all_1.gst-plugins-good
-            ];
-          }))
-        ];
+        # Fonts
+        cantarell-fonts
+        dejavu_fonts
+        noto-fonts
+        source-code-pro
+        source-sans
+      ];
     };
 
     fonts.fontconfig = {
