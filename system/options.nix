@@ -236,11 +236,6 @@ in
               description = "Whether or not to enable LibVirt";
               parent = cfg.virtualisation.enable;
             };
-
-            podman.enable = mkEnabledOption {
-              description = "Whether or not to enable Podman";
-              parent = cfg.virtualisation.enable;
-            };
           };
 
           server = {

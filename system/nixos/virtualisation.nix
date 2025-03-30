@@ -10,9 +10,7 @@ let
 in
 {
   config = mkIf cfg.enable {
-    environment.systemPackages =
-      with pkgs;
-      optionals cfg.docker.enable [ docker-compose ] ++ optionals cfg.podman.enable [ podman-compose ];
+    environment.systemPackages = with pkgs; optionals cfg.docker.enable [ docker-compose ];
 
     virtualisation = {
       docker = {
@@ -21,17 +19,10 @@ in
       };
 
       libvirtd = { inherit (cfg.libvirt) enable; };
-
-      podman = {
-        inherit (cfg.podman) enable;
-
-        autoPrune.enable = true;
-      };
     };
 
     users.users.${config.dusk.username}.extraGroups =
       optionals cfg.libvirt.enable [ "libvirtd" ]
-      ++ optionals cfg.podman.enable [ "podman" ]
       ++ optionals cfg.docker.enable [ "docker" ];
   };
 }
