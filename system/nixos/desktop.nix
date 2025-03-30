@@ -52,7 +52,6 @@ in
           obs-studio
           obsidian
           qpwgraph
-          streamlink-twitch-gui-bin
           telegram-desktop
           todoist-electron
           vlc

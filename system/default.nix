@@ -43,21 +43,16 @@ in
       };
 
       systemPackages = with pkgs; [
-        age
         aider-chat
         bat
-        beancount
         beets
         btop
         cachix
         complete-alias
         curl
         direnv
-        duf
         dusk-ai-tools
         dusk-stdlib
-        dusk-treefmt
-        dust
         eva
         fd
         fdupes
@@ -69,10 +64,8 @@ in
         hyperfine
         imagemagick
         jq
-        jujutsu
         lsd
         lsof
-        mkcert
         ncdu
         neofetch
         nerd-fonts.inconsolata
@@ -84,14 +77,11 @@ in
         ripgrep
         rsync
         scc
-        shntool
         starship
-        streamlink
         tree
         unixtools.watch
         unzip
         watchexec
-        wavpack
         wget
         zoxide
       ];
