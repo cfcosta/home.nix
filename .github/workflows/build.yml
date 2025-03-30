@@ -22,19 +22,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Remove default tooling that uses way too much space
-        if: matrix.items.os == 'ubuntu-latest'
+      - if: matrix.items.os == 'ubuntu-latest'
         run: sudo find /opt -maxdepth 1 -mindepth 1 '!' -path ./containerd '!' -path ./actionarchivecache '!' -path ./runner '!' -path ./runner-cache -exec rm -rf '{}' ';'
 
-      - uses: DeterminateSystems/nix-installer-action@v4
+      - uses: DeterminateSystems/nix-installer-action@main
 
       - uses: cachix/cachix-action@v14
         with:
           name: cfcosta-home
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
-      - run: nix flake check
-
-      - name: Run Build (Darwin Only)
-        if: matrix.items.os != 'ubuntu-latest'
+      - name: Run Build
         run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"

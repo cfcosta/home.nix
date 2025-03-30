@@ -5,30 +5,34 @@ on:
   schedule:
     - cron: "0 0 * * SUN" # Every sunday at midnight
 
+env:
+  NIX_TARGET: config.system.build.toplevel
+
 jobs:
-  update-flake:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        items:
+          - os: ubuntu-latest
+            arch: x86_64-linux
+            parent: .#nixosConfigurations.battlecruiser
+    name: "Build ${{ matrix.items.arch }}"
+    runs-on: ${{ matrix.items.os }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Remove default tooling that uses way too much space
-        run: sudo rm -rf /opt/hostedtoolcache
+      - if: matrix.items.os == 'ubuntu-latest'
+        run: sudo find /opt -maxdepth 1 -mindepth 1 '!' -path ./containerd '!' -path ./actionarchivecache '!' -path ./runner '!' -path ./runner-cache -exec rm -rf '{}' ';'
 
-      - name: Install Nix Daemon
-        uses: DeterminateSystems/nix-installer-action@v4
+      - uses: DeterminateSystems/nix-installer-action@v4
 
-      - name: Enable Cachix
-        uses: cachix/cachix-action@v14
+      - uses: cachix/cachix-action@v14
         with:
           name: cfcosta-home
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
-      - name: Update Flake
-        run: nix flake update
-
-      - name: Verify the flake is still valid
-        run: nix flake check
+      - name: Run Build
+        run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
