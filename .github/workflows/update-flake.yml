@@ -22,7 +22,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - if: matrix.items.os == 'ubuntu-latest'
-        run: sudo find /opt -maxdepth 1 -mindepth 1 '!' -path ./containerd '!' -path ./actionarchivecache '!' -path ./runner '!' -path ./runner-cache -exec rm -rf '{}' ';'
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
 
       - uses: DeterminateSystems/nix-installer-action@v4
 
