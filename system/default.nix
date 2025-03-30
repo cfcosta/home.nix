@@ -12,12 +12,13 @@ let
 in
 {
   imports = [
-    ./options.nix
-    ./monitors.nix
-    ./wallpapers.nix
-    ./shell
     ../user.nix
-    ./terminal
+
+    ./monitors.nix
+    ./options.nix
+    ./shell
+    ./terminal.nix
+    ./wallpapers.nix
   ];
 
   config = {

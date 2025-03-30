@@ -10,7 +10,7 @@ let
 
   inherit (config.dusk) username;
   inherit (config.dusk.folders) home;
-  inherit (lib) mkForce mkIf optionals;
+  inherit (lib) mkForce mkIf;
 
   terminal = config.dusk.terminal.default;
 in
@@ -31,7 +31,7 @@ in
         FREETYPE_PROPERTIES = "truetype:interpreter-version=40";
 
         BROWSER = config.dusk.defaults.browser;
-        TERMINAL = "${pkgs."${terminal}"}/bin/${terminal}";
+        TERMINAL = terminal;
 
         QT_QPA_PLATFORM = "wayland";
         SDL_VIDEODRIVER = "wayland";
@@ -66,7 +66,6 @@ in
           source-code-pro
           source-sans
         ]
-        ++ optionals (config.dusk.terminal.default == "alacritty") [ alacritty ]
         ++ optionals config.dusk.system.nixos.virtualisation.libvirt.enable [
           (virt-manager.overrideAttrs (old: {
             nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.wrapGAppsHook ];
