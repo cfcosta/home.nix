@@ -18,6 +18,8 @@ jobs:
             parent: .#nixosConfigurations.battlecruiser
     name: "Build ${{ matrix.items.arch }}"
     runs-on: ${{ matrix.items.os }}
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
