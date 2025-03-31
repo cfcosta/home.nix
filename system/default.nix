@@ -65,6 +65,7 @@ in
         glimpse
         hyperfine
         imagemagick
+        jujutsu
         jq
         lsd
         lsof
