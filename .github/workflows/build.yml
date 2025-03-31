@@ -19,6 +19,9 @@ jobs:
             parent: .#darwinConfigurations.drone
     name: "Build ${{ matrix.items.arch }}"
     runs-on: ${{ matrix.items.os }}
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
 
@@ -34,11 +37,8 @@ jobs:
           swap-storage: true
 
       - uses: DeterminateSystems/nix-installer-action@main
-
-      - uses: cachix/cachix-action@v14
-        with:
-          name: cfcosta-home
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - uses: DeterminateSystems/flakehub-cache-action@main
+      - uses: DeterminateSystems/nix-installer-action@main
 
       - name: Run Build
         run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"

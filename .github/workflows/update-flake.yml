@@ -20,6 +20,7 @@ jobs:
     runs-on: ${{ matrix.items.os }}
     permissions:
       contents: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
 
@@ -34,16 +35,11 @@ jobs:
           docker-images: true
           swap-storage: true
 
-      - uses: DeterminateSystems/nix-installer-action@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/flakehub-cache-action@main
 
-      - uses: cachix/cachix-action@v14
-        with:
-          name: cfcosta-home
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"
 
-      - name: Run Build
-        run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"
-
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: update flake"
