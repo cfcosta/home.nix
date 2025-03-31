@@ -40,11 +40,13 @@ in
     {
       home-manager.users.${config.dusk.username}.xdg.configFile."ghostty/config".text = ''
         theme = ${cfg.theme}
+        window-theme = ${window-theme}
+
+        background-opacity = 0.8
+        background-blur = true
+
         font-family = ${cfg.font-family}
         font-size = ${toString cfg.font-size}
-        background-opacity = 0.8
-        background-blur-radius = 20
-        window-theme = ${window-theme}
       '';
     }
     // (
