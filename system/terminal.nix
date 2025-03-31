@@ -36,26 +36,38 @@ in
     };
   };
 
-  config.home-manager.users.${config.dusk.username} = {
-    programs.bash.initExtra =
+  config =
+    {
+      home-manager.users.${config.dusk.username}.xdg.configFile."ghostty/config".text = ''
+        theme = ${cfg.theme}
+        font-family = ${cfg.font-family}
+        font-size = ${toString cfg.font-size}
+        background-opacity = 0.8
+        background-blur-radius = 20
+        window-theme = ${window-theme}
+      '';
+    }
+    // (
       if (flavor == "nixos") then
-        ''
-          . ${pkgs.ghostty}/share/ghostty/shell-integration/bash/ghostty.bash
-        ''
-      else
-        ''
-          if [ -n "''${GHOSTTY_RESOURCES_DIR}" ]; then
-            builtin source "''${GHOSTTY_RESOURCES_DIR}/shell-integration/bash/ghostty.bash"
-          fi
-        '';
+        {
+          environment.systemPackages = [ pkgs.ghostty ];
 
-    xdg.configFile."ghostty/config".text = ''
-      theme = ${cfg.theme}
-      font-family = ${cfg.font-family}
-      font-size = ${toString cfg.font-size}
-      background-opacity = 0.8
-      background-blur-radius = 20
-      window-theme = ${window-theme}
-    '';
-  };
+          home-manager.users.${config.dusk.username}.programs.bash.initExtra = ''
+            . ${pkgs.ghostty}/share/ghostty/shell-integration/bash/ghostty.bash
+          '';
+        }
+      else
+        {
+          homebrew = {
+            enable = true;
+            casks = [ "ghostty" ];
+          };
+
+          home-manager.users.${config.dusk.username}.programs.bash.initExtra = ''
+            if [ -n "''${GHOSTTY_RESOURCES_DIR}" ]; then
+              builtin source "''${GHOSTTY_RESOURCES_DIR}/shell-integration/bash/ghostty.bash"
+            fi
+          '';
+        }
+    );
 }
