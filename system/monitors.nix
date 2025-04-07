@@ -126,8 +126,8 @@ in
           text = ''
             <?xml version="1.0" encoding="UTF-8"?>
             <monitors version="2">
-              ${lib.concatMapStrings (monitor: ''
-                <configuration>
+              <configuration>
+                ${lib.concatMapStrings (monitor: ''
                   <logicalmonitor>
                     <x>${toString monitor.position.x}</x>
                     <y>${toString monitor.position.y}</y>
@@ -162,8 +162,8 @@ in
                       </transform>
                     </monitor>
                   </logicalmonitor>
-                </configuration>
-              '') cfg.monitors}
+                '') cfg.monitors}
+              </configuration>
             </monitors>
           '';
         };
