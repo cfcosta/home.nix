@@ -46,8 +46,8 @@
             };
             refreshRate = 239.96;
             resolution = {
-              width = 1440;
-              height = 2560;
+              width = 2560;
+              height = 1440;
             };
             scale = 1.0;
             transform = {
