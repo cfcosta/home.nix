@@ -91,7 +91,7 @@ in
 
     home-manager.users.${config.dusk.username} = {
       imports = [
-        ./dunst
+        ./mako.nix
         ./waybar
       ];
 
