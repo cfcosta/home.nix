@@ -19,7 +19,12 @@ _: {
       };
 
       CustomUserPreferences = {
-        "com.apple.AdLib".allowApplePersonalizedAdvertising = false;
+        "com.apple.AdLib" = {
+          allowApplePersonalizedAdvertising = false;
+          allowIdentifierForAdvertising = false;
+          forceLimitAdTracking = true;
+          personlizeddsMigrted = false;
+        };
 
         "com.apple.desktopservices" = {
           # Avoid creating .DS_Store files on network or USB volumes
