@@ -134,41 +134,6 @@ in
         settings = {
           "$mod" = "SUPER";
 
-          general = {
-            gaps_in = 8;
-            gaps_out = 24;
-            border_size = 3;
-          };
-
-          decoration = {
-            inactive_opacity = 0.90;
-            fullscreen_opacity = 1.0;
-            rounding = 4;
-
-            blur = {
-              enabled = true;
-              size = 8;
-              passes = 2;
-            };
-          };
-
-          animations = {
-            enabled = true;
-            bezier = "overshot, 0.05, 0.9, 0.1, 1.1";
-            animation = [
-              "windows, 1, 1.5, overshot"
-              "windowsOut, 1, 1.5, overshot, popin 80%"
-              "border, 1, 10, overshot"
-              "fade, 1, 7, overshot"
-              "workspaces, 1, 1.5, overshot"
-            ];
-          };
-
-          input = {
-            accel_profile = "flat";
-            sensitivity = 0;
-          };
-
           bind =
             [
               ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
@@ -186,6 +151,40 @@ in
             ++ keybindings.window-movement
             ++ keybindings.window-management
             ++ keybindings.switch-workspace;
+
+          animations = {
+            enabled = true;
+            bezier = "overshot, 0.05, 0.9, 0.1, 1.1";
+            animation = [
+              "windows, 1, 1.5, overshot"
+              "windowsOut, 1, 1.5, overshot, popin 80%"
+              "border, 1, 10, overshot"
+              "fade, 1, 7, overshot"
+              "workspaces, 1, 1.5, overshot"
+            ];
+          };
+
+          decoration = {
+            inactive_opacity = 0.90;
+            fullscreen_opacity = 1.0;
+            rounding = 8;
+            blur = {
+              enabled = true;
+              size = 8;
+              passes = 2;
+            };
+          };
+
+          general = {
+            gaps_in = 8;
+            gaps_out = 24;
+            border_size = 3;
+          };
+
+          input = {
+            accel_profile = "flat";
+            sensitivity = 0;
+          };
         };
 
         systemd.variables = [ "--all" ];
