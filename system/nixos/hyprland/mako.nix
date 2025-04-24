@@ -10,5 +10,11 @@
     padding = "12";
   };
 
-  wayland.windowManager.hyprland.settings.exec-once = [ "${pkgs.mako}/bin/mako" ];
+  wayland.windowManager.hyprland.settings = {
+    bind = [
+      "$mod, escape, exec, ${pkgs.mako}/bin/makoctl dismiss"
+    ];
+
+    exec-once = [ "${pkgs.mako}/bin/mako" ];
+  };
 }
