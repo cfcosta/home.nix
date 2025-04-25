@@ -16,7 +16,7 @@ in
 {
   imports = [
     inputs.agenix.homeManagerModules.default
-    inputs.catppuccin.homeManagerModules.catppuccin
+    inputs.catppuccin.homeModules.catppuccin
 
     ./git.nix
     ./jujutsu.nix
@@ -108,8 +108,8 @@ in
           jc = "jj commit";
           jd = "jj diff";
           jl = "jj log --no-pager --ignore-working-copy";
-          ll = "lsd -l -A";
-          ls = "lsd -l";
+          ll = mkForce "lsd -l -A";
+          ls = mkForce "lsd -l";
           vi = "nvim";
           vim = "nvim";
         };
