@@ -18,6 +18,7 @@ in
     environment.systemPackages = with pkgs; [
       mangohud
       moonlight-qt
+      prismlauncher
     ];
 
     hardware = {
