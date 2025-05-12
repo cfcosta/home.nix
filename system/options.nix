@@ -60,7 +60,7 @@ in
     defaults.browser = mkOption {
       type = types.str;
       description = "Your default browser";
-      default = "${pkgs.firefox}/bin/firefox";
+      default = "${pkgs.brave}/bin/brave";
     };
 
     folders =

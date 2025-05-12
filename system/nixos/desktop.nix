@@ -40,6 +40,7 @@ in
       };
 
       systemPackages = with pkgs; [
+        brave
         discord
         easyeffects
         element-desktop
@@ -83,6 +84,18 @@ in
     };
 
     hardware.graphics.enable = true;
+
+    home-manager.users.${config.dusk.username} = {
+      programs.brave = {
+        enable = true;
+        commandLineArgs = [
+          "--enable-features=VaapiVideoDecodeLinuxGL"
+          "--use-gl=angle"
+          "--use-angle=gl"
+          "--ozone-platform=wayland"
+        ];
+      };
+    };
 
     programs.gnupg.agent.pinentryPackage = pkgs.pinentry-all;
 
