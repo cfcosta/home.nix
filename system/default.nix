@@ -85,6 +85,8 @@ in
         wget
         zoxide
       ];
+
+      variables.EDITOR = "nvim";
     };
 
     home-manager = {

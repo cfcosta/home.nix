@@ -116,7 +116,7 @@ in
 
         sessionVariables = {
           COLORTERM = "truecolor";
-          EDITOR = "nvim";
+          EDITOR = "${config.programs.neovim.package}/bin/nvim";
           CDPATH = ".:${config.dusk.folders.code}:${config.dusk.folders.home}";
           MANPAGER = "${pkgs.less}/bin/less -s -M +Gg";
           MAN_PAGER = "sh -c 'col -bx | bat -l man -p'";
