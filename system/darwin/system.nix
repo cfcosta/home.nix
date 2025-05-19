@@ -1,5 +1,7 @@
-_: {
+{config, ...}: {
   config.system = {
+    primaryUser = config.dusk.username;
+
     keyboard = {
       enableKeyMapping = true;
       remapCapsLockToControl = true;
