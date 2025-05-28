@@ -140,7 +140,7 @@ in
         ui = {
           default-command = [ "status" ];
           diff-editor = ":builtin";
-          diff.format = "git";
+          diff-formatter = ":git";
           editor = "nvim";
           pager = "delta";
         };
