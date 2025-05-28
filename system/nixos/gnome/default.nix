@@ -16,6 +16,7 @@ in
     environment.systemPackages = with pkgs; [
       gnome-monitor-config
       gnomeExtensions.pop-shell
+      newsflash
     ];
 
     home-manager.users.${config.dusk.username} =
