@@ -68,7 +68,7 @@ in
 
     security.pam.services.hyprlock = { };
 
-    services.xserver.displayManager.gdm = {
+    services.displayManager.gdm = {
       enable = true;
       autoSuspend = false;
     };

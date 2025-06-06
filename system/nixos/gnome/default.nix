@@ -113,15 +113,12 @@ in
       };
 
     services = {
-      xserver = {
-        enable = true;
+      desktopManager.gnome.enable = true;
 
-        desktopManager.gnome.enable = true;
-        displayManager.gdm = {
-          enable = true;
-          wayland = true;
-          autoSuspend = false;
-        };
+      displayManager.gdm = {
+        enable = true;
+        wayland = true;
+        autoSuspend = false;
       };
 
       udev.packages = with pkgs; [ gnome-settings-daemon ];
