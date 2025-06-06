@@ -29,10 +29,10 @@ _run ${NIX} run "${ROOT}#dusk-system-verify"
 
 case "$(uname -s)" in
 "Darwin")
-  CMD="${NIX} run nix-darwin -- $ACTION --flake ${ROOT}#${HOSTNAME} -L"
+  CMD="${NIX} run nix-darwin -- $ACTION --flake ${ROOT}#${HOSTNAME}"
   ;;
 "Linux")
-  CMD="nixos-rebuild $ACTION --flake ${ROOT}#${HOSTNAME} -L"
+  CMD="nixos-rebuild $ACTION --flake ${ROOT}#${HOSTNAME}"
 
   case "$ACTION" in
   switch)
