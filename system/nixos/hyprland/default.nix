@@ -152,6 +152,12 @@ in
             ++ keybindings.window-management
             ++ keybindings.switch-workspace;
 
+          bindm = [
+            # move/resize windows with $mod + l/r mouse
+            "$mod, mouse:272, movewindow"
+            "$mod, mouse:273, resizewindow"
+          ];
+
           animations = {
             enabled = true;
             bezier = "overshot, 0.05, 0.9, 0.1, 1.1";
