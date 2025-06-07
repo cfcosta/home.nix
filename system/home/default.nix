@@ -40,6 +40,7 @@ in
         /.git
         /.github
         /.gitignore
+        /.claude
         LICENSE
         LICENSE*
       '';

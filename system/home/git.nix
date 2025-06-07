@@ -26,6 +26,7 @@ in
         ".aider.chat.*"
         ".aider.input.*"
         ".aider.tags.*"
+        ".claude/**"
         ".direnv"
         ".direnv/**"
         ".env"
