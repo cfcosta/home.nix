@@ -71,6 +71,7 @@ in
     services.displayManager.gdm = {
       enable = true;
       autoSuspend = false;
+      wayland = true;
     };
 
     xdg.portal = {
@@ -95,7 +96,29 @@ in
         ./waybar
       ];
 
-      gtk.enable = true;
+      dconf.enable = true;
+
+      gtk = {
+        enable = true;
+
+        cursorTheme = {
+          name = "Adwaita";
+          package = pkgs.adwaita-icon-theme;
+        };
+
+        iconTheme = {
+          name = "Papirus-Dark";
+          package = pkgs.papirus-icon-theme;
+        };
+
+        theme = {
+          name = "palenight";
+          package = pkgs.palenight-theme;
+        };
+
+        gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+        gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
+      };
 
       home.pointerCursor = {
         name = "Adwaita";

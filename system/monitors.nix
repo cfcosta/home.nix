@@ -3,7 +3,7 @@ let
   inherit (lib) mkIf;
   cfg = config.dusk.system;
 
-  inherit (import ../lib/monitors.nix) formatMonitor getPrimaryMonitor;
+  inherit (import ../lib/monitors.nix) formatMonitor;
 in
 {
   options.dusk.system.monitors =
@@ -119,77 +119,9 @@ in
       description = "Monitor configurations";
     };
 
-  config = {
-    environment.etc."gnome-settings-daemon/monitors.xml" =
-      mkIf (cfg.nixos.desktop.gnome.enable && (cfg.monitors != [ ]))
-        {
-          text = ''
-            <?xml version="1.0" encoding="UTF-8"?>
-            <monitors version="2">
-              <configuration>
-                ${lib.concatMapStrings (monitor: ''
-                  <logicalmonitor>
-                    <x>${toString monitor.position.x}</x>
-                    <y>${toString monitor.position.y}</y>
-                    <scale>${if monitor.scale == "auto" then "1" else toString monitor.scale}</scale>
-                    <primary>${if monitor.name == getPrimaryMonitor cfg.monitors then "yes" else "no"}</primary>
-                    <monitor>
-                      <monitorspec>
-                        <connector>${monitor.name}</connector>
-                        <vendor>unknown</vendor>
-                        <product>unknown</product>
-                        <serial>unknown</serial>
-                      </monitorspec>
-                      <mode>
-                        <width>${toString monitor.resolution.width}</width>
-                        <height>${toString monitor.resolution.height}</height>
-                        <rate>${toString monitor.refreshRate}</rate>
-                      </mode>
-                      <transform>
-                        <rotation>${
-                          if monitor.transform.rotate == 0 then
-                            "normal"
-                          else if monitor.transform.rotate == 90 then
-                            "right"
-                          else if monitor.transform.rotate == 180 then
-                            "upside_down"
-                          else if monitor.transform.rotate == 270 then
-                            "left"
-                          else
-                            throw "Invalid rotation value"
-                        }</rotation>
-                        <flipped>${if monitor.transform.flipped then "yes" else "no"}</flipped>
-                      </transform>
-                    </monitor>
-                  </logicalmonitor>
-                '') cfg.monitors}
-              </configuration>
-            </monitors>
-          '';
-        };
-
-    home-manager.users.${config.dusk.username} = {
-      dconf.settings = mkIf (cfg.nixos.desktop.gnome.enable && (cfg.monitors != [ ])) {
-        "org/gnome/mutter" = {
-          experimental-features = [ "scale-monitor-framebuffer" ];
-        };
-
-        "org/gnome/desktop/interface" = {
-          scaling-factor = 1;
-        };
-
-        "org/gnome/mutter/displays" = {
-          monitors-config-format = "json";
-          monitors-config = builtins.toJSON {
-            version = 2;
-            monitors = map (formatMonitor.gnome cfg.monitors) cfg.monitors;
-          };
-        };
-      };
-
-      wayland.windowManager.hyprland = mkIf (cfg.nixos.desktop.hyprland.enable && (cfg.monitors != [ ])) {
+  config.home-manager.users.${config.dusk.username}.wayland.windowManager.hyprland =
+    mkIf (cfg.nixos.desktop.hyprland.enable && (cfg.monitors != [ ]))
+      {
         settings.monitor = map formatMonitor.hyprland cfg.monitors;
       };
-    };
-  };
 }

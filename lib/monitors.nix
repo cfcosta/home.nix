@@ -89,27 +89,6 @@ rec {
       in
       "${name}, ${resolutionStr}@${toString refreshRate}, ${positionStr}, ${toString scale}, vrr, ${vrrToNumber vrr}, transform, ${toString transformNum}";
 
-    gnome = monitors: monitor: {
-      inherit (monitor.position) x y;
-      inherit (monitor.resolution) width height;
-
-      connector = monitor.name;
-      refresh-rate = monitor.refreshRate * 1000.0;
-      scale = scaleToNumber monitor.scale;
-      is-primary = monitor.name == getPrimaryMonitor monitors;
-      rotation =
-        if monitor.transform.rotate == 0 then
-          1
-        else if monitor.transform.rotate == 90 then
-          2
-        else if monitor.transform.rotate == 180 then
-          4
-        else if monitor.transform.rotate == 270 then
-          8
-        else
-          throw "Invalid rotation value";
-    };
-
     sunshine = monitor: {
       inherit (monitor) name refreshRate;
       resolution = resolutionToString monitor.resolution;

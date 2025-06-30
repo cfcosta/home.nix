@@ -73,7 +73,7 @@ in
 
   config =
     let
-      inherit (cfg.nixos.desktop) hyprland gnome;
+      inherit (cfg.nixos.desktop) hyprland;
     in
     {
       home-manager.users.${config.dusk.username} = _: {
@@ -87,21 +87,6 @@ in
             wallpaper = map (pair: "${pair.name}, ${pair.value}") all;
           };
         };
-
-        dconf.settings = mkIf gnome.enable (
-          listToAttrs (
-            map (
-              { name, value }:
-              {
-                name = "org/gnome/desktop/background/picture-options-${name}";
-                value = {
-                  picture-uri = "file://${value}";
-                  picture-uri-dark = "file://${value}";
-                };
-              }
-            ) all
-          )
-        );
       };
     };
 }

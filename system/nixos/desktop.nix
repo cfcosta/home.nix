@@ -17,8 +17,9 @@ in
 {
   imports = [
     ./gaming
-    ./gnome
     ./hyprland
+
+    ./drone.nix
   ];
 
   config = mkIf cfg.enable {

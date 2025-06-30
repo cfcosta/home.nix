@@ -179,17 +179,10 @@ in
               parent = flavor == "nixos";
             };
 
-            gnome = {
-              enable = mkEnabledOption {
-                description = "Whether or not to enable the Gnome Desktop";
-                parent = cfg.desktop.enable;
-              };
-            };
-
             hyprland = {
               enable = mkEnabledOption {
                 description = "Whether or not to enable the Hyprland compositor";
-                parent = cfg.desktop.enable && !cfg.desktop.gnome.enable;
+                parent = cfg.desktop.enable;
               };
             };
 
