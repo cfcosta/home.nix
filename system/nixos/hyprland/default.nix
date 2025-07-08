@@ -169,6 +169,7 @@ in
 
               "$mod, Return, exec, ${config.dusk.terminal.default}"
               "$mod, B, exec, ${config.dusk.defaults.browser}"
+              "$mod, M, exec, ${config.dusk.defaults.music-player}"
               ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
             ]
             ++ keybindings.window-movement

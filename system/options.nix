@@ -57,10 +57,18 @@ in
       description = "User name of the main user of the system";
     };
 
-    defaults.browser = mkOption {
-      type = types.str;
-      description = "Your default browser";
-      default = "${pkgs.brave}/bin/brave";
+    defaults = {
+      browser = mkOption {
+        type = types.str;
+        description = "Your default browser";
+        default = "${pkgs.brave}/bin/brave";
+      };
+
+      music-player = mkOption {
+        type = types.str;
+        description = "Your default music player";
+        default = "${pkgs.ytmdesktop}/bin/ytmdesktop";
+      };
     };
 
     folders =

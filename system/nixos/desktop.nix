@@ -51,11 +51,11 @@ in
         inkscape
         obs-studio
         obsidian
-        qpwgraph
         telegram-desktop
         todoist-electron
         vlc
         wl-clipboard-rs
+        ytmdesktop
         zed-editor
 
         # Fonts
