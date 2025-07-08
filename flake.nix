@@ -155,16 +155,6 @@
               };
             };
           };
-
-          systemTarget =
-            name: flavor:
-            let
-              prefix = {
-                nixos = "nixosConfigurations";
-                darwin = "darwinConfigurations";
-              };
-            in
-            self.outputs.${prefix.${flavor}}.${name}.config.system.build.toplevel;
         in
         {
           checks = { inherit pre-commit-check; };
@@ -182,12 +172,7 @@
             ];
           };
 
-          packages = {
-            inherit (pkgs) dusk-apply dusk-system-verify;
-
-            battlecruiser = systemTarget "battlecruiser" "nixos";
-            drone = systemTarget "drone" "darwin";
-          };
+          packages = { inherit (pkgs) dusk-apply dusk-system-verify; };
         }
       );
     in
