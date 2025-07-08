@@ -46,7 +46,6 @@ in
         easyeffects
         element-desktop
         firefox
-        fractal
         helvum
         inkscape
         obs-studio
@@ -89,6 +88,7 @@ in
     home-manager.users.${config.dusk.username} = {
       programs.brave = {
         enable = true;
+
         commandLineArgs = [
           "--enable-features=VaapiVideoDecodeLinuxGL"
           "--use-gl=angle"
