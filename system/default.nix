@@ -48,16 +48,19 @@ in
         beets
         btop
         cachix
+        claude-code
         complete-alias
         curl
         direnv
         dusk-ai-tools
         dusk-stdlib
         eva
+        fastfetch
         fd
         fdupes
         ffmpeg
         file
+        gemini-cli
         gist
         gitMinimal
         glimpse
@@ -67,7 +70,6 @@ in
         lsd
         lsof
         ncdu
-        neofetch
         nerd-fonts.inconsolata
         nss
         openssl
