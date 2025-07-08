@@ -51,6 +51,7 @@ in
       sessionVariables = {
         XDG_CURRENT_DESKTOP = "Hyprland";
         XDG_SESSION_DESKTOP = "Hyprland";
+        GTK_THEME = "dark";
       };
 
       systemPackages = with pkgs; [
@@ -174,6 +175,7 @@ in
               "$mod, Return, exec, ${config.dusk.terminal.default}"
               "$mod, B, exec, ${config.dusk.defaults.browser}"
               "$mod, M, exec, ${config.dusk.defaults.music-player}"
+              "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
               ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
             ]
             ++ keybindings.window-movement
