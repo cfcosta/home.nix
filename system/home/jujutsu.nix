@@ -104,7 +104,7 @@ in
 
         git = {
           private-commits = "private | trunk";
-          push-bookmark-prefix = "${config.dusk.accounts.github}/";
+          git-push-bookmark = "\"cfcosta/\" ++ change_id.short()";
         };
 
         revset-aliases = {
