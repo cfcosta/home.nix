@@ -68,10 +68,14 @@ in
 
     security.pam.services.hyprlock = { };
 
-    services.displayManager.gdm = {
-      enable = true;
-      autoSuspend = false;
-      wayland = true;
+    services = {
+      gnome.gnome-keyring.enable = true;
+
+      displayManager.gdm = {
+        enable = true;
+        autoSuspend = false;
+        wayland = true;
+      };
     };
 
     xdg.portal = {
