@@ -175,6 +175,8 @@ in
               "$mod, Return, exec, ${config.dusk.terminal.default}"
               "$mod, B, exec, ${config.dusk.defaults.browser}"
               "$mod, M, exec, ${config.dusk.defaults.music-player}"
+              "$mod, D, exec, ${pkgs.discord}/bin/discord"
+              "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist"
               "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
               ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
             ]
