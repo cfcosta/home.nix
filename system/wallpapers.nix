@@ -5,12 +5,7 @@
   ...
 }:
 let
-  inherit (lib)
-    attrByPath
-    filter
-    listToAttrs
-    mkIf
-    ;
+  inherit (lib) attrByPath filter mkIf;
   inherit (builtins)
     head
     pathExists
