@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, config, ... }:
 {
   imports = with inputs.nixos-hardware.nixosModules; [
     common-cpu-amd
@@ -98,6 +98,14 @@
         };
       };
     };
+
+    home-manager.users.${config.dusk.username}.wayland.windowManager.hyprland.settings.workspace = [
+      "1, monitor:HDMI-A-2"
+      "2, monitor:HDMI-A-2"
+      "3, monitor:HDMI-A-2"
+      "4, monitor:DP-4"
+      "5, monitor:DP-4"
+    ];
 
     boot.initrd.kernelModules = [ "kvm-amd" ];
 
