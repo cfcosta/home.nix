@@ -105,6 +105,7 @@
       "3, monitor:HDMI-A-2"
       "4, monitor:DP-4"
       "5, monitor:DP-4"
+      "6, monitor:DP-4"
     ];
 
     boot.initrd.kernelModules = [ "kvm-amd" ];
