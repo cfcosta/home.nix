@@ -31,7 +31,6 @@ in
     ./desktop.nix
     ./networking.nix
     ./nvidia.nix
-    ./server
     ./virtualisation.nix
   ];
 

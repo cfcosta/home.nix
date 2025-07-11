@@ -78,16 +78,9 @@
           }
         ];
 
-        nixos = {
-          desktop = {
-            gaming.gamescope.enable = true;
-            hyprland.enable = true;
-          };
-
-          server = {
-            enable = true;
-            domain = "cfcosta.cloud";
-          };
+        nixos.desktop = {
+          gaming.gamescope.enable = true;
+          hyprland.enable = true;
         };
 
         zed = {

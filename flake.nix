@@ -87,8 +87,6 @@
 
   outputs =
     inputs@{
-      self,
-
       flake-utils,
       nix-darwin,
       nixpkgs,
