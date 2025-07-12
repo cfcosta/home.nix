@@ -20,7 +20,6 @@ in
 
     ./git.nix
     ./jujutsu.nix
-    ./zed
   ];
 
   config = {

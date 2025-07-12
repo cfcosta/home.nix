@@ -82,13 +82,6 @@
           gaming.gamescope.enable = true;
           hyprland.enable = true;
         };
-
-        zed = {
-          buffer_font_family = "Berkeley Mono NerdFont Mono";
-          buffer_font_size = "Berkeley Mono NerdFont Mono";
-          ui_font_family = "Berkeley Mono NerdFont Mono";
-          ui_font_size = "Berkeley Mono NerdFont Mono";
-        };
       };
     };
 

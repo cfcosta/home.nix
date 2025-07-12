@@ -55,7 +55,6 @@ in
         vlc
         wl-clipboard-rs
         ytmdesktop
-        zed-editor
 
         # Fonts
         cantarell-fonts

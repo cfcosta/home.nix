@@ -38,7 +38,6 @@
         "tor-browser"
         "vlc"
         "whatsapp"
-        "zed"
       ];
 
       caskArgs.no_quarantine = true;

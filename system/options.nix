@@ -134,33 +134,6 @@ in
         };
       };
 
-      zed = {
-        enable = mkEnabledOption {
-          description = "Whether or not to enable the Zed Editor";
-          parent = true;
-        };
-
-        ui_font_family = mkOption {
-          type = types.str;
-          default = "Inconsolata NerdFont";
-        };
-
-        ui_font_size = mkOption {
-          type = types.float;
-          default = 16.0;
-        };
-
-        buffer_font_family = mkOption {
-          type = types.str;
-          default = "Inconsolata NerdFont";
-        };
-
-        buffer_font_size = mkOption {
-          type = types.float;
-          default = 16.0;
-        };
-      };
-
       nixos =
         let
           cfg = config.dusk.system.nixos;

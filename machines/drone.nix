@@ -6,18 +6,7 @@
         font-size = 18;
       };
 
-      system = {
-        hostname = "drone";
-
-        zed = {
-          buffer_font_family = "Berkeley Mono NerdFont Mono";
-          buffer_font_size = "Berkeley Mono NerdFont Mono";
-          ui_font_family = "Berkeley Mono NerdFont Mono";
-          ui_font_size = "Berkeley Mono NerdFont Mono";
-        };
-
-      };
-
+      system.hostname = "drone";
       shell.tmux.showBattery = false;
     };
   };
