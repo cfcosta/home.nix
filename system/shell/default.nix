@@ -1,6 +1,6 @@
 {
   imports = [
-    ./starship
-    ./zellij
+    ./starship.nix
+    ./zellij.nix
   ];
 }
