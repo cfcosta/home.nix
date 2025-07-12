@@ -26,7 +26,6 @@
         "mullvadvpn"
         "obs"
         "obsidian"
-        "ollama"
         "orbstack"
         "secretive"
         "simplex"
