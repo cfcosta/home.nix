@@ -7,7 +7,6 @@
       };
 
       system.hostname = "drone";
-      shell.tmux.showBattery = false;
     };
   };
 }
