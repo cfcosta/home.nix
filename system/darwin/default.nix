@@ -1,7 +1,6 @@
 {
   config,
   inputs,
-  pkgs,
   ...
 }:
 {
@@ -28,7 +27,5 @@
         shell = config.home-manager.users.${config.dusk.username}.programs.bash.package;
       };
     };
-
-    environment.systemPackages = with pkgs; [ feishin ];
   };
 }
