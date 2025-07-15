@@ -10,8 +10,6 @@ let
   cfg = config.dusk.system.nixos.desktop.gaming;
 in
 {
-  imports = [ ./sunshine.nix ];
-
   config = mkIf cfg.enable {
     boot.kernel.sysctl."vm.max_map_count" = 1048576;
 
@@ -71,6 +69,23 @@ in
             "--adaptive-sync"
           ];
         };
+      };
+    };
+
+    services.sunshine = {
+      enable = true;
+
+      autoStart = true;
+      capSysAdmin = true;
+      openFirewall = false;
+
+      settings = {
+        qp = 20;
+        min_log_level = "info";
+        min_threads = 4;
+        hevc_mode = 3;
+        nvenc_preset = 3;
+        sw_preset = "fast";
       };
     };
 

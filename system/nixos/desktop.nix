@@ -16,10 +16,9 @@ let
 in
 {
   imports = [
-    ./gaming
-    ./hyprland
-
     ./drone.nix
+    ./gaming.nix
+    ./hyprland
   ];
 
   config = mkIf cfg.enable {
