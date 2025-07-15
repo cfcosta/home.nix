@@ -20,6 +20,7 @@ in
           "pulseaudio"
           "cpu"
           "battery"
+          "custom/notifications"
           "custom/power-menu"
         ];
 
@@ -45,6 +46,10 @@ in
             "3" = [ ];
             "4" = [ ];
             "5" = [ ];
+            "6" = [ ];
+            "7" = [ ];
+            "8" = [ ];
+            "9" = [ ];
           };
         };
 
