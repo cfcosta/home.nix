@@ -46,9 +46,9 @@ in
         element-desktop
         firefox
         helvum
-        inkscape
         obs-studio
         obsidian
+        pinta
         telegram-desktop
         todoist-electron
         vlc
