@@ -29,7 +29,7 @@ _run ${NIX} run "${ROOT}#dusk-system-verify"
 
 case "$(uname -s)" in
 "Darwin")
-  CMD="${NIX} run nix-darwin -- $ACTION --flake ${ROOT}#${HOSTNAME}"
+  CMD="sudo ${NIX} run nix-darwin -- $ACTION --flake ${ROOT}#${HOSTNAME}"
   ;;
 "Linux")
   CMD="nixos-rebuild $ACTION --flake ${ROOT}#${HOSTNAME}"
