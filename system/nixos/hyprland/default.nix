@@ -97,7 +97,6 @@ in
 
     home-manager.users.${config.dusk.username} = {
       imports = [
-        ./mako.nix
         ./waybar
       ];
 
@@ -154,6 +153,7 @@ in
             splash = false;
           };
         };
+        swaync.enable = true;
       };
 
       wayland.windowManager.hyprland = {
@@ -173,6 +173,7 @@ in
               ''$mod CTRL, L, exec, ${pkgs.hyprlock}/bin/hyprlock''
 
               "$mod, Return, exec, ${config.dusk.terminal.default}"
+              "$mod, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -op"
               "$mod, B, exec, ${config.dusk.defaults.browser}"
               "$mod, M, exec, ${config.dusk.defaults.music-player}"
               "$mod, D, exec, ${pkgs.discord}/bin/discord"
