@@ -14,9 +14,9 @@ jobs:
           - os: ubuntu-latest
             arch: x86_64-linux
             parent: .#nixosConfigurations.battlecruiser
-          # - os: macos-latest
-          #   arch: aarch64-darwin
-          #   parent: .#darwinConfigurations.drone
+          - os: macos-latest
+            arch: aarch64-darwin
+            parent: .#darwinConfigurations.drone
     name: "Build ${{ matrix.items.arch }}"
     runs-on: ${{ matrix.items.os }}
     permissions:
