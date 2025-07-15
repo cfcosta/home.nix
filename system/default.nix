@@ -52,7 +52,6 @@ in
         complete-alias
         curl
         direnv
-        dusk-ai-tools
         dusk-stdlib
         eva
         fastfetch

@@ -39,12 +39,6 @@ in
 
       settings = {
         aliases = {
-          ai-describe = [
-            "util"
-            "exec"
-            "--"
-            "${pkgs.dusk-ai-tools}/bin/ai-describe"
-          ];
           my-remotes = [
             "log"
             "-r"

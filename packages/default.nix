@@ -1,5 +1,4 @@
 inputs: _: super: {
-  dusk-ai-tools = super.callPackage ./dusk-ai-tools { };
   dusk-apply = super.callPackage ./dusk-apply { };
   dusk-stdlib = super.callPackage ./dusk-stdlib { };
   dusk-system-verify = super.callPackage ./dusk-system-verify { };
