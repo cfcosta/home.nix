@@ -18,7 +18,8 @@ in
   imports = [
     ./drone.nix
     ./gaming.nix
-    ./hyprland
+    ./hyprland.nix
+    ./sunshine.nix
   ];
 
   config = mkIf cfg.enable {
@@ -83,8 +84,10 @@ in
 
     hardware.graphics.enable = true;
 
-    home-manager.users.${config.dusk.username} = {
-      programs.brave = {
+    home-manager.users.${config.dusk.username} = _: {
+      imports = [ ./waybar ];
+
+      config.programs.brave = {
         enable = true;
 
         commandLineArgs = [

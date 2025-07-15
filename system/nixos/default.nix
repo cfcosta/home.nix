@@ -28,6 +28,7 @@ in
 
     ./boot.nix
     ./desktop.nix
+    ./monitors.nix
     ./networking.nix
     ./nvidia.nix
     ./virtualisation.nix

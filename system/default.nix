@@ -14,7 +14,6 @@ in
   imports = [
     ../user.nix
 
-    ./monitors.nix
     ./options.nix
     ./starship.nix
     ./terminal.nix
