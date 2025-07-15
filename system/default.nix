@@ -45,7 +45,6 @@ in
       systemPackages = with pkgs; [
         aider-chat
         bat
-        beets
         btop
         cachix
         claude-code
