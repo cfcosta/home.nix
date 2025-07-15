@@ -51,7 +51,7 @@ in
         "cpu" = {
           interval = 5;
           format = "󰍛";
-          on-click = "alacritty -e btop";
+          on-click = "${pkgs.ghostty}/bin/ghostty -e ${pkgs.btop}/bin/btop";
         };
 
         "clock" = {
@@ -77,7 +77,7 @@ in
           tooltip-format-disconnected = "Disconnected";
           interval = 3;
           nospacing = 1;
-          on-click = "alacritty -e iwctl";
+          on-click = "${pkgs.ghostty}/bin/ghostty -e ${pkgs.networkmanager}/bin/nmtui";
         };
 
         "battery" = {
@@ -137,6 +137,12 @@ in
           tooltip-format = "Playing at {volume}%";
           on-click-right = "${pkgs.helvum}/bin/helfum -t";
           ignored-sinks = [ "Easy Effects Sink" ];
+        };
+
+        "custom/notifications" = {
+          format = "󰍜 ";
+          on-click = "${pkgs.swaynotificationcenter}/bin/swaync-client -t";
+          tooltip = false;
         };
 
         "custom/power-menu" = {
