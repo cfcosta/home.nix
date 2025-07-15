@@ -1,5 +1,4 @@
 inputs: _: super: {
-  agenix = inputs.agenix.packages.${super.system}.default;
   dusk-ai-tools = super.callPackage ./dusk-ai-tools { };
   dusk-apply = super.callPackage ./dusk-apply { };
   dusk-stdlib = super.callPackage ./dusk-stdlib { };

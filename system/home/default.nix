@@ -15,7 +15,6 @@ let
 in
 {
   imports = [
-    inputs.agenix.homeManagerModules.default
     inputs.catppuccin.homeModules.catppuccin
 
     ./git.nix

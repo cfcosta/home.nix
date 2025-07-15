@@ -21,15 +21,6 @@
       inputs.systems.follows = "systems";
     };
 
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home-manager";
-        systems.follows = "systems";
-      };
-    };
-
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -163,7 +154,6 @@
             name = "home";
 
             packages = with pkgs; [
-              agenix
               dusk-treefmt
 
               (writeShellScriptBin "dusk-apply" "nix run $(pwd)#dusk-apply")

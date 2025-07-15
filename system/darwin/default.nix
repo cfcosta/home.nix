@@ -6,7 +6,6 @@
 }:
 {
   imports = [
-    inputs.agenix.darwinModules.default
     inputs.home-manager.darwinModules.default
 
     ./applications

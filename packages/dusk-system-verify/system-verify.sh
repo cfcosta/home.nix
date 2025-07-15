@@ -86,52 +86,6 @@ setup_darwin() {
   _info "Found Homebrew: $(_blue "${BREW_PATH}")"
 }
 
-get_pubkey() {
-  if [ ! -f "${HOME}/.ssh/id_ed25519.pub" ]; then
-    _error "Could not find a valid SSH key in $(_blue "${HOME}/.ssh")."
-    _info "You can generate one by running this command: $(_blue "ssh-keygen -t ed25519")"
-
-    return 127
-  fi
-
-  cut -f 2 -d" " <"${HOME}/.ssh/id_ed25519.pub"
-}
-
-check_ssh_key_requirements() {
-  local github_user username
-
-  github_user="$(nix eval --json --file "${ROOT}/user.nix" | jq -r '.config.dusk.accounts.github')"
-  username="$(nix eval --json --file "${ROOT}/user.nix" | jq -r '.config.dusk.username')"
-  HOME=$(eval echo "~${username}")
-
-  _info "Checking if the user SSH key is properly registered on Github..."
-
-  [[ -n ${github_user} ]] || _fatal "Could not find your github user on the $(_blue "${ROOT}/user.nix") file."
-  _debug "Found username: $(_green "${github_user}")"
-  _debug "Found Github User: $(_green "${github_user}")"
-
-  if ! timeout 2s curl "https://github.com/${github_user}.keys" 2>&1 | grep -q "$(get_pubkey)"; then
-    _warn "The SSH key you are using was not added to the configured GitHub account. This might mean you either need to add this key to your user, change the $(_blue "${ROOT}/user.nix") file, or verify your network connection."
-  fi
-}
-
-check_secrets() {
-  _info "Verifying if your user is allowed to decrypt secrets"
-
-  cd "${ROOT}/secrets" || _fatal "Failed to cd to secrets folder in $(_blue "${ROOT}/secrets")."
-
-  if ! agenix -d cloudflare-api-token.age &>/dev/null; then
-    _warn "The secrets are inaccessible! Be careful. You should re-generate and re-encrypt them with your key."
-  fi
-
-  cd "${ROOT}" || _fatal "Failed to cd back to repository root at $(_blue "${ROOT}")"
-
-  return 0
-}
-
-check_ssh_key_requirements
-check_secrets
-
 _debug "Found $(_red "$(uname -s)") machine."
 _debug "Hostname: $(_blue "$(hostname)")"
 
