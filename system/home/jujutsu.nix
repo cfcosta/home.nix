@@ -30,7 +30,6 @@ in
 
       packages = with pkgs; [
         jjui
-        radicle-node
       ];
     };
 
