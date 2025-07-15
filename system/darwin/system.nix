@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   config.system = {
     primaryUser = config.dusk.username;
 

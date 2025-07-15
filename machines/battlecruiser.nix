@@ -12,6 +12,8 @@
         font-size = 12;
       };
 
+      waybar.font-family = "Berkeley Mono NerdFont Mono";
+
       shell.starship.disabledModules = [
         "cmd_duration"
         "dart"

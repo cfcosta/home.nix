@@ -20,6 +20,7 @@ in
     ./gaming.nix
     ./hyprland.nix
     ./sunshine.nix
+    ./waybar.nix
   ];
 
   config = mkIf cfg.enable {
@@ -85,8 +86,6 @@ in
     hardware.graphics.enable = true;
 
     home-manager.users.${config.dusk.username} = _: {
-      imports = [ ./waybar ];
-
       config.programs.brave = {
         enable = true;
 

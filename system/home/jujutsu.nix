@@ -28,9 +28,7 @@ in
         trailing_semicolon = true
       '';
 
-      packages = with pkgs; [
-        jjui
-      ];
+      packages = with pkgs; [ jjui ];
     };
 
     programs.jujutsu = {

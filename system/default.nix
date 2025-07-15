@@ -71,6 +71,7 @@ in
         ncdu
         nerd-fonts.inconsolata
         nss
+        opencode
         openssl
         p7zip
         python3
