@@ -16,9 +16,10 @@ in
 
     ./monitors.nix
     ./options.nix
-    ./shell
+    ./starship.nix
     ./terminal.nix
     ./wallpapers.nix
+    ./zellij.nix
   ];
 
   config = {
