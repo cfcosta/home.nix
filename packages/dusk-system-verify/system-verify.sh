@@ -2,8 +2,6 @@
 
 set -e
 
-ROOT="$(git rev-parse --show-toplevel)"
-
 setup_linux() {
   _run_quietly which nix || _fatal "Error: 'nix' command not found in PATH"
   _run_quietly pgrep -x nix-daemon || _fatal "Error: nix-daemon is not running"
