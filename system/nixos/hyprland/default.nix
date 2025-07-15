@@ -96,9 +96,7 @@ in
     };
 
     home-manager.users.${config.dusk.username} = {
-      imports = [
-        ./waybar
-      ];
+      imports = [ ./waybar ];
 
       dconf.enable = true;
 

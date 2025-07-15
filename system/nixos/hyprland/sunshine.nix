@@ -5,10 +5,39 @@
   ...
 }:
 let
+  inherit (builtins)
+    filter
+    head
+    length
+    sort
+    toString
+    ;
   inherit (lib) mkIf optionals;
 
-  dusk-lib = import ../../../lib;
-  inherit (dusk-lib.monitors) getPrimaryMonitor;
+  scaleToNumber = scale: if scale == "auto" then 1.0 else scale;
+
+  cmpWith =
+    func: a: b:
+    func a > func b;
+
+  # Calculate effective pixels accounting for scaling
+  getEffectivePixels =
+    monitor: (monitor.resolution.width * monitor.resolution.height) / scaleToNumber monitor.scale;
+
+  # Find monitor with highest effective pixel count if no primary is set
+  defaultPrimaryMonitor =
+    monitors:
+    let
+      sorted = sort (cmpWith getEffectivePixels) monitors;
+    in
+    if length sorted > 0 then (head sorted).name else null;
+
+  getPrimaryMonitor =
+    monitors:
+    let
+      explicit = filter (m: m.primary) monitors;
+    in
+    if length explicit > 0 then (head explicit).name else defaultPrimaryMonitor monitors;
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
 

@@ -105,8 +105,6 @@
         darwin = nix-darwin.lib.darwinSystem;
       };
 
-      dusk-lib = import ./lib;
-
       buildSystem =
         flavor: system: name:
         builders.${flavor} {
@@ -118,7 +116,7 @@
             ./machines/${name}.nix
           ];
 
-          specialArgs = { inherit inputs flavor dusk-lib; };
+          specialArgs = { inherit inputs flavor; };
         };
       buildNixos = buildSystem "nixos" "x86_64-linux";
       buildDarwin = buildSystem "darwin" "aarch64-darwin";

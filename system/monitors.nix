@@ -3,7 +3,61 @@ let
   inherit (lib) mkIf;
   cfg = config.dusk.system;
 
-  inherit (import ../lib/monitors.nix) formatMonitor;
+  resolutionToString = resolution: "${toString resolution.width}x${toString resolution.height}";
+
+  formatMonitor =
+    let
+      rotationToNumber =
+        rotate:
+        {
+          "0" = 0;
+          "90" = 1;
+          "180" = 2;
+          "270" = 3;
+        }
+        .${toString rotate};
+
+      vrrToNumber =
+        vrr:
+        if vrr == "fullscreen-only" then
+          "2"
+        else if vrr then
+          "1"
+        else if !vrr then
+          "0"
+        else
+          throw "Invalid VRR value: ${toString vrr}";
+
+    in
+    {
+      name,
+      resolution ? {
+        width = 1920;
+        height = 1080;
+      },
+      position ? {
+        x = 0;
+        y = 0;
+      },
+      scale ? 1.0,
+      refreshRate ? 60.0,
+      transform ? {
+        rotate = 0;
+        flipped = false;
+      },
+      vrr ? false,
+      ...
+    }:
+    let
+      resolutionStr = resolutionToString resolution;
+      positionStr = "${toString position.x}x${toString position.y}";
+      transformNum =
+        let
+          rotateNum = rotationToNumber transform.rotate;
+        in
+        if transform.flipped then rotateNum + 4 else rotateNum;
+    in
+    "${name}, ${resolutionStr}@${toString refreshRate}, ${positionStr}, ${toString scale}, vrr, ${vrrToNumber vrr}, transform, ${toString transformNum}";
 in
 {
   options.dusk.system.monitors =
@@ -121,5 +175,5 @@ in
 
   config.home-manager.users.${config.dusk.username}.wayland.windowManager.hyprland = mkIf (
     cfg.nixos.desktop.hyprland.enable && (cfg.monitors != [ ])
-  ) { settings.monitor = map formatMonitor.hyprland cfg.monitors; };
+  ) { settings.monitor = map formatMonitor cfg.monitors; };
 }
