@@ -87,7 +87,7 @@ in
     hardware.graphics.enable = true;
 
     home-manager.users.${config.dusk.username} = _: {
-      config.programs.brave = {
+      programs.brave = {
         enable = true;
 
         commandLineArgs = [

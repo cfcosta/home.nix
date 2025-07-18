@@ -171,10 +171,11 @@ in
               "$mod, Return, exec, ${config.dusk.terminal.default}"
               "$mod, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -op"
               "$mod, B, exec, ${config.dusk.defaults.browser}"
-              "$mod, M, exec, ${config.dusk.defaults.music-player}"
               "$mod, D, exec, ${pkgs.discord}/bin/discord"
-              "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist"
               "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
+              "$mod, M, exec, ${config.dusk.defaults.music-player}"
+              "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist"
+              ''$mod SHIFT, E, exec, ${pkgs.element-desktop}/bin/element-desktop''
               ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
             ]
             ++ keybindings.window-movement
@@ -182,7 +183,7 @@ in
             ++ keybindings.switch-workspace;
 
           bindm = [
-            # move/resize windows with $mod + l/r mouse
+            # Move/resize windows with $mod + l/r mouse
             "$mod, mouse:272, movewindow"
             "$mod, mouse:273, resizewindow"
           ];
