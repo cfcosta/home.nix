@@ -29,7 +29,7 @@ in
         # Enable Wayland support on most Electron applications
         NIXOS_OZONE_WL = "1";
 
-        # Enable newer freetype features
+        # Enable newer FreeType features
         FREETYPE_PROPERTIES = "truetype:interpreter-version=40";
 
         BROWSER = config.dusk.defaults.browser;
@@ -48,6 +48,7 @@ in
         element-desktop
         firefox
         helvum
+        imv
         obs-studio
         obsidian
         pinta
@@ -95,6 +96,40 @@ in
           "--use-angle=gl"
           "--ozone-platform=wayland"
         ];
+      };
+
+      xdg.mimeApps = {
+        enable = true;
+        defaultApplications = {
+          # Open images with `imv`
+          "image/png" = "imv.desktop";
+          "image/jpeg" = "imv.desktop";
+          "image/gif" = "imv.desktop";
+          "image/webp" = "imv.desktop";
+          "image/bmp" = "imv.desktop";
+          "image/tiff" = "imv.desktop";
+
+          # Use Brave as the default browser
+          "x-scheme-handler/http" = "brave-browser.desktop";
+          "x-scheme-handler/https" = "brave-browser.desktop";
+
+          # Open video files with VLC
+          "video/mp4" = "vlc.desktop";
+          "video/x-msvideo" = "vlc.desktop";
+          "video/x-matroska" = "vlc.desktop";
+          "video/x-flv" = "vlc.desktop";
+          "video/x-ms-wmv" = "vlc.desktop";
+          "video/mpeg" = "vlc.desktop";
+          "video/ogg" = "vlc.desktop";
+          "video/webm" = "vlc.desktop";
+          "video/quicktime" = "vlc.desktop";
+          "video/3gpp" = "vlc.desktop";
+          "video/3gpp2" = "vlc.desktop";
+          "video/x-ms-asf" = "vlc.desktop";
+          "video/x-ogm+ogg" = "vlc.desktop";
+          "video/x-theora+ogg" = "vlc.desktop";
+          "application/ogg" = "vlc.desktop";
+        };
       };
     };
 
