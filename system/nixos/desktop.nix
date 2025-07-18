@@ -16,6 +16,7 @@ let
 in
 {
   imports = [
+    ./browser.nix
     ./drone.nix
     ./gaming.nix
     ./hyprland.nix
@@ -87,17 +88,6 @@ in
     hardware.graphics.enable = true;
 
     home-manager.users.${config.dusk.username} = _: {
-      programs.brave = {
-        enable = true;
-
-        commandLineArgs = [
-          "--enable-features=VaapiVideoDecodeLinuxGL"
-          "--use-gl=angle"
-          "--use-angle=gl"
-          "--ozone-platform=wayland"
-        ];
-      };
-
       xdg.mimeApps = {
         enable = true;
         defaultApplications = {
@@ -108,10 +98,6 @@ in
           "image/webp" = "imv.desktop";
           "image/bmp" = "imv.desktop";
           "image/tiff" = "imv.desktop";
-
-          # Use Brave as the default browser
-          "x-scheme-handler/http" = "brave-browser.desktop";
-          "x-scheme-handler/https" = "brave-browser.desktop";
 
           # Open video files with VLC
           "video/mp4" = "vlc.desktop";
