@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf optionals;
   inherit (builtins) concatLists genList toString;
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
@@ -158,29 +158,31 @@ in
         settings = {
           "$mod" = "SUPER";
 
-          bind =
-            [
-              ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
-              "$mod SHIFT, escape, exec, ${pkgs.wlogout}/bin/wlogout"
+          bind = [
+            ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
+            "$mod SHIFT, escape, exec, ${pkgs.wlogout}/bin/wlogout"
 
-              # Application launchers
-              ''$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun''
-              ''$mod SHIFT, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show run''
-              ''$mod CTRL, L, exec, ${pkgs.hyprlock}/bin/hyprlock''
+            # Application launchers
+            ''$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun''
+            ''$mod SHIFT, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show run''
+            ''$mod CTRL, L, exec, ${pkgs.hyprlock}/bin/hyprlock''
 
-              "$mod, Return, exec, ${config.dusk.terminal.default}"
-              "$mod, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -op"
-              "$mod, B, exec, ${config.dusk.defaults.browser}"
-              "$mod, D, exec, ${pkgs.discord}/bin/discord"
-              "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
-              "$mod, M, exec, ${config.dusk.defaults.music-player}"
-              "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist"
-              ''$mod SHIFT, E, exec, ${pkgs.element-desktop}/bin/element-desktop''
-              ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
-            ]
-            ++ keybindings.window-movement
-            ++ keybindings.window-management
-            ++ keybindings.switch-workspace;
+            "$mod, Return, exec, ${config.dusk.terminal.default}"
+            "$mod, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -op"
+            "$mod, B, exec, ${config.dusk.defaults.browser}"
+            "$mod, D, exec, ${pkgs.discord}/bin/discord"
+            "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
+            "$mod, M, exec, ${config.dusk.defaults.music-player}"
+            "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist"
+            ''$mod SHIFT, E, exec, ${pkgs.element-desktop}/bin/element-desktop''
+            ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
+          ]
+          ++ (optionals config.dusk.system.nixos.desktop.gaming.enable [
+            "$mod SHIFT, S, exec, ${pkgs.steam}/bin/steam"
+          ])
+          ++ keybindings.window-movement
+          ++ keybindings.window-management
+          ++ keybindings.switch-workspace;
 
           bindm = [
             # Move/resize windows with $mod + l/r mouse
