@@ -211,16 +211,6 @@ in
               parent = cfg.virtualisation.enable;
             };
           };
-
-          server = {
-            enable = lib.mkEnableOption "Whether or not to install the server infrastructure";
-
-            domain = mkOption {
-              type = types.str;
-              default = "${config.dusk.system.hostname}.local";
-              description = "The root domain for all services in the system";
-            };
-          };
         };
     };
   };
