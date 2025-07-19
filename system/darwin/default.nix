@@ -15,6 +15,12 @@
       settings.trusted-users = [ "@admin" ];
     };
 
+    # Allow using Touch ID to run sudo
+    security.pam.services.sudo_local = {
+      enable = true;
+      touchIdAuth = true;
+    };
+
     users = {
       knownUsers = [ config.dusk.username ];
 
