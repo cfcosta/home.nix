@@ -36,7 +36,7 @@ in
 
       settings = {
         aliases = {
-          amend = ["squash"];
+          amend = [ "squash" ];
 
           my-remotes = [
             "log"
