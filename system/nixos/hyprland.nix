@@ -38,8 +38,9 @@ let
     ];
 
     window-management = [
-      "$mod, Q, killactive"
+      "$mod SHIFT, Space, togglefloating"
       "$mod, F, fullscreen"
+      "$mod, Q, killactive"
     ];
   };
 in
@@ -164,7 +165,6 @@ in
 
             # Application launchers
             ''$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun''
-            ''$mod SHIFT, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show run''
             ''$mod CTRL, L, exec, ${pkgs.hyprlock}/bin/hyprlock''
 
             "$mod, Return, exec, ${config.dusk.terminal.default}"
