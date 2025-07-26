@@ -1,4 +1,9 @@
-{ inputs, config, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 {
   imports = with inputs.nixos-hardware.nixosModules; [
     common-cpu-amd
@@ -87,14 +92,26 @@
       };
     };
 
-    home-manager.users.${config.dusk.username}.wayland.windowManager.hyprland.settings.workspace = [
-      "1, monitor:HDMI-A-2"
-      "2, monitor:HDMI-A-2"
-      "3, monitor:HDMI-A-2"
-      "4, monitor:DP-4"
-      "5, monitor:DP-4"
-      "6, monitor:DP-4"
-    ];
+    home-manager.users.${config.dusk.username}.wayland.windowManager.hyprland.settings = {
+      input = {
+        kb_layout = "us,us";
+        kb_variant = ",intl";
+        kb_options = "grp:alt_shift_toggle";
+      };
+
+      bind = [
+        "$mod, Tab, exec, hyprctl switchxkblayout t.m.k.-hhkb-mod next && sleep 0.1 && ${pkgs.libnotify}/bin/notify-send 'Keyboard Layout' \"$(hyprctl devices -j | ${pkgs.jq}/bin/jq -r '.keyboards[] | select(.name == \"t.m.k.-hhkb-mod\") | .active_keymap' | sed 's/English (US)/US Layout/' | sed 's/English (US, international with dead keys)/US International/')\""
+      ];
+
+      workspace = [
+        "1, monitor:HDMI-A-2"
+        "2, monitor:HDMI-A-2"
+        "3, monitor:HDMI-A-2"
+        "4, monitor:DP-4"
+        "5, monitor:DP-4"
+        "6, monitor:DP-4"
+      ];
+    };
 
     boot.initrd.kernelModules = [ "kvm-amd" ];
 
