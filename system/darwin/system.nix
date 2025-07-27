@@ -37,6 +37,7 @@
 
         "com.apple.SoftwareUpdate" = {
           AutomaticCheckEnabled = true;
+          AutomaticallyInstallMacOSUpdates = true;
 
           # Check for software updates daily, not just once per week
           ScheduleFrequency = 1;
@@ -99,6 +100,9 @@
         # Expand the save panel by default
         NSNavPanelExpandedStateForSaveMode = true;
         NSNavPanelExpandedStateForSaveMode2 = true;
+
+        # Do not save stuff to iCloud
+        NSDocumentSaveNewDocumentsToCloud = false;
 
         # Force dark mode globally
         AppleInterfaceStyle = "Dark";
