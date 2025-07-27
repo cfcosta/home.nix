@@ -26,7 +26,7 @@
           allowApplePersonalizedAdvertising = false;
           allowIdentifierForAdvertising = false;
           forceLimitAdTracking = true;
-          personlizeddsMigrted = false;
+          personalizedAdsMigrated = false;
         };
 
         "com.apple.desktopservices" = {
