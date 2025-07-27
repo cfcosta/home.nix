@@ -22,7 +22,6 @@ in
     };
 
     users.users.${config.dusk.username}.extraGroups =
-      optionals cfg.libvirt.enable [ "libvirtd" ]
-      ++ optionals cfg.docker.enable [ "docker" ];
+      optionals cfg.libvirt.enable [ "libvirtd" ] ++ optionals cfg.docker.enable [ "docker" ];
   };
 }

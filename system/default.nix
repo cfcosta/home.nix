@@ -103,7 +103,7 @@ in
         imports = [
           ./options.nix
           ../user.nix
-          ./home
+          ./home.nix
         ];
       };
     };

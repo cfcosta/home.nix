@@ -187,8 +187,7 @@ in
     services.sunshine = {
       settings.output_name = primary;
       applications.apps =
-        (map mkDesktop targets)
-        ++ optionals config.programs.steam.enable (map mkSteam targets);
+        (map mkDesktop targets) ++ optionals config.programs.steam.enable (map mkSteam targets);
     };
   };
 }

@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 {
   home-manager.users.${config.dusk.username} = _: {
     programs.brave = {

@@ -75,7 +75,8 @@ in
             "^kill"
             "^pkill"
             "^reset"
-          ] ++ (map (alias: ''"^${alias}"'') (attrNames config.programs.bash.shellAliases));
+          ]
+          ++ (map (alias: ''"^${alias}"'') (attrNames config.programs.bash.shellAliases));
         };
       };
 
@@ -117,7 +118,8 @@ in
           "killall"
           "pkill"
           "reset"
-        ] ++ (mapAttrsToList (key: _: key) config.programs.bash.shellAliases);
+        ]
+        ++ (mapAttrsToList (key: _: key) config.programs.bash.shellAliases);
 
         shellOptions = [
           # Default options from home-manager
