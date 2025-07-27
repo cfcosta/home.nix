@@ -4,6 +4,7 @@
     inputs.home-manager.darwinModules.default
 
     ./applications
+    ./dock.nix
     ./homebrew.nix
     ./system.nix
   ];

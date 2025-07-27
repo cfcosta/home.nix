@@ -66,39 +66,13 @@
         };
       };
 
-      dock = {
-        autohide = true;
-        autohide-delay = 0.0;
-        autohide-time-modifier = 0.0;
-        dashboard-in-overlay = true;
-        launchanim = false;
-        mineffect = "scale";
-        minimize-to-application = false;
-        mouse-over-hilite-stack = true;
-        orientation = "left";
-        static-only = true;
-        tilesize = 48;
-
-        # enable spring loading (hold a dragged file over an icon to drop/open it there)
-        enable-spring-load-actions-on-all-items = true;
-
-        # do not show recent applications in the dock
-        show-recents = false;
-
-        # show indicator lights for open applications
-        show-process-indicators = true;
-
-        # show hidden applications as translucent
-        showhidden = true;
-      };
-
       finder = {
         # Finder: show all filename extensions
         AppleShowAllExtensions = true;
         FXEnableExtensionChangeWarning = false;
         QuitMenuItem = true;
 
-        # show the full POSIX path as Finder's window title
+        # Show the full POSIX path as Finder's window title
         _FXShowPosixPathInTitle = true;
       };
 
@@ -122,7 +96,7 @@
         PMPrintingExpandedStateForPrint = true;
         PMPrintingExpandedStateForPrint2 = true;
 
-        # expand the save panel by default
+        # Expand the save panel by default
         NSNavPanelExpandedStateForSaveMode = true;
         NSNavPanelExpandedStateForSaveMode2 = true;
 
