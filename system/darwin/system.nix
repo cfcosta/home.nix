@@ -12,13 +12,18 @@
       controlcenter = {
         # Hide icons from the menubar
         AirDrop = false;
-        Bluetooth = false;
+        Bluetooth = true;
         Display = false;
         FocusModes = false;
         NowPlaying = false;
         Sound = false;
 
         BatteryShowPercentage = true;
+      };
+
+      menuExtraClock = {
+        Show24Hour = true;
+        ShowSeconds = true;
       };
 
       CustomUserPreferences = {
