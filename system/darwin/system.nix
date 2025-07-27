@@ -40,6 +40,11 @@
           DSDontWriteUSBStores = true;
         };
 
+        "com.apple.finder" = {
+          DisableAllAnimations = true;
+          WarnOnEmptyTrash = false;
+        };
+
         "com.apple.SoftwareUpdate" = {
           AutomaticCheckEnabled = true;
           AutomaticallyInstallMacOSUpdates = true;
