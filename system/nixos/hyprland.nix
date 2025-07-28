@@ -173,7 +173,13 @@ in
             "$mod, D, exec, ${pkgs.discord}/bin/discord"
             "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
             "$mod, M, exec, ${config.dusk.defaults.music-player}"
-            "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist"
+            "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist-electron"
+            "$mod SHIFT, T, exec, ${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui"
+            ''$mod, W, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://web.whatsapp.com" --name="WhatsApp Web" --class="whatsapp" ''
+            ''$mod, X, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com/compose/post" --name="X" --class="x.com" ''
+            ''$mod, G, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com/i/grok" --name="Grok" --class="grok" ''
+            ''$mod, C, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://chatgpt.com" --name="ChatGPT" --class="chatgpt" ''
+            ''$mod, Y, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://youtube.com" --name="Youtube" --class="youtube" ''
             ''$mod SHIFT, E, exec, ${pkgs.element-desktop}/bin/element-desktop''
             ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
           ]
