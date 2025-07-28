@@ -13,7 +13,7 @@ let
     theme = ${cfg.theme}
     window-theme = ${if (flavor == "nixos") then "ghostty" else "system"}
 
-    background-opacity = 0.8
+    background-opacity = 0.7
     background-blur = true
 
     font-family = ${cfg.font-family}
@@ -41,7 +41,7 @@ in
     theme = mkOption {
       description = "What theme to use on ghostty";
       type = types.str;
-      default = "catppuccin-mocha";
+      default = "tokyonight_night";
     };
   };
 
