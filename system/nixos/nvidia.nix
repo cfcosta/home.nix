@@ -14,8 +14,9 @@ in
     environment = {
       sessionVariables = {
         GBM_BACKEND = "nvidia-drm";
-        __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+        LIBVA_DRIVER_NAME = "nvidia";
         NVD_BACKEND = "direct";
+        __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       };
 
       systemPackages = with pkgs; [ nvtopPackages.nvidia ];
