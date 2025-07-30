@@ -99,28 +99,6 @@ in
     home-manager.users.${config.dusk.username} = {
       dconf.enable = true;
 
-      gtk = {
-        enable = true;
-
-        cursorTheme = {
-          name = "Adwaita";
-          package = pkgs.adwaita-icon-theme;
-        };
-
-        iconTheme = {
-          name = "Papirus-Dark";
-          package = pkgs.papirus-icon-theme;
-        };
-
-        theme = {
-          name = "palenight";
-          package = pkgs.palenight-theme;
-        };
-
-        gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
-        gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
-      };
-
       home.pointerCursor = {
         name = "Adwaita";
         package = pkgs.adwaita-icon-theme;
@@ -237,6 +215,10 @@ in
               passes = 2;
             };
           };
+
+          exec-once = [
+            "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
+          ];
 
           general = {
             gaps_in = 8;

@@ -89,6 +89,55 @@ in
     hardware.graphics.enable = true;
 
     home-manager.users.${config.dusk.username} = _: {
+      catppuccin.kvantum.enable = false;
+
+      gtk = {
+        enable = true;
+
+        font = {
+          name = "Inconsolata";
+          size = 11;
+        };
+
+        cursorTheme = {
+          name = "Adwaita";
+          package = pkgs.adwaita-icon-theme;
+        };
+
+        iconTheme = {
+          name = "Papirus-Dark";
+          package = pkgs.papirus-icon-theme;
+        };
+
+        theme = {
+          name = "Adwaita-dark";
+          package = pkgs.gnome-themes-extra;
+        };
+
+        gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+        gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
+      };
+
+      dconf.settings."org/gnome/desktop/interface" = {
+        gtk-theme = "Adwaita-dark";
+        color-scheme = "prefer-dark";
+      };
+
+      qt = {
+        enable = true;
+        platformTheme.name = "adwaita-dark";
+        style = {
+          name = "adwaita-dark";
+          package = pkgs.adwaita-qt;
+        };
+      };
+
+      fonts.fontconfig.defaultFonts = {
+        sansSerif = [ "Inconsolata" ];
+        serif = [ "Inconsolata" ];
+        monospace = [ "Inconsolata" ];
+      };
+
       xdg.mimeApps = {
         enable = true;
         defaultApplications = {
