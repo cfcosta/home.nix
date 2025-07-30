@@ -164,6 +164,12 @@ in
             "$mod SHIFT, C, exec, ${pkgs.gnome-calculator}/bin/gnome-calculator"
             "$mod SHIFT, E, exec, ${pkgs.element-desktop}/bin/element-desktop"
             "$mod SHIFT, T, exec, ${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui"
+
+            # $mod + ctrl = system configuration
+            "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
+            "$mod CTRL, A, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
+            "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
+            "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
           ]
           ++ (optionals config.dusk.system.nixos.desktop.gaming.enable [
             "$mod SHIFT, S, exec, ${pkgs.steam}/bin/steam"

@@ -94,7 +94,7 @@ in
             tooltip-format-disconnected = "Disconnected";
             interval = 3;
             nospacing = 1;
-            on-click = "${pkgs.ghostty}/bin/ghostty -e ${pkgs.networkmanager}/bin/nmtui";
+            on-click = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
           };
 
           "battery" = {
@@ -141,7 +141,7 @@ in
           "bluetooth" = {
             format = "";
             format-disabled = "󰂲";
-            format-connected = "";
+            format-connected = "󰂯";
             tooltip-format = "Devices connected: {num_connections}";
             on-click = "GTK_THEME=Adwaita-dark ${pkgs.blueberry}/bin/blueberry";
           };
