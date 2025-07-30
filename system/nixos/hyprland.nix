@@ -174,6 +174,7 @@ in
             "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
             "$mod, M, exec, ${config.dusk.defaults.music-player}"
             "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist-electron"
+            "$mod SHIFT, C, exec, ${pkgs.gnome-calculator}/bin/gnome-calculator"
             "$mod SHIFT, T, exec, ${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui"
             ''$mod, W, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://web.whatsapp.com" --name="WhatsApp Web" --class="whatsapp" ''
             ''$mod, X, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com/compose/post" --name="X" --class="x.com" ''
@@ -244,6 +245,8 @@ in
             accel_profile = "flat";
             sensitivity = 0;
           };
+
+          windowrulev2 = [ "float, class:^(org.gnome.Calculator)$" ];
         };
 
         systemd.variables = [ "--all" ];

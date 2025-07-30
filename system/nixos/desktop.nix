@@ -48,6 +48,7 @@ in
         easyeffects
         element-desktop
         firefox
+        gnome-calculator
         helvum
         imv
         obs-studio
