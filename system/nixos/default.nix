@@ -68,7 +68,10 @@ in
       systemPackages = with pkgs; [ killall ];
     };
 
-    hardware.graphics.enable = true;
+    hardware = {
+      bluetooth.enable = true;
+      graphics.enable = true;
+    };
 
     i18n.defaultLocale = locale;
 
