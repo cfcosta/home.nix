@@ -160,29 +160,32 @@ in
           "$mod" = "SUPER";
 
           bind = [
-            ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
             "$mod SHIFT, escape, exec, ${pkgs.wlogout}/bin/wlogout"
+            "$mod SHIFT, L, exec, ${pkgs.hyprlock}/bin/hyprlock"
+            "$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun"
+            ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
+            ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave area"
+            "SHIFT, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave screen"
 
-            # Application launchers
-            ''$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun''
-            ''$mod CTRL, L, exec, ${pkgs.hyprlock}/bin/hyprlock''
-
+            # System Applications
             "$mod, Return, exec, ${config.dusk.terminal.default}"
-            "$mod, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -op"
             "$mod, B, exec, ${config.dusk.defaults.browser}"
-            "$mod, D, exec, ${pkgs.discord}/bin/discord"
             "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
+            "$mod, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -op"
+
+            # Web Applications
+            ''$mod, C, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://chatgpt.com" --name="ChatGPT" --class="chatgpt"''
+            ''$mod, G, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com/i/grok" --name="Grok" --class="grok"''
+            ''$mod, W, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://web.whatsapp.com" --name="WhatsApp Web" --class="whatsapp"''
+            ''$mod, X, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com/compose/post" --name="X" --class="x.com"''
+            ''$mod, Y, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://youtube.com" --name="Youtube" --class="youtube"''
+
+            "$mod, D, exec, ${pkgs.discord}/bin/discord"
             "$mod, M, exec, ${config.dusk.defaults.music-player}"
             "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist-electron"
             "$mod SHIFT, C, exec, ${pkgs.gnome-calculator}/bin/gnome-calculator"
+            "$mod SHIFT, E, exec, ${pkgs.element-desktop}/bin/element-desktop"
             "$mod SHIFT, T, exec, ${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui"
-            ''$mod, W, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://web.whatsapp.com" --name="WhatsApp Web" --class="whatsapp" ''
-            ''$mod, X, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com/compose/post" --name="X" --class="x.com" ''
-            ''$mod, G, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com/i/grok" --name="Grok" --class="grok" ''
-            ''$mod, C, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://chatgpt.com" --name="ChatGPT" --class="chatgpt" ''
-            ''$mod, Y, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://youtube.com" --name="Youtube" --class="youtube" ''
-            ''$mod SHIFT, E, exec, ${pkgs.element-desktop}/bin/element-desktop''
-            ", Print, exec, ${pkgs.grimblast}/bin/grimblast copy area"
           ]
           ++ (optionals config.dusk.system.nixos.desktop.gaming.enable [
             "$mod SHIFT, S, exec, ${pkgs.steam}/bin/steam"
