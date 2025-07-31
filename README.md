@@ -11,7 +11,6 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 | Keybinding | Action |
 |---|---|
 | `Super + Shift + Esc` | Show power menu |
-| `Super + Shift + L` | Lock screen |
 | `Super + Space` | Show application launcher |
 | `Super + Shift + V` | Show clipboard history |
 | `PrintScreen` | Take a screenshot of an area |
@@ -47,10 +46,11 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 
 | Keybinding | Action |
 |---|---|
-| `Super + Ctrl + B` | Open Bluetooth settings |
 | `Super + Ctrl + A` | Open audio volume control |
-| `Super + Ctrl + P` | Open Pipewire patchbay |
+| `Super + Ctrl + B` | Open Bluetooth settings |
+| `Super + Ctrl + L` | Lock screen |
 | `Super + Ctrl + N` | Open network connections editor |
+| `Super + Ctrl + P` | Open Pipewire patchbay |
 
 ### Window Management
 

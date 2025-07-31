@@ -139,7 +139,6 @@ in
 
           bind = [
             "$mod SHIFT, escape, exec, ${pkgs.wlogout}/bin/wlogout"
-            "$mod SHIFT, L, exec, ${pkgs.hyprlock}/bin/hyprlock"
             "$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun"
             ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
             ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave area"
@@ -155,7 +154,7 @@ in
             ''$mod, C, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://chatgpt.com" --name="ChatGPT" --class="chatgpt"''
             ''$mod, G, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://grok.com" --name="Grok" --class="grok"''
             ''$mod, W, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://web.whatsapp.com" --name="WhatsApp Web" --class="whatsapp"''
-            ''$mod, X, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com/compose/post" --name="X" --class="x.com"''
+            ''$mod, X, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com" --name="X" --class="x.com"''
             ''$mod, Y, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://youtube.com" --name="Youtube" --class="youtube"''
 
             "$mod, D, exec, ${pkgs.discord}/bin/discord"
@@ -166,10 +165,11 @@ in
             "$mod SHIFT, T, exec, ${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui"
 
             # $mod + ctrl = system configuration
-            "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
             "$mod CTRL, A, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
-            "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
+            "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
+            "$mod CTRL, L, exec, ${pkgs.hyprlock}/bin/hyprlock"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
+            "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
           ]
           ++ (optionals config.dusk.system.nixos.desktop.gaming.enable [
             "$mod SHIFT, S, exec, ${pkgs.steam}/bin/steam"
