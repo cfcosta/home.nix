@@ -88,86 +88,92 @@ in
 
     hardware.graphics.enable = true;
 
-    home-manager.users.${config.dusk.username} = _: {
-      catppuccin.kvantum.enable = false;
+    home-manager.users.${config.dusk.username} =
+      { lib, ... }:
+      {
+        catppuccin.kvantum.enable = false;
 
-      gtk = {
-        enable = true;
-
-        font = {
-          name = "Inconsolata";
-          size = 11;
+        dconf.settings."org/gnome/desktop/interface" = {
+          gtk-theme = "Adwaita-dark";
+          color-scheme = "prefer-dark";
         };
 
-        cursorTheme = {
-          name = "Adwaita";
-          package = pkgs.adwaita-icon-theme;
+        home.activation.createNotesDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          mkdir -p "$HOME/Notes"
+        '';
+
+        gtk = {
+          enable = true;
+
+          font = {
+            name = "Inconsolata";
+            size = 11;
+          };
+
+          cursorTheme = {
+            name = "Adwaita";
+            package = pkgs.adwaita-icon-theme;
+          };
+
+          iconTheme = {
+            name = "Papirus-Dark";
+            package = pkgs.papirus-icon-theme;
+          };
+
+          theme = {
+            name = "Adwaita-dark";
+            package = pkgs.gnome-themes-extra;
+          };
+
+          gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+          gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
         };
 
-        iconTheme = {
-          name = "Papirus-Dark";
-          package = pkgs.papirus-icon-theme;
+        qt = {
+          enable = true;
+          platformTheme.name = "adwaita-dark";
+          style = {
+            name = "adwaita-dark";
+            package = pkgs.adwaita-qt;
+          };
         };
 
-        theme = {
-          name = "Adwaita-dark";
-          package = pkgs.gnome-themes-extra;
+        fonts.fontconfig.defaultFonts = {
+          sansSerif = [ "Inconsolata" ];
+          serif = [ "Inconsolata" ];
+          monospace = [ "Inconsolata" ];
         };
 
-        gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
-        gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
+        xdg.mimeApps = {
+          enable = true;
+          defaultApplications = {
+            # Open images with `imv`
+            "image/png" = "imv.desktop";
+            "image/jpeg" = "imv.desktop";
+            "image/gif" = "imv.desktop";
+            "image/webp" = "imv.desktop";
+            "image/bmp" = "imv.desktop";
+            "image/tiff" = "imv.desktop";
+
+            # Open video files with VLC
+            "video/mp4" = "vlc.desktop";
+            "video/x-msvideo" = "vlc.desktop";
+            "video/x-matroska" = "vlc.desktop";
+            "video/x-flv" = "vlc.desktop";
+            "video/x-ms-wmv" = "vlc.desktop";
+            "video/mpeg" = "vlc.desktop";
+            "video/ogg" = "vlc.desktop";
+            "video/webm" = "vlc.desktop";
+            "video/quicktime" = "vlc.desktop";
+            "video/3gpp" = "vlc.desktop";
+            "video/3gpp2" = "vlc.desktop";
+            "video/x-ms-asf" = "vlc.desktop";
+            "video/x-ogm+ogg" = "vlc.desktop";
+            "video/x-theora+ogg" = "vlc.desktop";
+            "application/ogg" = "vlc.desktop";
+          };
+        };
       };
-
-      dconf.settings."org/gnome/desktop/interface" = {
-        gtk-theme = "Adwaita-dark";
-        color-scheme = "prefer-dark";
-      };
-
-      qt = {
-        enable = true;
-        platformTheme.name = "adwaita-dark";
-        style = {
-          name = "adwaita-dark";
-          package = pkgs.adwaita-qt;
-        };
-      };
-
-      fonts.fontconfig.defaultFonts = {
-        sansSerif = [ "Inconsolata" ];
-        serif = [ "Inconsolata" ];
-        monospace = [ "Inconsolata" ];
-      };
-
-      xdg.mimeApps = {
-        enable = true;
-        defaultApplications = {
-          # Open images with `imv`
-          "image/png" = "imv.desktop";
-          "image/jpeg" = "imv.desktop";
-          "image/gif" = "imv.desktop";
-          "image/webp" = "imv.desktop";
-          "image/bmp" = "imv.desktop";
-          "image/tiff" = "imv.desktop";
-
-          # Open video files with VLC
-          "video/mp4" = "vlc.desktop";
-          "video/x-msvideo" = "vlc.desktop";
-          "video/x-matroska" = "vlc.desktop";
-          "video/x-flv" = "vlc.desktop";
-          "video/x-ms-wmv" = "vlc.desktop";
-          "video/mpeg" = "vlc.desktop";
-          "video/ogg" = "vlc.desktop";
-          "video/webm" = "vlc.desktop";
-          "video/quicktime" = "vlc.desktop";
-          "video/3gpp" = "vlc.desktop";
-          "video/3gpp2" = "vlc.desktop";
-          "video/x-ms-asf" = "vlc.desktop";
-          "video/x-ogm+ogg" = "vlc.desktop";
-          "video/x-theora+ogg" = "vlc.desktop";
-          "application/ogg" = "vlc.desktop";
-        };
-      };
-    };
 
     programs.gnupg.agent.pinentryPackage = pkgs.pinentry-all;
 
