@@ -115,11 +115,6 @@ in
             package = pkgs.adwaita-icon-theme;
           };
 
-          iconTheme = {
-            name = "Papirus-Dark";
-            package = pkgs.papirus-icon-theme;
-          };
-
           theme = {
             name = "Adwaita-dark";
             package = pkgs.gnome-themes-extra;
