@@ -100,7 +100,15 @@
       };
 
       bind = [
-        "$mod, Tab, exec, hyprctl switchxkblayout t.m.k.-hhkb-mod next && sleep 0.1 && ${pkgs.libnotify}/bin/notify-send 'Keyboard Layout' \"$(hyprctl devices -j | ${pkgs.jq}/bin/jq -r '.keyboards[] | select(.name == \"t.m.k.-hhkb-mod\") | .active_keymap' | sed 's/English (US)/US Layout/' | sed 's/English (US, international with dead keys)/US International/')\""
+        ''
+          $mod, Tab, exec, hyprctl switchxkblayout t.m.k.-hhkb-mod next && sleep 0.1 && ${pkgs.libnotify}/bin/notify-send 'Keyboard Layout' "$(hyprctl devices -j | ${pkgs.jq}/bin/jq -r '.keyboards[] | select(.name == "t.m.k.-hhkb-mod") | .active_keymap' | sed 's/English (US)/US Layout/' | sed 's/English (US, international with dead keys)/US International/')"
+        ''
+        "$mod CTRL, 1, focusworkspaceoncurrentmonitor, 1"
+        "$mod CTRL, 2, focusworkspaceoncurrentmonitor, 2"
+        "$mod CTRL, 3, focusworkspaceoncurrentmonitor, 3"
+        "$mod CTRL, 4, focusworkspaceoncurrentmonitor, 4"
+        "$mod CTRL, 5, focusworkspaceoncurrentmonitor, 5"
+        "$mod CTRL, 6, focusworkspaceoncurrentmonitor, 6"
       ];
 
       workspace = [

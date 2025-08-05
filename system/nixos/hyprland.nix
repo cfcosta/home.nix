@@ -141,8 +141,9 @@ in
             "$mod SHIFT, escape, exec, ${pkgs.wlogout}/bin/wlogout"
             "$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun"
             ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
-            ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave area"
             "SHIFT, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave screen"
+            ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave area"
+            ", Pause, exec, ${pkgs.hyprlock}/bin/hyprlock"
 
             # System Applications
             "$mod, Return, exec, ${config.dusk.terminal.default}"
@@ -167,7 +168,6 @@ in
             # $mod + ctrl = system configuration
             "$mod CTRL, A, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
             "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
-            "$mod CTRL, L, exec, ${pkgs.hyprlock}/bin/hyprlock"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
             "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
           ]
