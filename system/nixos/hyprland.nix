@@ -45,7 +45,10 @@ let
   };
 in
 {
-  imports = [ ./sunshine.nix ];
+  imports = [
+    ./sunshine.nix
+    ./swayosd.nix
+  ];
 
   config = mkIf cfg.enable {
     environment = {
