@@ -5,4 +5,5 @@ inputs: _: super: {
   dusk-treefmt = super.callPackage ./treefmt.nix { inherit inputs; };
   glimpse = inputs.glimpse.packages.${super.system}.default;
   nightvim = inputs.neovim.packages.${super.system}.default;
+  nm-wifi = inputs.nm-wifi.packages.${super.system}.default;
 }

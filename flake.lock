@@ -592,6 +592,38 @@
         "type": "github"
       }
     },
+    "nm-wifi": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "pre-commit-hooks": [
+          "pre-commit-hooks"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1754585746,
+        "narHash": "sha256-GhWSOpy56Cyo7orgoo8q5qzs8dbV3WucVInnP+1VQNI=",
+        "owner": "cfcosta",
+        "repo": "nm-wifi",
+        "rev": "b8f1152c94f5e82a9d36f15c89d32ccea77bf1d0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cfcosta",
+        "repo": "nm-wifi",
+        "type": "github"
+      }
+    },
     "noice": {
       "flake": false,
       "locked": {
@@ -808,6 +840,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
+        "nm-wifi": "nm-wifi",
         "pre-commit-hooks": "pre-commit-hooks",
         "rust-overlay": "rust-overlay",
         "systems": "systems",

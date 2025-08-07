@@ -94,7 +94,7 @@ in
             tooltip-format-disconnected = "Disconnected";
             interval = 3;
             nospacing = 1;
-            on-click = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
+            on-click = "${pkgs.ghostty}/bin/ghostty -e ${pkgs.nm-wifi}/bin/nm-wifi";
           };
 
           "battery" = {

@@ -173,6 +173,7 @@ in
             "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
             "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
+            "$mod CTRL, W, exec, ${pkgs.ghostty}/bin/ghostty -e ${pkgs.nm-wifi}/bin/nm-wifi"
           ]
           ++ (optionals config.dusk.system.nixos.desktop.gaming.enable [
             "$mod SHIFT, S, exec, ${pkgs.steam}/bin/steam"
