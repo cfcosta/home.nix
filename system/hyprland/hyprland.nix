@@ -9,6 +9,8 @@ let
   inherit (builtins) concatLists genList toString;
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
+  launchFloating =
+    cmd: ''${pkgs.ghostty}/bin/ghostty --class=com.mitchellh.ghostty.floating -e ${cmd}'';
 
   keybindings = {
     # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
@@ -173,7 +175,7 @@ in
             "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
             "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
-            "$mod CTRL, W, exec, ${pkgs.ghostty}/bin/ghostty -e ${pkgs.nm-wifi}/bin/nm-wifi"
+            "$mod CTRL, W, exec, ${launchFloating "${pkgs.nm-wifi}/bin/nm-wifi"}"
           ]
           ++ (optionals config.dusk.system.nixos.desktop.gaming.enable [
             "$mod SHIFT, S, exec, ${pkgs.steam}/bin/steam"
@@ -241,7 +243,10 @@ in
             sensitivity = 0;
           };
 
-          windowrulev2 = [ "float, class:^(org.gnome.Calculator)$" ];
+          windowrulev2 = [
+            "float, class:^(com.mitchellh.ghostty.floating)$"
+            "float, class:^(org.gnome.Calculator)$"
+          ];
         };
 
         systemd.variables = [ "--all" ];

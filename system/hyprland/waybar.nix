@@ -6,6 +6,9 @@
 }:
 let
   inherit (lib) mkOption types;
+
+  launchFloating =
+    cmd: ''${pkgs.ghostty}/bin/ghostty --class=com.mitchellh.ghostty.floating -e ${cmd}'';
 in
 {
   options.dusk.waybar = {
@@ -68,7 +71,7 @@ in
           "cpu" = {
             interval = 5;
             format = "󰍛";
-            on-click = "${pkgs.ghostty}/bin/ghostty -e ${pkgs.btop}/bin/btop";
+            on-click = launchFloating "${pkgs.btop}/bin/btop";
           };
 
           "clock" = {
@@ -94,7 +97,7 @@ in
             tooltip-format-disconnected = "Disconnected";
             interval = 3;
             nospacing = 1;
-            on-click = "${pkgs.ghostty}/bin/ghostty -e ${pkgs.nm-wifi}/bin/nm-wifi";
+            on-click = launchFloating "${pkgs.nm-wifi}/bin/nm-wifi";
           };
 
           "battery" = {
