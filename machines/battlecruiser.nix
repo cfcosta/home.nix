@@ -101,7 +101,7 @@
 
       bind = [
         ''
-          $mod, Tab, exec, hyprctl switchxkblayout t.m.k.-hhkb-mod next && sleep 0.1 && ${pkgs.libnotify}/bin/notify-send 'Keyboard Layout' "$(hyprctl devices -j | ${pkgs.jq}/bin/jq -r '.keyboards[] | select(.name == "t.m.k.-hhkb-mod") | .active_keymap' | sed 's/English (US)/US Layout/' | sed 's/English (US, international with dead keys)/US International/')"
+          $mod, Tab, exec, hyprctl switchxkblayout t.m.k.-hhkb-mod next && sleep 0.1 && ${pkgs.libnotify}/bin/notify-send -t 1000 'Keyboard Layout' "$(hyprctl devices -j | ${pkgs.jq}/bin/jq -r '.keyboards[] | select(.name == "t.m.k.-hhkb-mod") | .active_keymap' | sed 's/English (US)/US Layout/' | sed 's/English (US, international with dead keys)/US International/')"
         ''
         "$mod CTRL, 1, focusworkspaceoncurrentmonitor, 1"
         "$mod CTRL, 2, focusworkspaceoncurrentmonitor, 2"

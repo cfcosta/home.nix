@@ -18,9 +18,7 @@ in
         ", XF86MonBrightnessDown, exec, ${client} --brightness lower"
       ];
 
-      bindr = [
-        "CAPS, Caps_Lock, exec, ${client} --caps-lock"
-      ];
+      bindr = [ "CAPS, Caps_Lock, exec, ${client} --caps-lock" ];
     };
 
     xdg = {
