@@ -15,6 +15,7 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 | `Super + Shift + V` | Show clipboard history |
 | `PrintScreen` | Take a screenshot of an area |
 | `Shift + PrintScreen` | Take a screenshot of the entire screen |
+| `Pause` | Lock screen |
 | `Super + Esc` | Open notification panel |
 
 ### Applications
@@ -29,10 +30,14 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 | `Super + T` | Open Todoist |
 | `Super + Shift + C` | Open calculator |
 | `Super + Shift + E` | Open Element |
-| `Super + Shift + T` | Open Streamlink Twitch GUI |
 | `Super + Shift + S` | Open Steam |
+| `Super + Shift + T` | Open Streamlink Twitch GUI |
 
 ### Web Applications
+
+| Keybinding | Action |
+|---|---|
+| `Super + X` | Open X (Twitter) |
 
 | Keybinding | Action |
 |---|---|
@@ -41,16 +46,20 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 | `Super + W` | Open WhatsApp Web |
 | `Super + X` | Open X (Twitter) compose |
 | `Super + Y` | Open Youtube |
+| `Super + Ctrl + S` | Open system monitor (btop) |
+| `Super + Ctrl + W` | Open WiFi manager |
 
 ### System Configuration
 
 | Keybinding | Action |
 |---|---|
+| `Super + Ctrl + Esc` | Show power menu |
 | `Super + Ctrl + A` | Open audio volume control |
 | `Super + Ctrl + B` | Open Bluetooth settings |
 | `Super + Ctrl + L` | Lock screen |
 | `Super + Ctrl + N` | Open network connections editor |
 | `Super + Ctrl + P` | Open Pipewire patchbay |
+
 
 ### Window Management
 

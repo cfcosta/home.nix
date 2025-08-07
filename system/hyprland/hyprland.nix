@@ -143,18 +143,22 @@ in
           "$mod" = "SUPER";
 
           bind = [
-            "$mod SHIFT, escape, exec, ${pkgs.wlogout}/bin/wlogout"
+            ", Pause, exec, ${pkgs.hyprlock}/bin/hyprlock"
             "$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun"
             ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
+
+            # Screenshot
             "SHIFT, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave screen"
             ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave area"
-            ", Pause, exec, ${pkgs.hyprlock}/bin/hyprlock"
 
             # System Applications
             "$mod, Return, exec, ${config.dusk.terminal.default}"
             "$mod, B, exec, ${config.dusk.defaults.browser}"
             "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
+
+            # Notifications
             "$mod, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -op"
+            "$mod SHIFT, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client --close-all"
 
             # Web Applications
             ''$mod, C, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://chatgpt.com" --name="ChatGPT" --class="chatgpt"''
@@ -171,10 +175,12 @@ in
             "$mod SHIFT, T, exec, ${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui"
 
             # $mod + ctrl = system configuration
+            "$mod CTRL, escape, exec, ${pkgs.wlogout}/bin/wlogout"
             "$mod CTRL, A, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
             "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
             "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
+            "$mod CTRL, S, exec, ${launchFloating "${pkgs.btop}/bin/btop"}"
             "$mod CTRL, W, exec, ${launchFloating "${pkgs.nm-wifi}/bin/nm-wifi"}"
           ]
           ++ (optionals config.dusk.system.nixos.desktop.gaming.enable [
