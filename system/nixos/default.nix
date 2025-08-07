@@ -26,9 +26,9 @@ in
     inputs.home-manager.nixosModules.default
     inputs.nix-flatpak.nixosModules.nix-flatpak
 
+    ../hyprland
     ./boot.nix
-    ./desktop.nix
-    ./monitors.nix
+
     ./networking.nix
     ./nvidia.nix
     ./virtualisation.nix

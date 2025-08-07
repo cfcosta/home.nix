@@ -20,6 +20,7 @@ in
     ./drone.nix
     ./gaming.nix
     ./hyprland.nix
+    ./monitors.nix
     ./sunshine.nix
     ./waybar.nix
   ];
