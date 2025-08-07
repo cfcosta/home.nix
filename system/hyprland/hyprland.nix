@@ -9,11 +9,14 @@ let
   inherit (builtins) concatLists genList toString;
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
-  launchFloating =
-    cmd: ''${pkgs.ghostty}/bin/ghostty --class=com.mitchellh.ghostty.floating -e ${cmd}'';
+
+  launchTerm = cmd: ''${pkgs.ghostty}/bin/ghostty --class=com.mitchellh.ghostty.floating -e ${cmd}'';
+  launchWeb =
+    url: name: class:
+    ''${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="${url}" --name="${name}" --class="${class}"'';
 
   keybindings = {
-    # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+    # Binds $mod + [shift +] {1...9} to [move to] workspace {1...9}
     switch-workspace = concatLists (
       genList (
         i:
@@ -161,11 +164,11 @@ in
             "$mod SHIFT, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client --close-all"
 
             # Web Applications
-            ''$mod, C, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://chatgpt.com" --name="ChatGPT" --class="chatgpt"''
-            ''$mod, G, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://grok.com" --name="Grok" --class="grok"''
-            ''$mod, W, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://web.whatsapp.com" --name="WhatsApp Web" --class="whatsapp"''
-            ''$mod, X, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://x.com" --name="X" --class="x.com"''
-            ''$mod, Y, exec, ${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="https://youtube.com" --name="Youtube" --class="youtube"''
+            "$mod, C, exec, ${launchWeb "https://chatgpt.com" "ChatGPT" "chatgpt"}"
+            "$mod, G, exec, ${launchWeb "https://grok.com" "Grok" "grok"}"
+            "$mod, W, exec, ${launchWeb "https://web.whatsapp.com" "Whatsapp Web" "whatsapp-web"}"
+            "$mod, X, exec, ${launchWeb "https://x.com/compose/post" "X" "x.com"}"
+            "$mod, Y, exec, ${launchWeb "https://youtube.com" "Youtube" "youtube"}"
 
             "$mod, D, exec, ${pkgs.discord}/bin/discord"
             "$mod, M, exec, ${config.dusk.defaults.music-player}"
@@ -180,8 +183,8 @@ in
             "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
             "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
-            "$mod CTRL, S, exec, ${launchFloating "${pkgs.btop}/bin/btop"}"
-            "$mod CTRL, W, exec, ${launchFloating "${pkgs.nm-wifi}/bin/nm-wifi"}"
+            "$mod CTRL, S, exec, ${launchTerm "${pkgs.btop}/bin/btop"}"
+            "$mod CTRL, W, exec, ${launchTerm "${pkgs.nm-wifi}/bin/nm-wifi"}"
           ]
           ++ (optionals config.dusk.system.nixos.desktop.gaming.enable [
             "$mod SHIFT, S, exec, ${pkgs.steam}/bin/steam"
