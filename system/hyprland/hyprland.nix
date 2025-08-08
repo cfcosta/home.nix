@@ -165,7 +165,8 @@ in
 
             # Web Applications
             "$mod, C, exec, ${launchWeb "https://chatgpt.com" "ChatGPT" "chatgpt"}"
-            "$mod, G, exec, ${launchWeb "https://grok.com" "Grok" "grok"}"
+            "$mod, G, exec, ${launchWeb "https://github.com/notifications" "Github" "github"}"
+            "$mod SHIFT, G, exec, ${launchWeb "https://grok.com" "Grok" "grok"}"
             "$mod, W, exec, ${launchWeb "https://web.whatsapp.com" "Whatsapp Web" "whatsapp-web"}"
             "$mod, X, exec, ${launchWeb "https://x.com/compose/post" "X" "x.com"}"
             "$mod, Y, exec, ${launchWeb "https://youtube.com" "Youtube" "youtube"}"

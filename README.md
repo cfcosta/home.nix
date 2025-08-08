@@ -42,7 +42,8 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 | Keybinding | Action |
 |---|---|
 | `Super + C` | Open ChatGPT |
-| `Super + G` | Open Grok |
+| `Super + G` | Open Github |
+| `Super + Shift + G` | Open Grok |
 | `Super + W` | Open WhatsApp Web |
 | `Super + X` | Open X (Twitter) compose |
 | `Super + Y` | Open Youtube |
