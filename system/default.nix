@@ -111,8 +111,6 @@ in
     networking.hostName = hostname;
 
     nix = {
-      package = pkgs.nix;
-
       gc.automatic = true;
       optimise.automatic = true;
 

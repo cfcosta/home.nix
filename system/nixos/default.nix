@@ -23,6 +23,7 @@ in
 {
   imports = [
     inputs.catppuccin.nixosModules.catppuccin
+    inputs.determinate.nixosModules.default
     inputs.home-manager.nixosModules.default
     inputs.nix-flatpak.nixosModules.nix-flatpak
 

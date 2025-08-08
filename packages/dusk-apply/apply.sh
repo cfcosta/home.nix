@@ -32,7 +32,10 @@ case "$(uname -s)" in
   CMD="sudo ${NIX} run nix-darwin -- $ACTION --flake ${ROOT}#${HOSTNAME}"
   ;;
 "Linux")
-  CMD="nixos-rebuild $ACTION --flake ${ROOT}#${HOSTNAME}"
+  CMD="nixos-rebuild $ACTION \
+    --option extra-substituters https://install.determinate.systems \
+    --option extra-trusted-public-keys cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM= \
+    --flake ${ROOT}#${HOSTNAME}"
 
   case "$ACTION" in
   switch)
