@@ -79,9 +79,6 @@ let
   prepare =
     target:
     with pkgs;
-    let
-      primary = getPrimaryMonitor config.dusk.system.monitors;
-    in
     writeShellApplication {
       name = "prepare";
       runtimeInputs = [
@@ -91,18 +88,10 @@ let
       text = ''
         ${prelude}
 
-        format_monitor() {
-          local name=$1
-          local width=$2
-          local height=$3
-          local refresh_rate=$4
-          echo "$name,''${width}x''${height}@''${refresh_rate},auto,1"
-        }
+        echo "Creating virtual monitor SUNSHINE at ${toString target.width}x${toString target.height}@${toString target.refreshRate}"
+        hyprctl keyword monitor "SUNSHINE,${toString target.width}x${toString target.height}@${toString target.refreshRate},auto,1"
 
-        echo "Setting monitor ${primary} to ${toString target.width}x${toString target.height}@${toString target.refreshRate}"
-        hyprctl keyword monitor "$(format_monitor "${primary}" "${toString target.width}" "${toString target.height}" "${toString target.refreshRate}")"
-
-        hyprctl dispatch focusmonitor "${primary}"
+        hyprctl dispatch focusmonitor "SUNSHINE"
         hyprctl dispatch movecursor ${toString (target.width / 2)} ${toString (target.height / 2)}
       '';
     };
@@ -114,7 +103,12 @@ let
       runtimeInputs = [ hyprland ];
       text = ''
         ${prelude}
-        hyprctl reload
+
+        echo "Removing virtual monitor SUNSHINE"
+        hyprctl keyword monitor "SUNSHINE,disable"
+
+        # Kill Steam Big Picture if it's running
+        pkill -f "steam.*bigpicture" || true
       '';
     };
 
@@ -133,16 +127,10 @@ let
 
   targets = [
     {
-      name = "1080p (60Hz)";
-      width = 1920;
-      height = 1080;
-      refreshRate = 60.00;
-    }
-    {
       name = "1080p (120Hz)";
       width = 1920;
       height = 1080;
-      refreshRate = 119.88;
+      refreshRate = 120.00;
     }
   ];
 
@@ -185,7 +173,7 @@ in
 {
   config = mkIf enable {
     services.sunshine = {
-      settings.output_name = primary;
+      settings.output_name = "SUNSHINE";
       applications.apps =
         (map mkDesktop targets) ++ optionals config.programs.steam.enable (map mkSteam targets);
     };
