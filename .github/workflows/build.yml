@@ -38,7 +38,5 @@ jobs:
 
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/flakehub-cache-action@main
-      - uses: DeterminateSystems/nix-installer-action@main
 
-      - name: Run Build
-        run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"
+      - run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"

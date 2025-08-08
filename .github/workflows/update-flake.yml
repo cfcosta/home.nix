@@ -38,6 +38,8 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/flakehub-cache-action@main
 
+      - run: nix flake update
+
       - run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"
 
       - uses: stefanzweifel/git-auto-commit-action@v5
