@@ -22,7 +22,11 @@ in
       programs.zellij = {
         enable = true;
         enableBashIntegration = false;
-        settings.pane_frames = false;
+
+        settings = {
+          pane_frames = false;
+          show_startup_tips = false;
+        };
       };
     };
   };
