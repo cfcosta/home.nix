@@ -24,9 +24,10 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 |---|---|
 | `Super + Enter` | Open terminal |
 | `Super + B` | Open browser |
-| `Super + E` | Open file manager |
 | `Super + D` | Open Discord |
+| `Super + E` | Open file manager |
 | `Super + M` | Open music player |
+| `Super + O` | Open Obsidian |
 | `Super + T` | Open Todoist |
 | `Super + Shift + C` | Open calculator |
 | `Super + Shift + E` | Open Element |

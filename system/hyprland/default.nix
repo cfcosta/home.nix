@@ -140,6 +140,12 @@ in
           monospace = [ "Inconsolata" ];
         };
 
+        programs.obsidian = {
+          enable = true;
+
+          vaults.notes.target = "Notes";
+        };
+
         xdg.mimeApps = {
           enable = true;
           defaultApplications = {
