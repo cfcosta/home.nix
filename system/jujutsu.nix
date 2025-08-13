@@ -36,6 +36,8 @@ in
 
       settings = {
         aliases = {
+          amend = ["squash"];
+
           my-remotes = [
             "log"
             "-r"
