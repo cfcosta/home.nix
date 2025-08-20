@@ -64,8 +64,8 @@ in
         glimpse
         hyperfine
         imagemagick
-        jujutsu
         jq
+        jujutsu
         lsd
         lsof
         ncdu
@@ -84,6 +84,7 @@ in
         unixtools.watch
         unzip
         watchexec
+        websocat
         wget
         zoxide
       ];
