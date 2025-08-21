@@ -13,7 +13,7 @@ let
     theme = ${cfg.theme}
     window-theme = ${if (flavor == "nixos") then "ghostty" else "system"}
 
-    background-opacity = 0.9
+    background-opacity = 0.75
     background-blur = true
 
     font-family = ${cfg.font-family}
