@@ -183,22 +183,6 @@
         "url": "https://install.determinate.systems/determinate-nixd/tag/v3.8.5/x86_64-linux"
       }
     },
-    "dressing": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1739381641,
-        "narHash": "sha256-dBz+/gZA6O6fJy/GSgM6ZHGAR3MTGt/W1olzzTYRlgM=",
-        "owner": "stevearc",
-        "repo": "dressing.nvim",
-        "rev": "2d7c2db2507fa3c4956142ee607431ddb2828639",
-        "type": "github"
-      },
-      "original": {
-        "owner": "stevearc",
-        "repo": "dressing.nvim",
-        "type": "github"
-      }
-    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -502,11 +486,11 @@
     "lean": {
       "flake": false,
       "locked": {
-        "lastModified": 1755781098,
-        "narHash": "sha256-pK+ihdSwjRdAToh1xVCJMrzB0W0GIue6VhqykPbgJ1Q=",
+        "lastModified": 1755870802,
+        "narHash": "sha256-/SUBeMAP52V5IPMfqzImJV9h3By7N7QiOE7zF0JQFgs=",
         "owner": "Julian",
         "repo": "lean.nvim",
-        "rev": "62623347cdd5a27a73436c24eb9b4745ea207630",
+        "rev": "b99a8449f4e04376676ec6facf0c4de9b6190c21",
         "type": "github"
       },
       "original": {
@@ -586,7 +570,6 @@
         "colorful-menu": "colorful-menu",
         "comment": "comment",
         "conform-nvim": "conform-nvim",
-        "dressing": "dressing",
         "fff": "fff",
         "flake-utils": [
           "flake-utils"
@@ -608,10 +591,8 @@
           "nixpkgs"
         ],
         "nvim-autopairs": "nvim-autopairs",
-        "nvim-tree": "nvim-tree",
         "nvim-treesitter": "nvim-treesitter",
         "nvim-treesitter-endwise": "nvim-treesitter-endwise",
-        "nvim-treesitter-just": "nvim-treesitter-just",
         "nvim-web-devicons": "nvim-web-devicons",
         "obsidian-nvim": "obsidian-nvim",
         "plenary": "plenary",
@@ -638,11 +619,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1755839365,
-        "narHash": "sha256-SnA59sStCGOFurE7MojNUlD69gQ7PQXQl6Uf3MXHLEc=",
+        "lastModified": 1755877707,
+        "narHash": "sha256-fTC8Mt2HcHzhTtT20jS7uGMTQDtw7hnZPmZqWHDPmWs=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "d3f4ee2e32a78c1a4e3ef953f413b2a4c9b49a92",
+        "rev": "7f8b617c1203f2f36c7b5b159fb96cc3647fa030",
         "type": "github"
       },
       "original": {
@@ -891,22 +872,6 @@
         "type": "github"
       }
     },
-    "nvim-tree": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1755661493,
-        "narHash": "sha256-pRl0yka5MpQVPLEQLXHTxfZGcqYgRbwGk+lv1creB/0=",
-        "owner": "nvim-tree",
-        "repo": "nvim-tree.lua",
-        "rev": "f4fa6ebd3cbfa299fb554766c56b2f7cc1233f27",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvim-tree",
-        "repo": "nvim-tree.lua",
-        "type": "github"
-      }
-    },
     "nvim-treesitter": {
       "flake": false,
       "locked": {
@@ -936,22 +901,6 @@
       "original": {
         "owner": "RRethy",
         "repo": "nvim-treesitter-endwise",
-        "type": "github"
-      }
-    },
-    "nvim-treesitter-just": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1736117731,
-        "narHash": "sha256-FwEuH/2R745jsuFaVGNeUTv65xW+MPjbcakRNcAWfZU=",
-        "owner": "IndianBoy42",
-        "repo": "tree-sitter-just",
-        "rev": "bb0c898a80644de438e6efe5d88d30bf092935cd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "IndianBoy42",
-        "repo": "tree-sitter-just",
         "type": "github"
       }
     },
