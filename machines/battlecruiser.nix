@@ -92,33 +92,42 @@
       };
     };
 
-    home-manager.users.${config.dusk.username}.wayland.windowManager.hyprland.settings = {
-      input = {
-        kb_layout = "us,us";
-        kb_variant = ",intl";
-        kb_options = "grp:alt_shift_toggle";
+    home-manager.users.${config.dusk.username} = {
+      home.file.".XCompose".text = ''
+        include "%L"
+
+        <dead_acute> <c> : "ç" U00E7
+        <dead_acute> <C> : "Ç" U00C7
+      '';
+
+      wayland.windowManager.hyprland.settings = {
+        input = {
+          kb_layout = "us,us";
+          kb_variant = ",intl";
+          kb_options = "grp:alt_shift_toggle";
+        };
+
+        bind = [
+          ''
+            $mod, Tab, exec, hyprctl switchxkblayout t.m.k.-hhkb-mod next && sleep 0.1 && ${pkgs.libnotify}/bin/notify-send -t 1000 'Keyboard Layout' "$(hyprctl devices -j | ${pkgs.jq}/bin/jq -r '.keyboards[] | select(.name == "t.m.k.-hhkb-mod") | .active_keymap' | sed 's/English (US)/US Layout/' | sed 's/English (US, international with dead keys)/US International/')"
+          ''
+          "$mod CTRL, 1, focusworkspaceoncurrentmonitor, 1"
+          "$mod CTRL, 2, focusworkspaceoncurrentmonitor, 2"
+          "$mod CTRL, 3, focusworkspaceoncurrentmonitor, 3"
+          "$mod CTRL, 4, focusworkspaceoncurrentmonitor, 4"
+          "$mod CTRL, 5, focusworkspaceoncurrentmonitor, 5"
+          "$mod CTRL, 6, focusworkspaceoncurrentmonitor, 6"
+        ];
+
+        workspace = [
+          "1, monitor:HDMI-A-2"
+          "2, monitor:HDMI-A-2"
+          "3, monitor:HDMI-A-2"
+          "4, monitor:DP-4"
+          "5, monitor:DP-4"
+          "6, monitor:DP-4"
+        ];
       };
-
-      bind = [
-        ''
-          $mod, Tab, exec, hyprctl switchxkblayout t.m.k.-hhkb-mod next && sleep 0.1 && ${pkgs.libnotify}/bin/notify-send -t 1000 'Keyboard Layout' "$(hyprctl devices -j | ${pkgs.jq}/bin/jq -r '.keyboards[] | select(.name == "t.m.k.-hhkb-mod") | .active_keymap' | sed 's/English (US)/US Layout/' | sed 's/English (US, international with dead keys)/US International/')"
-        ''
-        "$mod CTRL, 1, focusworkspaceoncurrentmonitor, 1"
-        "$mod CTRL, 2, focusworkspaceoncurrentmonitor, 2"
-        "$mod CTRL, 3, focusworkspaceoncurrentmonitor, 3"
-        "$mod CTRL, 4, focusworkspaceoncurrentmonitor, 4"
-        "$mod CTRL, 5, focusworkspaceoncurrentmonitor, 5"
-        "$mod CTRL, 6, focusworkspaceoncurrentmonitor, 6"
-      ];
-
-      workspace = [
-        "1, monitor:HDMI-A-2"
-        "2, monitor:HDMI-A-2"
-        "3, monitor:HDMI-A-2"
-        "4, monitor:DP-4"
-        "5, monitor:DP-4"
-        "6, monitor:DP-4"
-      ];
     };
 
     boot.initrd.kernelModules = [ "kvm-amd" ];
