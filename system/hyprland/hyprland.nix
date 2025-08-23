@@ -60,7 +60,6 @@ in
       sessionVariables = {
         XDG_CURRENT_DESKTOP = "Hyprland";
         XDG_SESSION_DESKTOP = "Hyprland";
-        GTK_THEME = "dark";
       };
 
       systemPackages = with pkgs; [
