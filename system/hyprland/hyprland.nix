@@ -70,13 +70,21 @@ in
       ];
     };
 
-    programs.hyprland = {
-      enable = true;
-      withUWSM = true;
-      xwayland.enable = true;
+    programs = {
+      dconf.enable = true;
+
+      hyprland = {
+        enable = true;
+        withUWSM = true;
+        xwayland.enable = true;
+      };
     };
 
-    security.pam.services.hyprlock = { };
+    security.pam.services = {
+      hyprlock = { };
+      gdm.enableGnomeKeyring = true;
+      gdm-password.enableGnomeKeyring = true;
+    };
 
     services = {
       gnome.gnome-keyring.enable = true;
@@ -93,11 +101,13 @@ in
       xdgOpenUsePortal = true;
 
       config.hyprland.default = [
+        "gnome"
         "gtk"
         "hyprland"
       ];
 
       extraPortals = with pkgs; [
+        xdg-desktop-portal-gnome
         xdg-desktop-portal-gtk
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-wlr
