@@ -46,9 +46,12 @@ let
 
     programs = {
       clang-format.enable = true;
+      deadnix.enable = true;
       nixfmt.enable = true;
       prettier.enable = true;
+      ruff-format.enable = true;
       ruff.enable = true;
+      shellcheck.enable = true;
       shfmt.enable = true;
       stylua.enable = true;
       taplo.enable = true;
