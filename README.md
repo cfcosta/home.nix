@@ -22,14 +22,15 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 
 | Keybinding | Action |
 |---|---|
-| `Super + Enter` | Open terminal |
 | `Super + B` | Open browser |
 | `Super + D` | Open Discord |
 | `Super + E` | Open file manager |
+| `Super + Enter` | Open terminal |
 | `Super + M` | Open music player |
 | `Super + O` | Open Obsidian |
+| `Super + P` | Open Pinta |
 | `Super + T` | Open Todoist |
-| `Super + Shift + C` | Open calculator |
+| `Super + Shift + C` | Open Calculator |
 | `Super + Shift + E` | Open Element |
 | `Super + Shift + S` | Open Steam |
 | `Super + Shift + T` | Open Streamlink Twitch GUI |
@@ -58,6 +59,7 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 | `Super + Ctrl + Esc` | Show power menu |
 | `Super + Ctrl + A` | Open audio volume control |
 | `Super + Ctrl + B` | Open Bluetooth settings |
+| `Super + Ctrl + D` | Open lazydocker |
 | `Super + Ctrl + L` | Lock screen |
 | `Super + Ctrl + N` | Open network connections editor |
 | `Super + Ctrl + P` | Open Pipewire patchbay |

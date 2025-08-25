@@ -167,6 +167,7 @@ in
             "$mod, Return, exec, ${config.dusk.terminal.default}"
             "$mod, B, exec, ${config.dusk.defaults.browser}"
             "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
+            "$mod, P, exec, ${pkgs.pinta}/bin/pinta"
 
             # Notifications
             "$mod, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -op"
@@ -193,6 +194,7 @@ in
             "$mod CTRL, escape, exec, ${pkgs.wlogout}/bin/wlogout"
             "$mod CTRL, A, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
             "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
+            "$mod CTRL, D, exec, ${launchTerm "${pkgs.lazydocker}/bin/lazydocker"}"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
             "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
             "$mod CTRL, S, exec, ${launchTerm "${pkgs.btop}/bin/btop"}"
