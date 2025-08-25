@@ -43,11 +43,9 @@ in
       };
 
       systemPackages = with pkgs; [
-        aider-chat
         bat
         btop
         cachix
-        claude-code
         complete-alias
         curl
         direnv
@@ -58,7 +56,6 @@ in
         fdupes
         ffmpeg
         file
-        gemini-cli
         gist
         gitMinimal
         glimpse
@@ -74,6 +71,7 @@ in
         opencode
         openssl
         p7zip
+        posting
         python3
         python3Packages.yt-dlp
         ripgrep

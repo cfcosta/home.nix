@@ -32,17 +32,6 @@ in
     home = {
       inherit (config.dusk) username;
 
-      file.".aiderignore".text = ''
-        *.age
-        *.lock
-        /.git
-        /.github
-        /.gitignore
-        /.claude
-        LICENSE
-        LICENSE*
-      '';
-
       homeDirectory = mkForce config.dusk.folders.home;
 
       stateVersion = "25.05";
