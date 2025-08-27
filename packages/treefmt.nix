@@ -21,14 +21,15 @@ let
       verbose = 0;
 
       global.excludes = [
+        "*-lock.*"
         "*.age"
         "*.jpg"
         "*.lock"
+        "*.md"
         "*.png"
         "*.svg"
-        "*-lock.*"
         "*ignore"
-        "*.md"
+        ".envrc"
       ];
 
       formatter = {
