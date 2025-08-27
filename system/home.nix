@@ -214,7 +214,7 @@ in
         '';
       };
 
-      ssh.hashKnownHosts = true;
+      ssh.matchBlocks."*".hashKnownHosts = true;
       zoxide.enable = true;
     };
 
