@@ -1,12 +1,6 @@
 {
-  config = {
-    dusk = {
-      terminal = {
-        font-family = "Berkeley Mono NerdFont Mono";
-        font-size = 18;
-      };
-
-      system.hostname = "drone";
-    };
+  config.dusk = {
+    fonts.monospace = "Berkeley Mono NerdFont Mono";
+    system.hostname = "drone";
   };
 }

@@ -12,12 +12,9 @@
 
   config = {
     dusk = {
-      terminal = {
-        font-family = "Berkeley Mono NerdFont Mono";
-        font-size = 12;
-      };
+      fonts.monospace = "Berkeley Mono NerdFont Mono";
 
-      waybar.font-family = "Berkeley Mono NerdFont Mono";
+      terminal.font-size = 12;
 
       shell.starship.disabledModules = [
         "cmd_duration"

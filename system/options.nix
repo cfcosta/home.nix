@@ -101,6 +101,12 @@ in
         };
       };
 
+    fonts.monospace = mkOption {
+      description = "The font to use for monospace content";
+      type = types.str;
+      default = "Inconsolata NerdFont";
+    };
+
     system = {
       hostname = mkOption {
         type = types.str;

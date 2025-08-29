@@ -105,7 +105,7 @@ in
           enable = true;
 
           font = {
-            name = "Inconsolata";
+            name = config.dusk.fonts.monospace;
             size = 11;
           };
 
@@ -133,9 +133,9 @@ in
         };
 
         fonts.fontconfig.defaultFonts = {
-          sansSerif = [ "Inconsolata" ];
-          serif = [ "Inconsolata" ];
-          monospace = [ "Inconsolata" ];
+          sansSerif = [ config.dusk.fonts.monospace ];
+          serif = [ config.dusk.fonts.monospace ];
+          monospace = [ config.dusk.fonts.monospace ];
         };
 
         programs.obsidian = {

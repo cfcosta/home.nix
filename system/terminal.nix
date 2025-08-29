@@ -30,7 +30,7 @@ in
 
     font-family = mkOption {
       type = types.str;
-      default = "Inconsolata NerdFont";
+      default = config.dusk.fonts.monospace;
     };
 
     font-size = mkOption {

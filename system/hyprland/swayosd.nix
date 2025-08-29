@@ -1,9 +1,28 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
+  inherit (lib) mkOption types;
+
   client = "${pkgs.swayosd}/bin/swayosd-client";
 in
 {
-  home-manager.users.${config.dusk.username} = {
+  options.dusk.swayosd = {
+    font-family = mkOption {
+      type = types.str;
+      default = config.dusk.fonts.monospace;
+    };
+
+    font-size = mkOption {
+      type = types.int;
+      default = 12;
+    };
+  };
+
+  config.home-manager.users.${config.dusk.username} = {
     services.swayosd.enable = true;
 
     wayland.windowManager.hyprland.settings = {
@@ -40,9 +59,8 @@ in
         }
 
         label {
-          font-family: 'Inconsolata NerdFont', monospace;
-          font-size: 11pt;
-
+          font-family: '${config.dusk.swayosd.font-family}', monospace;
+          font-size: ${toString config.dusk.swayosd.font-family}pt;
           color: @label;
         }
 
