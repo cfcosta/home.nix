@@ -50,11 +50,6 @@ let
   };
 in
 {
-  imports = [
-    ./sunshine.nix
-    ./swayosd.nix
-  ];
-
   config = mkIf cfg.enable {
     environment = {
       sessionVariables = {

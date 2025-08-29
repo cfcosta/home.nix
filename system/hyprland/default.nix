@@ -22,7 +22,7 @@ in
     ./hyprland.nix
     ./messaging.nix
     ./monitors.nix
-    ./sunshine.nix
+    ./swayosd.nix
     ./waybar.nix
   ];
 
