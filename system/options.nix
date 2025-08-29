@@ -101,10 +101,21 @@ in
         };
       };
 
-    fonts.monospace = mkOption {
-      description = "The font to use for monospace content";
-      type = types.str;
-      default = "Inconsolata NerdFont";
+    fonts = {
+      monospace = mkOption {
+        type = types.str;
+        default = "Inconsolata NerdFont";
+      };
+
+      sans-serif = mkOption {
+        type = types.str;
+        default = "Liberation Sans";
+      };
+
+      serif = mkOption {
+        type = types.str;
+        default = "Liberation Serif";
+      };
     };
 
     system = {

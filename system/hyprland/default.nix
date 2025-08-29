@@ -62,6 +62,7 @@ in
         # Fonts
         cantarell-fonts
         dejavu_fonts
+        liberation_ttf
         noto-fonts
         source-code-pro
         source-sans
@@ -105,7 +106,7 @@ in
           enable = true;
 
           font = {
-            name = config.dusk.fonts.monospace;
+            name = config.dusk.fonts.sans-serif;
             size = 11;
           };
 
@@ -133,8 +134,8 @@ in
         };
 
         fonts.fontconfig.defaultFonts = {
-          sansSerif = [ config.dusk.fonts.monospace ];
-          serif = [ config.dusk.fonts.monospace ];
+          sansSerif = [ config.dusk.fonts.sans-serif ];
+          serif = [ config.dusk.fonts.serif ];
           monospace = [ config.dusk.fonts.monospace ];
         };
 
