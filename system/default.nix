@@ -84,6 +84,7 @@ in
         watchexec
         websocat
         wget
+        yazi
         zoxide
       ];
 

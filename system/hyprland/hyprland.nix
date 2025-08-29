@@ -161,7 +161,7 @@ in
             # System Applications
             "$mod, Return, exec, ${config.dusk.terminal.default}"
             "$mod, B, exec, ${config.dusk.defaults.browser}"
-            "$mod, E, exec, ${pkgs.nautilus}/bin/nautilus"
+            "$mod, E, exec, ${pkgs.pcmanfm}/bin/pcmanfm"
             "$mod, P, exec, ${pkgs.pinta}/bin/pinta"
 
             # Notifications
@@ -190,6 +190,7 @@ in
             "$mod CTRL, A, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
             "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
             "$mod CTRL, D, exec, ${launchTerm "${pkgs.lazydocker}/bin/lazydocker"}"
+            "$mod CTRL, E, exec, ${launchTerm "${pkgs.yazi}/bin/yazi"}"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
             "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
             "$mod CTRL, S, exec, ${launchTerm "${pkgs.btop}/bin/btop"}"

@@ -31,7 +31,7 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 | `Super + P` | Open Pinta |
 | `Super + T` | Open Todoist |
 | `Super + Shift + C` | Open Calculator |
-| `Super + Shift + E` | Open Element |
+| `Super + Shift + E` | Open Matrix Client |
 | `Super + Shift + S` | Open Steam |
 | `Super + Shift + T` | Open Streamlink Twitch GUI |
 
@@ -60,6 +60,7 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 | `Super + Ctrl + A` | Open audio volume control |
 | `Super + Ctrl + B` | Open Bluetooth settings |
 | `Super + Ctrl + D` | Open lazydocker |
+| `Super + Ctrl + E` | Open yazi (TUI File Manager) |
 | `Super + Ctrl + L` | Lock screen |
 | `Super + Ctrl + N` | Open network connections editor |
 | `Super + Ctrl + P` | Open Pipewire patchbay |
