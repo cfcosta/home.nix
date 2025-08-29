@@ -20,6 +20,7 @@ in
     ./drone.nix
     ./gaming.nix
     ./hyprland.nix
+    ./messaging.nix
     ./monitors.nix
     ./sunshine.nix
     ./waybar.nix
@@ -46,7 +47,6 @@ in
       systemPackages = with pkgs; [
         brave
         easyeffects
-        element-desktop
         firefox
         gnome-calculator
         helvum
@@ -54,7 +54,6 @@ in
         obs-studio
         obsidian
         pinta
-        telegram-desktop
         todoist-electron
         vlc
         wl-clipboard-rs
