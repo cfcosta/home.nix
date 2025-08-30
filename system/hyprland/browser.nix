@@ -4,6 +4,7 @@ let
     "nngceckbapebfimnlniiiahkandclblb" # Bitwarden Password Manager
     "cnjifjpddelmedmihgijeibhnjfabmlf" # Obsidian Web Clipper
     "jldhpllghnbhlbpcmnajkpdmadaolakh" # Todoist for Chrome
+    "khncfooichmfjbepaaaebmommgaepoid" # Unhook (make Youtube tolerable)
     "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
   ];
 in

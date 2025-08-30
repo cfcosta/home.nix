@@ -61,7 +61,7 @@ in
       browser = mkOption {
         type = types.str;
         description = "Your default browser";
-        default = "${pkgs.brave}/bin/brave";
+        default = "${pkgs.chromium}/bin/chromium";
       };
 
       music-player = mkOption {

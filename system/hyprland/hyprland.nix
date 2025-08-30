@@ -174,7 +174,7 @@ in
             "$mod, G, exec, ${launchWeb "https://github.com/notifications" "Github" "github"}"
             "$mod, W, exec, ${launchWeb "https://web.whatsapp.com" "Whatsapp Web" "whatsapp-web"}"
             "$mod, X, exec, ${launchWeb "https://x.com/compose/post" "X" "x.com"}"
-            "$mod, Y, exec, ${launchWeb "https://youtube.com" "Youtube" "youtube"}"
+            "$mod, Y, exec, ${launchWeb "https://www.youtube.com/feed/subscriptions" "Youtube" "youtube"}"
             "$mod SHIFT, F, exec, ${launchWeb "https://app.fastmail.com" "Fastmail" "fastmail"}"
             "$mod SHIFT, G, exec, ${launchWeb "https://grok.com" "Grok" "grok"}"
 
