@@ -140,7 +140,6 @@ in
             splash = false;
           };
         };
-        swaync.enable = true;
       };
 
       wayland.windowManager.hyprland = {

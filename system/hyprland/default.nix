@@ -22,6 +22,7 @@ in
     ./hyprland.nix
     ./messaging.nix
     ./monitors.nix
+    ./swaync.nix
     ./swayosd.nix
     ./waybar.nix
   ];
