@@ -26,11 +26,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1755177592,
-        "narHash": "sha256-g57GuirQ0jDuCGum3Ly6Troll8tt0SmUjOGXce/Y9Gk=",
+        "lastModified": 1756548623,
+        "narHash": "sha256-p52cyY7LYaroc3P0ag4JOtfEVHrChRuKwOdiSEL0TN0=",
         "owner": "saghen",
         "repo": "blink.cmp",
-        "rev": "4e9edba1b1cef1585cc65e54287229e5d34e4df8",
+        "rev": "7b0548e5103e295f465be00b1bb7770c548776c1",
         "type": "github"
       },
       "original": {
@@ -453,11 +453,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1756261190,
-        "narHash": "sha256-eiy0klFK5EVJLNilutR7grsZN/7Itj9DyD75eyOf83k=",
+        "lastModified": 1756579987,
+        "narHash": "sha256-duCce8zGsaMsrqqOmLOsuaV1PVIw/vXWnKuLKZClsGg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "77f348da3176dc68b20a73dab94852a417daf361",
+        "rev": "99a69bdf8a3c6bf038c4121e9c4b6e99706a187a",
         "type": "github"
       },
       "original": {
@@ -566,11 +566,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1756479262,
-        "narHash": "sha256-XDIvMILb7UdsB1iIjxfGtQMGKP2y8N2jRAgNVsV0kic=",
+        "lastModified": 1756599696,
+        "narHash": "sha256-QBO4yea6LJlamVm1itseR9Gil7z3YgjLsiPb8AQUyQk=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "f3f51239b207080e33cd77dca218ecfa442cde06",
+        "rev": "dcaf60e28914108e60daf3dba56704bf52ebdd61",
         "type": "github"
       },
       "original": {
@@ -741,11 +741,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1756349143,
-        "narHash": "sha256-65oRt2D57ST5Gsa2Q4WCtpgCmKHEWt4+CQ1chWQ3Fos=",
+        "lastModified": 1756536218,
+        "narHash": "sha256-ynQxPVN2FIPheUgTFhv01gYLbaiSOS7NgWJPm9LF9D0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c3e5d9f86b3f5678d0d8c9f0b9f081ab1ccdbe05",
+        "rev": "a918bb3594dd243c2f8534b3be01b3cb4ed35fd1",
         "type": "github"
       },
       "original": {
@@ -928,11 +928,11 @@
     "render-markdown": {
       "flake": false,
       "locked": {
-        "lastModified": 1756164835,
-        "narHash": "sha256-6DCl83s0GVd6WYmnN42x/cHDEQUeQRV64npKYA52b5M=",
+        "lastModified": 1756507710,
+        "narHash": "sha256-TCOm1vsXBeNDeC1p1VQrpktX/06ayAyqrnOHU1iGcAk=",
         "owner": "MeanderingProgrammer",
         "repo": "render-markdown.nvim",
-        "rev": "f626e90bbc4b3d8f4fd29c909d958b165af13f4a",
+        "rev": "e76eb2e4262f0f0a1a7bd7a454dd7d44f1299afd",
         "type": "github"
       },
       "original": {
@@ -987,11 +987,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1756348497,
-        "narHash": "sha256-xJp3VnoYh4kpsaKFO/7SsGbwOz7pI1ZmjbqpXEuR2cw=",
+        "lastModified": 1756521112,
+        "narHash": "sha256-/YW9DI+vZ2lbTvYAek6BsudUXdpWr0FybTDod4P42L4=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "0adf92c70d23fb4f703aea5d3ebb51ac65994f7f",
+        "rev": "2243e3f251ea18486f83133cf8e325d2b9b71e89",
         "type": "github"
       },
       "original": {
@@ -1003,11 +1003,11 @@
     "rustacean": {
       "flake": false,
       "locked": {
-        "lastModified": 1755995151,
-        "narHash": "sha256-U0BwT6Vw7v0oO1xFN6R5lM/Fgc+Yr2ymWsZtRgjeorc=",
+        "lastModified": 1756495683,
+        "narHash": "sha256-CQXi4x8Ntk/ftnXlz/HV8UJ9KAkYCYTnjpNMMlF2PCc=",
         "owner": "mrcjkb",
         "repo": "rustaceanvim",
-        "rev": "1ebe3749958f4130ae5a5e55aee891cdb90bdc82",
+        "rev": "687792dc71cc68e9c27fd73eb9189b34212ed263",
         "type": "github"
       },
       "original": {
@@ -1134,11 +1134,11 @@
     "treesj": {
       "flake": false,
       "locked": {
-        "lastModified": 1745646531,
-        "narHash": "sha256-kGbBXaWIrC3P0Pk45zYBUZZ8nW36u5JBsZ7cL644tHk=",
+        "lastModified": 1756528346,
+        "narHash": "sha256-6vXPZnVdSfe3bJaiHOv2ktVlkDNCBUYw3Z9mzOwG9c4=",
         "owner": "Wansmer",
         "repo": "treesj",
-        "rev": "3b4a2bc42738a63de17e7485d4cc5e49970ddbcc",
+        "rev": "150a65052563e002acc1e7b46bc9f5f7a368a046",
         "type": "github"
       },
       "original": {
