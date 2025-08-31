@@ -150,8 +150,10 @@ in
           "$mod" = "SUPER";
 
           bind = [
-            ", Pause, exec, ${pkgs.hyprlock}/bin/hyprlock"
             "$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun"
+            "$mod, Tab, exec, ${pkgs.dusk-keymap-switch}/bin/dusk-keymap-switch"
+
+            ", Pause, exec, ${pkgs.hyprlock}/bin/hyprlock"
             ''$mod SHIFT, V, exec, bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"''
 
             # Screenshot
