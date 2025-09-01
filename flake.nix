@@ -12,6 +12,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
 
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-compat.url = "github:nix-community/flake-compat";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     systems.url = "github:nix-systems/default";
@@ -92,6 +97,7 @@
     inputs@{
       flake-utils,
       nix-darwin,
+      nixos-generators,
       nixpkgs,
       pre-commit-hooks,
       rust-overlay,
@@ -170,7 +176,27 @@
             ];
           };
 
-          packages = { inherit (pkgs) dusk-apply dusk-system-verify; };
+          packages = {
+            inherit (pkgs) dusk-apply dusk-system-verify;
+
+            iso = nixos-generators.nixosGenerate {
+              inherit system pkgs;
+
+              modules = [
+                ./system
+                ./system/nixos
+                ./machines/live.nix
+              ];
+
+              specialArgs = {
+                inherit inputs;
+
+                flavor = "nixos";
+              };
+
+              format = "iso";
+            };
+          };
         }
       );
     in
