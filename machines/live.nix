@@ -6,6 +6,8 @@
   ];
 
   config = {
+    boot.initrd.kernelModules = [ "kvm-amd" ];
+
     dusk = {
       terminal.font-size = 12;
 
@@ -60,7 +62,9 @@
       };
     };
 
-    boot.initrd.kernelModules = [ "kvm-amd" ];
+    image.fileName = "dusk.iso";
+    isoImage.volumeID = "DUSKOS";
+
     services.qemuGuest.enable = true;
   };
 }

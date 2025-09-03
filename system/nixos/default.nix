@@ -141,6 +141,10 @@ in
       extraGroups = [ "wheel" ];
     };
 
-    system.stateVersion = "25.11";
+    system = {
+      nixos.variantName = "DuskOS";
+
+      stateVersion = "25.11";
+    };
   };
 }
