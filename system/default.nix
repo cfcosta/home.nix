@@ -8,7 +8,7 @@
 }:
 let
   inherit (config.dusk.system) hostname;
-  inherit (lib) mkForce;
+  inherit (lib) mkForce optionals;
 in
 {
   imports = [
@@ -42,51 +42,53 @@ in
         "nix/inputs/nixpkgs" = mkForce { source = inputs.nixpkgs; };
       };
 
-      systemPackages = with pkgs; [
-        bat
-        btop
-        cachix
-        complete-alias
-        curl
-        direnv
-        dusk-stdlib
-        eva
-        fastfetch
-        fd
-        fdupes
-        ffmpeg
-        file
-        gist
-        gitMinimal
-        glimpse
-        hyperfine
-        imagemagick
-        jq
-        jujutsu
-        lsd
-        lsof
-        ncdu
-        nerd-fonts.inconsolata
-        nss
-        opencode
-        openssl
-        p7zip
-        posting
-        python3
-        python3Packages.yt-dlp
-        ripgrep
-        rsync
-        scc
-        starship
-        tree
-        unixtools.watch
-        unzip
-        watchexec
-        websocat
-        wget
-        yazi
-        zoxide
-      ];
+      systemPackages =
+        with pkgs;
+        [
+          bat
+          btop
+          cachix
+          complete-alias
+          curl
+          direnv
+          dusk-stdlib
+          eva
+          fastfetch
+          fd
+          fdupes
+          ffmpeg
+          file
+          gist
+          gitMinimal
+          hyperfine
+          imagemagick
+          jq
+          jujutsu
+          lsd
+          lsof
+          ncdu
+          nerd-fonts.inconsolata
+          nss
+          opencode
+          openssl
+          p7zip
+          posting
+          python3
+          python3Packages.yt-dlp
+          ripgrep
+          rsync
+          scc
+          starship
+          tree
+          unixtools.watch
+          unzip
+          watchexec
+          websocat
+          wget
+          yazi
+          zoxide
+        ]
+        ++ (optionals (flavor == "nixos") [ glimpse ]);
 
       variables.EDITOR = "nvim";
     };
