@@ -48,6 +48,8 @@ in
           bat
           btop
           cachix
+          claude-code
+          codex
           complete-alias
           curl
           direnv
@@ -69,7 +71,6 @@ in
           ncdu
           nerd-fonts.inconsolata
           nss
-          opencode
           openssl
           p7zip
           posting
