@@ -17,6 +17,7 @@
         "chatgpt"
         "discord"
         "gitify"
+        "handbrake-app"
         "inkscape"
         "linearmouse"
         "moonlight"
