@@ -67,7 +67,7 @@ in
       music-player = mkOption {
         type = types.str;
         description = "Your default music player";
-        default = "${pkgs.ytmdesktop}/bin/ytmdesktop";
+        default = "${pkgs.feishin}/bin/feishin";
       };
     };
 
