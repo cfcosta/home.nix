@@ -123,10 +123,7 @@ in
 
       programs = {
         hyprlock.enable = true;
-        rofi = {
-          enable = true;
-          package = pkgs.rofi-wayland;
-        };
+        rofi.enable = true;
         wlogout.enable = true;
       };
 
@@ -149,7 +146,7 @@ in
           "$mod" = "SUPER";
 
           bind = [
-            "$mod, Space, exec, ${pkgs.rofi-wayland}/bin/rofi -show-icons -show drun"
+            "$mod, Space, exec, ${pkgs.rofi}/bin/rofi -show-icons -show drun"
             "$mod, Tab, exec, ${pkgs.dusk-keymap-switch}/bin/dusk-keymap-switch"
 
             ", Pause, exec, ${pkgs.hyprlock}/bin/hyprlock"
