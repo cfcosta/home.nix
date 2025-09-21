@@ -41,7 +41,7 @@ in
     theme = mkOption {
       description = "What theme to use on ghostty";
       type = types.str;
-      default = "tokyonight_night";
+      default = "TokyoNight Night";
     };
   };
 
