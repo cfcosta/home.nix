@@ -32,7 +32,6 @@ All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
 | `Super + P` | Open Pinta |
 | `Super + T` | Open Todoist |
 | `Super + Shift + C` | Open Calculator |
-| `Super + Shift + E` | Open Matrix Client |
 | `Super + Shift + S` | Open Steam |
 | `Super + Shift + T` | Open Streamlink Twitch GUI |
 

@@ -180,7 +180,6 @@ in
             "$mod, O, exec, ${pkgs.obsidian}/bin/obsidian"
             "$mod, T, exec, ${pkgs.todoist-electron}/bin/todoist-electron"
             "$mod SHIFT, C, exec, ${pkgs.gnome-calculator}/bin/gnome-calculator"
-            "$mod SHIFT, E, exec, org.gnome.Fractal"
             "$mod SHIFT, T, exec, ${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui"
 
             # $mod + ctrl = system configuration

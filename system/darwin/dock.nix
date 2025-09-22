@@ -18,7 +18,7 @@ _: {
         { app = "/Applications/Orion.app"; }
         { app = "/Applications/Obsidian.app"; }
         { app = "/Applications/Ghostty.app"; }
-        { app = "/Applications/Element.app"; }
+        { app = "/Applications/Discord.app"; }
       ];
     };
 

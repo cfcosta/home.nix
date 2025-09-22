@@ -16,7 +16,6 @@
         "brave-browser"
         "chatgpt"
         "discord"
-        "element"
         "gitify"
         "inkscape"
         "linearmouse"

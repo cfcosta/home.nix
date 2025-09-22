@@ -20,7 +20,6 @@ in
     ./drone.nix
     ./gaming.nix
     ./hyprland.nix
-    ./messaging.nix
     ./monitors.nix
     ./swaync.nix
     ./swayosd.nix
@@ -55,10 +54,10 @@ in
         obs-studio
         obsidian
         pinta
+        telegram-desktop
         todoist-electron
         vlc
         wl-clipboard-rs
-        ytmdesktop
 
         # Fonts
         cantarell-fonts
