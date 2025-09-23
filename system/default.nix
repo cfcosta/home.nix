@@ -45,6 +45,7 @@ in
       systemPackages =
         with pkgs;
         [
+          aider-chat-full
           bat
           btop
           cachix

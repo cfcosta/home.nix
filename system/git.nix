@@ -20,6 +20,7 @@ in
       };
 
       ignores = [
+        "*.aider*"
         "*.log"
         "*.pyc"
         ".DS_Store"
