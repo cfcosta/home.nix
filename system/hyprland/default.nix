@@ -46,6 +46,7 @@ in
 
       systemPackages = with pkgs; [
         brave
+        discord
         easyeffects
         firefox
         gnome-calculator
