@@ -95,9 +95,9 @@ in
       xdgOpenUsePortal = true;
 
       config.hyprland.default = [
+        "hyprland"
         "gnome"
         "gtk"
-        "hyprland"
       ];
 
       extraPortals = with pkgs; [
