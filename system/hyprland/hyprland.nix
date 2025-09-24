@@ -96,14 +96,13 @@ in
 
       config.hyprland.default = [
         "hyprland"
-        "gnome"
         "gtk"
+        "wlr"
       ];
 
       extraPortals = with pkgs; [
-        xdg-desktop-portal-gnome
-        xdg-desktop-portal-gtk
         xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
         xdg-desktop-portal-wlr
       ];
     };
