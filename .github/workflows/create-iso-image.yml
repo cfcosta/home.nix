@@ -1,0 +1,17 @@
+name: Build Live Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/determinate-nix-action@v3
+      - run: nix build .#iso
+      - run: cp result/iso/*.iso dusk.iso
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dusk.iso
+          path: dusk.iso
