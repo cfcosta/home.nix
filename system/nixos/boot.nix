@@ -12,16 +12,17 @@ in
     boot = {
       loader = {
         efi.canTouchEfiVariables = true;
-        systemd-boot.enable = lib.mkDefault true;
+
+        systemd-boot = {
+          enable = lib.mkDefault true;
+          memtest86.enable = true;
+        };
       };
 
       plymouth.enable = true;
     };
 
-    environment.systemPackages = with pkgs; [
-      efibootmgr
-      refind
-    ];
+    environment.systemPackages = with pkgs; [ efibootmgr ];
 
     hardware = {
       enableRedistributableFirmware = true;
