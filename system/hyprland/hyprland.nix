@@ -61,6 +61,8 @@ in
         dunst
         grimblast
         rofi
+
+        hypr-recorder
       ];
     };
 
@@ -154,6 +156,13 @@ in
             # Screenshot
             "SHIFT, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave screen"
             ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave area"
+
+            # Record screen
+            "CTRL, Print, exec, ${pkgs.dusk-record-screen}/bin/dusk-record-screen area"
+            "CTRL SHIFT, Print, exec, ${pkgs.dusk-record-screen}/bin/dusk-record-screen monitor"
+
+            # Record voice memos
+            "$mod, R, exec, ${pkgs.hypr-recorder}/bin/hypr-recorder"
 
             # System Applications
             "$mod, Return, exec, ${config.dusk.terminal.default}"
