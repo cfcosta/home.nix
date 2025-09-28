@@ -14,6 +14,7 @@ in
     boot.kernel.sysctl."vm.max_map_count" = 1048576;
 
     environment.systemPackages = with pkgs; [
+      heroic
       mangohud
       moonlight-qt
     ];
@@ -60,7 +61,6 @@ in
           env = {
             WLR_RENDERER = "vulkan";
             ENABLE_GAMESCOPE_WSI = "1";
-            WINE_FULLSCREEN_FSR = "1";
           };
 
           args = [
