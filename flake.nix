@@ -10,7 +10,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
 
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
@@ -36,14 +35,6 @@
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    glimpse = {
-      url = "github:seatedro/glimpse";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        rust-overlay.follows = "rust-overlay";
-        flake-utils.follows = "flake-utils";
-      };
     };
     home-manager = {
       url = "github:nix-community/home-manager/master";

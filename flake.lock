@@ -404,32 +404,6 @@
         "type": "github"
       }
     },
-    "glimpse": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "rust-overlay": [
-          "rust-overlay"
-        ]
-      },
-      "locked": {
-        "lastModified": 1754927662,
-        "narHash": "sha256-ZT6QRq4MX7iB39omyzwDm/i6+FeGImH3hpK0NU+61eE=",
-        "owner": "seatedro",
-        "repo": "glimpse",
-        "rev": "45f9ccf24c33b7fb6f19f070bbf87511dbcfa931",
-        "type": "github"
-      },
-      "original": {
-        "owner": "seatedro",
-        "repo": "glimpse",
-        "type": "github"
-      }
-    },
     "grug-far": {
       "flake": false,
       "locked": {
@@ -745,22 +719,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-stable": {
-      "locked": {
-        "lastModified": 1751274312,
-        "narHash": "sha256-/bVBlRpECLVzjV19t5KMdMFWSwKLtb5RyXdjz3LJT+g=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "50ab793786d9de88ee30ec4e4c24fb4236fc2674",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-24.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1757034884,
@@ -984,7 +942,6 @@
         "flake-compat": "flake-compat_2",
         "flake-utils": "flake-utils",
         "gitignore": "gitignore",
-        "glimpse": "glimpse",
         "home-manager": "home-manager",
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",
@@ -992,7 +949,6 @@
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
-        "nixpkgs-stable": "nixpkgs-stable",
         "nm-wifi": "nm-wifi",
         "pre-commit-hooks": "pre-commit-hooks",
         "rust-overlay": "rust-overlay",

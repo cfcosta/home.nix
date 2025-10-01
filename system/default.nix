@@ -8,7 +8,7 @@
 }:
 let
   inherit (config.dusk.system) hostname;
-  inherit (lib) mkForce optionals;
+  inherit (lib) mkForce;
 in
 {
   imports = [
@@ -42,55 +42,52 @@ in
         "nix/inputs/nixpkgs" = mkForce { source = inputs.nixpkgs; };
       };
 
-      systemPackages =
-        with pkgs;
-        [
-          aider-chat-full
-          bat
-          btop
-          cachix
-          claude-code
-          codex
-          complete-alias
-          curl
-          direnv
-          dusk-stdlib
-          eva
-          fastfetch
-          fd
-          fdupes
-          ffmpeg
-          file
-          gist
-          gitMinimal
-          hyperfine
-          imagemagick
-          jq
-          jujutsu
-          lsd
-          lsof
-          ncdu
-          nerd-fonts.inconsolata
-          nss
-          openssl
-          p7zip
-          posting
-          python3
-          python3Packages.yt-dlp
-          ripgrep
-          rsync
-          scc
-          starship
-          tree
-          unixtools.watch
-          unzip
-          watchexec
-          websocat
-          wget
-          yazi
-          zoxide
-        ]
-        ++ (optionals (flavor == "nixos") [ glimpse ]);
+      systemPackages = with pkgs; [
+        aider-chat-full
+        bat
+        btop
+        cachix
+        claude-code
+        codex
+        complete-alias
+        curl
+        direnv
+        dusk-stdlib
+        eva
+        fastfetch
+        fd
+        fdupes
+        ffmpeg
+        file
+        gist
+        gitMinimal
+        hyperfine
+        imagemagick
+        jq
+        jujutsu
+        lsd
+        lsof
+        ncdu
+        nerd-fonts.inconsolata
+        nss
+        openssl
+        p7zip
+        posting
+        python3
+        python3Packages.yt-dlp
+        ripgrep
+        rsync
+        scc
+        starship
+        tree
+        unixtools.watch
+        unzip
+        watchexec
+        websocat
+        wget
+        yazi
+        zoxide
+      ];
 
       variables.EDITOR = "nvim";
     };
