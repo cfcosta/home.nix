@@ -5,7 +5,12 @@
   ...
 }:
 let
-  inherit (lib) mkOption mkIf types;
+  inherit (lib)
+    mkForce
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.dusk.shell.zellij;
 in
 {
@@ -24,6 +29,7 @@ in
         enableBashIntegration = false;
 
         settings = {
+          theme = mkForce "tokyo-night-dark";
           pane_frames = false;
           show_startup_tips = false;
         };
