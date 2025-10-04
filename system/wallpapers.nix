@@ -15,7 +15,7 @@ let
 
   wallpapers = pkgs.stdenvNoCC.mkDerivation {
     name = "dusk-wallpapers";
-    src = ../assets/wallpapers;
+    src = ../wallpapers;
     installPhase = ''
       mkdir -p $out/share/wallpapers
       cp -r * $out/share/wallpapers/
