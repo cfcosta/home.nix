@@ -59,6 +59,7 @@ in
         todoist-electron
         vlc
         wl-clipboard-rs
+        zathura
 
         # Fonts
         cantarell-fonts
@@ -173,6 +174,9 @@ in
             "video/x-ogm+ogg" = "vlc.desktop";
             "video/x-theora+ogg" = "vlc.desktop";
             "application/ogg" = "vlc.desktop";
+
+            # Open PDF/djvu with Zathura
+            "application/pdf" = "org.pwmt.zathura.desktop";
           };
         };
       };
