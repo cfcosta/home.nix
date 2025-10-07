@@ -119,7 +119,7 @@ in
           "checkjobs"
 
           # Custom Options
-          "cdspell" # Correct transpositions and other minor details from 'cd DIR' command.
+          "cdspell" # Correct transpositions and other minor details from `cd DIR` command.
           "dotglob" # Include hidden files in glob (*).
           "extglob" # Extra-special pattern matching in the shell.
           "cmdhist" # Flatten multiple-line commands into the same history entry.
