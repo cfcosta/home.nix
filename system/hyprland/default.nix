@@ -54,6 +54,7 @@ in
         imv
         obs-studio
         obsidian
+        pcmanfm
         pinta
         telegram-desktop
         todoist-electron
@@ -177,6 +178,9 @@ in
 
             # Open PDF/djvu with Zathura
             "application/pdf" = "org.pwmt.zathura.desktop";
+
+            # Open directories with PCManFM
+            "inode/directory" = "pcmanfm.desktop";
           };
         };
       };
