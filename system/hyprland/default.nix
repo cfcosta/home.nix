@@ -190,7 +190,7 @@ in
     security.rtkit.enable = true;
 
     services = {
-      pulseaudio.enable = mkForce false;
+      gvfs.enable = true;
 
       pipewire = {
         enable = true;
@@ -205,12 +205,16 @@ in
         pulse.enable = true;
       };
 
+      pulseaudio.enable = mkForce false;
+
       syncthing = {
         enable = true;
 
         user = username;
         dataDir = "${home}/Sync";
       };
+
+      udisks2.enable = true;
     };
   };
 }
