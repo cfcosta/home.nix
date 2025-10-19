@@ -29,9 +29,9 @@ in
 
     ../hyprland
     ./boot.nix
-
     ./networking.nix
     ./nvidia.nix
+    ./sudo.nix
     ./virtualisation.nix
   ];
 
