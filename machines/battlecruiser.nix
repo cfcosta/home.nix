@@ -92,7 +92,17 @@
         <dead_acute> <C> : "Ç" U00C7
       '';
 
+      home.sessionVariables = {
+        XCOMPOSEFILE = "${config.dusk.folders.home}/.XCompose";
+        XKB_DEFAULT_COMPOSE_FILE = "${config.dusk.folders.home}/.XCompose";
+      };
+
       wayland.windowManager.hyprland.settings = {
+        env = [
+          "XCOMPOSEFILE,${config.dusk.folders.home}/.XCompose"
+          "XKB_DEFAULT_COMPOSE_FILE,${config.dusk.folders.home}/.XCompose"
+        ];
+
         input = {
           kb_layout = "us,us";
           kb_variant = ",intl";
