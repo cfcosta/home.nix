@@ -61,6 +61,7 @@ in
         vlc
         wl-clipboard-rs
         zathura
+        zoom-us
 
         # Fonts
         cantarell-fonts
