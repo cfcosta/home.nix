@@ -25,7 +25,7 @@ in
     hardware = {
       graphics = {
         enable = true;
-        extraPackages = with pkgs; [ vaapiVdpau ];
+        extraPackages = with pkgs; [ libva-vdpau-driver ];
       };
 
       nvidia = {
