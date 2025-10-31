@@ -4,20 +4,18 @@ let
 in
 {
   config.programs = {
-    git = {
+    delta = {
       enable = true;
 
-      userName = config.dusk.name;
-      userEmail = config.dusk.emails.primary;
-
-      delta = {
-        enable = true;
-
-        options = {
-          line-numbers = true;
-          navigate = true;
-        };
+      options = {
+        enableGitIntegration = true;
+        line-numbers = true;
+        navigate = true;
       };
+    };
+
+    git = {
+      enable = true;
 
       ignores = [
         "*.aider*"
@@ -45,14 +43,7 @@ in
         "target/**"
       ];
 
-      signing = {
-        inherit (cfg) signByDefault;
-
-        key = null;
-        format = "ssh";
-      };
-
-      extraConfig = {
+      settings = {
         blame.pager = "delta";
         commit.verbose = true;
         github.user = config.dusk.accounts.github;
@@ -60,6 +51,7 @@ in
         merge.conflictstyle = "diff3";
         pull.ff = "only";
         push.autoSetupRemote = true;
+
         rerere = {
           enabled = true;
           autoupdate = true;
@@ -81,6 +73,18 @@ in
           autosquash = true;
           autostash = true;
         };
+
+        user = {
+          name = config.dusk.name;
+          email = config.dusk.emails.primary;
+        };
+      };
+
+      signing = {
+        inherit (cfg) signByDefault;
+
+        key = null;
+        format = "ssh";
       };
     };
   };
