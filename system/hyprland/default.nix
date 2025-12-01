@@ -45,6 +45,7 @@ in
       };
 
       systemPackages = with pkgs; [
+        blender
         brave
         discord
         easyeffects
