@@ -136,6 +136,7 @@ in
           diff-formatter = ":git";
           editor = "nvim";
           pager = "delta";
+          revsets-use-glob-by-default = true;
         };
       };
     };
