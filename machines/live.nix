@@ -53,6 +53,8 @@
         <dead_acute> <C> : "Ç" U00C7
       '';
 
+      i18n.inputMethod.fcitx5.ignoreUserConfig = true;
+
       wayland.windowManager.hyprland.settings = {
         input = {
           kb_layout = "us,us";
@@ -60,6 +62,17 @@
           kb_options = "grp:alt_shift_toggle";
         };
       };
+    };
+
+    i18n.inputMethod.fcitx5.settings.inputMethod = {
+      GroupOrder."0" = "Default";
+      "Groups/0" = {
+        Name = "Default";
+        "Default Layout" = "us";
+        DefaultIM = "keyboard-us";
+      };
+      "Groups/0/Items/0".Name = "keyboard-us";
+      "Groups/0/Items/1".Name = "keyboard-us-intl";
     };
 
     image.fileName = "dusk.iso";
