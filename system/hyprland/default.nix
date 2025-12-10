@@ -4,7 +4,6 @@
   pkgs,
   ...
 }:
-with pkgs;
 let
   cfg = config.dusk.system.nixos.desktop;
 
@@ -18,6 +17,7 @@ in
   imports = [
     ./browser.nix
     ./drone.nix
+    ./file-manager.nix
     ./gaming.nix
     ./hyprland.nix
     ./monitors.nix
@@ -55,7 +55,6 @@ in
         imv
         obs-studio
         obsidian
-        pcmanfm
         pinta
         telegram-desktop
         todoist-electron
@@ -180,9 +179,6 @@ in
 
             # Open PDF/djvu with Zathura
             "application/pdf" = "org.pwmt.zathura.desktop";
-
-            # Open directories with PCManFM
-            "inode/directory" = "pcmanfm.desktop";
           };
         };
       };
