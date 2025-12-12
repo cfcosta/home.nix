@@ -171,14 +171,15 @@ in
             "$mod SHIFT, escape, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client --close-all"
 
             # Web Applications
-            "$mod, D, exec, ${pkgs.discord}/bin/discord"
             "$mod, C, exec, ${launchWeb "https://chatgpt.com" "ChatGPT" "chatgpt"}"
+            "$mod, D, exec, ${pkgs.discord}/bin/discord"
             "$mod, G, exec, ${launchWeb "https://github.com/notifications" "Github" "github"}"
             "$mod, W, exec, ${launchWeb "https://web.whatsapp.com" "Whatsapp Web" "whatsapp-web"}"
             "$mod, X, exec, ${launchWeb "https://x.com/compose/post" "X" "x.com"}"
             "$mod, Y, exec, ${launchWeb "https://www.youtube.com/feed/subscriptions" "Youtube" "youtube"}"
             "$mod SHIFT, F, exec, ${launchWeb "https://app.fastmail.com" "Fastmail" "fastmail"}"
             "$mod SHIFT, G, exec, ${launchWeb "https://grok.com" "Grok" "grok"}"
+            "$mod Shift, Y, exec, ${launchWeb "https://app.ynab.com" "You Need a Budget" "ynab"}"
 
             "$mod, M, exec, ${config.dusk.defaults.music-player}"
             "$mod, O, exec, ${pkgs.obsidian}/bin/obsidian"
