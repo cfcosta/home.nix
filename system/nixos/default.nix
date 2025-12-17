@@ -26,6 +26,7 @@ in
     inputs.determinate.nixosModules.default
     inputs.home-manager.nixosModules.default
     inputs.nix-flatpak.nixosModules.nix-flatpak
+    inputs.nix-gaming.nixosModules.pipewireLowLatency
 
     ../hyprland
     ./boot.nix
@@ -117,6 +118,7 @@ in
       };
 
       pcscd.enable = true;
+      pipewire.lowLatency.enable = true;
 
       # udev rule to support vial keyboards
       udev.extraRules = ''
@@ -136,6 +138,7 @@ in
       };
 
       auditd.enable = mkDefault true;
+      rtkit.enable = true;
     };
 
     # Make clock compatible with windows (for dual boot)
