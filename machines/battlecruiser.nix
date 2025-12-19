@@ -1,4 +1,9 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 {
   imports = with inputs.nixos-hardware.nixosModules; [
     common-cpu-amd
@@ -6,6 +11,11 @@
   ];
 
   config = {
+    boot = {
+      initrd.kernelModules = [ "kvm-amd" ];
+      kernelPackages = pkgs.linuxPackages_xanmod_latest;
+    };
+
     dusk = {
       fonts.monospace = "Berkeley Mono NerdFont Mono";
 
@@ -128,8 +138,6 @@
         ];
       };
     };
-
-    boot.initrd.kernelModules = [ "kvm-amd" ];
 
     fileSystems = {
       "/" = {
