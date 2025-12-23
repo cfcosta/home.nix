@@ -134,6 +134,8 @@ in
       enable = true;
       enableBashIntegration = true;
       settings = overrides // {
+        shell = [ "sh" ];
+
         format = concatStringsSep "" [
           "$sudo"
           "$jobs"
