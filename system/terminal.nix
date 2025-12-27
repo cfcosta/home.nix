@@ -13,9 +13,6 @@ let
     theme = ${cfg.theme}
     window-theme = ${if (flavor == "nixos") then "ghostty" else "system"}
 
-    background-opacity = 0.75
-    background-blur = true
-
     font-family = ${cfg.font-family}
     font-size = ${toString cfg.font-size}
   '';
@@ -51,9 +48,12 @@ in
         environment.systemPackages = [ pkgs.ghostty ];
 
         home-manager.users.${config.dusk.username} = {
-          programs.bash.initExtra = ''
-            . ${pkgs.ghostty}/share/ghostty/shell-integration/bash/ghostty.bash
-          '';
+          programs.ghostty = {
+            enable = true;
+
+            enableBashIntegration = true;
+            systemd.enable = true;
+          };
 
           xdg.configFile."ghostty/config".text = configFile;
         };
