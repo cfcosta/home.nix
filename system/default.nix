@@ -59,6 +59,7 @@ in
         fdupes
         ffmpeg
         file
+        gemini-cli
         gist
         gitMinimal
         hyperfine
@@ -90,6 +91,15 @@ in
       ];
 
       variables.EDITOR = "nvim";
+    };
+
+    fonts = {
+      fontconfig.enable = true;
+
+      packages = with pkgs; [
+        noto-fonts-cjk-sans
+        noto-fonts-cjk-serif
+      ];
     };
 
     home-manager = {
