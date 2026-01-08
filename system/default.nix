@@ -14,6 +14,7 @@ in
   imports = [
     ../user.nix
 
+    ./ai.nix
     ./options.nix
     ./starship.nix
     ./terminal.nix
@@ -43,12 +44,9 @@ in
       };
 
       systemPackages = with pkgs; [
-        aider-chat-full
         bat
         btop
         cachix
-        claude-code
-        codex
         complete-alias
         curl
         direnv
@@ -59,7 +57,6 @@ in
         fdupes
         ffmpeg
         file
-        gemini-cli
         gist
         gitMinimal
         hyperfine
