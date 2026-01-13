@@ -55,6 +55,8 @@ in
       sessionVariables = {
         XDG_CURRENT_DESKTOP = "Hyprland";
         XDG_SESSION_DESKTOP = "Hyprland";
+        HYPRCURSOR_THEME = "rose-pine-hyprcursor";
+        HYPRCURSOR_SIZE = "32";
       };
 
       systemPackages = with pkgs; [
@@ -63,6 +65,8 @@ in
         rofi
 
         hypr-recorder
+        hyprcursor
+        rose-pine-hyprcursor
       ];
     };
 
@@ -113,6 +117,8 @@ in
       dconf.enable = true;
 
       home.pointerCursor = {
+        hyprcursor.enable = true;
+
         name = "Adwaita";
         package = pkgs.adwaita-icon-theme;
         size = 24;
