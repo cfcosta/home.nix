@@ -22,8 +22,9 @@ in
     hardware = {
       graphics.enable = true;
 
-      # Support for Xbox One Controllers
+      # Support for Xbox One/Series X Controllers
       xone.enable = true;
+      xpadneo.enable = true;
     };
 
     home-manager.users.${config.dusk.username}.xdg.configFile."gamemode.ini".text = ''
