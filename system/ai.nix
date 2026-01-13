@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 let
   inherit (pkgs.stdenv) isLinux;
   nvidiaEnabled = config.dusk.system.nixos.nvidia.enable;

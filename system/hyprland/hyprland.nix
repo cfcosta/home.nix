@@ -10,7 +10,7 @@ let
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
 
-  launchTerm = cmd: ''${pkgs.ghostty}/bin/ghostty --class=com.mitchellh.ghostty.floating -e ${cmd}'';
+  launchTerm = cmd: "${pkgs.ghostty}/bin/ghostty --class=com.mitchellh.ghostty.floating -e ${cmd}";
   launchWeb =
     url: name: class:
     ''${pkgs.chromium}/bin/chromium --new-window --ozone-platform="wayland" --app="${url}" --name="${name}" --class="${class}"'';

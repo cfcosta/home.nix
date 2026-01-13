@@ -8,7 +8,7 @@ let
   inherit (lib) mkOption types;
 
   launchFloating =
-    cmd: ''${pkgs.ghostty}/bin/ghostty --class=com.mitchellh.ghostty.floating -e ${cmd}'';
+    cmd: "${pkgs.ghostty}/bin/ghostty --class=com.mitchellh.ghostty.floating -e ${cmd}";
 in
 {
   options.dusk.waybar = {
