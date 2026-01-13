@@ -3,8 +3,10 @@
   config = {
     environment.systemPackages = with pkgs; [
       pcmanfm
-      xfce.tumbler
+      tumbler
     ];
+
+    services.tumbler.enable = true;
 
     home-manager.users.${config.dusk.username} = _: {
       # Open directories with PCManFM
