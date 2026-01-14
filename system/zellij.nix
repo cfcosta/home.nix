@@ -29,9 +29,10 @@ in
         enableBashIntegration = false;
 
         settings = {
-          theme = mkForce "tokyo-night-dark";
+          default_layout = "compact";
           pane_frames = false;
           show_startup_tips = false;
+          theme = mkForce "tokyo-night-dark";
         };
       };
     };
