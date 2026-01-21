@@ -8,6 +8,21 @@ let
   inherit (lib) mkIf;
 
   cfg = config.dusk.system.nixos.desktop.gaming;
+  xone-firmware = pkgs.xow_dongle-firmware.overrideAttrs (_old: rec {
+    name = "xone-firmware";
+    version = "045e_02e6";
+    src = pkgs.fetchurl {
+      url = "https://catalog.s.download.windowsupdate.com/d/msdownload/update/driver/drvs/2015/12/20810869_8ce2975a7fbaa06bcfb0d8762a6275a1cf7c1dd3.cab";
+      sha256 = "sha256-5jiKJ6dXVpIN5zryRo461V16/vWavDoLUICU4JHRnwg=";
+    };
+    unpackCmd = ''
+      cabextract -F FW_ACC_00U.bin ${src}
+    '';
+    installPhase = ''
+      mkdir -p $out/lib/firmware
+      cp xow_dongle_045e_02e6.bin $out/lib/firmware/xone_dongle_02e6.bin
+    '';
+  });
 in
 {
   config = mkIf cfg.enable {
@@ -17,6 +32,7 @@ in
       heroic
       mangohud
       moonlight-qt
+      xone-firmware
     ];
 
     hardware = {
@@ -24,7 +40,9 @@ in
 
       # Support for Xbox One/Series X Controllers
       xone.enable = true;
-      xpadneo.enable = true;
+      xpadneo.enable = false;
+
+      firmware = [ xone-firmware ];
     };
 
     home-manager.users.${config.dusk.username}.xdg.configFile."gamemode.ini".text = ''
