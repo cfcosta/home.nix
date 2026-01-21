@@ -43,6 +43,7 @@ let
     ];
 
     window-management = [
+      "$mod SHIFT, Q, exec, hyprctl kill"
       "$mod SHIFT, Space, togglefloating"
       "$mod, F, fullscreen"
       "$mod, Q, killactive"
