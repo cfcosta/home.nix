@@ -67,7 +67,10 @@ in
 
     environment = {
       defaultPackages = mkForce [ ];
-      systemPackages = with pkgs; [ killall ];
+      systemPackages = with pkgs; [
+        exfatprogs
+        killall
+      ];
     };
 
     hardware = {

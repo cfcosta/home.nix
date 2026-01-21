@@ -51,6 +51,7 @@ in
         easyeffects
         firefox
         gnome-calculator
+        gparted-full
         helvum
         imv
         obs-studio
@@ -58,6 +59,7 @@ in
         pinta
         telegram-desktop
         todoist-electron
+        transmission_4-gtk
         vlc
         wl-clipboard-rs
         zathura
