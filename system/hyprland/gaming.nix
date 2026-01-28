@@ -23,6 +23,10 @@ let
       cp xow_dongle_045e_02e6.bin $out/lib/firmware/xone_dongle_02e6.bin
     '';
   });
+  hytale = pkgs.fetchurl {
+    url = "https://launcher.hytale.com/builds/release/linux/amd64/hytale-launcher-latest.flatpak";
+    sha256 = "sha256-4DUP/hHgpbKvjRIF2ksxhtGFkvA9QSVOT4w+c4MXa+4=";
+  };
 in
 {
   config = mkIf cfg.enable {
@@ -88,6 +92,18 @@ in
           ];
         };
       };
+    };
+
+    services.flatpak = {
+      enable = true;
+
+      packages = [
+        {
+          appId = "com.hypixel.HytaleLauncher";
+          sha256 = "";
+          bundle = "${hytale}";
+        }
+      ];
     };
 
     users.users.${config.dusk.username}.extraGroups = [ "gamemode" ];
