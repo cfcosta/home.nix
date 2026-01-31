@@ -50,11 +50,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769151562,
-        "narHash": "sha256-28s+BWRW9krrAvCUqyMUHf8YXNkov3CmdWOFzei1cqs=",
+        "lastModified": 1769882523,
+        "narHash": "sha256-SHLCCvOafbldpQrju7ih5HPFuKuvULPXTIbffUiD1rs=",
         "owner": "saghen",
         "repo": "blink.cmp",
-        "rev": "b137f63d89d0285ca76eed12e1923220e0aff8c1",
+        "rev": "fab799d086fd63fa5b389007f63767b23885ebf8",
         "type": "github"
       },
       "original": {
@@ -243,11 +243,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769288198,
-        "narHash": "sha256-vI1oOVzpTpYZ0ea6w0e2wyKa0TsyLFFauOZkhYbXLYM=",
+        "lastModified": 1769352132,
+        "narHash": "sha256-7rP6C/zPhpTMcsewR9LZlB23Ot7W23E2WM7Fnj89rlA=",
         "owner": "dmtrKovalenko",
         "repo": "fff.nvim",
-        "rev": "6b01f95ca6305511ef28175c42b250925376f181",
+        "rev": "0523fe39ffc59373de0648ba636705d35a6fdfc2",
         "type": "github"
       },
       "original": {
@@ -383,11 +383,11 @@
     "gas-town": {
       "flake": false,
       "locked": {
-        "lastModified": 1769745052,
-        "narHash": "sha256-C0OjlMwl5iUIkboUK5JVksMNVrPkt3QiSf6BIW24xiI=",
+        "lastModified": 1769893502,
+        "narHash": "sha256-Q1P3MPNi56TuKnbymifVyW7qXwQBTarYCUwPqqm+tXI=",
         "owner": "steveyegge",
         "repo": "gastown",
-        "rev": "c6832e4bac82874cf1d03da374f0cb21af937619",
+        "rev": "b050acf5ef11908c4ec2050c44251434294360f4",
         "type": "github"
       },
       "original": {
@@ -461,11 +461,11 @@
     "grug-far": {
       "flake": false,
       "locked": {
-        "lastModified": 1768951140,
-        "narHash": "sha256-FPNkcgA6LHlGE4OhqL63dy8b78/kZA1xN2EOL6VTEOM=",
+        "lastModified": 1769802108,
+        "narHash": "sha256-vhI1/GfCl6Tv7l7SY2BdTd4lHMlTGEys8AmmmMUhcWI=",
         "owner": "MagicDuck",
         "repo": "grug-far.nvim",
-        "rev": "1f7a722a9b9f0206a345377c13e62542f484398a",
+        "rev": "14babc9b4520184d9696ef282eb7ac20687d4373",
         "type": "github"
       },
       "original": {
@@ -481,11 +481,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769813945,
-        "narHash": "sha256-9ABv9Lo9t6MrFjlnRnU8Zw1C6LVj2+R8PipQ/rxGLHk=",
+        "lastModified": 1769872935,
+        "narHash": "sha256-07HMIGQ/WJeAQJooA7Kkg1SDKxhAiV6eodvOwTX6WKI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "475921375def3eb930e1f8883f619ff8609accb6",
+        "rev": "f4ad5068ee8e89e4a7c2e963e10dd35cd77b37b7",
         "type": "github"
       },
       "original": {
@@ -530,11 +530,11 @@
     "lean": {
       "flake": false,
       "locked": {
-        "lastModified": 1768954285,
-        "narHash": "sha256-FfYfDPQi0MUPnUV1bcHP7cpHdUkqcH9lHZS8ZNpWCso=",
+        "lastModified": 1769889953,
+        "narHash": "sha256-yfEEfzx8V00tAPc9q1Zqmd5JklfVHVDXqNpjo525i68=",
         "owner": "Julian",
         "repo": "lean.nvim",
-        "rev": "68ad9a01b7da30213441016667ad3f946d080fe8",
+        "rev": "904dcc2787effac5e0394a46e78499b2c094a3df",
         "type": "github"
       },
       "original": {
@@ -546,11 +546,11 @@
     "lspconfig": {
       "flake": false,
       "locked": {
-        "lastModified": 1769036040,
-        "narHash": "sha256-+KjXMTkVVVt3rpxQHRtrlT74DDsfRnPNUlqi/pvIMxg=",
+        "lastModified": 1769817685,
+        "narHash": "sha256-vFbimjYoXkjvzq/QyzwOnIs0Q9KeXOwLiy7InRZdrSw=",
         "owner": "neovim",
         "repo": "nvim-lspconfig",
-        "rev": "419b082102fa813739588dd82e19a8b6b2442855",
+        "rev": "3f58aeca0c6ece8a9fb8782ea3fcb6024f285be3",
         "type": "github"
       },
       "original": {
@@ -562,11 +562,11 @@
     "lspkind": {
       "flake": false,
       "locked": {
-        "lastModified": 1769107801,
-        "narHash": "sha256-/unY/MaGHC76x5SF0rg6dLc0HOB35Y4vHimquaAWk1M=",
+        "lastModified": 1769689909,
+        "narHash": "sha256-aIopYLm/x1CgCKpcsu9pxpqL0SXXhHDPTM8DKUwGeRw=",
         "owner": "onsails",
         "repo": "lspkind-nvim",
-        "rev": "dbac5149fb5fb1b642266ff268b1e0f4ebac9293",
+        "rev": "c7274c48137396526b59d86232eabcdc7fed8a32",
         "type": "github"
       },
       "original": {
@@ -643,11 +643,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1769306045,
-        "narHash": "sha256-AqDaqiyijeiyya1xCO6GF8TBEv2RWfjO9spMFbqZR4Y=",
+        "lastModified": 1769915599,
+        "narHash": "sha256-JWYpz5GE4znXNB0vyxjHXHHpq+KDSgw+z2D7zR+4y0U=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "2e546d976ac0604fab3dbd989d315cae748a539a",
+        "rev": "55b8f32e96feacfc3b2cff5dc3f5a984ac3d81f9",
         "type": "github"
       },
       "original": {
@@ -721,11 +721,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769826495,
-        "narHash": "sha256-jyfGSLu7TjgwaZb7wgUJnAEtcoksqG4f0LORh4JBcdM=",
+        "lastModified": 1769914377,
+        "narHash": "sha256-8wH3ZYNs36V0A3f/ikraqdoVE++BfnXg9Ql8nAuUkHw=",
         "owner": "fufexan",
         "repo": "nix-gaming",
-        "rev": "84471e0ca212961bd297a2b9017582041c903ddd",
+        "rev": "f7d17740ed90663b11ae907d33b3fed9fc9e15a9",
         "type": "github"
       },
       "original": {
@@ -923,11 +923,11 @@
     "nvim-autopairs": {
       "flake": false,
       "locked": {
-        "lastModified": 1766018372,
-        "narHash": "sha256-8k/vGYktoFBX3kjOyn+VR49xmhFhNZbkaI8UmbPSYF4=",
+        "lastModified": 1769736942,
+        "narHash": "sha256-0IqXpxKCzqVz6i9QajPYJ0FdfReHQBhehrvN89/8n6U=",
         "owner": "windwp",
         "repo": "nvim-autopairs",
-        "rev": "c2a0dd0d931d0fb07665e1fedb1ea688da3b80b4",
+        "rev": "59bce2eef357189c3305e25bc6dd2d138c1683f5",
         "type": "github"
       },
       "original": {
@@ -939,11 +939,11 @@
     "nvim-treesitter": {
       "flake": false,
       "locked": {
-        "lastModified": 1769289687,
-        "narHash": "sha256-Nw9eK7Rri/hUY6vj0OLa/Y2vOvBS7XeY0Eoj+qrgGiU=",
+        "lastModified": 1769854724,
+        "narHash": "sha256-pwI9KqCjymvqK6btX/+5ZiGP46JsQVYj7W+9YtlRXsc=",
         "owner": "nvim-treesitter",
         "repo": "nvim-treesitter",
-        "rev": "81aca2f9815e26f638f697df1d828ca290847b64",
+        "rev": "4967fa48b0fe7a7f92cee546c76bb4bb61bb14d5",
         "type": "github"
       },
       "original": {
@@ -987,11 +987,11 @@
     "obsidian-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1768313360,
-        "narHash": "sha256-xq7abpovUo++GpzyfDeO3IKo+hYnbrZZwtYwLsqFNp4=",
+        "lastModified": 1769910050,
+        "narHash": "sha256-L+pOE1rJD1eA+CF53F5AaFYDR51tIsfbR8CkyyU3DUI=",
         "owner": "obsidian-nvim",
         "repo": "obsidian.nvim",
-        "rev": "acd73830fe2e8a2e0c234073ca2cb6387d59f37b",
+        "rev": "764acf3659132f313535c0a735912e5c6bc4964c",
         "type": "github"
       },
       "original": {
@@ -1061,11 +1061,11 @@
     "render-markdown": {
       "flake": false,
       "locked": {
-        "lastModified": 1768589366,
-        "narHash": "sha256-kKvIivCNe6HlGqiChySeqEHRB0rj6ipKwjko4ix4tRw=",
+        "lastModified": 1769755568,
+        "narHash": "sha256-VEor5I/25QQZcealPwxXfqwDgnU3QCQQqa2sfSOjIqg=",
         "owner": "MeanderingProgrammer",
         "repo": "render-markdown.nvim",
-        "rev": "c54380dd4d8d1738b9691a7c349ecad7967ac12e",
+        "rev": "48934b49a2363b49ae1d698ed4cb30fb79d7efe8",
         "type": "github"
       },
       "original": {
@@ -1123,11 +1123,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769828398,
-        "narHash": "sha256-zmnvRUm15QrlKH0V1BZoiT3U+Q+tr+P5Osi8qgtL9fY=",
+        "lastModified": 1769915446,
+        "narHash": "sha256-f1F/umtX3ZD7fF9DHSloVHc0mnAT0ry0YK2jI/6E0aI=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "a1d32c90c8a4ea43e9586b7e5894c179d5747425",
+        "rev": "bc00300f010275e46feb3c3974df6587ff7b7808",
         "type": "github"
       },
       "original": {
@@ -1139,11 +1139,11 @@
     "rustacean": {
       "flake": false,
       "locked": {
-        "lastModified": 1769295657,
-        "narHash": "sha256-mllPFhWImd7VoQXeMKtt0ttcxgbb7y/bOrudnBidz84=",
+        "lastModified": 1769905611,
+        "narHash": "sha256-p34jKS40wumnSHYYNufNYo5KXR8VvlZUtVmD7PXpLlw=",
         "owner": "mrcjkb",
         "repo": "rustaceanvim",
-        "rev": "796f06742e373012b860dc20f9ecccbfc670dc28",
+        "rev": "c5c388bdf64e03868fdd553d275f70e33ab4a169",
         "type": "github"
       },
       "original": {
