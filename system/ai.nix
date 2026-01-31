@@ -6,11 +6,13 @@ in
 {
   config = {
     environment.systemPackages = with pkgs; [
-      crush
-      opencode
-      codex
+      beads
       claude-code
+      codex
+      crush
+      gas-town
       gemini-cli
+      opencode
     ];
 
     services.ollama = {

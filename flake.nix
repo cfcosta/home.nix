@@ -36,6 +36,17 @@
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
+    beads = {
+      url = "github:steveyegge/beads/v0.49.1";
+      inputs = {
+        flake-utils.follows = "flake-utils";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+    gas-town = {
+      url = "github:steveyegge/gastown";
+      flake = false;
+    };
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";
