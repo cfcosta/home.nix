@@ -57,6 +57,7 @@ in
         fdupes
         ffmpeg
         file
+        gh
         gist
         gitMinimal
         hyperfine

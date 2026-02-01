@@ -14,11 +14,13 @@ let
     mkForce
     mkIf
     mkOption
+    optionals
     types
     ;
 
   default = flavor == "nixos";
   cfg = config.dusk.system.nixos;
+  nvidiaEnabled = config.dusk.system.nixos.nvidia.enable;
 in
 {
   imports = [
@@ -67,10 +69,14 @@ in
 
     environment = {
       defaultPackages = mkForce [ ];
-      systemPackages = with pkgs; [
-        exfatprogs
-        killall
-      ];
+      systemPackages =
+        with pkgs;
+        [
+          exfatprogs
+          killall
+        ]
+        ++ optionals nvidiaEnabled [ docbert-cuda ]
+        ++ optionals (!nvidiaEnabled) [ docbert ];
     };
 
     hardware = {

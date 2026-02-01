@@ -203,6 +203,38 @@
         "url": "https://install.determinate.systems/determinate-nixd/tag/v3.15.2/x86_64-linux"
       }
     },
+    "docbert": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "pre-commit-hooks": [
+          "pre-commit-hooks"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770254158,
+        "narHash": "sha256-/xJLG/KijPY6FPwBTP8VC58cvpILtufFBnjfr48MX00=",
+        "owner": "cfcosta",
+        "repo": "docbert",
+        "rev": "a22287834af85fda0e5f87e932a95b696201ef43",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cfcosta",
+        "repo": "docbert",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -377,22 +409,6 @@
       "original": {
         "owner": "rafamadriz",
         "repo": "friendly-snippets",
-        "type": "github"
-      }
-    },
-    "gas-town": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1769893502,
-        "narHash": "sha256-Q1P3MPNi56TuKnbymifVyW7qXwQBTarYCUwPqqm+tXI=",
-        "owner": "steveyegge",
-        "repo": "gastown",
-        "rev": "b050acf5ef11908c4ec2050c44251434294360f4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "steveyegge",
-        "repo": "gastown",
         "type": "github"
       }
     },
@@ -1079,9 +1095,9 @@
         "beads": "beads",
         "catppuccin": "catppuccin",
         "determinate": "determinate",
+        "docbert": "docbert",
         "flake-compat": "flake-compat_2",
         "flake-utils": "flake-utils",
-        "gas-town": "gas-town",
         "gitignore": "gitignore",
         "home-manager": "home-manager",
         "hypr-recorder": "hypr-recorder",

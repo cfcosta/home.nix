@@ -10,7 +10,6 @@ in
       claude-code
       codex
       crush
-      gas-town
       gemini-cli
       opencode
     ];
