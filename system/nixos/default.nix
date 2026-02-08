@@ -72,6 +72,7 @@ in
       systemPackages =
         with pkgs;
         [
+          bubblewrap
           exfatprogs
           killall
         ]
