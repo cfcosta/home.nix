@@ -14,7 +14,7 @@ in
   imports = [
     ../user.nix
 
-    ./ai.nix
+    ./ai
     ./options.nix
     ./starship.nix
     ./terminal.nix

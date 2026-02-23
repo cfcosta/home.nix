@@ -1063,6 +1063,22 @@
         "type": "github"
       }
     },
+    "pi-messenger": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771997073,
+        "narHash": "sha256-vQWGQDBSDTryqfehT4W4GdmCDufB8nedZGtUQ+cmlzU=",
+        "owner": "cfcosta",
+        "repo": "pi-messenger",
+        "rev": "c6bdba7cf0b045be8fc27a73bf69e3b641576bf6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cfcosta",
+        "repo": "pi-messenger",
+        "type": "github"
+      }
+    },
     "plenary": {
       "flake": false,
       "locked": {
@@ -1157,6 +1173,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "nm-wifi": "nm-wifi",
+        "pi-messenger": "pi-messenger",
         "pre-commit-hooks": "pre-commit-hooks",
         "rust-overlay": "rust-overlay",
         "systems": "systems_2",

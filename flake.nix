@@ -101,6 +101,10 @@
         treefmt-nix.follows = "treefmt-nix";
       };
     };
+    pi-messenger = {
+      url = "github:cfcosta/pi-messenger";
+      flake = false;
+    };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
