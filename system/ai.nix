@@ -8,6 +8,7 @@
       crush
       gemini-cli
       opencode
+      pi
     ];
   };
 }

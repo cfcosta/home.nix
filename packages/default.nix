@@ -16,4 +16,5 @@ in
   hypr-recorder = inputs.hypr-recorder.packages.${system}.default;
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
+  pi = inputs.llm-agents.packages.${system}.pi;
 }
