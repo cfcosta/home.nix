@@ -6,6 +6,7 @@ in
   beads = inputs.beads.packages.${system}.default;
   claude-code = inputs.llm-agents.packages.${system}.claude-code;
   codex = inputs.llm-agents.packages.${system}.codex;
+  crush = inputs.llm-agents.packages.${system}.crush;
   docbert = inputs.docbert.packages.${system}.docbert;
   docbert-cuda = inputs.docbert.packages.${system}.docbert-cuda;
   dusk-apply = super.callPackage ./dusk-apply { };
