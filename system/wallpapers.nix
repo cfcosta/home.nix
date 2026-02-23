@@ -23,6 +23,7 @@ let
   };
 
   cfg = config.dusk.system;
+  wallpapersDir = toString ../wallpapers;
 
   getWallpaper =
     monitor:
@@ -43,18 +44,27 @@ let
               go (tail xs);
         in
         go list;
+
+      configured = attrByPath [ name ] null cfg.wallpapers;
+      sized = "${toString width}x${toString height}.jpg";
     in
     {
       inherit name;
 
       value = coalesce [
-        (attrByPath [ name ] null cfg.wallpapers)
-        "${wallpapers}/share/wallpapers/${toString width}x${toString height}.jpg"
-        "${wallpapers}/share/wallpapers/default.jpg"
+        (if configured != null && pathExists (toString configured) then configured else null)
+        (if pathExists "${wallpapersDir}/${sized}" then "${wallpapers}/share/wallpapers/${sized}" else null)
+        (
+          if pathExists "${wallpapersDir}/default.jpg" then
+            "${wallpapers}/share/wallpapers/default.jpg"
+          else
+            null
+        )
       ];
     };
 
-  exists = p: (p.value != null) && (pathExists p.value);
+  # Don't check derivation outputs during eval: only validate source files and explicit overrides.
+  exists = p: p.value != null;
   all = filter exists (map getWallpaper cfg.monitors);
 in
 {
@@ -79,7 +89,12 @@ in
 
           settings = {
             preload = map (pair: pair.value) all;
-            wallpaper = map (pair: "${pair.name}, ${pair.value}") all;
+            # Use hyprpaper's documented special-category form. Hyprland parsing is strict here.
+            wallpaper = map (pair: {
+              monitor = pair.name;
+              path = pair.value;
+              fit_mode = "cover";
+            }) all;
           };
         };
       };
