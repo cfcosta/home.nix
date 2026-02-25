@@ -49,6 +49,14 @@ in
         defaultModel = "gpt-5.3-codex";
         packages = [ "${inputs.pi-messenger}" ];
       };
+
+      home.file.".pi/agent/pi-messenger.json".text = builtins.toJSON {
+        crew.models = {
+          planner = "openai-codex/gpt-5.3-codex";
+          reviewer = "openai-codex/gpt-5.3-codex";
+          worker = "openai-codex/gpt-5.3-codex";
+        };
+      };
     };
   };
 }

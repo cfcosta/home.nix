@@ -65,9 +65,10 @@ Keep entries concise — one line per step. This helps the next agent pick up wh
 ## Phase 5: Create JJ Change
 
 ```bash
-jj commit -m "feat(scope): description
+jj describe -m "feat(scope): description
 
 Task: <TASK_ID>"
+jj new main
 ```
 
 ## Phase 6: Release & Complete
