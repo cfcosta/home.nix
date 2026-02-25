@@ -62,11 +62,10 @@ pi_messenger({ action: "task.progress", id: "<TASK_ID>", message: "Added JWT val
 
 Keep entries concise — one line per step. This helps the next agent pick up where you left off if the task gets interrupted.
 
-## Phase 5: Commit
+## Phase 5: Create JJ Change
 
 ```bash
-git add -A
-git commit -m "feat(scope): description
+jj commit -m "feat(scope): description
 
 Task: <TASK_ID>"
 ```
@@ -87,7 +86,7 @@ pi_messenger({
   id: "<TASK_ID>",
   summary: "Brief description of what was implemented",
   evidence: {
-    commits: ["<commit-sha>"],
+    commits: ["<jj-commit-id>"],
     tests: ["npm test"]
   }
 })
@@ -99,7 +98,7 @@ If you receive a message saying "SHUTDOWN REQUESTED":
 1. Stop what you're doing
 2. Release reservations: `pi_messenger({ action: "release" })`
 3. Do NOT mark the task as done — leave it as in_progress for retry
-4. Do NOT commit anything
+4. Do NOT create a jj commit
 5. Exit immediately
 
 ## Important Rules
