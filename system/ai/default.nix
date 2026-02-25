@@ -51,11 +51,23 @@ in
       };
 
       home.file.".pi/agent/pi-messenger.json".text = builtins.toJSON {
-        crew.models = {
-          planner = "openai-codex/gpt-5.3-codex";
-          reviewer = "openai-codex/gpt-5.3-codex";
-          worker = "openai-codex/gpt-5.3-codex";
+        crew = {
+          concurrency = {
+            workers = 3;
+            max = 10;
+          };
+
+          coordination = "chatty";
+
+          models = {
+            planner = "openai-codex/gpt-5.3-codex";
+            reviewer = "openai-codex/gpt-5.3-codex";
+            worker = "openai-codex/gpt-5.3-codex";
+          };
+
+          planning.maxPasses = 3;
         };
+
       };
     };
   };
