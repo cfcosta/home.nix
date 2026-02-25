@@ -69,6 +69,7 @@ Create a task breakdown following the exact output format below. Guidelines:
 - Include tests in each task's acceptance criteria
 - Include specific files to create/modify when known
 - Include acceptance criteria in task descriptions
+- Add an **Outcome Loop** block per task with: hypothesis, metric, target (if known), and check window (e.g. "7d post-merge")
 
 ### Parallel Execution
 
@@ -151,12 +152,22 @@ Include this fenced block after the markdown tasks. Titles must match exactly.
   {
     "title": "Title matching ### Task 1 above",
     "description": "Full description including acceptance criteria",
-    "dependsOn": []
+    "dependsOn": [],
+    "outcome": {
+      "hypothesis": "Expected user/business impact",
+      "metric": "How impact is measured",
+      "target": "Optional threshold",
+      "checkWindow": "e.g. 7d post-merge"
+    }
   },
   {
     "title": "Title matching ### Task 2 above",
     "description": "Full description",
-    "dependsOn": ["Title matching ### Task 1 above"]
+    "dependsOn": ["Title matching ### Task 1 above"],
+    "outcome": {
+      "hypothesis": "...",
+      "metric": "..."
+    }
   }
 ]
 ```

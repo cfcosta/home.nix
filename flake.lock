@@ -1066,11 +1066,11 @@
     "pi-messenger": {
       "flake": false,
       "locked": {
-        "lastModified": 1772045050,
-        "narHash": "sha256-hEdoXqsEJ4DAt+31e8sDbYBNHA0zeb2V22On/0cs2N4=",
+        "lastModified": 1772050592,
+        "narHash": "sha256-ITdu5zG29g8+GVVANP9ToKtYH9Pys3idCYAuJyfBZWM=",
         "owner": "cfcosta",
         "repo": "pi-messenger",
-        "rev": "8f38aff6d1c688691a72c2b3524c9dcd9105e3e0",
+        "rev": "c5739f2edd98e07fe0d8b5eb5f4eec08844f3c53",
         "type": "github"
       },
       "original": {

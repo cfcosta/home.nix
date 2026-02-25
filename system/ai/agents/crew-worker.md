@@ -93,6 +93,8 @@ pi_messenger({
 })
 ```
 
+If the task spec includes an Outcome Loop section, make sure your summary and evidence include enough detail for a later `task.check` call.
+
 ## Shutdown Handling
 
 If you receive a message saying "SHUTDOWN REQUESTED":
