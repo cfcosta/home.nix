@@ -270,11 +270,6 @@ in
             accel_profile = "flat";
             sensitivity = 0;
           };
-
-          windowrulev2 = [
-            "float, class:^(com.mitchellh.ghostty.floating)$"
-            "float, class:^(org.gnome.Calculator)$"
-          ];
         };
 
         systemd.variables = [ "--all" ];
