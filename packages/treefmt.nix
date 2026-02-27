@@ -49,7 +49,7 @@ let
       clang-format.enable = true;
       deadnix.enable = true;
       nixfmt.enable = true;
-      prettier.enable = true;
+      oxfmt.enable = true;
       ruff-format.enable = true;
       ruff.enable = true;
       shellcheck.enable = true;
