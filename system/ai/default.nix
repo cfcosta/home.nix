@@ -5,6 +5,8 @@
   ...
 }:
 {
+  imports = [ ./playwright.nix ];
+
   config = {
     environment.systemPackages = with pkgs; [
       beads
@@ -41,7 +43,6 @@
 
           planning.maxPasses = 3;
         };
-
       };
     };
   };
