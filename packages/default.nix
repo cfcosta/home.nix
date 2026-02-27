@@ -18,4 +18,27 @@ in
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
   pi = inputs.llm-agents.packages.${system}.pi;
+  pi-messenger = super.buildNpmPackage {
+    pname = "pi-messenger";
+    version = "v0.12.1";
+    src = inputs.pi-messenger;
+    npmDepsHash = "sha256-Gap1V8yElq2ydcunoLXd0DBtfuWU3WHZl1xvLYw+0QE=";
+    dontNpmBuild = true;
+    nativeBuildInputs = [ super.makeWrapper ];
+
+    postInstall = ''
+      mkdir -p $out/bin
+
+      if [ ! -e "$out/bin/pi-messenger" ]; then
+        ln -sf $out/lib/node_modules/pi-messenger/install.mjs $out/bin/pi-messenger
+      fi
+
+      cp -rf ${../agents}/*.md $out/lib/node_modules/pi-messenger/crew/agents/
+
+      wrapProgram $out/bin/pi-messenger \
+        --prefix PATH : ${super.lib.makeBinPath [ super.nodejs ]}
+    '';
+
+    meta.mainProgram = "pi-messenger";
+  };
 }
