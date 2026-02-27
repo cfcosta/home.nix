@@ -23,7 +23,10 @@
       home.file.".pi/agent/settings.json".text = builtins.toJSON {
         defaultProvider = "openai-codex";
         defaultModel = "gpt-5.3-codex";
-        packages = [ "${inputs.pi-messenger}" ];
+        packages = [
+          "${inputs.pi-messenger}"
+          pkgs.dusk-skills
+        ];
       };
 
       home.file.".pi/agent/pi-messenger.json".text = builtins.toJSON {
@@ -43,6 +46,16 @@
 
           planning.maxPasses = 3;
         };
+      };
+
+      home.file.".claude/skills" = {
+        source = "${pkgs.dusk-skills.out}/skills";
+        recursive = true;
+      };
+
+      home.file.".codex/skills" = {
+        source = "${pkgs.dusk-skills.out}/skills";
+        recursive = true;
       };
     };
   };

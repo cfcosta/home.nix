@@ -53,6 +53,10 @@
         treefmt-nix.follows = "treefmt-nix";
       };
     };
+    dusk-skills = {
+      url = "github:cfcosta/dusk-skills";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";

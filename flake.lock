@@ -257,6 +257,30 @@
         "type": "github"
       }
     },
+    "dusk-skills": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "skill-design-taste-frontend": "skill-design-taste-frontend",
+        "skill-humanizer": "skill-humanizer",
+        "skill-visual-explainer": "skill-visual-explainer",
+        "skillset-openai": "skillset-openai"
+      },
+      "locked": {
+        "lastModified": 1772224869,
+        "narHash": "sha256-BtwFCLx60AbHjZ3eKB4xyIOEtoUAUrs6qp6K0NhacOU=",
+        "owner": "cfcosta",
+        "repo": "dusk-skills",
+        "rev": "c93bd98a6b5182b642135f4bbf4beb1044cbba91",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cfcosta",
+        "repo": "dusk-skills",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -1159,6 +1183,7 @@
         "catppuccin": "catppuccin",
         "determinate": "determinate",
         "docbert": "docbert",
+        "dusk-skills": "dusk-skills",
         "flake-compat": "flake-compat_2",
         "flake-utils": "flake-utils",
         "gitignore": "gitignore",
@@ -1230,6 +1255,70 @@
       "original": {
         "owner": "mrcjkb",
         "repo": "rustaceanvim",
+        "type": "github"
+      }
+    },
+    "skill-design-taste-frontend": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771865865,
+        "narHash": "sha256-NAzV6uDNywHsONb4b6QR1rVzIT2ailuIw0KNe2rwCDo=",
+        "owner": "Leonxlnx",
+        "repo": "taste-skill",
+        "rev": "4bcdd2eb6e6a24c32867d8ff9bf98bf5f0cf42d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Leonxlnx",
+        "repo": "taste-skill",
+        "type": "github"
+      }
+    },
+    "skill-humanizer": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771649890,
+        "narHash": "sha256-kvYNWZKebKcvNAoqwgsnFFQqpTUpZEYFcEuleH6IAuc=",
+        "owner": "blader",
+        "repo": "humanizer",
+        "rev": "d8085c7da5ddb9a179572837d4806b68cde3e9ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "blader",
+        "repo": "humanizer",
+        "type": "github"
+      }
+    },
+    "skill-visual-explainer": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1772166785,
+        "narHash": "sha256-nXklsBzud8mH0RQg6+dk/yP9zT4zYtzXHcut5EXiPG8=",
+        "owner": "nicobailon",
+        "repo": "visual-explainer",
+        "rev": "a5cf7c11312546cf8098c8dc66eb75b4f330f522",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nicobailon",
+        "repo": "visual-explainer",
+        "type": "github"
+      }
+    },
+    "skillset-openai": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771646863,
+        "narHash": "sha256-E3U4ZGJh0CsEZbPj9r0g8KhFOepu3fSPjUroLhCVwns=",
+        "owner": "openai",
+        "repo": "skills",
+        "rev": "2c9ebb321958f64aa9414b46e4240901e2b9e1a9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "openai",
+        "repo": "skills",
         "type": "github"
       }
     },

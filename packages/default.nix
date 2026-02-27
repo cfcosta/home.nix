@@ -11,6 +11,7 @@ in
   docbert-cuda = inputs.docbert.packages.${system}.docbert-cuda;
   dusk-apply = super.callPackage ./dusk-apply { };
   dusk-keymap-switch = super.callPackage ./dusk-keymap-switch { };
+  dusk-skills = inputs.dusk-skills.packages.${system}.default;
   dusk-stdlib = super.callPackage ./dusk-stdlib { };
   dusk-system-verify = super.callPackage ./dusk-system-verify { };
   dusk-treefmt = super.callPackage ./treefmt.nix { inherit inputs; };
