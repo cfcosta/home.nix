@@ -703,11 +703,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1771720492,
-        "narHash": "sha256-r7HOL2Dfg1ft9YX3oUP/AZnLvRfDO+iIjJ/Nu2hOAIU=",
+        "lastModified": 1772154217,
+        "narHash": "sha256-q0Ji87YbVc0SFlQgc3kbgecs4I7bRH/n/43ZTGQGJbo=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "44ae8621ebe9ededc4d63a848ddf6a3f4efaf5a8",
+        "rev": "15d3e1615606528ed49b87c08eff391dbf9298f6",
         "type": "github"
       },
       "original": {
