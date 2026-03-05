@@ -17,7 +17,13 @@
       home.file.".pi/agent/settings.json".text = builtins.toJSON {
         defaultProvider = "openai-codex";
         defaultModel = "gpt-5.3-codex";
-        packages = [ pkgs.dusk-skills ];
+        packages = [
+          pkgs.dusk-skills
+
+          pkgs.pi-bug-fix
+          pkgs.pi-owasp-fix
+          pkgs.pi-test-audit
+        ];
       };
 
       home.file.".claude/skills" = {

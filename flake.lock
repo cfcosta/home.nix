@@ -289,16 +289,17 @@
         ],
         "playwright-cli": "playwright-cli",
         "skill-design-taste-frontend": "skill-design-taste-frontend",
+        "skill-desloppify": "skill-desloppify",
         "skill-humanizer": "skill-humanizer",
         "skill-visual-explainer": "skill-visual-explainer",
         "skillset-openai": "skillset-openai"
       },
       "locked": {
-        "lastModified": 1772687318,
-        "narHash": "sha256-eNQFTGqFqUU/Iqb6GIl8Vx3De63IEck3gmmX509wp2Y=",
+        "lastModified": 1772734101,
+        "narHash": "sha256-RfEy0FEKAWI6Tk2EVeVb+jpGKHvvdCSoUOCpLPz2+mQ=",
         "owner": "cfcosta",
         "repo": "dusk-skills",
-        "rev": "2d63d367417d5e72a6d120e588ff1b37790d0ec3",
+        "rev": "b0def4b78ccae24e149b1aa1c9e55488dd661a87",
         "type": "github"
       },
       "original": {
@@ -1345,6 +1346,22 @@
       "original": {
         "owner": "Leonxlnx",
         "repo": "taste-skill",
+        "type": "github"
+      }
+    },
+    "skill-desloppify": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1772659711,
+        "narHash": "sha256-agCFj3mixkGW+z4hADplScO+KL24jgL/3oNmKcYnGbI=",
+        "owner": "peteromallet",
+        "repo": "desloppify",
+        "rev": "6eb2065fd4b991b88988a0905f6da29ff4216bd8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "peteromallet",
+        "repo": "desloppify",
         "type": "github"
       }
     },

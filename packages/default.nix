@@ -19,4 +19,7 @@ in
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
   pi = inputs.llm-agents.packages.${system}.pi;
+  pi-bug-fix = inputs.dusk-skills.packages.${system}.pi-bug-fix;
+  pi-owasp-fix = inputs.dusk-skills.packages.${system}.pi-owasp-fix;
+  pi-test-audit = inputs.dusk-skills.packages.${system}.pi-test-audit;
 }
