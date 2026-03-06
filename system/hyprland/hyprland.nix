@@ -201,7 +201,7 @@ in
             "$mod CTRL, D, exec, ${launchTerm "${pkgs.lazydocker}/bin/lazydocker"}"
             "$mod CTRL, E, exec, ${launchTerm "${pkgs.yazi}/bin/yazi"}"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
-            "$mod CTRL, P, exec, ${pkgs.helvum}/bin/helvum"
+            "$mod CTRL, P, exec, ${pkgs.crosspipe}/bin/crosspipe"
             "$mod CTRL, S, exec, ${launchTerm "${pkgs.btop}/bin/btop"}"
             "$mod CTRL, W, exec, ${launchTerm "${pkgs.nm-wifi}/bin/nm-wifi"}"
           ]

@@ -47,12 +47,12 @@ in
       systemPackages = with pkgs; [
         blender
         brave
+        crosspipe
         discord
         easyeffects
         firefox
         gnome-calculator
         gparted-full
-        helvum
         imv
         obs-studio
         obsidian

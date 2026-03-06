@@ -155,7 +155,7 @@ in
             scroll-step = 5;
             on-click = "GTK_THEME=Adwaita-dark ${pkgs.pavucontrol}/bin/pavucontrol";
             tooltip-format = "Playing at {volume}%";
-            on-click-right = "${pkgs.helvum}/bin/helfum -t";
+            on-click-right = "${pkgs.crosspipe}/bin/crosspipe";
             ignored-sinks = [ "Easy Effects Sink" ];
           };
 
