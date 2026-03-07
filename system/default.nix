@@ -92,13 +92,12 @@ in
     };
 
     fonts = {
-      fontconfig.enable = true;
-
       packages = with pkgs; [
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
       ];
-    };
+    }
+    // lib.optionalAttrs (flavor == "nixos") { fontconfig.enable = true; };
 
     home-manager = {
       useUserPackages = true;

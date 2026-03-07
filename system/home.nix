@@ -25,6 +25,7 @@ in
     catppuccin = {
       enable = true;
       nvim.enable = false;
+      starship.enable = false;
     };
 
     fonts.fontconfig.enable = true;

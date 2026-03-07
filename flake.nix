@@ -9,32 +9,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    flake-compat.url = "github:nix-community/flake-compat";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
-    systems.url = "github:nix-systems/default";
-
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
-    };
-
-    catppuccin = {
-      url = "github:catppuccin/nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     beads = {
       url = "github:steveyegge/beads/v0.49.1";
@@ -43,6 +18,11 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     docbert = {
       url = "github:cfcosta/docbert";
       inputs = {
@@ -57,12 +37,9 @@
       url = "github:cfcosta/dusk-skills";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    flake-utils.url = "github:numtide/flake-utils";
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
@@ -79,12 +56,16 @@
         treefmt-nix.follows = "treefmt-nix";
       };
     };
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
         gitignore.follows = "gitignore";
+        nixpkgs.follows = "nixpkgs";
         pre-commit-hooks.follows = "pre-commit-hooks";
         rust-overlay.follows = "rust-overlay";
         treefmt-nix.follows = "treefmt-nix";
@@ -95,6 +76,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
     nm-wifi = {
       url = "github:cfcosta/nm-wifi";
       inputs = {
@@ -108,9 +98,8 @@
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
         gitignore.follows = "gitignore";
-        flake-compat.follows = "flake-compat";
+        nixpkgs.follows = "nixpkgs";
       };
     };
     rust-overlay = {
@@ -124,39 +113,54 @@
   };
 
   outputs =
-    inputs@{
-      flake-utils,
+    {
+      self,
       nix-darwin,
       nixos-generators,
       nixpkgs,
       pre-commit-hooks,
       rust-overlay,
       ...
-    }:
+    }@inputs:
     let
-      ctx = flake-utils.lib.eachDefaultSystem (system: {
-        pkgs = import nixpkgs {
-          inherit system;
+      inherit (nixpkgs) lib;
 
-          overlays = [
-            (import rust-overlay)
-            (import ./packages inputs)
-          ];
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
 
-          config.allowUnfree = true;
-        };
-      });
+      forEachSupportedSystem =
+        f:
+        lib.genAttrs supportedSystems (
+          system:
+          f {
+            inherit system;
+            pkgs = import nixpkgs {
+              inherit system;
 
-      buildPkgs = system: ctx.pkgs.${system};
+              overlays = [
+                (import rust-overlay)
+                (import ./packages inputs)
+              ];
+
+              config.allowUnfree = true;
+            };
+          }
+        );
+
+      pkgsFor = forEachSupportedSystem ({ pkgs, ... }: pkgs);
+
       builders = {
-        nixos = nixpkgs.lib.nixosSystem;
         darwin = nix-darwin.lib.darwinSystem;
+        nixos = nixpkgs.lib.nixosSystem;
       };
 
       buildSystem =
         flavor: system: name:
         builders.${flavor} {
-          pkgs = buildPkgs system;
+          pkgs = pkgsFor.${system};
 
           modules = [
             ./system
@@ -166,16 +170,11 @@
 
           specialArgs = { inherit inputs flavor; };
         };
-      buildNixos = buildSystem "nixos" "x86_64-linux";
-      buildDarwin = buildSystem "darwin" "aarch64-darwin";
-
-      perSystem = flake-utils.lib.eachDefaultSystem (
-        system:
+    in
+    {
+      checks = forEachSupportedSystem (
+        { pkgs, system }:
         let
-          pkgs = buildPkgs system;
-
-          inherit (pkgs) mkShell;
-
           pre-commit-check = pre-commit-hooks.lib.${system}.run {
             src = ./.;
 
@@ -192,47 +191,57 @@
           };
         in
         {
-          checks = { inherit pre-commit-check; };
-          formatter = pkgs.dusk-treefmt;
+          inherit pre-commit-check;
+        }
+      );
 
-          devShells.default = mkShell {
+      devShells = forEachSupportedSystem (
+        { pkgs, system }:
+        let
+          inherit (self.checks.${system}) pre-commit-check;
+        in
+        {
+          default = pkgs.mkShell {
             inherit (pre-commit-check) shellHook;
             name = "home";
 
             packages = with pkgs; [
-              dusk-treefmt
+              self.formatter.${system}
 
               (writeShellScriptBin "dusk-apply" "nix run $(pwd)#dusk-apply")
             ];
           };
+        }
+      );
 
-          packages = {
-            inherit (pkgs) dusk-apply dusk-system-verify;
+      formatter = forEachSupportedSystem ({ pkgs, ... }: pkgs.dusk-treefmt);
 
-            iso = nixos-generators.nixosGenerate {
-              inherit system pkgs;
+      packages = forEachSupportedSystem (
+        { pkgs, system }:
+        {
+          inherit (pkgs) dusk-apply dusk-system-verify;
+        }
+        // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+          iso = nixos-generators.nixosGenerate {
+            inherit system pkgs;
 
-              modules = [
-                ./system
-                ./system/nixos
-                ./machines/live.nix
-              ];
+            modules = [
+              ./system
+              ./system/nixos
+              ./machines/live.nix
+            ];
 
-              specialArgs = {
-                inherit inputs;
-
-                flavor = "nixos";
-              };
-
-              format = "iso";
+            specialArgs = {
+              inherit inputs;
+              flavor = "nixos";
             };
+
+            format = "iso";
           };
         }
       );
-    in
-    perSystem
-    // {
-      darwinConfigurations.drone = buildDarwin "drone";
-      nixosConfigurations.battlecruiser = buildNixos "battlecruiser";
+
+      darwinConfigurations.drone = buildSystem "darwin" "aarch64-darwin" "drone";
+      nixosConfigurations.battlecruiser = buildSystem "nixos" "x86_64-linux" "battlecruiser";
     };
 }

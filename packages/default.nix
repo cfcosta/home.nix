@@ -1,14 +1,25 @@
 inputs: _: super:
 let
   inherit (super.stdenv.hostPlatform) system;
+  inherit (inputs.docbert.packages.${system}) docbert docbert-cuda;
+  inherit (inputs.llm-agents.packages.${system})
+    claude-code
+    codex
+    crush
+    pi
+    ;
+  beads = inputs.beads.packages.${system}.default;
 in
 {
-  beads = inputs.beads.packages.${system}.default;
-  claude-code = inputs.llm-agents.packages.${system}.claude-code;
-  codex = inputs.llm-agents.packages.${system}.codex;
-  crush = inputs.llm-agents.packages.${system}.crush;
-  docbert = inputs.docbert.packages.${system}.docbert;
-  docbert-cuda = inputs.docbert.packages.${system}.docbert-cuda;
+  inherit
+    beads
+    docbert
+    docbert-cuda
+    claude-code
+    codex
+    crush
+    pi
+    ;
   dusk-apply = super.callPackage ./dusk-apply { };
   dusk-keymap-switch = super.callPackage ./dusk-keymap-switch { };
   dusk-skills = inputs.dusk-skills.packages.${system}.default;
@@ -18,8 +29,5 @@ in
   hypr-recorder = inputs.hypr-recorder.packages.${system}.default;
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
-  pi = inputs.llm-agents.packages.${system}.pi;
-  pi-bug-fix = inputs.dusk-skills.packages.${system}.pi-bug-fix;
-  pi-owasp-fix = inputs.dusk-skills.packages.${system}.pi-owasp-fix;
-  pi-test-audit = inputs.dusk-skills.packages.${system}.pi-test-audit;
+  inherit (inputs.dusk-skills.packages.${system}) pi-bug-fix pi-owasp-fix pi-test-audit;
 }

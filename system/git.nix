@@ -1,6 +1,8 @@
 { config, ... }:
 let
   cfg = config.dusk.system.git;
+  inherit (config.dusk) name;
+  email = config.dusk.emails.primary;
 in
 {
   config.programs = {
@@ -74,10 +76,7 @@ in
           autostash = true;
         };
 
-        user = {
-          name = config.dusk.name;
-          email = config.dusk.emails.primary;
-        };
+        user = { inherit name email; };
       };
 
       signing = {
