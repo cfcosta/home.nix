@@ -2,7 +2,7 @@
 name: crew-reviewer
 description: Reviews task implementations for quality and correctness
 tools: read, bash, pi_messenger
-model: openai-codex/gpt-5.3-codex
+model: openai-codex/gpt-5.4
 crewRole: reviewer
 maxOutput: { bytes: 102400, lines: 2000 }
 parallel: true

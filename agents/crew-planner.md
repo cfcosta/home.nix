@@ -2,7 +2,7 @@
 name: crew-planner
 description: Analyzes codebase and PRD to create a comprehensive task breakdown
 tools: read, bash, web_search, pi_messenger
-model: openai-codex/gpt-5.3-codex
+model: openai-codex/gpt-5.4
 crewRole: planner
 maxOutput: { bytes: 204800, lines: 5000 }
 parallel: false

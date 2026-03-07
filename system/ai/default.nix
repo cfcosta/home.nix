@@ -16,7 +16,7 @@
     home-manager.users.${config.dusk.username} = _: {
       home.file.".pi/agent/settings.json".text = builtins.toJSON {
         defaultProvider = "openai-codex";
-        defaultModel = "gpt-5.3-codex";
+        defaultModel = "gpt-5.4";
         packages = [
           pkgs.dusk-skills
 
