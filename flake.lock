@@ -294,29 +294,32 @@
         "type": "github"
       }
     },
-    "dusk-skills": {
+    "duskpi": {
       "inputs": {
+        "llm-agents": [
+          "llm-agents"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ],
+        "pi-plan": "pi-plan",
         "playwright-cli": "playwright-cli",
         "skill-design-taste-frontend": "skill-design-taste-frontend",
-        "skill-desloppify": "skill-desloppify",
         "skill-humanizer": "skill-humanizer",
         "skill-visual-explainer": "skill-visual-explainer",
         "skillset-openai": "skillset-openai"
       },
       "locked": {
-        "lastModified": 1772914458,
-        "narHash": "sha256-grzGLFmxwlYiLWNxGGocso0DOnYFkgVRbnKI8wNq8pE=",
+        "lastModified": 1772993555,
+        "narHash": "sha256-Rkaka7bfnli+XlDFhibLBuialIIg9RSDolayIS8p8VU=",
         "owner": "cfcosta",
-        "repo": "dusk-skills",
-        "rev": "6e995e9ceb3f05995efe1e7ab471b64f58f3a268",
+        "repo": "duskpi",
+        "rev": "05346bf314d82d6a7555be17508977138cbf7361",
         "type": "github"
       },
       "original": {
         "owner": "cfcosta",
-        "repo": "dusk-skills",
+        "repo": "duskpi",
         "type": "github"
       }
     },
@@ -1226,6 +1229,22 @@
         "type": "github"
       }
     },
+    "pi-plan": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771924695,
+        "narHash": "sha256-m4zyK0LiBj8nYHe+hADmmsSHqnBqIUq2c50yiv7CVf0=",
+        "owner": "devkade",
+        "repo": "pi-plan",
+        "rev": "da5226a18b182641cfbfbae7912ff52638cccc67",
+        "type": "github"
+      },
+      "original": {
+        "owner": "devkade",
+        "repo": "pi-plan",
+        "type": "github"
+      }
+    },
     "playwright-cli": {
       "flake": false,
       "locked": {
@@ -1320,7 +1339,7 @@
         "catppuccin": "catppuccin",
         "determinate": "determinate",
         "docbert": "docbert",
-        "dusk-skills": "dusk-skills",
+        "duskpi": "duskpi",
         "flake-utils": "flake-utils",
         "gitignore": "gitignore",
         "home-manager": "home-manager",
@@ -1405,22 +1424,6 @@
       "original": {
         "owner": "Leonxlnx",
         "repo": "taste-skill",
-        "type": "github"
-      }
-    },
-    "skill-desloppify": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1772659711,
-        "narHash": "sha256-agCFj3mixkGW+z4hADplScO+KL24jgL/3oNmKcYnGbI=",
-        "owner": "peteromallet",
-        "repo": "desloppify",
-        "rev": "6eb2065fd4b991b88988a0905f6da29ff4216bd8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "peteromallet",
-        "repo": "desloppify",
         "type": "github"
       }
     },
