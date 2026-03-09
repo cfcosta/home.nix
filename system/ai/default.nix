@@ -18,6 +18,7 @@
         ".pi/agent/settings.json".text = builtins.toJSON {
           defaultProvider = "openai-codex";
           defaultModel = "gpt-5.4";
+          defaultThinkingLevel = "xhigh";
         };
 
         ".claude/skills" = {

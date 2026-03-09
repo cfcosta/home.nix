@@ -281,11 +281,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771539519,
-        "narHash": "sha256-3HJN8Jd76aVP/Zfvnj4xzlzGAK61Qcpin9SN3NOaRB4=",
+        "lastModified": 1773263724,
+        "narHash": "sha256-DniTga0ewHlUtf5kgAJ5TgmlpPjNc/pJK9VoPZEDhm4=",
         "owner": "cfcosta",
         "repo": "docbert",
-        "rev": "b16dc330be2bf2a730a51f549aa5d6485e805767",
+        "rev": "e66f6daf3e0d92f12bdc705782c218d18185d276",
         "type": "github"
       },
       "original": {
@@ -302,19 +302,17 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "pi-plan": "pi-plan",
         "playwright-cli": "playwright-cli",
         "skill-design-taste-frontend": "skill-design-taste-frontend",
-        "skill-humanizer": "skill-humanizer",
         "skill-visual-explainer": "skill-visual-explainer",
         "skillset-openai": "skillset-openai"
       },
       "locked": {
-        "lastModified": 1772993555,
-        "narHash": "sha256-Rkaka7bfnli+XlDFhibLBuialIIg9RSDolayIS8p8VU=",
+        "lastModified": 1773432984,
+        "narHash": "sha256-foORv42rNhk2z2Cr+EyUvUZzeLfRkDQ9TQ6WYBfW8rA=",
         "owner": "cfcosta",
         "repo": "duskpi",
-        "rev": "05346bf314d82d6a7555be17508977138cbf7361",
+        "rev": "2a3662aad85845701a6b59003ad8ff50401f62b4",
         "type": "github"
       },
       "original": {
@@ -1229,22 +1227,6 @@
         "type": "github"
       }
     },
-    "pi-plan": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1771924695,
-        "narHash": "sha256-m4zyK0LiBj8nYHe+hADmmsSHqnBqIUq2c50yiv7CVf0=",
-        "owner": "devkade",
-        "repo": "pi-plan",
-        "rev": "da5226a18b182641cfbfbae7912ff52638cccc67",
-        "type": "github"
-      },
-      "original": {
-        "owner": "devkade",
-        "repo": "pi-plan",
-        "type": "github"
-      }
-    },
     "playwright-cli": {
       "flake": false,
       "locked": {
@@ -1424,22 +1406,6 @@
       "original": {
         "owner": "Leonxlnx",
         "repo": "taste-skill",
-        "type": "github"
-      }
-    },
-    "skill-humanizer": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1771649890,
-        "narHash": "sha256-kvYNWZKebKcvNAoqwgsnFFQqpTUpZEYFcEuleH6IAuc=",
-        "owner": "blader",
-        "repo": "humanizer",
-        "rev": "d8085c7da5ddb9a179572837d4806b68cde3e9ff",
-        "type": "github"
-      },
-      "original": {
-        "owner": "blader",
-        "repo": "humanizer",
         "type": "github"
       }
     },
