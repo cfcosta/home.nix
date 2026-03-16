@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 let
-  inherit (pkgs) dusk-treefmt makeWrapper symlinkJoin;
+  inherit (pkgs)
+    dusk-treefmt
+    makeWrapper
+    symlinkJoin
+    writeShellApplication
+    ;
 
   treefmt = symlinkJoin {
     name = "jujutsu-treefmt";
@@ -10,6 +15,91 @@ let
       wrapProgram $out/bin/treefmt \
         --set NO_COLOR 1 \
         --set TREEFMT_VERBOSE 0
+    '';
+  };
+
+  jjFixFormatter = writeShellApplication {
+    name = "jj-fix-formatter";
+
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.nix
+      treefmt
+    ];
+
+    text = ''
+      root="$1"
+      path="$2"
+
+      input_file="$(mktemp)"
+      stdout_file="$(mktemp)"
+      stderr_file="$(mktemp)"
+
+      cleanup() {
+        rm -f "$input_file" "$stdout_file" "$stderr_file"
+      }
+      trap cleanup EXIT
+
+      cat >"$input_file"
+
+      find_flake_dir() {
+        local dir="$1"
+
+        while true; do
+          if [ -f "$dir/flake.nix" ]; then
+            printf '%s\n' "$dir"
+            return 0
+          fi
+
+          if [ "$dir" = "$root" ]; then
+            return 1
+          fi
+
+          dir="$(dirname "$dir")"
+        done
+      }
+
+      start_dir="$(dirname "$root/$path")"
+      if flake_dir="$(find_flake_dir "$start_dir")"; then
+        format_path="$path"
+
+        if [ "$flake_dir" != "$root" ]; then
+          flake_prefix="''${flake_dir#"$root"/}"
+          format_path="''${path#"$flake_prefix"/}"
+        fi
+
+        if (
+          cd "$flake_dir"
+          nix \
+            --option warn-dirty false \
+            fmt \
+            --no-write-lock-file \
+            -- \
+            --stdin \
+            "$format_path" \
+            <"$input_file" \
+            >"$stdout_file" \
+            2>"$stderr_file"
+        ); then
+          cat "$stdout_file"
+          exit 0
+        fi
+
+        stderr="$(cat "$stderr_file")"
+        case "$stderr" in
+          *"does not provide attribute 'formatter."*)
+            ;;
+          *)
+            if [ -n "$stderr" ]; then
+              printf '%s\n' "$stderr" >&2
+            fi
+            exit 1
+            ;;
+        esac
+      fi
+
+      cd "$root"
+      exec treefmt --quiet --no-cache "$path" --stdin <"$input_file"
     '';
   };
 in
@@ -75,10 +165,9 @@ in
 
         fix.tools.treefmt = {
           command = [
-            "${treefmt}/bin/treefmt"
-            "--no-cache"
+            "${jjFixFormatter}/bin/jj-fix-formatter"
+            "$root"
             "$path"
-            "--stdin"
           ];
 
           patterns = [
