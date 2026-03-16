@@ -13,7 +13,6 @@ in
   dusk-system-verify = super.callPackage ./dusk-system-verify { };
   dusk-treefmt = super.callPackage ./treefmt.nix { inherit inputs; };
   duskpi = inputs.duskpi.packages.${system}.default;
-  hypr-recorder = inputs.hypr-recorder.packages.${system}.default;
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
 }

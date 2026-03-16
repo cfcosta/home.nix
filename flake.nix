@@ -48,16 +48,6 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hypr-recorder = {
-      url = "github:cfcosta/hypr-recorder";
-      inputs = {
-        flake-utils.follows = "flake-utils";
-        nixpkgs.follows = "nixpkgs";
-        pre-commit-hooks.follows = "pre-commit-hooks";
-        rust-overlay.follows = "rust-overlay";
-        treefmt-nix.follows = "treefmt-nix";
-      };
-    };
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";

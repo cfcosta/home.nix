@@ -65,7 +65,6 @@ in
         grimblast
         rofi
 
-        hypr-recorder
         hyprcursor
         rose-pine-hyprcursor
       ];
@@ -163,9 +162,6 @@ in
             # Screenshot
             "SHIFT, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave screen"
             ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copysave area"
-
-            # Record voice memos
-            "$mod, R, exec, ${pkgs.hypr-recorder}/bin/hypr-recorder"
 
             # System Applications
             "$mod, Return, exec, ${config.dusk.terminal.default}"

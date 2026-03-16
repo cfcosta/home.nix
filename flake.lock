@@ -673,38 +673,6 @@
         "type": "github"
       }
     },
-    "hypr-recorder": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "pre-commit-hooks": [
-          "pre-commit-hooks"
-        ],
-        "rust-overlay": [
-          "rust-overlay"
-        ],
-        "treefmt-nix": [
-          "treefmt-nix"
-        ]
-      },
-      "locked": {
-        "lastModified": 1760543953,
-        "narHash": "sha256-DtnxPemlRNp9fQJTmpR4fK/I2CpDpmJlBtMRoQ+G1EE=",
-        "owner": "cfcosta",
-        "repo": "hypr-recorder",
-        "rev": "891f8c90a9ef83612273b50af6f197b7318f3231",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cfcosta",
-        "repo": "hypr-recorder",
-        "type": "github"
-      }
-    },
     "import-tree": {
       "locked": {
         "lastModified": 1763762820,
@@ -1301,7 +1269,6 @@
         "flake-utils": "flake-utils",
         "gitignore": "gitignore",
         "home-manager": "home-manager",
-        "hypr-recorder": "hypr-recorder",
         "llm-agents": "llm-agents",
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",
