@@ -146,7 +146,7 @@ in
             format-disabled = "󰂲";
             format-connected = "󰂯";
             tooltip-format = "Devices connected: {num_connections}";
-            on-click = "GTK_THEME=Adwaita-dark ${pkgs.blueberry}/bin/blueberry";
+            on-click = "GTK_THEME=Adwaita-dark ${pkgs.blueman}/bin/blueman";
           };
 
           "pulseaudio" = {

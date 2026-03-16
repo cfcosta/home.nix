@@ -197,7 +197,7 @@ in
             # $mod + ctrl = system configuration
             "$mod CTRL, escape, exec, ${pkgs.wlogout}/bin/wlogout"
             "$mod CTRL, A, exec, ${pkgs.pavucontrol}/bin/pavucontrol"
-            "$mod CTRL, B, exec, ${pkgs.blueberry}/bin/blueberry"
+            "$mod CTRL, B, exec, ${pkgs.blueman}/bin/blueman"
             "$mod CTRL, D, exec, ${launchTerm "${pkgs.lazydocker}/bin/lazydocker"}"
             "$mod CTRL, E, exec, ${launchTerm "${pkgs.yazi}/bin/yazi"}"
             "$mod CTRL, N, exec, ${pkgs.networkmanagerapplet}/bin/nm-connection-editor"
