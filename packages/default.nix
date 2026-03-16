@@ -6,7 +6,6 @@ in
   inherit (inputs.docbert.packages.${system}) docbert docbert-cuda;
   inherit (inputs.llm-agents.packages.${system}) claude-code codex crush;
 
-  beads = inputs.beads.packages.${system}.default;
   dusk-apply = super.callPackage ./dusk-apply { };
   dusk-keymap-switch = super.callPackage ./dusk-keymap-switch { };
   dusk-stdlib = super.callPackage ./dusk-stdlib { };
