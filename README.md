@@ -22,7 +22,7 @@ The shortcut list below is for the Hyprland setup on Linux. The macOS side is in
 | `Shift + PrintScreen` | Screenshot the whole screen |
 | `Super + Space` | Open the app launcher |
 | `Super + Tab` | Switch keyboard layout |
-| `Super + Shift + V` | Open clipboard history |
+| `Super + Shift + V` | Pick from clipboard history and paste the selection |
 | `Super + Esc` | Open the notification panel |
 | `Super + Shift + Esc` | Clear notifications |
 
@@ -69,6 +69,18 @@ The shortcut list below is for the Hyprland setup on Linux. The macOS side is in
 | `Super + Ctrl + S` | Open btop |
 | `Super + Ctrl + W` | Open the Wi-Fi manager |
 
+### Media and hardware keys
+
+| Keybinding | What it does |
+| --- | --- |
+| `Audio Raise Volume` | Raise output volume |
+| `Audio Lower Volume` | Lower output volume |
+| `Audio Mute` | Toggle output mute |
+| `Audio Mic Mute` | Toggle microphone mute |
+| `Brightness Up` | Raise display brightness |
+| `Brightness Down` | Lower display brightness |
+| `Caps Lock` | Show the Caps Lock on-screen indicator |
+
 ### Window management
 
 | Keybinding | What it does |
@@ -77,11 +89,11 @@ The shortcut list below is for the Hyprland setup on Linux. The macOS side is in
 | `Super + Shift + h/j/k/l` | Move the current window left/down/up/right |
 | `Super + F` | Toggle fullscreen |
 | `Super + Q` | Close the active window |
-| `Super + Shift + Q` | Force-kill the selected window |
+| `Super + Shift + Q` | Enter window kill mode |
 | `Super + Shift + Space` | Toggle floating mode |
 | `Super + 1-9` | Switch workspaces |
 | `Super + Shift + 1-9` | Send the current window to a workspace |
 | `Super + Left Mouse Drag` | Move a window |
 | `Super + Right Mouse Drag` | Resize a window |
 
-`battlecruiser` also has a few extra monitor-specific workspace bindings in `machines/battlecruiser.nix`.
+`battlecruiser` also adds monitor-specific bindings: `Super + Ctrl + 1-6` focuses workspaces `1-6` on the current monitor.
