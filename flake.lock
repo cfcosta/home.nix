@@ -276,11 +276,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773431446,
-        "narHash": "sha256-wmrA3ZBHeIQ4MDwQqkUzIbG6ch+FH0PjRWkTMqixmkE=",
+        "lastModified": 1773687090,
+        "narHash": "sha256-mzr+aGrEKXSl3ZYwa8vnF3Z8KOtcACdJTz6zSYBxYzM=",
         "owner": "cfcosta",
         "repo": "docbert",
-        "rev": "235d7b869b85fdb52c3145d099f3419e02656cf9",
+        "rev": "e0ad86e064f6601b995b75bf26f05fbd1b8be255",
         "type": "github"
       },
       "original": {
@@ -301,11 +301,11 @@
         "skill-visual-explainer": "skill-visual-explainer"
       },
       "locked": {
-        "lastModified": 1773513337,
-        "narHash": "sha256-SArkAsdjv9qWbdMBMNQKHWPLzTSNqHdlRwhtlIco4m0=",
+        "lastModified": 1773674849,
+        "narHash": "sha256-sMNp5CgG47vOvQsAWCLhWuME3EGktcIaxoCZdOgwlcY=",
         "owner": "cfcosta",
         "repo": "duskpi",
-        "rev": "a71bf9db07ea115d339f1ac973d8ead114d07a7e",
+        "rev": "a1a89349ccfc46966f7f355d4c9d63dde747fe1f",
         "type": "github"
       },
       "original": {
