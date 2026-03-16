@@ -13,10 +13,7 @@
 
     beads = {
       url = "github:steveyegge/beads/v0.49.1";
-      inputs = {
-        flake-utils.follows = "flake-utils";
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     catppuccin = {
       url = "github:catppuccin/nix";
@@ -39,7 +36,6 @@
         llm-agents.follows = "llm-agents";
       };
     };
-    flake-utils.url = "github:numtide/flake-utils";
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,7 +51,6 @@
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs = {
-        flake-utils.follows = "flake-utils";
         gitignore.follows = "gitignore";
         nixpkgs.follows = "nixpkgs";
         pre-commit-hooks.follows = "pre-commit-hooks";
