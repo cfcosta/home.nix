@@ -1,81 +1,87 @@
 # home.nix
 
-A nix-based system configuration for both Linux and MacOS.
+This repo is where I keep the Nix config I actually use day to day.
 
-## Keybindings
+At the moment it covers three targets:
+- `battlecruiser`, my NixOS desktop
+- `drone`, my macOS machine
+- `live`, a bootable NixOS image
 
-All keybindings use the `Super` (Windows/Command) key as the modifier (`$mod`).
+The shared configuration lives in `system/`. Machine-specific overrides live in `machines/`.
 
-### General
+## Hyprland keybindings
 
-| Keybinding | Action |
-|---|---|
-| `Pause` | Lock screen |
-| `PrintScreen` | Take a screenshot of an area |
-| `Shift + PrintScreen` | Take a screenshot of the entire screen |
-| `Super + Esc` | Open notification panel |
-| `Super + Shift + Esc` | Show power menu |
-| `Super + Shift + V` | Show clipboard history |
-| `Super + Space` | Show application launcher |
-| `Super + Tab` | Change between pre-configured keyboard layouts |
+The shortcut list below is for the Hyprland setup on Linux. The macOS side is in here too, but it does not use these bindings. `Super` is the main modifier key, usually the Windows key.
 
-### Applications
+### Everyday stuff
 
-| Keybinding | Action |
-|---|---|
-| `Super + B` | Open browser |
+| Keybinding | What it does |
+| --- | --- |
+| `Pause` | Lock the screen |
+| `PrintScreen` | Screenshot an area |
+| `Shift + PrintScreen` | Screenshot the whole screen |
+| `Super + Space` | Open the app launcher |
+| `Super + Tab` | Switch keyboard layout |
+| `Super + Shift + V` | Open clipboard history |
+| `Super + Esc` | Open the notification panel |
+| `Super + Shift + Esc` | Clear notifications |
+
+### Apps
+
+| Keybinding | What it does |
+| --- | --- |
+| `Super + Enter` | Open the terminal |
+| `Super + B` | Open the default browser |
 | `Super + D` | Open Discord |
-| `Super + E` | Open file manager |
-| `Super + Enter` | Open terminal |
-| `Super + M` | Open music player |
+| `Super + E` | Open the file manager |
+| `Super + M` | Open the music player |
 | `Super + O` | Open Obsidian |
 | `Super + P` | Open Pinta |
 | `Super + T` | Open Todoist |
 | `Super + Shift + C` | Open Calculator |
-| `Super + Shift + S` | Open Steam |
+| `Super + Shift + S` | Open Steam when gaming is enabled |
 | `Super + Shift + T` | Open Streamlink Twitch GUI |
 
-### Web Applications
+### Web apps
 
-| Keybinding | Action |
-|---|---|
-| `Super + X` | Open X (Twitter) |
-
-| Keybinding | Action |
-|---|---|
+| Keybinding | What it does |
+| --- | --- |
 | `Super + C` | Open ChatGPT |
-| `Super + G` | Open GitHub |
-| `Super + Shift + G` | Open Grok |
+| `Super + G` | Open GitHub notifications |
 | `Super + W` | Open WhatsApp Web |
-| `Super + X` | Open X (Twitter) compose |
-| `Super + Y` | Open YouTube |
-| `Super + Ctrl + S` | Open system monitor (btop) |
-| `Super + Ctrl + W` | Open WiFi manager |
+| `Super + X` | Open the X compose window |
+| `Super + Y` | Open YouTube subscriptions |
+| `Super + Shift + F` | Open Fastmail |
+| `Super + Shift + G` | Open Grok |
+| `Super + Shift + Y` | Open YNAB |
 
-### System Configuration
+### System tools
 
-| Keybinding | Action |
-|---|---|
-| `Super + Ctrl + Esc` | Show power menu |
-| `Super + Ctrl + A` | Open audio volume control |
+| Keybinding | What it does |
+| --- | --- |
+| `Super + Ctrl + A` | Open the audio controls |
 | `Super + Ctrl + B` | Open Bluetooth settings |
 | `Super + Ctrl + D` | Open lazydocker |
-| `Super + Ctrl + E` | Open yazi (TUI File Manager) |
-| `Super + Ctrl + L` | Lock screen |
-| `Super + Ctrl + N` | Open network connections editor |
-| `Super + Ctrl + P` | Open Pipewire patchbay |
+| `Super + Ctrl + E` | Open yazi |
+| `Super + Ctrl + Esc` | Open the power menu |
+| `Super + Ctrl + N` | Open the network editor |
+| `Super + Ctrl + P` | Open the PipeWire patchbay |
+| `Super + Ctrl + S` | Open btop |
+| `Super + Ctrl + W` | Open the Wi-Fi manager |
 
+### Window management
 
-### Window Management
-
-| Keybinding | Action |
-|---|---|
+| Keybinding | What it does |
+| --- | --- |
 | `Super + h/j/k/l` | Move focus left/down/up/right |
-| `Super + Shift + h/j/k/l` | Move window left/down/up/right |
-| `Super + Shift + Space` | Toggle floating for active window |
-| `Super + F` | Toggle full screen for active window |
-| `Super + Q` | Close active window |
-| `Super + {1-9}` | Switch to workspace {1-9} |
-| `Super + Shift + {1-9}` | Move active window to workspace {1-9} |
-| `Super + Left Mouse Drag` | Move window |
-| `Super + Right Mouse Drag` | Resize window |
+| `Super + Shift + h/j/k/l` | Move the current window left/down/up/right |
+| `Super + F` | Toggle fullscreen |
+| `Super + Q` | Close the active window |
+| `Super + Shift + Q` | Force-kill the selected window |
+| `Super + Shift + Space` | Toggle floating mode |
+| `Super + 1-9` | Switch workspaces |
+| `Super + Shift + 1-9` | Send the current window to a workspace |
+| `Super + Left Mouse Drag` | Move a window |
+| `Super + Right Mouse Drag` | Resize a window |
+
+`battlecruiser` also has a few extra monitor-specific workspace bindings in `machines/battlecruiser.nix`.
