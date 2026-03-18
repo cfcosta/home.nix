@@ -45,6 +45,27 @@
           WarnOnEmptyTrash = false;
         };
 
+        "com.apple.LaunchServices/com.apple.launchservices.secure" = {
+          LSHandlers = [
+            {
+              LSHandlerContentType = "public.html";
+              LSHandlerRoleAll = "com.brave.Browser";
+            }
+            {
+              LSHandlerContentType = "public.xhtml";
+              LSHandlerRoleAll = "com.brave.Browser";
+            }
+            {
+              LSHandlerURLScheme = "http";
+              LSHandlerRoleAll = "com.brave.Browser";
+            }
+            {
+              LSHandlerURLScheme = "https";
+              LSHandlerRoleAll = "com.brave.Browser";
+            }
+          ];
+        };
+
         "com.apple.SoftwareUpdate" = {
           AutomaticCheckEnabled = true;
           AutomaticallyInstallMacOSUpdates = true;

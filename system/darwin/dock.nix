@@ -15,7 +15,7 @@ _: {
       enable-spring-load-actions-on-all-items = true;
 
       persistent-apps = [
-        { app = "/Applications/Orion.app"; }
+        { app = "/Applications/Brave Browser.app"; }
         { app = "/Applications/Obsidian.app"; }
         { app = "/Applications/Ghostty.app"; }
         { app = "/Applications/Discord.app"; }
