@@ -49,19 +49,19 @@
           LSHandlers = [
             {
               LSHandlerContentType = "public.html";
-              LSHandlerRoleAll = "com.brave.Browser";
+              LSHandlerRoleAll = "com.cfcosta.brave-remote-debug";
             }
             {
               LSHandlerContentType = "public.xhtml";
-              LSHandlerRoleAll = "com.brave.Browser";
+              LSHandlerRoleAll = "com.cfcosta.brave-remote-debug";
             }
             {
               LSHandlerURLScheme = "http";
-              LSHandlerRoleAll = "com.brave.Browser";
+              LSHandlerRoleAll = "com.cfcosta.brave-remote-debug";
             }
             {
               LSHandlerURLScheme = "https";
-              LSHandlerRoleAll = "com.brave.Browser";
+              LSHandlerRoleAll = "com.cfcosta.brave-remote-debug";
             }
           ];
         };
