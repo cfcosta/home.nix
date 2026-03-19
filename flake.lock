@@ -275,15 +275,16 @@
         "nixpkgs": [
           "nixpkgs"
         ],
+        "pi-autoresearch": "pi-autoresearch",
         "skill-design-taste-frontend": "skill-design-taste-frontend",
         "skill-visual-explainer": "skill-visual-explainer"
       },
       "locked": {
-        "lastModified": 1773868286,
-        "narHash": "sha256-0pHUHYuJs0vGH528o8N/OMU1ipSTkG1U9RTsMKCS5U4=",
+        "lastModified": 1773942644,
+        "narHash": "sha256-yLPgCiQZnqwV8GE4oEi7zYKdwN2DXSBSVy+n/4A1ud8=",
         "owner": "cfcosta",
         "repo": "duskpi",
-        "rev": "49d7b4e1987dfdbdf862edf40f75ab07db4dee72",
+        "rev": "6b6501456153537924d0470214cc0600a6031558",
         "type": "github"
       },
       "original": {
@@ -1154,6 +1155,22 @@
       "original": {
         "owner": "obsidian-nvim",
         "repo": "obsidian.nvim",
+        "type": "github"
+      }
+    },
+    "pi-autoresearch": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773910144,
+        "narHash": "sha256-ljI3//9fzq8XTCXyMNXB+3GXxnK8Ou4vWKw3+6EO0fY=",
+        "owner": "davebcn87",
+        "repo": "pi-autoresearch",
+        "rev": "cf1bbf03debca8f3fb2cca2c3e799b9e23320f87",
+        "type": "github"
+      },
+      "original": {
+        "owner": "davebcn87",
+        "repo": "pi-autoresearch",
         "type": "github"
       }
     },
