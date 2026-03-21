@@ -20,7 +20,6 @@
       url = "github:cfcosta/docbert";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        pre-commit-hooks.follows = "pre-commit-hooks";
         rust-overlay.follows = "rust-overlay";
         treefmt-nix.follows = "treefmt-nix";
       };
@@ -49,7 +48,6 @@
       inputs = {
         gitignore.follows = "gitignore";
         nixpkgs.follows = "nixpkgs";
-        pre-commit-hooks.follows = "pre-commit-hooks";
         rust-overlay.follows = "rust-overlay";
         treefmt-nix.follows = "treefmt-nix";
       };
@@ -72,16 +70,8 @@
       url = "github:cfcosta/nm-wifi";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        pre-commit-hooks.follows = "pre-commit-hooks";
         rust-overlay.follows = "rust-overlay";
         treefmt-nix.follows = "treefmt-nix";
-      };
-    };
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs = {
-        gitignore.follows = "gitignore";
-        nixpkgs.follows = "nixpkgs";
       };
     };
     rust-overlay = {
@@ -100,7 +90,6 @@
       nix-darwin,
       nixos-generators,
       nixpkgs,
-      pre-commit-hooks,
       rust-overlay,
       ...
     }@inputs:
@@ -154,37 +143,10 @@
         };
     in
     {
-      checks = forEachSupportedSystem (
-        { pkgs, system }:
-        let
-          pre-commit-check = pre-commit-hooks.lib.${system}.run {
-            src = ./.;
-
-            hooks = {
-              deadnix.enable = true;
-              statix.enable = true;
-              shellcheck.enable = true;
-
-              treefmt = {
-                enable = true;
-                package = pkgs.dusk-treefmt;
-              };
-            };
-          };
-        in
-        {
-          inherit pre-commit-check;
-        }
-      );
-
       devShells = forEachSupportedSystem (
         { pkgs, system }:
-        let
-          inherit (self.checks.${system}) pre-commit-check;
-        in
         {
           default = pkgs.mkShell {
-            inherit (pre-commit-check) shellHook;
             name = "home";
 
             packages = with pkgs; [
