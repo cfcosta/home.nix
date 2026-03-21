@@ -1,11 +1,12 @@
 { config, pkgs, ... }:
 let
   extensions = [
-    "nngceckbapebfimnlniiiahkandclblb" # Bitwarden Password Manager
+    "cdglnehniifkbagbbombnjghhcihifij" # Kagi Search
     "cnjifjpddelmedmihgijeibhnjfabmlf" # Obsidian Web Clipper
+    "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
     "jldhpllghnbhlbpcmnajkpdmadaolakh" # Todoist for Chrome
     "khncfooichmfjbepaaaebmommgaepoid" # Unhook (make YouTube tolerable)
-    "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
+    "nngceckbapebfimnlniiiahkandclblb" # Bitwarden Password Manager
   ];
 
   browserMimeTypes = [
