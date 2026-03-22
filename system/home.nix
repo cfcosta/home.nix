@@ -35,7 +35,7 @@ in
 
       homeDirectory = mkForce config.dusk.folders.home;
 
-      stateVersion = "25.11";
+      stateVersion = "26.05";
     };
 
     manual = {
