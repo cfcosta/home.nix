@@ -272,16 +272,15 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "pi-autoresearch": "pi-autoresearch",
         "skill-design-taste-frontend": "skill-design-taste-frontend",
         "skill-visual-explainer": "skill-visual-explainer"
       },
       "locked": {
-        "lastModified": 1774125888,
-        "narHash": "sha256-H2qYyTmr/4ignfUsqdm1xKwBqdqiSajXf0riUF8AQnM=",
+        "lastModified": 1774158537,
+        "narHash": "sha256-pzoHD50i1gZhqnouYAFnm1O6g7Xk5yDlsmzDGgLNoG0=",
         "owner": "cfcosta",
         "repo": "duskpi",
-        "rev": "77226e7dfe9bb1d9cc20545b4997d45a1c9b345d",
+        "rev": "eb7cda010ad076c85fd40759e58156817684580e",
         "type": "github"
       },
       "original": {
@@ -777,11 +776,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1774124268,
-        "narHash": "sha256-1daJUTUKv5WDjxP4vgmXS4e1sYsNJro2paQSEg+qIZY=",
+        "lastModified": 1774196517,
+        "narHash": "sha256-I+Ki8BDReR6+C/OHUZ27Oziyi0HRhVu/DC+p1LaYSbw=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "c7d5afc151dcb5362326698bd98758a2ff549b46",
+        "rev": "1fb65c658483d43d8d5c9dd207909fdc7d8bd971",
         "type": "github"
       },
       "original": {
@@ -1129,22 +1128,6 @@
       "original": {
         "owner": "obsidian-nvim",
         "repo": "obsidian.nvim",
-        "type": "github"
-      }
-    },
-    "pi-autoresearch": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1774084373,
-        "narHash": "sha256-EdyAKRaFI6Yf5F1fYoHVGF0vVLgkXcSGaEmWyGqSjfI=",
-        "owner": "davebcn87",
-        "repo": "pi-autoresearch",
-        "rev": "327ea6b7ed3916759c49d446299d44c990999ff0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "davebcn87",
-        "repo": "pi-autoresearch",
         "type": "github"
       }
     },
