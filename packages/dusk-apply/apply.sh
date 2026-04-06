@@ -51,6 +51,7 @@ case "$(uname -s)" in
   ;;
 esac
 
-_info "Running command: $(_blue "${CMD}")"
+DISPLAY_CMD="$(printf '%s' "${CMD}" | tr -s '[:space:]' ' ' | sed -E 's/^ //; s/ $//')"
+_info "Running command: $(_blue "${DISPLAY_CMD}")"
 
 exec ${CMD}
