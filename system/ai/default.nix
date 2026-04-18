@@ -1,4 +1,12 @@
 { config, pkgs, ... }:
+let
+  nvidiaEnabled = config.dusk.system.nixos.nvidia.enable;
+
+  mcpServers.docbert = {
+    command = toString "${if nvidiaEnabled then pkgs.docbert-cuda else pkgs.docbert}/bin/docbert";
+    args = [ "mcp" ];
+  };
+in
 {
   imports = [ ./playwright.nix ];
 
@@ -6,10 +14,7 @@
     environment.systemPackages = with pkgs; [
       claude-code
       codex
-      crush
       duskpi
-      gemini-cli
-      opencode
     ];
 
     home-manager.users.${config.dusk.username} = _: {
@@ -18,6 +23,14 @@
           defaultProvider = "openai-codex";
           defaultModel = "gpt-5.4";
           defaultThinkingLevel = "high";
+        };
+
+        ".pi/agent/mcp.json".text = builtins.toJSON {
+          inherit mcpServers;
+        };
+
+        ".mcp.json".text = builtins.toJSON {
+          inherit mcpServers;
         };
 
         ".claude/skills" = {
