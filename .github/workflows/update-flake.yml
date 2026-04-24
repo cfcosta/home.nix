@@ -36,7 +36,6 @@ jobs:
           swap-storage: true
 
       - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/flakehub-cache-action@main
 
       - run: nix flake update
 
