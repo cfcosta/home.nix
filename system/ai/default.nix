@@ -25,13 +25,9 @@ in
           defaultThinkingLevel = "high";
         };
 
-        ".pi/agent/mcp.json".text = builtins.toJSON {
-          inherit mcpServers;
-        };
+        ".pi/agent/mcp.json".text = builtins.toJSON { inherit mcpServers; };
 
-        ".mcp.json".text = builtins.toJSON {
-          inherit mcpServers;
-        };
+        ".mcp.json".text = builtins.toJSON { inherit mcpServers; };
 
         ".claude/skills" = {
           source = "${pkgs.duskpi.out}/skills";
