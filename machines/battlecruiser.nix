@@ -18,6 +18,7 @@
 
     networking.resolvconf.extraConfig = ''
       name_servers_append="1.1.1.1 1.0.0.1"
+      resolv_conf_options="edns0 timeout:1 attempts:2"
     '';
 
     dusk = {
