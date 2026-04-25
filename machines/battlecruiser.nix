@@ -16,6 +16,10 @@
       kernelPackages = pkgs.linuxPackages_xanmod_latest;
     };
 
+    networking.resolvconf.extraConfig = ''
+      name_servers_append="1.1.1.1 1.0.0.1"
+    '';
+
     dusk = {
       fonts.monospace = "Berkeley Mono NerdFont Mono";
 
