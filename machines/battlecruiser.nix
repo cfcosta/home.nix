@@ -21,6 +21,8 @@
       resolv_conf_options="edns0 timeout:1 attempts:2"
     '';
 
+    services.tailscale.extraSetFlags = [ "--accept-dns=false" ];
+
     dusk = {
       fonts.monospace = "Berkeley Mono NerdFont Mono";
 
