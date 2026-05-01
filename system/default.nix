@@ -73,7 +73,6 @@ in
         p7zip
         posting
         python3
-        python3Packages.yt-dlp
         ripgrep
         rsync
         scc

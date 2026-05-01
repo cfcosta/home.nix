@@ -2,9 +2,16 @@
 let
   nvidiaEnabled = config.dusk.system.nixos.nvidia.enable;
 
-  mcpServers.docbert = {
-    command = toString "${if nvidiaEnabled then pkgs.docbert-cuda else pkgs.docbert}/bin/docbert";
-    args = [ "mcp" ];
+  mcpServers = {
+    docbert = {
+      command = toString "${if nvidiaEnabled then pkgs.docbert-cuda else pkgs.docbert}/bin/docbert";
+      args = [ "mcp" ];
+    };
+
+    rustbert = {
+      command = toString "${if nvidiaEnabled then pkgs.rustbert-cuda else pkgs.rustbert}/bin/rustbert";
+      args = [ "mcp" ];
+    };
   };
 in
 {
@@ -13,7 +20,6 @@ in
   config = {
     environment.systemPackages = with pkgs; [
       claude-code
-      codex
       duskpi
     ];
 

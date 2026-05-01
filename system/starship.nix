@@ -25,7 +25,6 @@ let
     "custom"
     "daml"
     "dart"
-    "deno"
     "directory"
     "direnv"
     "docker_context"

@@ -3,8 +3,13 @@ let
   inherit (super.stdenv.hostPlatform) system;
 in
 {
-  inherit (inputs.docbert.packages.${system}) docbert docbert-cuda;
-  inherit (inputs.llm-agents.packages.${system}) claude-code codex crush;
+  inherit (inputs.docbert.packages.${system})
+    docbert
+    docbert-cuda
+    rustbert
+    rustbert-cuda
+    ;
+  inherit (inputs.llm-agents.packages.${system}) claude-code crush;
 
   dusk-apply = super.callPackage ./dusk-apply { };
   dusk-keymap-switch = super.callPackage ./dusk-keymap-switch { };
