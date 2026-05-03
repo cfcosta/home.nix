@@ -13,7 +13,7 @@
   config = {
     boot = {
       initrd.kernelModules = [ "kvm-amd" ];
-      kernelPackages = pkgs.linuxPackages_xanmod_latest;
+      # kernelPackages = pkgs.linuxPackages_xanmod_latest;
     };
 
     networking.resolvconf.extraConfig = ''
