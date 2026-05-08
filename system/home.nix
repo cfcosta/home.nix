@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (builtins) attrNames concatStringsSep map;
+  inherit (builtins) attrNames concatStringsSep;
   inherit (lib) mapAttrsToList mkForce;
 
   completeAliases = map (alias: "complete -F _complete_alias ${alias}") (
@@ -81,8 +81,9 @@ in
           htop = "btop";
           j = "jj";
           jc = "jj commit";
-          jd = "jj diff";
+          jd = "jj d";
           jl = "jj log --no-pager --ignore-working-copy";
+          js = "jj sh";
           ll = mkForce "lsd -l -A";
           ls = mkForce "lsd -l";
           vi = "nvim";

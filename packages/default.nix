@@ -11,12 +11,17 @@ in
     ;
   inherit (inputs.llm-agents.packages.${system}) claude-code crush;
 
+  bun2nix = inputs.bun2nix.packages.${system}.default;
   dusk-apply = super.callPackage ./dusk-apply { };
   dusk-keymap-switch = super.callPackage ./dusk-keymap-switch { };
   dusk-stdlib = super.callPackage ./dusk-stdlib { };
   dusk-system-verify = super.callPackage ./dusk-system-verify { };
   dusk-treefmt = super.callPackage ./treefmt.nix { inherit inputs; };
   duskpi = inputs.duskpi.packages.${system}.default;
+  hunk = super.callPackage ./hunk {
+    src = inputs.hunk;
+    bun2nix = inputs.bun2nix.packages.${system}.default;
+  };
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
 }
