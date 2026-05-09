@@ -191,11 +191,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777734189,
-        "narHash": "sha256-kbIhdhDPaTP6gxAPkcRYeB+cqPFDpTM/bnw+m+26vkI=",
+        "lastModified": 1778336446,
+        "narHash": "sha256-axlSmUkHgMSnHitMgIWH8iNfU9Ej39Th50KD8NePjac=",
         "owner": "catppuccin",
         "repo": "nix",
-        "rev": "e68cf5deaf1a7afed2e548835dba2ae99f5a3ccb",
+        "rev": "f656000aa5e6dc2664f71bc57ce00bf68dc65366",
         "type": "github"
       },
       "original": {
@@ -362,7 +362,9 @@
         ],
         "pi-mcp-adapter-src": "pi-mcp-adapter-src",
         "skill-duckdb-skills": "skill-duckdb-skills",
-        "skill-hunk": "skill-hunk",
+        "skill-hunk": [
+          "hunk"
+        ],
         "skill-userinterface-wiki": "skill-userinterface-wiki",
         "skill-visual-explainer": "skill-visual-explainer"
       },
@@ -716,11 +718,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778144356,
-        "narHash": "sha256-dGM+QCstz/DyLB68+JK5GWyMx4QSqmOJEVgZmy63d/g=",
+        "lastModified": 1778365864,
+        "narHash": "sha256-ImoT/wqmgMImf2dAC+E0MverAdA4QXsedOeES9B7Ezw=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e4419d3123b780d5f4c0bceeace450424387638c",
+        "rev": "2f419037039a152448c5f4ae9494154753d1b399",
         "type": "github"
       },
       "original": {
@@ -733,11 +735,11 @@
     "hunk": {
       "flake": false,
       "locked": {
-        "lastModified": 1778201494,
-        "narHash": "sha256-b6dloQly4mM7VpdLP1bXmr2FManXuEoPH5u61Y1RgCU=",
+        "lastModified": 1778367702,
+        "narHash": "sha256-RnHPTw8uwa0GYI7gl0bVtvnKNWrRjya+OVhzmgVBsSw=",
         "owner": "modem-dev",
         "repo": "hunk",
-        "rev": "b4429c1ce9cd3abb387e39c418151188aa2254df",
+        "rev": "a00e36b12066b0c661530e0f973e6d15ccfc3e36",
         "type": "github"
       },
       "original": {
@@ -804,11 +806,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1778201855,
-        "narHash": "sha256-A40W0Xa+PQ0p+Mmmei2Ji0oxNKmePhWN7AmvZmWQxV8=",
+        "lastModified": 1778363084,
+        "narHash": "sha256-2EH8Y8LiLrFAaetMWFtx8twxi4WqKTeoKKoVlWo7Z/Q=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "a4f00b54a1c7838f2ab3445bb13a02e6db96bae2",
+        "rev": "23c09efecabc16a77465f427704bbdbe6638118e",
         "type": "github"
       },
       "original": {
@@ -990,11 +992,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778125220,
-        "narHash": "sha256-WuM0IwmoMXt2r42n3BiT5wx/cxugTUTbndIQnsASKWA=",
+        "lastModified": 1778297703,
+        "narHash": "sha256-EqS67I6LgEpnu/rUO6x+SaMWMN89TTsY1AnThsl84uI=",
         "owner": "fufexan",
         "repo": "nix-gaming",
-        "rev": "8f01d20678b7ab4543383f3ea29a0022c9de48af",
+        "rev": "2c1b0276febd6b6cac789a9f3cafe5d6ef4e8f58",
         "type": "github"
       },
       "original": {
@@ -1392,11 +1394,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778123869,
-        "narHash": "sha256-hV9D8ET33kXjdoMXBT2bwM/j8WQM1SP/dVKZtjQKhAQ=",
+        "lastModified": 1778296574,
+        "narHash": "sha256-DVmg1JCjG0VJTa+FF6tH6tkQChaxzK1EzPL98RiRWU0=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "592e5dedf04f0eaff1ed0f01ce5db7407d9fc7be",
+        "rev": "1d634a90dffb59ec9ba52652de311b15528c1595",
         "type": "github"
       },
       "original": {
@@ -1434,22 +1436,6 @@
       "original": {
         "owner": "duckdb",
         "repo": "duckdb-skills",
-        "type": "github"
-      }
-    },
-    "skill-hunk": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1778201494,
-        "narHash": "sha256-b6dloQly4mM7VpdLP1bXmr2FManXuEoPH5u61Y1RgCU=",
-        "owner": "modem-dev",
-        "repo": "hunk",
-        "rev": "b4429c1ce9cd3abb387e39c418151188aa2254df",
-        "type": "github"
-      },
-      "original": {
-        "owner": "modem-dev",
-        "repo": "hunk",
         "type": "github"
       }
     },

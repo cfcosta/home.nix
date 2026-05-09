@@ -29,6 +29,7 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         llm-agents.follows = "llm-agents";
+        skill-hunk.follows = "hunk";
       };
     };
     gitignore = {
