@@ -16,6 +16,7 @@ in
 
     ./ai
     ./options.nix
+    ./security.nix
     ./starship.nix
     ./terminal.nix
     ./wallpapers.nix
