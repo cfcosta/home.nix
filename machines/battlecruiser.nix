@@ -148,38 +148,31 @@
         XCOMPOSEFILE = "${config.dusk.folders.home}/.XCompose";
         XKB_DEFAULT_COMPOSE_FILE = "${config.dusk.folders.home}/.XCompose";
       };
-
-      wayland.windowManager.hyprland.settings = {
-        env = [
-          "XCOMPOSEFILE,${config.dusk.folders.home}/.XCompose"
-          "XKB_DEFAULT_COMPOSE_FILE,${config.dusk.folders.home}/.XCompose"
-        ];
-
-        input = {
-          kb_layout = "us,us";
-          kb_variant = ",intl";
-          kb_options = "grp:alt_shift_toggle";
-        };
-
-        bind = [
-          "$mod CTRL, 1, focusworkspaceoncurrentmonitor, 1"
-          "$mod CTRL, 2, focusworkspaceoncurrentmonitor, 2"
-          "$mod CTRL, 3, focusworkspaceoncurrentmonitor, 3"
-          "$mod CTRL, 4, focusworkspaceoncurrentmonitor, 4"
-          "$mod CTRL, 5, focusworkspaceoncurrentmonitor, 5"
-          "$mod CTRL, 6, focusworkspaceoncurrentmonitor, 6"
-        ];
-
-        workspace = [
-          "1, monitor:HDMI-A-2"
-          "2, monitor:HDMI-A-2"
-          "3, monitor:HDMI-A-2"
-          "4, monitor:DP-4"
-          "5, monitor:DP-4"
-          "6, monitor:DP-4"
-        ];
-      };
     };
+
+    dusk.system.nixos.desktop.hyprland.extraLuaConfig = ''
+      hl.env("XCOMPOSEFILE",            "${config.dusk.folders.home}/.XCompose")
+      hl.env("XKB_DEFAULT_COMPOSE_FILE", "${config.dusk.folders.home}/.XCompose")
+
+      hl.config({
+        input = {
+          kb_layout  = "us,us",
+          kb_variant = ",intl",
+          kb_options = "grp:alt_shift_toggle",
+        },
+      })
+
+      for i = 1, 6 do
+        hl.bind(mod .. " + CTRL + " .. i, hl.dsp.focus({ workspace = i, on_current_monitor = true }))
+      end
+
+      for _, ws in ipairs({ "1", "2", "3" }) do
+        hl.workspace_rule({ workspace = ws, monitor = "HDMI-A-2" })
+      end
+      for _, ws in ipairs({ "4", "5", "6" }) do
+        hl.workspace_rule({ workspace = ws, monitor = "DP-4" })
+      end
+    '';
 
     fileSystems = {
       "/" = {

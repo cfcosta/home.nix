@@ -54,15 +54,17 @@
       '';
 
       i18n.inputMethod.fcitx5.ignoreUserConfig = true;
-
-      wayland.windowManager.hyprland.settings = {
-        input = {
-          kb_layout = "us,us";
-          kb_variant = ",intl";
-          kb_options = "grp:alt_shift_toggle";
-        };
-      };
     };
+
+    dusk.system.nixos.desktop.hyprland.extraLuaConfig = ''
+      hl.config({
+        input = {
+          kb_layout  = "us,us",
+          kb_variant = ",intl",
+          kb_options = "grp:alt_shift_toggle",
+        },
+      })
+    '';
 
     i18n.inputMethod.fcitx5.settings.inputMethod = {
       GroupOrder."0" = "Default";
