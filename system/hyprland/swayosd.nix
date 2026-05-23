@@ -22,23 +22,40 @@ in
     };
   };
 
+  config.dusk.system.nixos.desktop.hyprland.binds = [
+    {
+      key = "XF86AudioRaiseVolume";
+      exec = "${client} --output-volume raise --max-volume 100";
+    }
+    {
+      key = "XF86AudioLowerVolume";
+      exec = "${client} --output-volume lower --max-volume 100";
+    }
+    {
+      key = "XF86AudioMute";
+      exec = "${client} --output-volume mute-toggle";
+    }
+    {
+      key = "XF86AudioMicMute";
+      exec = "${client} --input-volume mute-toggle";
+    }
+    {
+      key = "XF86MonBrightnessUp";
+      exec = "${client} --brightness raise";
+    }
+    {
+      key = "XF86MonBrightnessDown";
+      exec = "${client} --brightness lower";
+    }
+    {
+      key = "Caps_Lock";
+      exec = "${client} --caps-lock";
+      flags.release = true;
+    }
+  ];
+
   config.home-manager.users.${config.dusk.username} = {
     services.swayosd.enable = true;
-
-    wayland.windowManager.hyprland.settings = {
-      bind = [
-        ", XF86AudioRaiseVolume, exec, ${client} --output-volume raise"
-        ", XF86AudioLowerVolume, exec , ${client} --output-volume lower"
-        ", XF86AudioMute, exec, ${client} --output-volume mute-toggle"
-        ", XF86AudioMicMute, exec, ${client} --input-volume mute-toggle"
-        ", XF86AudioRaiseVolume, exec, ${client} --output-volume raise --max-volume 100"
-        ", XF86AudioLowerVolume, exec, ${client} --output-volume lower --max-volume 100"
-        ", XF86MonBrightnessUp, exec, ${client} --brightness raise"
-        ", XF86MonBrightnessDown, exec, ${client} --brightness lower"
-      ];
-
-      bindr = [ "CAPS, Caps_Lock, exec, ${client} --caps-lock" ];
-    };
 
     xdg = {
       enable = true;

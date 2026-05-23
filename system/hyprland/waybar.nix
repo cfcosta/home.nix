@@ -248,6 +248,7 @@ in
       '';
     };
 
-    wayland.windowManager.hyprland.settings.exec-once = [ "${pkgs.waybar}/bin/waybar" ];
   };
+
+  config.dusk.system.nixos.desktop.hyprland.autostart = [ "${pkgs.waybar}/bin/waybar" ];
 }

@@ -150,6 +150,21 @@
       };
     };
 
+    dusk.system.nixos.desktop.hyprland.binds =
+      map
+        (i: {
+          key = "SUPER + CTRL + ${toString i}";
+          dispatch = "focus({ workspace = ${toString i}, on_current_monitor = true })";
+        })
+        [
+          1
+          2
+          3
+          4
+          5
+          6
+        ];
+
     dusk.system.nixos.desktop.hyprland.extraLuaConfig = ''
       hl.env("XCOMPOSEFILE",            "${config.dusk.folders.home}/.XCompose")
       hl.env("XKB_DEFAULT_COMPOSE_FILE", "${config.dusk.folders.home}/.XCompose")
@@ -161,10 +176,6 @@
           kb_options = "grp:alt_shift_toggle",
         },
       })
-
-      for i = 1, 6 do
-        hl.bind(mod .. " + CTRL + " .. i, hl.dsp.focus({ workspace = i, on_current_monitor = true }))
-      end
 
       for _, ws in ipairs({ "1", "2", "3" }) do
         hl.workspace_rule({ workspace = ws, monitor = "HDMI-A-2" })
