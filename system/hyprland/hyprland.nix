@@ -393,7 +393,7 @@ in
     ++ optionals config.dusk.system.nixos.desktop.gaming.enable [
       {
         key = "${mod} + SHIFT + S";
-        exec = "${pkgs.steam}/bin/steam";
+        exec = "${config.programs.steam.package}/bin/steam";
       }
     ]
     # Workspaces 1-9 (keycodes 10-18): focus, and move active window to.

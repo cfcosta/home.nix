@@ -186,13 +186,8 @@ in
 
             gaming = {
               enable = mkEnabledOption {
-                description = "Whether or not to enable Gaming support (Steam, Gamemode, Gamescope)";
+                description = "Whether or not to enable Gaming support (Steam, Gamemode)";
                 parent = cfg.desktop.enable;
-              };
-
-              gamescope.enable = mkEnabledOption {
-                description = "Whether or not to enable the Gamescope compositor";
-                parent = cfg.desktop.gaming.enable;
               };
             };
           };

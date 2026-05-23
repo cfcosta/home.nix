@@ -38,7 +38,7 @@
           nvidia.enable = false;
 
           desktop = {
-            gaming.gamescope.enable = true;
+            gaming.enable = true;
             hyprland.enable = true;
           };
         };

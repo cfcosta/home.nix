@@ -45,11 +45,6 @@ in
         enableRenice = true;
       };
 
-      gamescope = mkIf cfg.gamescope.enable {
-        enable = true;
-        capSysNice = true;
-      };
-
       steam = {
         enable = true;
 
@@ -57,22 +52,11 @@ in
         localNetworkGameTransfers.openFirewall = true;
         remotePlay.openFirewall = true;
 
-        extraCompatPackages = with pkgs; [ proton-ge-bin ];
+        extraCompatPackages = with pkgs; [
+          proton-cachyos
+          proton-ge-bin
+        ];
         protontricks.enable = true;
-
-        gamescopeSession = mkIf cfg.gamescope.enable {
-          enable = true;
-
-          env = {
-            WLR_RENDERER = "vulkan";
-            ENABLE_GAMESCOPE_WSI = "1";
-          };
-
-          args = [
-            "--steam"
-            "--adaptive-sync"
-          ];
-        };
       };
     };
 

@@ -130,7 +130,7 @@
         ];
 
         nixos.desktop = {
-          gaming.gamescope.enable = true;
+          gaming.enable = true;
           hyprland.enable = true;
         };
       };
@@ -201,21 +201,6 @@
         fsType = "ext4";
       };
     };
-
-    programs.steam.gamescopeSession.args = [
-      "--steam"
-      "--adaptive-sync"
-      "--hdr-enabled"
-
-      "-r"
-      "120"
-
-      "--output-width"
-      "3840"
-
-      "--output-height"
-      "2160"
-    ];
 
     swapDevices = [ ];
   };

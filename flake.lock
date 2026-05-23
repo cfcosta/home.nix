@@ -1720,6 +1720,26 @@
         "type": "github"
       }
     },
+    "proton-cachyos": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1779516430,
+        "narHash": "sha256-zwLx8cBPzUGOcxTwnH7jfpAzQwwahzaTII9du1Qqw64=",
+        "owner": "powerofthe69",
+        "repo": "proton-cachyos-nix",
+        "rev": "c2e682f2e126ef1b597084e0d771975bae3caa82",
+        "type": "github"
+      },
+      "original": {
+        "owner": "powerofthe69",
+        "repo": "proton-cachyos-nix",
+        "type": "github"
+      }
+    },
     "rainbow-delimiters": {
       "flake": false,
       "locked": {
@@ -1772,6 +1792,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "nm-wifi": "nm-wifi",
+        "proton-cachyos": "proton-cachyos",
         "rust-overlay": "rust-overlay",
         "treefmt-nix": "treefmt-nix_3"
       }

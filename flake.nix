@@ -90,6 +90,10 @@
         treefmt-nix.follows = "treefmt-nix";
       };
     };
+    proton-cachyos = {
+      url = "github:powerofthe69/proton-cachyos-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -130,6 +134,7 @@
               overlays = [
                 (import rust-overlay)
                 (import ./packages inputs)
+                inputs.proton-cachyos.overlays.default
               ];
 
               config.allowUnfree = true;
