@@ -211,16 +211,15 @@ in
 
     security.pam.services = {
       hyprlock = { };
-      gdm.enableGnomeKeyring = true;
-      gdm-password.enableGnomeKeyring = true;
+      sddm.enableGnomeKeyring = true;
     };
 
     services = {
       gnome.gnome-keyring.enable = true;
 
-      displayManager.gdm = {
+      displayManager.sddm = {
         enable = true;
-        autoSuspend = false;
+        wayland.enable = true;
       };
     };
 
