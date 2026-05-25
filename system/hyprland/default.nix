@@ -16,14 +16,12 @@ in
 {
   imports = [
     ./browser.nix
+    ./caelestia.nix
     ./drone.nix
     ./file-manager.nix
     ./gaming.nix
     ./hyprland.nix
     ./monitors.nix
-    ./swaync.nix
-    ./swayosd.nix
-    ./waybar.nix
   ];
 
   config = mkIf cfg.enable {

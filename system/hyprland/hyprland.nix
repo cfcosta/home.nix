@@ -120,7 +120,7 @@ in
     autostart = mkOption {
       type = types.listOf types.str;
       default = [ ];
-      example = [ "waybar" ];
+      example = [ "nm-applet --indicator" ];
       description = ''
         Commands executed once when the Hyprland session starts. Each entry is
         emitted as an `hl.exec_cmd` call inside the `hyprland.start` handler.
@@ -188,20 +188,12 @@ in
     dusk.system.nixos.desktop.hyprland.binds = [
       # Launchers & applications
       {
-        key = "${mod} + Space";
-        exec = "${pkgs.rofi}/bin/rofi -show-icons -show drun";
-      }
-      {
         key = "${mod} + Tab";
         exec = "${pkgs.dusk-keymap-switch}/bin/dusk-keymap-switch";
       }
       {
         key = "Pause";
         exec = "${pkgs.hyprlock}/bin/hyprlock";
-      }
-      {
-        key = "${mod} + SHIFT + V";
-        exec = ''bash -c "${pkgs.clipman}/bin/clipman pick -t rofi --err-on-no-selection && ${pkgs.wtype}/bin/wtype -M ctrl -M shift v"'';
       }
       {
         key = "SHIFT + Print";
@@ -226,14 +218,6 @@ in
       {
         key = "${mod} + P";
         exec = "${pkgs.pinta}/bin/pinta";
-      }
-      {
-        key = "${mod} + escape";
-        exec = "${pkgs.swaynotificationcenter}/bin/swaync-client -op";
-      }
-      {
-        key = "${mod} + SHIFT + escape";
-        exec = "${pkgs.swaynotificationcenter}/bin/swaync-client --close-all";
       }
       {
         key = "${mod} + C";
@@ -290,10 +274,6 @@ in
       {
         key = "${mod} + SHIFT + T";
         exec = "${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui";
-      }
-      {
-        key = "${mod} + CTRL + escape";
-        exec = "${pkgs.wlogout}/bin/wlogout";
       }
       {
         key = "${mod} + CTRL + A";
@@ -419,7 +399,6 @@ in
       systemPackages = with pkgs; [
         dunst
         grimblast
-        rofi
 
         hyprcursor
         rose-pine-hyprcursor
@@ -485,20 +464,10 @@ in
 
       programs = {
         hyprlock.enable = true;
-        rofi.enable = true;
-        wlogout.enable = true;
       };
 
       services = {
-        clipman.enable = true;
         hypridle.enable = true;
-        hyprpaper = {
-          enable = true;
-          settings = {
-            ipc = "on";
-            splash = false;
-          };
-        };
       };
 
       xdg.configFile."hypr/hyprland.lua" = {
