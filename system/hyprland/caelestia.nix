@@ -8,12 +8,16 @@
 let
   cfg = config.dusk.system.nixos.desktop.hyprland;
 
-  inherit (lib) mkForce mkIf;
+  inherit (lib) mkIf;
 
   mod = "SUPER";
 
   cli = inputs.caelestia-shell.inputs.caelestia-cli.packages.${pkgs.system}.default;
   caelestia = "${cli}/bin/caelestia";
+
+  # Repo-bundled wallpapers, copied into the store. caelestia owns the
+  # background now that hyprpaper is retired.
+  wallpapers = ../../wallpapers;
 
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
   sink = "@DEFAULT_AUDIO_SINK@";
@@ -119,27 +123,56 @@ in
       }
     ];
 
-    home-manager.users.${config.dusk.username} = {
-      imports = [ inputs.caelestia-shell.homeManagerModules.default ];
+    home-manager.users.${config.dusk.username} =
+      { lib, ... }:
+      {
+        imports = [ inputs.caelestia-shell.homeManagerModules.default ];
 
-      programs.caelestia = {
-        enable = true;
+        programs.caelestia = {
+          enable = true;
 
-        # Started as a systemd user service bound to graphical-session.target,
-        # which UWSM sets up for the Hyprland session (see hyprland.nix).
-        systemd.enable = true;
+          # Started as a systemd user service bound to graphical-session.target,
+          # which UWSM sets up for the Hyprland session (see hyprland.nix).
+          systemd.enable = true;
 
-        # Puts `caelestia` on PATH and enables full shell functionality.
-        cli.enable = true;
+          # Puts `caelestia` on PATH and enables full shell functionality.
+          cli.enable = true;
+
+          settings = {
+            # Stick to the repo's Catppuccin Mocha instead of deriving a palette
+            # from the wallpaper, and keep it stable when the wallpaper changes.
+            services.smartScheme = false;
+
+            # Show the bar battery indicator by default (laptops); desktops force
+            # it off per-host (see machines/battlecruiser.nix).
+            bar.status.showBattery = lib.mkDefault true;
+
+            # Wallpaper switcher browses the repo's bundled wallpapers.
+            paths.wallpaperDir = "${wallpapers}";
+          };
+        };
+
+        # caelestia draws and manages the wallpaper itself, so retire hyprpaper
+        # (configured in both hyprland.nix and wallpapers.nix).
+        services.hyprpaper.enable = lib.mkForce false;
+
+        # Clipboard history daemon backing `caelestia clipboard` (replaces clipman).
+        services.cliphist.enable = true;
+
+        # caelestia keeps the active scheme and wallpaper as runtime state under
+        # ~/.local/state/caelestia, not in shell.json. Seed them on first
+        # activation only, so the desktop comes up themed (Catppuccin Mocha) with
+        # a wallpaper, while `caelestia scheme`/`wallpaper` can still change them.
+        home.activation.caelestiaDefaults = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          cstate="''${XDG_STATE_HOME:-$HOME/.local/state}/caelestia"
+
+          # `scheme get` writes the built-in default (Catppuccin Mocha) into
+          # scheme.json without running caelestia's external app-theming hooks.
+          [ -e "$cstate/scheme.json" ] || ${caelestia} scheme get >/dev/null 2>&1 || true
+
+          # --no-smart keeps the scheme above instead of recolouring from the image.
+          [ -e "$cstate/wallpaper/path.txt" ] || ${caelestia} wallpaper -f ${wallpapers}/default.jpg --no-smart >/dev/null 2>&1 || true
+        '';
       };
-
-      # caelestia draws and manages the wallpaper itself, so retire hyprpaper
-      # (configured in both hyprland.nix and wallpapers.nix). Set a wallpaper
-      # once with `caelestia wallpaper -f <path>` to also generate the scheme.
-      services.hyprpaper.enable = mkForce false;
-
-      # Clipboard history daemon backing `caelestia clipboard` (replaces clipman).
-      services.cliphist.enable = true;
-    };
   };
 }

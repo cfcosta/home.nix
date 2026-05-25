@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }:
@@ -148,6 +149,9 @@
         XCOMPOSEFILE = "${config.dusk.folders.home}/.XCompose";
         XKB_DEFAULT_COMPOSE_FILE = "${config.dusk.folders.home}/.XCompose";
       };
+
+      # Desktop — no battery, so hide caelestia's bar battery indicator.
+      programs.caelestia.settings.bar.status.showBattery = lib.mkForce false;
     };
 
     dusk.system.nixos.desktop.hyprland.binds =
