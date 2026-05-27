@@ -192,10 +192,6 @@ in
         exec = "${pkgs.dusk-keymap-switch}/bin/dusk-keymap-switch";
       }
       {
-        key = "Pause";
-        exec = "${pkgs.hyprlock}/bin/hyprlock";
-      }
-      {
         key = "SHIFT + Print";
         exec = "${pkgs.grimblast}/bin/grimblast --notify copysave screen";
       }
@@ -418,7 +414,6 @@ in
     };
 
     security.pam.services = {
-      hyprlock = { };
       sddm.enableGnomeKeyring = true;
     };
 
@@ -460,14 +455,6 @@ in
           enable = true;
           defaultCursor = "Adwaita";
         };
-      };
-
-      programs = {
-        hyprlock.enable = true;
-      };
-
-      services = {
-        hypridle.enable = true;
       };
 
       xdg.configFile."hypr/hyprland.lua" = {

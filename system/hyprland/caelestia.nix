@@ -51,6 +51,14 @@ in
         flags.locked = true;
       }
 
+      # Manual lock (replaces the old hyprlock Pause bind). caelestia owns the
+      # lockscreen now — the same lock its idle timeout and lock-before-sleep
+      # use, so all locking goes through one path.
+      {
+        key = "Pause";
+        exec = "${caelestia} shell lock lock";
+      }
+
       # Clipboard history picker (replaces clipman+rofi); copies the chosen
       # entry then pastes it, preserving the old paste-on-pick behaviour.
       {
