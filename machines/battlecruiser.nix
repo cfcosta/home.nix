@@ -152,6 +152,18 @@
 
       # Desktop — no battery, so hide caelestia's bar battery indicator.
       programs.caelestia.settings.bar.status.showBattery = lib.mkForce false;
+
+      # Desktop idle: lock only after 2h of inactivity, nothing sooner.
+      # caelestia's defaults lock at 3min, blank the screen at 5min and
+      # suspend-then-hibernate at 10min — none of which we want on an
+      # always-on desktop. This single entry replaces that whole list, so
+      # the monitor stays on and the box never auto-suspends.
+      programs.caelestia.settings.general.idle.timeouts = [
+        {
+          timeout = 7200;
+          idleAction = "lock";
+        }
+      ];
     };
 
     dusk.system.nixos.desktop.hyprland.binds =
