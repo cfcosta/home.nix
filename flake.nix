@@ -139,6 +139,35 @@
                 (import rust-overlay)
                 (import ./packages inputs)
                 inputs.proton-cachyos.overlays.default
+
+                # Override fetchurl's User-Agent. crates.io's CloudFront 403s
+                # anything starting with `curl/`, which is exactly what
+                # nixpkgs' fetchurl hard-codes (`curl/<ver> Nixpkgs/<ver>`),
+                # so every crate fetch fails on a cache miss (e.g. bun2nix's
+                # vendored deps when building Hunk). `curlOptsList` is
+                # appended after the default `--user-agent`, and curl honors
+                # the last `-A`, so this overrides per call. We swap only the
+                # `__functor` so `pkgs.fetchurl.override`/`.overrideAttrs`
+                # and friends keep working, and we handle the fixed-point
+                # call style (`fetchurl (finalAttrs: { ... })`) as well as
+                # plain attrset args.
+                (_: super: {
+                  fetchurl = super.fetchurl // {
+                    __functor =
+                      _: args:
+                      let
+                        extend = previous: {
+                          curlOptsList = (previous.curlOptsList or [ ]) ++ [
+                            "--user-agent"
+                            "Nixpkgs-fetchurl"
+                          ];
+                        };
+                      in
+                      super.fetchurl (
+                        if builtins.isFunction args then final: args final // extend (args final) else args // extend args
+                      );
+                  };
+                })
               ];
 
               config.allowUnfree = true;
