@@ -21,7 +21,7 @@ let
     ;
 
   cfg = config.dusk.system.nixos.desktop.hyprland;
-  hyprlandPkgs = inputs.hyprland.packages.${pkgs.system};
+  hyprlandPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
 
   mod = "SUPER";
 

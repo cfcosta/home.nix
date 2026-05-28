@@ -12,7 +12,8 @@ let
 
   mod = "SUPER";
 
-  cli = inputs.caelestia-shell.inputs.caelestia-cli.packages.${pkgs.system}.default;
+  cli =
+    inputs.caelestia-shell.inputs.caelestia-cli.packages.${pkgs.stdenv.hostPlatform.system}.default;
   caelestia = "${cli}/bin/caelestia";
 
   # Repo-bundled wallpapers, copied into the store. caelestia owns the
