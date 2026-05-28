@@ -5,7 +5,7 @@
   src,
 }:
 let
-  version = (lib.importJSON "${src}/package.json").version;
+  inherit ((lib.importJSON "${src}/package.json")) version;
 
   bunNix = runCommand "hunk-bun.nix" { nativeBuildInputs = [ bun2nix ]; } ''
     bun2nix --lock-file ${src}/bun.lock --copy-prefix "${src}/" --output-file $out
