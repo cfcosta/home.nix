@@ -48,6 +48,7 @@ in
       settings = {
         blame.pager = "delta";
         commit.verbose = true;
+        core.hooksPath = "/dev/null";
         github.user = config.dusk.accounts.github;
         help.autocorrect = 10;
         merge.conflictstyle = "diff3";
