@@ -142,6 +142,20 @@ in
         experimental-features = [
           "nix-command"
           "flakes"
+          # Gates `impure-env` below.
+          "configurable-impure-env"
+        ];
+
+        # Expose `NIX_CURL_FLAGS` to every fetchurl builder, regardless of
+        # whether the build is run by the daemon (user invocations) or
+        # directly by root (`sudo nixos-rebuild switch`). crates.io's
+        # CloudFront 403s any User-Agent starting with `curl/`, which is
+        # exactly what nixpkgs' fetchurl hard-codes; the `--user-agent=`
+        # override here rides on impureEnvVars to pass through. This also
+        # reaches flake-input package builds (e.g. bun2nix's vendored
+        # crates), which overlays can't.
+        impure-env = [
+          "NIX_CURL_FLAGS=--user-agent=Nixpkgs-fetchurl"
         ];
 
         system-features = [
