@@ -1,13 +1,6 @@
 {
   description = "Entrypoint for my user config";
 
-  nixConfig = {
-    extra-substituters = [ "https://cfcosta-home.cachix.org/" ];
-    extra-trusted-public-keys = [
-      "cfcosta-home.cachix.org-1:Ly4J9QkKf/WGbnap33TG0o5mG5Sa/rcKQczLbH6G66I="
-    ];
-  };
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
