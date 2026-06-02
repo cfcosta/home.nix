@@ -152,6 +152,15 @@ in
             # from the wallpaper, and keep it stable when the wallpaper changes.
             services.smartScheme = false;
 
+            # Always show temperatures in Celsius. caelestia guesses the weather
+            # unit from the locale's measurement system, and our `en_US.UTF-8`
+            # locale (system.locale, wired into LC_MEASUREMENT) resolves to US
+            # Imperial — which defaults `useFahrenheit` to true and shows the
+            # weather in °F. Pin both the weather and performance-sensor units
+            # to Celsius explicitly so the locale can't flip them back.
+            services.useFahrenheit = false;
+            services.useFahrenheitPerformance = false;
+
             # Show the bar battery indicator by default (laptops); desktops force
             # it off per-host (see machines/battlecruiser.nix).
             bar.status.showBattery = lib.mkDefault true;
