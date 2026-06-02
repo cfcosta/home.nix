@@ -154,12 +154,11 @@
         # Desktop — no battery, so hide caelestia's bar battery indicator.
         bar.status.showBattery = lib.mkForce false;
 
-        # Don't render the bar on the left monitor — workspaces/tray/clock
-        # live on HDMI-A-2 (the right monitor). `excludedScreens` is a regex
-        # list consulted in BarWrapper.qml's `disabled` check; matching
-        # screens skip the bar entirely (vs. `persistent: false`, which still
-        # pops it out on hover).
-        bar.excludedScreens = [ "DP-4" ];
+        # Render the bar on every monitor. caelestia's bar is a left-edge
+        # vertical strip (its only supported placement — there's no
+        # right-side option), and an empty `excludedScreens` is the default,
+        # so dropping the previous `[ "DP-4" ]` exclusion brings the bar back
+        # onto the portrait monitor alongside HDMI-A-2.
 
         # Desktop idle: lock only after 2h of inactivity, nothing sooner.
         # caelestia's defaults lock at 3min, blank the screen at 5min and
