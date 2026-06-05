@@ -52,10 +52,7 @@ in
         localNetworkGameTransfers.openFirewall = true;
         remotePlay.openFirewall = true;
 
-        extraCompatPackages = with pkgs; [
-          proton-cachyos
-          proton-ge-bin
-        ];
+        extraCompatPackages = with pkgs; [ proton-cachyos ];
         protontricks.enable = true;
       };
     };

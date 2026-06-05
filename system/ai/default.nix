@@ -7,11 +7,6 @@ let
       command = toString "${if nvidiaEnabled then pkgs.docbert-cuda else pkgs.docbert}/bin/docbert";
       args = [ "mcp" ];
     };
-
-    rustbert = {
-      command = toString "${if nvidiaEnabled then pkgs.rustbert-cuda else pkgs.rustbert}/bin/rustbert";
-      args = [ "mcp" ];
-    };
   };
 in
 {

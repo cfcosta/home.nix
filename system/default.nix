@@ -154,9 +154,7 @@ in
         # override here rides on impureEnvVars to pass through. This also
         # reaches flake-input package builds (e.g. bun2nix's vendored
         # crates), which overlays can't.
-        impure-env = [
-          "NIX_CURL_FLAGS=--user-agent=Nixpkgs-fetchurl"
-        ];
+        impure-env = [ "NIX_CURL_FLAGS=--user-agent=Nixpkgs-fetchurl" ];
 
         system-features = [
           "nixos-test"

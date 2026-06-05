@@ -76,14 +76,8 @@ in
           exfatprogs
           killall
         ]
-        ++ optionals nvidiaEnabled [
-          docbert-cuda
-          rustbert-cuda
-        ]
-        ++ optionals (!nvidiaEnabled) [
-          docbert
-          rustbert
-        ];
+        ++ optionals nvidiaEnabled [ docbert-cuda ]
+        ++ optionals (!nvidiaEnabled) [ docbert ];
     };
 
     hardware = {

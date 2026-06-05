@@ -1205,22 +1205,6 @@
         "type": "github"
       }
     },
-    "lean": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1780128660,
-        "narHash": "sha256-w8r/k/TvyQpJZ7386re00BlbyPw9Lo8SJ6PCuwLIb7M=",
-        "owner": "Julian",
-        "repo": "lean.nvim",
-        "rev": "647a785021ee76a9d5ad7fae28b45ef6d105e3be",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Julian",
-        "repo": "lean.nvim",
-        "type": "github"
-      }
-    },
     "llm-agents": {
       "inputs": {
         "blueprint": "blueprint",
@@ -1309,7 +1293,6 @@
         ],
         "gitsigns": "gitsigns",
         "grug-far": "grug-far",
-        "lean": "lean",
         "lspconfig": "lspconfig",
         "lspkind": "lspkind",
         "lualine": "lualine",
@@ -1340,11 +1323,11 @@
         "which-key": "which-key"
       },
       "locked": {
-        "lastModified": 1780189115,
-        "narHash": "sha256-pPDgNW8MiQqW/1sesqgMC4jNNVySA7jwMvUkq6myEmE=",
+        "lastModified": 1780680687,
+        "narHash": "sha256-fgkEA+n4PHcU5NcMiHRn+hF9lgH1O5U55yEth0wTNGI=",
         "owner": "cfcosta",
         "repo": "neovim.nix",
-        "rev": "76630347697dd38802204228acded472acf57b16",
+        "rev": "62db4b0b516e1d324b432cf0000e0f3f5c0bb707",
         "type": "github"
       },
       "original": {

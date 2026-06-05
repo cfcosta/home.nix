@@ -3,12 +3,7 @@ let
   inherit (super.stdenv.hostPlatform) system;
 in
 {
-  inherit (inputs.docbert.packages.${system})
-    docbert
-    docbert-cuda
-    rustbert
-    rustbert-cuda
-    ;
+  inherit (inputs.docbert.packages.${system}) docbert docbert-cuda;
   inherit (inputs.llm-agents.packages.${system}) claude-code crush;
 
   bun2nix = inputs.bun2nix.packages.${system}.default;
