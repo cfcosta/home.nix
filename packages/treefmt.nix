@@ -64,8 +64,13 @@ let
       rustfmt = {
         enable = true;
 
-        package = pkgs.rust-bin.nightly.latest.default.overrideAttrs (oldAttrs: {
-          meta = oldAttrs.meta // {
+        # Just the standalone `rustfmt` component, not the whole `default`
+        # nightly toolchain. The `default` profile drags rustc/cargo/rust-std
+        # plus ~0.7 GiB of rust-docs into the closure of everything that wires
+        # this formatter in (here: jujutsu's `jj fix`, which lands in the home
+        # closure). rustfmt parses Rust itself and needs none of that.
+        package = pkgs.rust-bin.nightly.latest.rustfmt.overrideAttrs (oldAttrs: {
+          meta = (oldAttrs.meta or { }) // {
             mainProgram = "rustfmt";
           };
         });
