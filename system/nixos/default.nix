@@ -139,6 +139,19 @@ in
     programs.gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
+
+      # No smartcard/token is used on these machines. When gpg-agent (which
+      # backs SSH auth via enableSSHSupport) was probed for card-backed keys,
+      # scdaemon deadlocked on an internal lock and never returned, wedging the
+      # agent's SSH socket -- so `ssh-add`, `ssh git@github.com`, `git push`,
+      # and `jj git push` all hung indefinitely. Disabling scdaemon stops the
+      # agent from ever spawning it.
+      #
+      # The empty string is intentional: this module renders settings as
+      # `key value`, so an empty value yields the bare `disable-scdaemon` flag
+      # that gpg-agent expects. A non-empty value (e.g. `true`) would render
+      # `disable-scdaemon true`, which gpg-agent rejects and fails to start.
+      settings.disable-scdaemon = "";
     };
 
     security = {
