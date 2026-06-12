@@ -112,6 +112,9 @@ in
       eternal-terminal.enable = true;
       printing.enable = mkForce false;
 
+      # Cap the systemd journal so it can't fill the root filesystem.
+      journald.extraConfig = "SystemMaxUse=200M";
+
       openssh = {
         enable = true;
 
@@ -160,7 +163,18 @@ in
         rules = [ "-a exit,always -F arch=b64 -S execve" ];
       };
 
-      auditd.enable = mkDefault true;
+      # The execve rule above logs every process exec, which once grew the
+      # audit log to ~300 GB. Cap it with rotation: 50 MiB/file * 2 files =
+      # ~100 MiB hard ceiling regardless of how much gets logged.
+      auditd = {
+        enable = mkDefault true;
+        settings = {
+          max_log_file = 50;
+          max_log_file_action = "ROTATE";
+          num_logs = 2;
+        };
+      };
+
       rtkit.enable = true;
     };
 
