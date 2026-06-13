@@ -65,7 +65,10 @@ in
       "xhci_pci"
     ];
 
-    catppuccin.enable = true;
+    catppuccin = {
+      enable = true;
+      autoEnable = true;
+    };
 
     environment = {
       defaultPackages = mkForce [ ];

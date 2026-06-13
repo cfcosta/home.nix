@@ -24,6 +24,7 @@ in
   config = {
     catppuccin = {
       enable = true;
+      autoEnable = true;
       nvim.enable = false;
       starship.enable = false;
     };
