@@ -132,65 +132,70 @@ in
       }
     ];
 
-    home-manager.users.${config.dusk.username} =
-      { lib, ... }:
-      {
-        imports = [ inputs.caelestia-shell.homeManagerModules.default ];
+    # Keep the CLI's random-wallpaper picker (`caelestia wallpaper -r`) pointed
+    # at the same bundled set the shell's switcher uses. The shell reads
+    # `paths.wallpaperDir` (shell.json, set below), but the CLI resolves its own
+    # dir from $CAELESTIA_WALLPAPERS_DIR — falling back to ~/Pictures/Wallpapers
+    # — a separate path. Export it so the two always agree.
+    environment.sessionVariables.CAELESTIA_WALLPAPERS_DIR = "${wallpapers}";
 
-        programs.caelestia = {
-          enable = true;
+    home-manager.users.${config.dusk.username} = { lib, ... }: {
+      imports = [ inputs.caelestia-shell.homeManagerModules.default ];
 
-          # Started as a systemd user service bound to graphical-session.target,
-          # which UWSM sets up for the Hyprland session (see hyprland.nix).
-          systemd.enable = true;
+      programs.caelestia = {
+        enable = true;
 
-          # Puts `caelestia` on PATH and enables full shell functionality.
-          cli.enable = true;
+        # Started as a systemd user service bound to graphical-session.target,
+        # which UWSM sets up for the Hyprland session (see hyprland.nix).
+        systemd.enable = true;
 
-          settings = {
-            # Stick to the repo's Catppuccin Mocha instead of deriving a palette
-            # from the wallpaper, and keep it stable when the wallpaper changes.
-            services.smartScheme = false;
+        # Puts `caelestia` on PATH and enables full shell functionality.
+        cli.enable = true;
 
-            # Always show temperatures in Celsius. caelestia guesses the weather
-            # unit from the locale's measurement system, and our `en_US.UTF-8`
-            # locale (system.locale, wired into LC_MEASUREMENT) resolves to US
-            # Imperial — which defaults `useFahrenheit` to true and shows the
-            # weather in °F. Pin both the weather and performance-sensor units
-            # to Celsius explicitly so the locale can't flip them back.
-            services.useFahrenheit = false;
-            services.useFahrenheitPerformance = false;
+        settings = {
+          # Stick to the repo's Catppuccin Mocha instead of deriving a palette
+          # from the wallpaper, and keep it stable when the wallpaper changes.
+          services.smartScheme = false;
 
-            # Show the bar battery indicator by default (laptops); desktops force
-            # it off per-host (see machines/battlecruiser.nix).
-            bar.status.showBattery = lib.mkDefault true;
+          # Always show the weather in Celsius. caelestia derives the weather
+          # unit from the locale's measurement system, and our `en_US.UTF-8`
+          # locale (system.locale, wired into LC_MEASUREMENT) resolves to US
+          # Imperial — which defaults `useFahrenheit` to true and shows the
+          # weather in °F. Pin it to Celsius so the locale can't flip it back.
+          # (`useFahrenheitPerformance` is hardcoded false upstream regardless
+          # of locale, so it needs no override.)
+          services.useFahrenheit = false;
 
-            # Wallpaper switcher browses the repo's bundled wallpapers.
-            paths.wallpaperDir = "${wallpapers}";
-          };
+          # Show the bar battery indicator by default (laptops); desktops force
+          # it off per-host (see machines/battlecruiser.nix).
+          bar.status.showBattery = lib.mkDefault true;
+
+          # Wallpaper switcher browses the repo's bundled wallpapers.
+          paths.wallpaperDir = "${wallpapers}";
         };
-
-        # caelestia draws and manages the wallpaper itself, so retire hyprpaper
-        # (configured in both hyprland.nix and wallpapers.nix).
-        services.hyprpaper.enable = lib.mkForce false;
-
-        # Clipboard history daemon backing `caelestia clipboard` (replaces clipman).
-        services.cliphist.enable = true;
-
-        # caelestia keeps the active scheme and wallpaper as runtime state under
-        # ~/.local/state/caelestia, not in shell.json. Seed them on first
-        # activation only, so the desktop comes up themed (Catppuccin Mocha) with
-        # a wallpaper, while `caelestia scheme`/`wallpaper` can still change them.
-        home.activation.caelestiaDefaults = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          cstate="''${XDG_STATE_HOME:-$HOME/.local/state}/caelestia"
-
-          # `scheme get` writes the built-in default (Catppuccin Mocha) into
-          # scheme.json without running caelestia's external app-theming hooks.
-          [ -e "$cstate/scheme.json" ] || ${caelestia} scheme get >/dev/null 2>&1 || true
-
-          # --no-smart keeps the scheme above instead of recolouring from the image.
-          [ -e "$cstate/wallpaper/path.txt" ] || ${caelestia} wallpaper -f ${wallpapers}/default.jpg --no-smart >/dev/null 2>&1 || true
-        '';
       };
+
+      # caelestia draws and manages the wallpaper itself, so retire hyprpaper
+      # (configured in both hyprland.nix and wallpapers.nix).
+      services.hyprpaper.enable = lib.mkForce false;
+
+      # Clipboard history daemon backing `caelestia clipboard` (replaces clipman).
+      services.cliphist.enable = true;
+
+      # caelestia keeps the active scheme and wallpaper as runtime state under
+      # ~/.local/state/caelestia, not in shell.json. Seed them on first
+      # activation only, so the desktop comes up themed (Catppuccin Mocha) with
+      # a wallpaper, while `caelestia scheme`/`wallpaper` can still change them.
+      home.activation.caelestiaDefaults = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        cstate="''${XDG_STATE_HOME:-$HOME/.local/state}/caelestia"
+
+        # `scheme get` writes the built-in default (Catppuccin Mocha) into
+        # scheme.json without running caelestia's external app-theming hooks.
+        [ -e "$cstate/scheme.json" ] || ${caelestia} scheme get >/dev/null 2>&1 || true
+
+        # --no-smart keeps the scheme above instead of recolouring from the image.
+        [ -e "$cstate/wallpaper/path.txt" ] || ${caelestia} wallpaper -f ${wallpapers}/default.jpg --no-smart >/dev/null 2>&1 || true
+      '';
+    };
   };
 }
