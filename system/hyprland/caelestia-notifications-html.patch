@@ -1,0 +1,71 @@
+diff -ruN a/components/StyledText.qml b/components/StyledText.qml
+--- a/components/StyledText.qml
++++ b/components/StyledText.qml
+@@ -12,6 +12,9 @@
+     renderType: Text.NativeRendering
+     textFormat: Text.PlainText
+     color: Colours.palette.m3onSurface
++    // Default Qt link colour is an unreadable blue on dark surfaces; use the
++    // theme accent so links in notification bodies (and anywhere else) are legible.
++    linkColor: Colours.palette.m3primary
+     font: Tokens.font.body.small
+ 
+     Behavior on color {
+diff -ruN a/modules/lock/NotifGroup.qml b/modules/lock/NotifGroup.qml
+--- a/modules/lock/NotifGroup.qml
++++ b/modules/lock/NotifGroup.qml
+@@ -311,7 +311,8 @@
+         required property NotifData modelData
+ 
+         Layout.fillWidth: true
+-        textFormat: Text.MarkdownText
++        // This line builds its own HTML (<span style=...>), so render as RichText.
++        textFormat: Text.RichText
+         text: {
+             const summary = modelData.summary.replace(/\n/g, " ");
+             const body = modelData.body.replace(/\n/g, " ");
+diff -ruN a/modules/notifications/Notification.qml b/modules/notifications/Notification.qml
+--- a/modules/notifications/Notification.qml
++++ b/modules/notifications/Notification.qml
+@@ -18,7 +18,19 @@
+     required property NotifData modelData
+     readonly property bool hasImage: modelData.image.length > 0
+     readonly property bool hasAppIcon: modelData.appIcon.length > 0
+-    readonly property int bodyTextFormat: /[<*_`#\[\]]/.test(modelData.body) ? Text.MarkdownText : Text.PlainText
++    // Notification bodies follow the freedesktop spec, whose markup is an HTML
++    // subset (<b> <i> <u> <a> <img> ...). Render those as RichText so links and
++    // styling show; keep genuine Markdown as Markdown; send everything else
++    // (incl. literal angle brackets like "<nick>" or "a < b", which Qt's text
++    // engine would otherwise treat as tags and drop) to PlainText so it stays visible.
++    readonly property int bodyTextFormat: {
++        const b = modelData.body;
++        if (/<\/?(?:b|i|u|s|a|em|strong|span|font|br|p|pre|code|tt|h[1-6]|ul|ol|li|blockquote|small|big|sub|sup|del|ins|mark|img)\b[^>]*>/i.test(b))
++            return Text.RichText;
++        if (/[*_`#\[\]]/.test(b))
++            return Text.MarkdownText;
++        return Text.PlainText;
++    }
+     readonly property int nonAnimHeight: summary.implicitHeight + (root.expanded ? Tokens.spacing.extraSmall * 2 + appName.height + body.height + actions.height + actions.anchors.topMargin : bodyPreview.height) + inner.anchors.margins * 2
+     property bool expanded: Config.notifs.openExpanded
+ 
+diff -ruN a/modules/sidebar/Notif.qml b/modules/sidebar/Notif.qml
+--- a/modules/sidebar/Notif.qml
++++ b/modules/sidebar/Notif.qml
+@@ -134,7 +134,16 @@
+             id: bodyText
+ 
+             Layout.fillWidth: true
+-            textFormat: Text.MarkdownText
++            // Match the popup logic: HTML markup -> RichText, real Markdown ->
++            // MarkdownText, otherwise PlainText so stray "<...>" stays visible.
++            textFormat: {
++                const b = String(root.modelData?.body ?? "");
++                if (/<\/?(?:b|i|u|s|a|em|strong|span|font|br|p|pre|code|tt|h[1-6]|ul|ol|li|blockquote|small|big|sub|sup|del|ins|mark|img)\b[^>]*>/i.test(b))
++                    return Text.RichText;
++                if (/[*_`#\[\]]/.test(b))
++                    return Text.MarkdownText;
++                return Text.PlainText;
++            }
+             text: String(root.modelData?.body ?? "").replace(/(.)\n(?!\n)/g, "$1\n\n") || qsTr("No body here! :/")
+             color: root.modelData?.urgency === "critical" ? Colours.palette.m3secondary : Colours.palette.m3outline
+             wrapMode: Text.WordWrap

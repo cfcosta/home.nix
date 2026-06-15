@@ -16,6 +16,26 @@ let
     inputs.caelestia-shell.inputs.caelestia-cli.packages.${pkgs.stdenv.hostPlatform.system}.default;
   caelestia = "${cli}/bin/caelestia";
 
+  # caelestia renders notification bodies through Qt's Markdown engine whenever
+  # the body contains a `<` (see modules/notifications/Notification.qml upstream).
+  # But the freedesktop spec — which caelestia advertises support for via
+  # `bodyMarkupSupported`/`bodyHyperlinksSupported` — defines body markup as an
+  # HTML subset (<b> <i> <u> <a> <img>). The Markdown path mishandles that two
+  # ways: HTML links render in Qt's default blue (invisible on our dark surface),
+  # and any stray angle-bracket text (e.g. "<nick>", "a < b") is parsed as a tag
+  # and silently dropped — so the notification body vanishes. The patch routes
+  # real HTML markup to RichText, keeps genuine Markdown as Markdown, leaves
+  # everything else as PlainText, and gives links a legible accent colour. This
+  # is purely a QML source patch (the shell's QML is copied verbatim into the
+  # store), so it applies cleanly over `with-cli` — the HM module's default
+  # package. If a flake bump moves the patched lines the build fails loudly;
+  # regenerate the patch then.
+  caelestiaShell =
+    inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.with-cli.overrideAttrs
+      (old: {
+        patches = (old.patches or [ ]) ++ [ ./caelestia-notifications-html.patch ];
+      });
+
   # Repo-bundled wallpapers, copied into the store. caelestia owns the
   # background now that hyprpaper is retired.
   wallpapers = ../../wallpapers;
@@ -144,6 +164,10 @@ in
 
       programs.caelestia = {
         enable = true;
+
+        # Shell built from the same upstream input, with our notification
+        # HTML-rendering fix patched into its QML (see `caelestiaShell` above).
+        package = caelestiaShell;
 
         # Started as a systemd user service bound to graphical-session.target,
         # which UWSM sets up for the Hyprland session (see hyprland.nix).
