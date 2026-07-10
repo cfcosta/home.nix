@@ -23,8 +23,8 @@ in
       home.file = {
         ".pi/agent/settings.json".text = builtins.toJSON {
           defaultProvider = "openai-codex";
-          defaultModel = "gpt-5.5";
-          defaultThinkingLevel = "low";
+          defaultModel = "gpt-5.6-sol";
+          defaultThinkingLevel = "xhigh";
         };
 
         ".pi/agent/mcp.json".text = builtins.toJSON { inherit mcpServers; };
