@@ -19,6 +19,7 @@
         nixpkgs.follows = "nixpkgs";
         rust-overlay.follows = "rust-overlay";
         treefmt-nix.follows = "treefmt-nix";
+        bun2nix.follows = "bun2nix";
       };
     };
     duskpi = {
@@ -38,7 +39,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     bun2nix = {
-      url = "github:nix-community/bun2nix";
+      url = "github:cfcosta/bun2nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         treefmt-nix.follows = "treefmt-nix";
