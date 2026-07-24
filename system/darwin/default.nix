@@ -1,5 +1,4 @@
-{ config, inputs, ... }:
-{
+{ config, inputs, ... }: {
   imports = [
     inputs.home-manager.darwinModules.default
 
@@ -11,13 +10,11 @@
   ];
 
   config = {
-    home-manager.users.${config.dusk.username} =
-      { lib, ... }:
-      {
-        home.activation.createNotesDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          mkdir -p "$HOME/Notes"
-        '';
-      };
+    home-manager.users.${config.dusk.username} = { lib, ... }: {
+      home.activation.createNotesDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        mkdir -p "$HOME/Notes"
+      '';
+    };
 
     nix = {
       # Enable building Linux packages using a VM

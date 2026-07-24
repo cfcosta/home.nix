@@ -94,29 +94,27 @@ in
   config = {
     dusk.defaults.browser = "${braveRemoteDebug.cli}/bin/brave-remote-debug";
 
-    home-manager.users.${config.dusk.username} =
-      { lib, ... }:
-      {
-        home = {
-          packages = [
-            braveRemoteDebug.cli
-            chromeRemoteDebug.cli
-            chromiumRemoteDebug.cli
-          ];
+    home-manager.users.${config.dusk.username} = { lib, ... }: {
+      home = {
+        packages = [
+          braveRemoteDebug.cli
+          chromeRemoteDebug.cli
+          chromiumRemoteDebug.cli
+        ];
 
-          file."Applications/Brave Remote Debug.app".source = braveRemoteDebug.app;
-        };
-
-        home.activation.registerBraveRemoteDebugApp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
-            -f "$HOME/Applications/Brave Remote Debug.app" >/dev/null 2>&1 || true
-        '';
-
-        programs.bash.shellAliases = {
-          brave = "brave-remote-debug";
-          chrome = "chrome-remote-debug";
-          chromium = "chromium-remote-debug";
-        };
+        file."Applications/Brave Remote Debug.app".source = braveRemoteDebug.app;
       };
+
+      home.activation.registerBraveRemoteDebugApp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
+          -f "$HOME/Applications/Brave Remote Debug.app" >/dev/null 2>&1 || true
+      '';
+
+      programs.bash.shellAliases = {
+        brave = "brave-remote-debug";
+        chrome = "chrome-remote-debug";
+        chromium = "chromium-remote-debug";
+      };
+    };
   };
 }

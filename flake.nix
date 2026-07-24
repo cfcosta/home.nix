@@ -166,8 +166,7 @@
     in
     {
       devShells = forEachSupportedSystem (
-        { pkgs, system }:
-        {
+        { pkgs, system }: {
           default = pkgs.mkShell {
             name = "home";
 

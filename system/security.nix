@@ -1,5 +1,4 @@
-{ config, ... }:
-{
+{ config, ... }: {
   config = {
     home-manager.users.${config.dusk.username} = _: {
       home.file = {

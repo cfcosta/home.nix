@@ -1,5 +1,4 @@
-{ config, inputs, ... }:
-{
+{ config, inputs, ... }: {
   imports = with inputs.nixos-hardware.nixosModules; [
     common-cpu-amd
     common-pc-ssd
