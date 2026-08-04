@@ -30,8 +30,16 @@ let
   # store), so it applies cleanly over `with-cli` — the HM module's default
   # package. If a flake bump moves the patched lines the build fails loudly;
   # regenerate the patch then.
+  #
+  # caelestia's flake declares no hyprland input; its package resolves the
+  # `hyprland` callPackage arg from its own overlay-free nixpkgs, which lands on
+  # the release build (0.56.1) that fails to build here. Override it with the
+  # flake hyprland (pkgs.hyprland is pinned to inputs.hyprland by packages/) so
+  # caelestia builds against — and puts on PATH — the same compositor we run.
   caelestiaShell =
-    inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.with-cli.overrideAttrs
+    (inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.with-cli.override {
+      inherit (pkgs) hyprland;
+    }).overrideAttrs
       (old: {
         patches = (old.patches or [ ]) ++ [ ./caelestia-notifications-html.patch ];
       });

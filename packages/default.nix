@@ -17,6 +17,7 @@ in
     src = inputs.hunk;
     bun2nix = inputs.bun2nix.packages.${system}.default;
   };
+  hyprland = inputs.hyprland.packages.${system}.hyprland;
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
 }
