@@ -26,6 +26,51 @@ let
   heroic = "/run/current-system/sw/bin/heroic";
   eden = "/run/current-system/sw/bin/eden";
   rpcs3 = "/run/current-system/sw/bin/rpcs3";
+  bash = "/run/current-system/sw/bin/bash";
+
+  # Steam is single-instance per user. When moonshine starts Steam inside its
+  # own compositor while a desktop Steam is already running, the steam:// URL is
+  # handed to that existing instance instead: Big Picture opens on the host's
+  # physical monitor and the stream fails outright, which Moonlight surfaces as
+  # a 503. Upstream's recommended workaround (TIPS.md, issue #134) is to ask any
+  # running Steam to shut down and wait for it to actually exit before the
+  # streamed instance launches. The trade-off is explicit and worth knowing:
+  # starting a stream closes whatever Steam session is open on the desktop.
+  #
+  # PATH is set rather than inherited because this runs as ExecStartPre on a
+  # transient systemd unit, which gets systemd's default PATH, not a login
+  # shell's — bare `pgrep` would not resolve there. Only the argv[0] above needs
+  # to be absolute for moonshine's own `which` lookup.
+  #
+  # Upstream waits up to 30s, which cannot work against moonshine's own
+  # defaults. pre_command becomes ExecStartPre on a transient Type=exec unit, so
+  # the systemd start job does not complete until it returns, and moonshine
+  # bounds that job by launch_timeout_secs — which defaults to 2. A 30s wait
+  # would abort every launch in exactly the situation the recipe exists to fix.
+  # Raising the ceiling is therefore required, but it is deliberately kept
+  # modest: moonshine spends the same value again after launch watching for the
+  # unit to fail, and that one elapses in full on success, so every extra second
+  # here is a second of dead time on every start. Ten seconds covers a normal
+  # `steam -shutdown`, and the 15s ceiling leaves the start job headroom while
+  # overlapping Big Picture's own cold start. Neither knob is mentioned in
+  # upstream's README or TIPS.md.
+  steamShutdownWait = 10;
+  steamLaunchTimeout = 15;
+
+  closeDesktopSteam = [
+    bash
+    "-c"
+    ''
+      export PATH=/run/current-system/sw/bin
+      if pgrep -x steam >/dev/null; then
+        steam -shutdown >/dev/null 2>&1
+        for _ in $(seq 1 ${toString steamShutdownWait}); do
+          pgrep -x steam >/dev/null || break
+          sleep 1
+        done
+      fi
+    ''
+  ];
 in
 {
   imports = [ inputs.moonshine.nixosModules.default ];
@@ -57,6 +102,8 @@ in
                 steam
                 "steam://open/bigpicture"
               ];
+              pre_command = [ closeDesktopSteam ];
+              launch_timeout_secs = steamLaunchTimeout;
             }
           ]
           # The console emulators emulation.nix installs, when it is on. Both
@@ -94,6 +141,12 @@ in
                 "-bigpicture"
                 "steam://rungameid/{game_id}"
               ];
+              # Every scanned game launches through a steam:// URL too, so it
+              # hits the same single-instance forwarding problem as the Big
+              # Picture entry above. The scanner applies this to each
+              # application it produces.
+              pre_command = [ closeDesktopSteam ];
+              launch_timeout_secs = steamLaunchTimeout;
             }
           ]
           ++ optionals gaming.enable [
