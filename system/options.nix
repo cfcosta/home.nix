@@ -190,6 +190,13 @@ in
                 parent = cfg.desktop.enable;
               };
             };
+
+            emulation = {
+              enable = mkEnabledOption {
+                description = "Whether or not to enable console emulators (RPCS3, Eden)";
+                parent = cfg.desktop.gaming.enable;
+              };
+            };
           };
 
           networking = {

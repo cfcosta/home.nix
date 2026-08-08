@@ -39,6 +39,13 @@
           desktop = {
             gaming.enable = true;
             hyprland.enable = true;
+
+            # Emulators default to following gaming.enable, but they have no
+            # place on an installer image: nothing here can supply the console
+            # keys or firmware they need, and RPCS3 has no binary cache (see
+            # system/hyprland/emulation.nix), so leaving them on would make
+            # every ISO build compile it from source.
+            emulation.enable = false;
           };
         };
       };

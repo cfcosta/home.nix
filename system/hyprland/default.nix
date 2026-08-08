@@ -18,6 +18,7 @@ in
     ./browser.nix
     ./caelestia.nix
     ./drone.nix
+    ./emulation.nix
     ./file-manager.nix
     ./gaming.nix
     ./hyprland.nix
