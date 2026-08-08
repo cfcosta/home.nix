@@ -1187,6 +1187,26 @@
         "type": "github"
       }
     },
+    "moonshine": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786093376,
+        "narHash": "sha256-z13NzEbjCzPzfBpuU5HUKbz/MgosB0arQ9L6eqz5Gis=",
+        "owner": "hgaiser",
+        "repo": "moonshine",
+        "rev": "91602b5bcfed0a5189d97ed3e8ca6bf6bcae0ca0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hgaiser",
+        "repo": "moonshine",
+        "type": "github"
+      }
+    },
     "neovim": {
       "inputs": {
         "aiken-neovim": "aiken-neovim",
@@ -1754,6 +1774,7 @@
         "hunk": "hunk",
         "hyprland": "hyprland",
         "llm-agents": "llm-agents",
+        "moonshine": "moonshine",
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",
         "nix-flatpak": "nix-flatpak",

@@ -57,6 +57,10 @@
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    moonshine = {
+      url = "github:hgaiser/moonshine";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neovim = {
       url = "github:cfcosta/neovim.nix";
       inputs = {

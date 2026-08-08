@@ -197,6 +197,13 @@ in
                 parent = cfg.desktop.gaming.enable;
               };
             };
+
+            moonshine = {
+              enable = mkEnabledOption {
+                description = "Whether or not to stream games to Moonlight clients (Moonshine)";
+                parent = cfg.desktop.gaming.enable;
+              };
+            };
           };
 
           networking = {

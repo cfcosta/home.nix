@@ -46,6 +46,12 @@
             # system/hyprland/emulation.nix), so leaving them on would make
             # every ISO build compile it from source.
             emulation.enable = false;
+
+            # Same reasoning for the streaming server: an installer image has
+            # no Steam library to stream and no pairing state to keep, and
+            # moonshine is built from source (no binary cache), so leaving it
+            # on would only make every ISO build compile a Rust workspace.
+            moonshine.enable = false;
           };
         };
       };

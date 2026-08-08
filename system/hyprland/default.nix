@@ -23,6 +23,7 @@ in
     ./gaming.nix
     ./hyprland.nix
     ./monitors.nix
+    ./moonshine.nix
   ];
 
   config = mkIf cfg.enable {
