@@ -24,6 +24,7 @@ let
   # emulation.nix's environment.systemPackages, so the same reasoning applies.
   steam = "/run/current-system/sw/bin/steam";
   heroic = "/run/current-system/sw/bin/heroic";
+  retroarch = "/run/current-system/sw/bin/retroarch";
   eden = "/run/current-system/sw/bin/eden";
   rpcs3 = "/run/current-system/sw/bin/rpcs3";
   bash = "/run/current-system/sw/bin/bash";
@@ -106,15 +107,21 @@ in
               launch_timeout_secs = steamLaunchTimeout;
             }
           ]
-          # The console emulators emulation.nix installs, when it is on. Both
+          # The emulators emulation.nix installs, when it is on. All three
           # are launched bare, which brings up their own game-list UI on the
-          # streamed display: moonshine ships no emulator scanner (only Steam,
-          # Desktop, Lutris and Heroic), and neither ROM library is described
-          # anywhere in this config, so per-game entries cannot be generated
-          # from here. Worth knowing before streaming these: picking a game
-          # means driving a desktop UI, so the client needs a pointer — a
-          # controller alone will not navigate either emulator's launcher.
+          # streamed display: moonshine ships no emulator scanner (only
+          # Steam, Desktop, Lutris and Heroic), and no ROM library is
+          # described anywhere in this config, so per-game entries cannot be
+          # generated from here. RetroArch is comfortable that way — its menu
+          # is gamepad-driven and emulation.nix already points its browser at
+          # the ROM library, so a controller alone reaches a game. Eden and
+          # RPCS3 are not: picking a game in either means driving a desktop
+          # UI, so the client needs a pointer for those two.
           ++ optionals emulation.enable [
+            {
+              title = "RetroArch";
+              command = [ retroarch ];
+            }
             {
               title = "Eden";
               command = [ eden ];
