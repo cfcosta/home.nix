@@ -193,7 +193,7 @@ in
 
             emulation = {
               enable = mkEnabledOption {
-                description = "Whether or not to enable console emulators (RPCS3, Eden)";
+                description = "Whether or not to enable console emulators (RetroArch, RPCS3, Eden)";
                 parent = cfg.desktop.gaming.enable;
               };
             };

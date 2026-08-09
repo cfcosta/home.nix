@@ -1,26 +1,31 @@
-"""Two-way sync of directory-shaped emulator saves with RomM.
+"""Two-way sync of emulator saves with RomM.
 
-RomM stores one flat FILE per save, and only ever learns that a save exists
-through the API: `scan_save()` is called from the upload endpoint alone, and no
-library scan looks at asset files on disk. Its own device-sync modes don't help
-either -- the folder watcher skips anything that isn't a file, and the SSH
-puller lists a single level of regular files. Eden and RPCS3 both keep a
-DIRECTORY per save, so neither fits any of that.
+RomM only ever learns that a save exists through its API: `scan_save()` is
+called from the upload endpoint alone, and no library scan looks at asset files
+on disk. Its own device-sync modes don't close the gap either -- the folder
+watcher skips anything that isn't a file, and the SSH puller lists a single
+level of regular files.
 
-This bridges the two by shipping each save directory as a zip. RomM hashes zip
-uploads member-wise rather than over the container bytes (see
-`_compute_zip_hash` in handler/filesystem/assets_handler.py), which is the
-detail that makes the whole thing work: the server-side `content_hash` is
-reproducible here, so both sides can be compared for equality without
-downloading anything, and a rebuilt-but-identical zip doesn't look like a
-change just because its container bytes shifted.
+Two save shapes are handled, because the emulators disagree:
+
+  * Eden (Switch) and RPCS3 (PS3) keep a DIRECTORY per save, which RomM has no
+    concept of. Those are shipped as a zip. RomM hashes zip uploads
+    member-wise rather than over the container bytes (`_compute_zip_hash` in
+    handler/filesystem/assets_handler.py), which is what makes this work: the
+    server-side content_hash is reproducible here, so both sides compare for
+    equality without downloading anything, and a rebuilt-but-identical archive
+    doesn't look like a change just because its container bytes shifted.
+  * RetroArch writes a single flat file per game. Those go up verbatim -- no
+    zip -- so the save stays readable by anything else that speaks the format,
+    RomM's own web player included. RomM hashes those as a plain md5
+    (`_compute_file_hash`), which is reproduced here for the same reason.
 
 Safety rules this follows, in order of importance:
 
   * Never touch a save while its emulator is running. A restore landing under a
     live emulator is how cloud sync eats a save file.
-  * Never overwrite local state without first writing a zip of it to the backup
-    directory. Every destructive step is recoverable from there.
+  * Never overwrite local state without first writing a copy of it to the
+    backup directory. Every destructive step is recoverable from there.
   * On a genuine conflict (both sides changed since the last sync), the newer
     mtime wins, but the loser is still in backups.
 """
@@ -40,9 +45,9 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 HOME = Path.home()
 CONFIG_DIR = Path(
@@ -57,16 +62,27 @@ STATE_DIR = Path(
 # local backups from churning.
 ZIP_EPOCH = (1980, 1, 1, 0, 0, 0)
 
-# RomM appends " [YYYY-MM-DD_HH-MM-SS]" to the filename when a save is uploaded
-# with a slot, which is how history mode keeps revisions apart.
-DATETIME_TAG = re.compile(r" \[\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\]$")
+# RomM inserts " [YYYY-MM-DD_HH-MM-SS]" before the extension when a save is
+# uploaded with a slot, which is how history mode keeps revisions apart.
+DATETIME_TAG = re.compile(r" \[\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\]")
 TITLE_ID = re.compile(r"^[0-9A-Fa-f]{16}$")
 
 failures = 0
+verbose = False
 
 
 def log(msg: str) -> None:
     print(msg, flush=True)
+
+
+def debug(msg: str) -> None:
+    """For conditions that are a normal steady state.
+
+    Anything that would otherwise repeat unchanged on every timer tick belongs
+    here, not in log(): an unmatched save is not news the twentieth time.
+    """
+    if verbose:
+        print(msg, flush=True)
 
 
 def warn(msg: str) -> None:
@@ -130,9 +146,13 @@ class Romm:
         return self._json("/platforms")  # type: ignore[return-value]
 
     def roms(self, platform_id: int) -> list[dict]:
-        # The roms listing is paginated (LimitOffsetPage); a library this size
-        # fits in one page well under the endpoint's 10k cap.
+        # The roms listing is paginated (LimitOffsetPage); even the largest
+        # platform here fits in one page well under the endpoint's 10k cap.
         page = self._json("/roms", platform_ids=platform_id, limit=10000)
+        return page["items"] if isinstance(page, dict) else page
+
+    def search(self, term: str) -> list[dict]:
+        page = self._json("/roms", search_term=term, limit=25)
         return page["items"] if isinstance(page, dict) else page
 
     def saves(self, platform_id: int) -> list[dict]:
@@ -162,8 +182,8 @@ class Romm:
                 "autocleanup_limit": history,
             }
         else:
-            # No slot: the filename stays exactly `<key>.zip` and the existing
-            # row is updated in place. Nothing is ever deleted server-side.
+            # No slot: the filename stays as sent and the existing row is
+            # updated in place. Nothing is ever deleted server-side.
             params = {"rom_id": rom_id, "emulator": emulator, "overwrite": "true"}
 
         boundary = "----romm-save-sync-boundary"
@@ -174,7 +194,7 @@ class Romm:
                     'Content-Disposition: form-data; name="saveFile"; '
                     f'filename="{filename}"\r\n'
                 ).encode(),
-                b"Content-Type: application/zip\r\n\r\n",
+                b"Content-Type: application/octet-stream\r\n\r\n",
                 blob,
                 f"\r\n--{boundary}--\r\n".encode(),
             ]
@@ -189,8 +209,43 @@ class Romm:
         return json.loads(raw)
 
 
+class Library:
+    """Lazily-fetched view of RomM.
+
+    RetroArch spans nine platforms and several thousand ROMs. Fetching all of
+    that every five minutes to discover that nothing changed would be absurd,
+    so rom listings are pulled only for a platform that actually has a save on
+    one side or the other.
+    """
+
+    def __init__(self, romm: Romm) -> None:
+        self.romm = romm
+        self._platforms: dict[str, dict] | None = None
+        self._roms: dict[str, list[dict]] = {}
+        self._searches: dict[str, list[dict]] = {}
+
+    @property
+    def platforms(self) -> dict[str, dict]:
+        if self._platforms is None:
+            self._platforms = {p["fs_slug"]: p for p in self.romm.platforms()}
+        return self._platforms
+
+    def roms(self, slug: str) -> list[dict]:
+        if slug not in self._roms:
+            self._roms[slug] = self.romm.roms(self.platforms[slug]["id"])
+        return self._roms[slug]
+
+    def search(self, term: str) -> list[dict]:
+        if term not in self._searches:
+            self._searches[term] = self.romm.search(term)
+        return self._searches[term]
+
+    def saves(self, slug: str) -> list[dict]:
+        return self.romm.saves(self.platforms[slug]["id"])
+
+
 # --------------------------------------------------------------------------
-# Archive helpers
+# Packaging: a save is either a directory (zipped) or a single file (verbatim)
 # --------------------------------------------------------------------------
 
 
@@ -209,8 +264,8 @@ def read_tree(root: Path) -> list[tuple[str, bytes]]:
     return sorted(members)
 
 
-def content_hash(members: list[tuple[str, bytes]]) -> str:
-    """Reproduce RomM's zip content hash for the same set of members.
+def zip_content_hash(members: list[tuple[str, bytes]]) -> str:
+    """Reproduce RomM's hash for a zipped upload.
 
     Must stay byte-identical to `_compute_zip_hash`: md5 of "name:md5hex" lines
     joined by newlines, members in sorted name order.
@@ -219,8 +274,12 @@ def content_hash(members: list[tuple[str, bytes]]) -> str:
         f"{name}:{hashlib.md5(blob, usedforsecurity=False).hexdigest()}"
         for name, blob in members
     ]
-    combined = "\n".join(lines)
-    return hashlib.md5(combined.encode(), usedforsecurity=False).hexdigest()
+    return hashlib.md5("\n".join(lines).encode(), usedforsecurity=False).hexdigest()
+
+
+def file_content_hash(blob: bytes) -> str:
+    """Reproduce RomM's hash for a non-zip upload (`_compute_file_hash`)."""
+    return hashlib.md5(blob, usedforsecurity=False).hexdigest()
 
 
 def build_zip(members: list[tuple[str, bytes]]) -> bytes:
@@ -247,18 +306,8 @@ def extract_zip(blob: bytes, destination: Path) -> None:
             target.write_bytes(archive.read(name))
 
 
-def backup(emulator: str, key: str, members: list[tuple[str, bytes]]) -> Path:
-    """Snapshot the current local save before anything overwrites it."""
-    stamp = datetime.now(timezone.utc).astimezone().strftime("%Y-%m-%d_%H-%M-%S")
-    directory = STATE_DIR / "backups" / emulator
-    directory.mkdir(parents=True, exist_ok=True)
-    path = directory / f"{key}-{stamp}.zip"
-    path.write_bytes(build_zip(members))
-    return path
-
-
-def restore(blob: bytes, target: Path) -> None:
-    """Replace `target`'s contents with the archive, swapping directories.
+def replace_tree(blob: bytes, target: Path) -> None:
+    """Swap `target` for the archive's contents.
 
     Extraction happens beside the target and only then takes its place, so an
     interrupted or corrupt download can't leave a half-written save behind.
@@ -277,74 +326,151 @@ def restore(blob: bytes, target: Path) -> None:
     shutil.rmtree(previous, ignore_errors=True)
 
 
-# --------------------------------------------------------------------------
-# Emulator adapters
-# --------------------------------------------------------------------------
+def replace_file(blob: bytes, target: Path) -> None:
+    """Same idea for a single-file save: stage beside it, then rename over."""
+    target.parent.mkdir(parents=True, exist_ok=True)
+    staging = target.with_name(f".{target.name}.romm-new")
+    staging.write_bytes(blob)
+    staging.replace(target)
 
 
-@dataclass(frozen=True)
-class SaveDir:
-    key: str
-    path: Path
-
-    @property
-    def mtime(self) -> datetime:
-        newest = self.path.stat().st_mtime
-        for path in self.path.rglob("*"):
-            if path.is_file():
-                newest = max(newest, path.stat().st_mtime)
-        return datetime.fromtimestamp(newest, tz=timezone.utc)
+def backup(emulator: str, remote_name: str, blob: bytes) -> Path:
+    """Snapshot the current local save before anything overwrites it."""
+    stamp = datetime.now(timezone.utc).astimezone().strftime("%Y-%m-%d_%H-%M-%S")
+    name = PurePosixPath(remote_name.replace(os.sep, "_"))
+    directory = STATE_DIR / "backups" / emulator
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / f"{name.stem}-{stamp}{name.suffix}"
+    path.write_bytes(blob)
+    return path
 
 
-class Adapter:
-    name: str
-    platform_slug: str
-    processes: tuple[str, ...]
-
-    def discover(self) -> list[SaveDir]:
-        raise NotImplementedError
-
-    def resolve(self, save: SaveDir, roms: list[dict]) -> int | None:
-        """Map a local save directory to a RomM rom id."""
-        raise NotImplementedError
-
-    def target_for(self, key: str) -> Path | None:
-        """Where a save that only exists server-side should be restored to."""
-        raise NotImplementedError
+def strip_datetime_tag(name: str) -> str:
+    return DATETIME_TAG.sub("", name, count=1)
 
 
 def normalize(name: str) -> str:
     return re.sub(r"[^a-z0-9]", "", name.lower())
 
 
-# PARAM.SFO's TITLE names the SAVE, not the game -- "Dragon's Crown Save Data"
-# for a ROM RomM simply calls "Dragon's Crown". Longest suffix first, so
-# "savedata" wins over the "data" that also matches it.
-SAVE_SUFFIXES = ("savedata", "gamedata", "playdata", "savefile", "save", "data")
+# --------------------------------------------------------------------------
+# Emulator adapters
+# --------------------------------------------------------------------------
 
 
-def strip_save_suffix(value: str) -> str:
-    for suffix in SAVE_SUFFIXES:
-        if value.endswith(suffix) and len(value) > len(suffix):
-            return value[: -len(suffix)]
-    return value
+@dataclass(frozen=True)
+class LocalSave:
+    platform_slug: str
+    key: str
+    path: Path
+    # Set during discovery when the layout already identifies the game, which
+    # saves guessing later.
+    rom_id: int | None = None
+
+    @property
+    def mtime(self) -> datetime:
+        newest = self.path.stat().st_mtime
+        if self.path.is_dir():
+            for path in self.path.rglob("*"):
+                if path.is_file():
+                    newest = max(newest, path.stat().st_mtime)
+        return datetime.fromtimestamp(newest, tz=timezone.utc)
 
 
-class Eden(Adapter):
+@dataclass(frozen=True)
+class Packed:
+    blob: bytes
+    content_hash: str
+    files: int
+    size: int
+
+
+class Adapter:
+    name: str
+    processes: tuple[str, ...]
+    platform_slugs: tuple[str, ...]
+
+    def discover(self, library: Library) -> list[LocalSave]:
+        raise NotImplementedError
+
+    def resolve(self, save: LocalSave, roms: list[dict]) -> int | None:
+        """Map a local save to a RomM rom id."""
+        raise NotImplementedError
+
+    def target_for(self, slug: str, key: str, rom: dict | None) -> Path | None:
+        """Where a save that only exists server-side should be restored to."""
+        raise NotImplementedError
+
+    def pack(self, path: Path) -> Packed:
+        raise NotImplementedError
+
+    def unpack(self, blob: bytes, target: Path) -> None:
+        raise NotImplementedError
+
+    def remote_name(self, key: str) -> str:
+        raise NotImplementedError
+
+    def key_for(self, remote_name: str) -> str:
+        raise NotImplementedError
+
+
+class DirectoryAdapter(Adapter):
+    """Saves are directories, so RomM gets one zip per save."""
+
+    def pack(self, path: Path) -> Packed:
+        members = read_tree(path)
+        blob = build_zip(members) if members else b""
+        size = sum(len(data) for _, data in members)
+        return Packed(blob, zip_content_hash(members), len(members), size)
+
+    def unpack(self, blob: bytes, target: Path) -> None:
+        replace_tree(blob, target)
+
+    def remote_name(self, key: str) -> str:
+        return f"{key}.zip"
+
+    def key_for(self, remote_name: str) -> str:
+        stem = strip_datetime_tag(remote_name)
+        return stem[:-4] if stem.lower().endswith(".zip") else stem
+
+
+class FileAdapter(Adapter):
+    """Saves are single files, uploaded verbatim.
+
+    Not zipped on purpose: a bare `.srm` stays loadable by every other thing
+    that reads the format, including RomM's own web player, which a wrapper
+    archive would break.
+    """
+
+    def pack(self, path: Path) -> Packed:
+        blob = path.read_bytes()
+        return Packed(blob, file_content_hash(blob), 1, len(blob))
+
+    def unpack(self, blob: bytes, target: Path) -> None:
+        replace_file(blob, target)
+
+    def remote_name(self, key: str) -> str:
+        return key
+
+    def key_for(self, remote_name: str) -> str:
+        return strip_datetime_tag(remote_name)
+
+
+class Eden(DirectoryAdapter):
     """Eden (Switch): nand/user/save/<space-id>/<user-uuid>/<title-id>/."""
 
     name = "eden"
-    platform_slug = "switch"
+    platform_slugs = ("switch",)
     processes = ("eden", "eden-cli")
     root = HOME / ".local/share/eden/nand/user/save"
 
-    def discover(self) -> list[SaveDir]:
-        found: dict[str, SaveDir] = {}
+    def discover(self, library: Library) -> list[LocalSave]:
+        found: dict[str, LocalSave] = {}
         for path in sorted(self.root.glob("*/*/*")):
             if not path.is_dir() or not TITLE_ID.match(path.name):
                 continue
             key = path.name.upper()
-            save = SaveDir(key=key, path=path)
+            save = LocalSave("switch", key, path)
             # One title under two user profiles is possible; the freshest one
             # is the save actually being played.
             if key in found and found[key].mtime >= save.mtime:
@@ -353,38 +479,38 @@ class Eden(Adapter):
             found[key] = save
         return list(found.values())
 
-    def resolve(self, save: SaveDir, roms: list[dict]) -> int | None:
-        # Switch ROM filenames carry the title id in brackets -- that's the
-        # same identifier RomM matches against its TitleDB index, so it is the
+    def resolve(self, save: LocalSave, roms: list[dict]) -> int | None:
+        # Switch ROM filenames carry the title id in brackets -- the same
+        # identifier RomM matches against its TitleDB index, so it is the
         # authoritative link between a save directory and a rom.
         for rom in roms:
             if f"[{save.key}]" in (rom.get("fs_name") or "").upper():
                 return rom["id"]
         return None
 
-    def target_for(self, key: str) -> Path | None:
+    def target_for(self, slug: str, key: str, rom: dict | None) -> Path | None:
         profiles = sorted(p for p in self.root.glob("*/*") if p.is_dir())
         if not profiles:
             return None
         return profiles[-1] / key
 
 
-class Rpcs3(Adapter):
+class Rpcs3(DirectoryAdapter):
     """RPCS3 (PS3): dev_hdd0/home/<user>/savedata/<PRODUCT>-<SLOT>/."""
 
     name = "rpcs3"
-    platform_slug = "ps3"
+    platform_slugs = ("ps3",)
     processes = ("rpcs3",)
     root = HOME / ".config/rpcs3/dev_hdd0/home"
 
-    def discover(self) -> list[SaveDir]:
+    def discover(self, library: Library) -> list[LocalSave]:
         saves = []
         for path in sorted(self.root.glob("*/savedata/*")):
             if path.is_dir() and not path.name.startswith("."):
-                saves.append(SaveDir(key=path.name, path=path))
+                saves.append(LocalSave("ps3", path.name, path))
         return saves
 
-    def resolve(self, save: SaveDir, roms: list[dict]) -> int | None:
+    def resolve(self, save: LocalSave, roms: list[dict]) -> int | None:
         # PS3 dumps are usually named for the product code, so try that first.
         product = save.key.split("-", 1)[0].upper()
         for rom in roms:
@@ -418,11 +544,135 @@ class Rpcs3(Adapter):
 
         return max(prefixed)[1] if prefixed else None
 
-    def target_for(self, key: str) -> Path | None:
+    def target_for(self, slug: str, key: str, rom: dict | None) -> Path | None:
         users = sorted(p for p in self.root.glob("*") if (p / "savedata").is_dir())
         if not users:
             return None
         return users[0] / "savedata" / key
+
+
+class RetroArch(FileAdapter):
+    """RetroArch: one flat save file per game, under a per-content folder.
+
+    `sort_savefiles_by_content_enable` (set declaratively in the wrapper) puts
+    each save in a folder named after the directory its content came from. For
+    this library that folder is the RomM platform slug -- roms/gba/… ->
+    saves/gba/… -- which is the only thing that ties a bare `.srm` back to a
+    platform. Multi-track disc rips live in a directory of their own, so those
+    sort under the game's folder name instead; both cases are resolved below.
+    """
+
+    name = "retroarch"
+    processes = ("retroarch",)
+    # Every platform RomM holds ROMs for that libretro has a core for. Switch
+    # and PS3 are absent because no core exists; eden and rpcs3 cover them.
+    platform_slugs = (
+        "3ds",
+        "gb",
+        "gba",
+        "gbc",
+        "nds",
+        "ngc",
+        "psx",
+        "segacd",
+        "snes",
+    )
+    config = HOME / ".config/retroarch/retroarch.cfg"
+    fallback_root = HOME / ".config/retroarch/saves"
+
+    @property
+    def root(self) -> Path:
+        """Follow retroarch.cfg rather than assuming.
+
+        The wrapper pins savefile_directory, but reading it back means a
+        directory changed by hand doesn't silently strand the sync.
+        """
+        try:
+            text = self.config.read_text(errors="replace")
+        except OSError:
+            return self.fallback_root
+        match = re.search(r'^savefile_directory\s*=\s*"(.*)"\s*$', text, re.MULTILINE)
+        if not match or match.group(1) in ("", "default"):
+            return self.fallback_root
+        return Path(os.path.expanduser(match.group(1)))
+
+    def _owner(self, folder: str, library: Library) -> tuple[str | None, int | None]:
+        if folder in self.platform_slugs:
+            return folder, None
+        # Not a platform, so this is a game that lives in a directory of its
+        # own -- a multi-track disc rip -- and the folder is the rom's fs_name.
+        # Search by name instead of scanning every platform's rom list: an
+        # unmatched folder (Dolphin's shared memory cards, say) is permanent,
+        # and paying thousands of rom records for it on every tick is not.
+        for rom in library.search(folder):
+            if (rom.get("fs_name") or "") != folder:
+                continue
+            slug = rom.get("platform_fs_slug")
+            if slug in self.platform_slugs:
+                return slug, rom["id"]
+        debug(f"retroarch: save folder {folder!r} matches no platform or ROM")
+        return None, None
+
+    def discover(self, library: Library) -> list[LocalSave]:
+        root = self.root
+        if not root.is_dir():
+            return []
+
+        saves = []
+        for folder in sorted(root.iterdir()):
+            if folder.name.startswith("."):
+                continue
+            if not folder.is_dir():
+                # Sorting is on, so a file sitting at the top level predates it
+                # (or came from another frontend) and has no platform to
+                # attribute it to.
+                debug(f"retroarch: {folder.name} is not in a per-content folder")
+                continue
+            slug, rom_id = self._owner(folder.name, library)
+            if slug is None:
+                continue
+            for path in sorted(folder.iterdir()):
+                if path.is_file() and not path.name.startswith("."):
+                    saves.append(LocalSave(slug, path.name, path, rom_id))
+        return saves
+
+    def resolve(self, save: LocalSave, roms: list[dict]) -> int | None:
+        if save.rom_id is not None:
+            return save.rom_id
+        # The save is named after the content, so its stem is the ROM's stem --
+        # true for a bare `.gba` and for a `.zip` whose inner file shares the
+        # archive's name.
+        stem = PurePosixPath(save.key).stem
+        for rom in roms:
+            if PurePosixPath(rom.get("fs_name") or "").stem == stem:
+                return rom["id"]
+        wanted = normalize(stem)
+        for rom in roms:
+            if normalize(PurePosixPath(rom.get("fs_name") or "").stem) == wanted:
+                return rom["id"]
+        return None
+
+    def target_for(self, slug: str, key: str, rom: dict | None) -> Path | None:
+        # The sort folder is named after the directory the content sits in:
+        # the platform directory for a plain ROM file, the game's own
+        # directory for a multi-track disc rip.
+        folder = slug
+        if rom and rom.get("has_multiple_files") and rom.get("fs_name"):
+            folder = rom["fs_name"]
+        return self.root / folder / key
+
+
+# PARAM.SFO's TITLE names the SAVE, not the game -- "Dragon's Crown Save Data"
+# for a ROM RomM simply calls "Dragon's Crown". Longest suffix first, so
+# "savedata" wins over the "data" that also matches it.
+SAVE_SUFFIXES = ("savedata", "gamedata", "playdata", "savefile", "save", "data")
+
+
+def strip_save_suffix(value: str) -> str:
+    for suffix in SAVE_SUFFIXES:
+        if value.endswith(suffix) and len(value) > len(suffix):
+            return value[: -len(suffix)]
+    return value
 
 
 def sfo_title(path: Path) -> str | None:
@@ -451,12 +701,22 @@ def sfo_title(path: Path) -> str | None:
     return None
 
 
-ADAPTERS = {adapter.name: adapter for adapter in (Eden(), Rpcs3())}
+ADAPTERS = {adapter.name: adapter for adapter in (Eden(), RetroArch(), Rpcs3())}
 
 
 # --------------------------------------------------------------------------
 # Sync
 # --------------------------------------------------------------------------
+
+
+@dataclass
+class Context:
+    adapter: Adapter
+    romm: Romm
+    library: Library
+    state: dict
+    args: argparse.Namespace
+    roms: list[dict] = field(default_factory=list)
 
 
 def emulator_running(names: tuple[str, ...]) -> str | None:
@@ -481,11 +741,6 @@ def parse_time(value: str | None) -> datetime:
     return parsed
 
 
-def key_from_filename(filename: str) -> str:
-    stem = filename[:-4] if filename.lower().endswith(".zip") else filename
-    return DATETIME_TAG.sub("", stem)
-
-
 def load_state() -> dict:
     path = STATE_DIR / "state.json"
     try:
@@ -502,208 +757,177 @@ def write_state(state: dict) -> None:
     tmp.replace(path)
 
 
-def sync_adapter(adapter: Adapter, romm: Romm, state: dict, args) -> None:
+def remember(ctx: Context, ident: str, local_hash: str | None, server: str | None):
+    ctx.state[ident] = {
+        "local": local_hash,
+        "server": server,
+        "at": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def sync_adapter(adapter: Adapter, romm: Romm, library: Library, state, args) -> None:
     busy = emulator_running(adapter.processes)
     if busy and not args.force:
         log(f"{adapter.name}: {busy} is running -- skipping (--force overrides)")
         return
 
-    platforms = {p["fs_slug"]: p for p in romm.platforms()}
-    platform = platforms.get(adapter.platform_slug)
-    if not platform:
-        log(f"{adapter.name}: no '{adapter.platform_slug}' platform in RomM, skipping")
+    active = [slug for slug in adapter.platform_slugs if slug in library.platforms]
+    if not active:
+        debug(f"{adapter.name}: none of its platforms exist in RomM")
         return
 
-    roms = romm.roms(platform["id"])
-    local = {save.key: save for save in adapter.discover()}
+    ctx = Context(adapter=adapter, romm=romm, library=library, state=state, args=args)
 
-    # Keep only the newest server-side revision per key. In history mode there
-    # are several rows behind one save; in plain mode there's exactly one.
-    remote: dict[str, dict] = {}
-    for save in romm.saves(platform["id"]):
-        if save.get("emulator") != adapter.name:
-            continue
-        key = key_from_filename(save["file_name"])
-        current = remote.get(key)
-        if current is None or parse_time(save["updated_at"]) > parse_time(
-            current["updated_at"]
-        ):
-            remote[key] = save
+    local_by_platform: dict[str, dict[str, LocalSave]] = {slug: {} for slug in active}
+    for save in adapter.discover(library):
+        if save.platform_slug in local_by_platform:
+            local_by_platform[save.platform_slug][save.key] = save
 
-    if not local and not remote:
-        log(f"{adapter.name}: nothing to sync")
-        return
+    for slug in active:
+        # Keep only the newest server-side revision per key. In history mode
+        # there are several rows behind one save; in plain mode exactly one.
+        remote: dict[str, dict] = {}
+        for save in library.saves(slug):
+            if save.get("emulator") != adapter.name:
+                continue
+            key = adapter.key_for(save["file_name"])
+            current = remote.get(key)
+            if current is None or parse_time(save["updated_at"]) > parse_time(
+                current["updated_at"]
+            ):
+                remote[key] = save
 
-    for key in sorted(set(local) | set(remote)):
-        try:
-            sync_one(
-                adapter, romm, state, args, key, local.get(key), remote.get(key), roms
-            )
-        except RommError as exc:
-            fail(f"{adapter.name}/{key}: {exc}")
-        except OSError as exc:
-            fail(f"{adapter.name}/{key}: {exc}")
+        local = local_by_platform[slug]
+        if not local and not remote:
+            continue  # nothing here, so don't pay for this platform's rom list
+
+        ctx.roms = library.roms(slug)
+        for key in sorted(set(local) | set(remote)):
+            try:
+                sync_one(ctx, slug, key, local.get(key), remote.get(key))
+            except (RommError, OSError) as exc:
+                fail(f"{adapter.name}/{slug}/{key}: {exc}")
 
 
 def sync_one(
-    adapter: Adapter,
-    romm: Romm,
-    state: dict,
-    args,
+    ctx: Context,
+    slug: str,
     key: str,
-    local: SaveDir | None,
+    local: LocalSave | None,
     remote: dict | None,
-    roms: list[dict],
 ) -> None:
-    tag = f"{adapter.name}/{key}"
-    previous = state.get(tag, {})
+    adapter = ctx.adapter
+    ident = f"{adapter.name}/{slug}/{key}"
+    previous = ctx.state.get(ident, {})
 
-    members = read_tree(local.path) if local else []
-    if local and not members:
+    packed = adapter.pack(local.path) if local else None
+    if packed is not None and packed.files == 0:
         # An emulator creates the save directory on first launch and only fills
         # it on the first in-game save, so an empty one is a normal steady
         # state. Treat it as no local save at all rather than bailing out: a
         # save that exists only on the server has to be able to restore INTO
         # that directory, which an early return would block forever.
-        local = None
-        members = []
+        local, packed = None, None
 
     if local is None and remote is None:
-        if args.verbose:
-            log(f"{tag}: local save directory is empty and the server has none")
+        debug(f"{ident}: empty locally and absent on the server")
         return
-
-    local_hash = content_hash(members) if local else None
 
     if remote is None:
-        rom_id = adapter.resolve(local, roms)  # type: ignore[arg-type]
+        rom_id = adapter.resolve(local, ctx.roms)  # type: ignore[arg-type]
         if rom_id is None:
-            log(f"{tag}: no matching ROM in RomM, skipping")
+            debug(f"{ident}: no matching ROM in RomM")
             return
-        return push(adapter, romm, state, args, key, local, members, local_hash, rom_id)
+        return push(ctx, ident, key, packed, rom_id)  # type: ignore[arg-type]
 
     if local is None:
-        return pull(adapter, romm, state, args, key, remote, None)
+        return pull(ctx, ident, slug, key, remote, None)
 
-    if local_hash == remote.get("content_hash"):
-        state[tag] = {
-            "local": local_hash,
-            "server": remote.get("content_hash"),
-            "at": datetime.now(timezone.utc).isoformat(),
-        }
-        if args.verbose:
-            log(f"{tag}: in sync")
+    assert packed is not None
+    if packed.content_hash == remote.get("content_hash"):
+        remember(ctx, ident, packed.content_hash, remote.get("content_hash"))
+        debug(f"{ident}: in sync")
         return
 
-    local_changed = previous.get("local") != local_hash
+    local_changed = previous.get("local") != packed.content_hash
     server_changed = previous.get("server") != remote.get("content_hash")
 
     if local_changed and not server_changed:
-        return push(
-            adapter,
-            romm,
-            state,
-            args,
-            key,
-            local,
-            members,
-            local_hash,
-            remote["rom_id"],
-        )
+        return push(ctx, ident, key, packed, remote["rom_id"])
     if server_changed and not local_changed:
-        return pull(adapter, romm, state, args, key, remote, members)
+        return pull(ctx, ident, slug, key, remote, packed)
 
     # Either both sides moved since the last sync, or this is a first run with
     # no state to compare against. Newest wins; the loser survives in backups.
     if local.mtime >= parse_time(remote["updated_at"]):
-        warn(f"{tag}: both sides changed, local is newer -- uploading")
-        return push(
-            adapter,
-            romm,
-            state,
-            args,
-            key,
-            local,
-            members,
-            local_hash,
-            remote["rom_id"],
-        )
-    warn(f"{tag}: both sides changed, server is newer -- restoring")
-    return pull(adapter, romm, state, args, key, remote, members)
+        warn(f"{ident}: both sides changed, local is newer -- uploading")
+        return push(ctx, ident, key, packed, remote["rom_id"])
+    warn(f"{ident}: both sides changed, server is newer -- restoring")
+    return pull(ctx, ident, slug, key, remote, packed)
 
 
-def push(
-    adapter: Adapter,
-    romm: Romm,
-    state: dict,
-    args,
-    key: str,
-    local: SaveDir,
-    members: list[tuple[str, bytes]],
-    local_hash: str,
-    rom_id: int,
-) -> None:
-    tag = f"{adapter.name}/{key}"
-    size = sum(len(blob) for _, blob in members)
-    log(f"{tag}: uploading {len(members)} files ({size:,} bytes) to rom {rom_id}")
-    if args.dry_run:
+def push(ctx: Context, ident: str, key: str, packed: Packed, rom_id: int) -> None:
+    adapter = ctx.adapter
+    name = adapter.remote_name(key)
+    log(f"{ident}: uploading {packed.files} file(s), {packed.size:,} bytes -> {name}")
+    if ctx.args.dry_run:
         return
 
-    saved = romm.upload(
+    saved = ctx.romm.upload(
         rom_id=rom_id,
         emulator=adapter.name,
-        filename=f"{key}.zip",
-        blob=build_zip(members),
-        history=args.history,
+        filename=name,
+        blob=packed.blob,
+        history=ctx.args.history,
     )
-    # Trust the server's own hash rather than the locally computed one, so a
-    # mismatch in the hashing contract shows up as repeated uploads instead of
-    # silently marking things in sync.
-    state[tag] = {
-        "local": local_hash,
-        "server": saved.get("content_hash"),
-        "at": datetime.now(timezone.utc).isoformat(),
-    }
-    if saved.get("content_hash") != local_hash:
-        warn(f"{tag}: server hash {saved.get('content_hash')} != local {local_hash}")
+    # RomM sanitizes upload filenames. If it renamed this one, the key won't
+    # round-trip and the save would look server-only on the next run, so say so
+    # rather than quietly flapping between upload and restore.
+    if adapter.key_for(saved.get("file_name", "")) != key:
+        warn(f"{ident}: RomM stored this as {saved.get('file_name')!r}")
+
+    remember(ctx, ident, packed.content_hash, saved.get("content_hash"))
+    if saved.get("content_hash") != packed.content_hash:
+        warn(
+            f"{ident}: server hash {saved.get('content_hash')} "
+            f"!= local {packed.content_hash}"
+        )
 
 
 def pull(
-    adapter: Adapter,
-    romm: Romm,
-    state: dict,
-    args,
+    ctx: Context,
+    ident: str,
+    slug: str,
     key: str,
     remote: dict,
-    members: list[tuple[str, bytes]] | None,
+    packed: Packed | None,
 ) -> None:
-    tag = f"{adapter.name}/{key}"
-    target = adapter.target_for(key)
+    adapter = ctx.adapter
+    rom = next((r for r in ctx.roms if r["id"] == remote["rom_id"]), None)
+    target = adapter.target_for(slug, key, rom)
     if target is None:
-        log(f"{tag}: server has a save but there's no local profile to restore into")
+        log(f"{ident}: server has a save but there's no local profile for it")
         return
 
-    log(f"{tag}: restoring {remote['file_name']} ({remote['file_size_bytes']:,} bytes)")
-    if args.dry_run:
+    log(f"{ident}: restoring {remote['file_name']} ({remote['file_size_bytes']:,} B)")
+    if ctx.args.dry_run:
         return
 
-    blob = romm.download(remote["id"])
-    if members:
-        saved_to = backup(adapter.name, key, members)
-        log(f"{tag}: previous local save backed up to {saved_to}")
+    blob = ctx.romm.download(remote["id"])
+    if packed is not None:
+        saved_to = backup(adapter.name, adapter.remote_name(key), packed.blob)
+        log(f"{ident}: previous local save backed up to {saved_to}")
 
-    restore(blob, target)
-    state[tag] = {
-        "local": content_hash(read_tree(target)),
-        "server": remote.get("content_hash"),
-        "at": datetime.now(timezone.utc).isoformat(),
-    }
+    adapter.unpack(blob, target)
+    remember(ctx, ident, adapter.pack(target).content_hash, remote.get("content_hash"))
 
 
 def main() -> int:
+    global verbose
+
     parser = argparse.ArgumentParser(
         prog="romm-save-sync",
-        description="Sync Eden and RPCS3 save directories with RomM.",
+        description="Sync Eden, RetroArch and RPCS3 saves with RomM.",
     )
     parser.add_argument(
         "--only",
@@ -730,8 +954,11 @@ def main() -> int:
             "in place; RomM deletes revisions past N (default: 0, never delete)"
         ),
     )
-    parser.add_argument("--verbose", action="store_true", help="log in-sync saves too")
+    parser.add_argument(
+        "--verbose", action="store_true", help="log in-sync and unmatched saves too"
+    )
     args = parser.parse_args()
+    verbose = args.verbose
 
     url = os.environ.get("ROMM_URL")
     token = os.environ.get("ROMM_TOKEN")
@@ -744,13 +971,12 @@ def main() -> int:
         return 2
 
     romm = Romm(url, token)
+    library = Library(romm)
     state = load_state()
-    selected = args.only or sorted(ADAPTERS)
 
-    for name in selected:
-        adapter = ADAPTERS[name]
+    for name in args.only or sorted(ADAPTERS):
         try:
-            sync_adapter(adapter, romm, state, args)
+            sync_adapter(ADAPTERS[name], romm, library, state, args)
         except RommError as exc:
             fail(f"{name}: {exc}")
 
