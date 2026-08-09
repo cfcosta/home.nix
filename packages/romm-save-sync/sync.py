@@ -560,8 +560,19 @@ def sync_one(
 
     members = read_tree(local.path) if local else []
     if local and not members:
-        log(f"{tag}: local save directory is empty, skipping")
+        # An emulator creates the save directory on first launch and only fills
+        # it on the first in-game save, so an empty one is a normal steady
+        # state. Treat it as no local save at all rather than bailing out: a
+        # save that exists only on the server has to be able to restore INTO
+        # that directory, which an early return would block forever.
+        local = None
+        members = []
+
+    if local is None and remote is None:
+        if args.verbose:
+            log(f"{tag}: local save directory is empty and the server has none")
         return
+
     local_hash = content_hash(members) if local else None
 
     if remote is None:
