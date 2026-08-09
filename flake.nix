@@ -162,7 +162,7 @@
           modules = [
             ./system
             ./system/${flavor}
-            ./machines/${name}.nix
+            ./machines/${name}
           ];
 
           specialArgs = { inherit inputs flavor; };

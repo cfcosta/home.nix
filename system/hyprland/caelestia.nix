@@ -199,7 +199,7 @@ in
           services.useFahrenheit = false;
 
           # Show the bar battery indicator by default (laptops); desktops force
-          # it off per-host (see machines/battlecruiser.nix).
+          # it off per-host (see machines/battlecruiser/desktop.nix).
           bar.status.showBattery = lib.mkDefault true;
 
           # Wallpaper switcher browses the repo's bundled wallpapers.

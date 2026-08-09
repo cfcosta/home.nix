@@ -14,9 +14,9 @@ if [ -d "${ROOT}" ]; then
   _info "Found project root: $(_blue "${ROOT}")"
 fi
 
-if [ ! -f "$ROOT/machines/$HOSTNAME.nix" ]; then
+if [ ! -d "$ROOT/machines/$HOSTNAME" ]; then
   _error "Could not find a machine definition for $(_blue "${HOSTNAME}")."
-  _info "Please create a file for it on the following path: $(_red "$ROOT/machines/$HOSTNAME.nix") (and ensure it has been added to git working copy, with $(_green "git add --intent-to-add") or something similar)."
+  _info "Please create a directory for it on the following path: $(_red "$ROOT/machines/$HOSTNAME") with a $(_red "default.nix") inside (and ensure it has been added to git working copy, with $(_green "git add --intent-to-add") or something similar)."
   exit 1
 fi
 
