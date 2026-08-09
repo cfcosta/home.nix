@@ -20,4 +20,5 @@ in
   hyprland = inputs.hyprland.packages.${system}.hyprland;
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
+  romm-save-sync = super.callPackage ./romm-save-sync { };
 }
