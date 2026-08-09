@@ -9,12 +9,7 @@ let
 
   cfg = config.dusk.system.nixos.desktop.emulation;
 
-  inherit (config.dusk.folders) code home;
-
-  # The RomM library as it exists on this disk: the homelab flake keeps it in
-  # its working copy and 9p-shares it into the VM, so the host reads the very
-  # same files RomM serves.
-  romsDirectory = "${code}/cfcosta/homelab.nix/data/media/Roms/roms";
+  inherit (config.dusk.folders) home;
 
   # One core per system RomM actually holds ROMs for. Switch and PS3 are absent
   # on purpose -- libretro has no core for either, which is why eden and rpcs3
@@ -50,13 +45,21 @@ let
       sort_savefiles_by_content_enable = "true";
       sort_savestates_by_content_enable = "true";
 
+      # Sorting by CORE as well is on by default, and would bury every save one
+      # level deeper under the core's display name (saves/gba/mGBA/…). That
+      # buys nothing here -- one core per system already -- and the extra level
+      # would hide saves from the sync, so it is turned off explicitly rather
+      # than left to a default that has already changed once.
+      sort_savefiles_enable = "false";
+      sort_savestates_enable = "false";
+
       # Never write saves next to the content. The content directory here IS
       # the RomM library, and stray .srm files in it would show up in RomM's
       # next scan as junk entries.
       savefiles_in_content_dir = "false";
       savestates_in_content_dir = "false";
 
-      rgui_browser_directory = romsDirectory;
+      rgui_browser_directory = cfg.romsDirectory;
     };
   };
 in

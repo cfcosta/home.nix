@@ -30,6 +30,11 @@
       Service = {
         Type = "oneshot";
 
+        # Citra names 3DS saves by title id and nothing on disk says which
+        # game that is, so the sync reads the id back out of each dump's NCSD
+        # header. Only the header is read, so a 4 GiB cart costs nothing.
+        Environment = [ "ROMM_SAVE_SYNC_ROMS=${config.dusk.system.nixos.desktop.emulation.romsDirectory}" ];
+
         # ROMM_URL and the rmm_ client token live in a mode-600 file outside
         # the store and the repo, same as jobcrawler's daemon.env.
         # Rotate the token by editing that file; no rebuild.

@@ -8,13 +8,14 @@ level of regular files.
 
 Two save shapes are handled, because the emulators disagree:
 
-  * Eden (Switch) and RPCS3 (PS3) keep a DIRECTORY per save, which RomM has no
-    concept of. Those are shipped as a zip. RomM hashes zip uploads
-    member-wise rather than over the container bytes (`_compute_zip_hash` in
-    handler/filesystem/assets_handler.py), which is what makes this work: the
-    server-side content_hash is reproducible here, so both sides compare for
-    equality without downloading anything, and a rebuilt-but-identical archive
-    doesn't look like a change just because its container bytes shifted.
+  * Eden (Switch), RPCS3 (PS3) and Citra (3DS, under RetroArch) keep a
+    DIRECTORY per save, which RomM has no concept of. Those are shipped as a
+    zip. RomM hashes zip uploads member-wise rather than over the container
+    bytes (`_compute_zip_hash` in handler/filesystem/assets_handler.py), which
+    is what makes this work: the server-side content_hash is reproducible
+    here, so both sides compare for equality without downloading anything, and
+    a rebuilt-but-identical archive doesn't look like a change just because
+    its container bytes shifted.
   * RetroArch writes a single flat file per game. Those go up verbatim -- no
     zip -- so the save stays readable by anything else that speaks the format,
     RomM's own web player included. RomM hashes those as a plain md5
@@ -353,6 +354,27 @@ def normalize(name: str) -> str:
     return re.sub(r"[^a-z0-9]", "", name.lower())
 
 
+RETROARCH_CONFIG = HOME / ".config/retroarch/retroarch.cfg"
+RETROARCH_SAVES_FALLBACK = HOME / ".config/retroarch/saves"
+RETROARCH_PROCESSES = ("retroarch",)
+
+
+def retroarch_saves_root() -> Path:
+    """RetroArch's save directory, read back from its config rather than assumed.
+
+    The wrapper pins savefile_directory declaratively, but following the file
+    means a directory changed by hand doesn't silently strand the sync.
+    """
+    try:
+        text = RETROARCH_CONFIG.read_text(errors="replace")
+    except OSError:
+        return RETROARCH_SAVES_FALLBACK
+    match = re.search(r'^savefile_directory\s*=\s*"(.*)"\s*$', text, re.MULTILINE)
+    if not match or match.group(1) in ("", "default"):
+        return RETROARCH_SAVES_FALLBACK
+    return Path(os.path.expanduser(match.group(1)))
+
+
 # --------------------------------------------------------------------------
 # Emulator adapters
 # --------------------------------------------------------------------------
@@ -563,7 +585,7 @@ class RetroArch(FileAdapter):
     """
 
     name = "retroarch"
-    processes = ("retroarch",)
+    processes = RETROARCH_PROCESSES
     # Every platform RomM holds ROMs for that libretro has a core for. Switch
     # and PS3 are absent because no core exists; eden and rpcs3 cover them.
     platform_slugs = (
@@ -577,24 +599,10 @@ class RetroArch(FileAdapter):
         "segacd",
         "snes",
     )
-    config = HOME / ".config/retroarch/retroarch.cfg"
-    fallback_root = HOME / ".config/retroarch/saves"
 
     @property
     def root(self) -> Path:
-        """Follow retroarch.cfg rather than assuming.
-
-        The wrapper pins savefile_directory, but reading it back means a
-        directory changed by hand doesn't silently strand the sync.
-        """
-        try:
-            text = self.config.read_text(errors="replace")
-        except OSError:
-            return self.fallback_root
-        match = re.search(r'^savefile_directory\s*=\s*"(.*)"\s*$', text, re.MULTILINE)
-        if not match or match.group(1) in ("", "default"):
-            return self.fallback_root
-        return Path(os.path.expanduser(match.group(1)))
+        return retroarch_saves_root()
 
     def _owner(self, folder: str, library: Library) -> tuple[str | None, int | None]:
         if folder in self.platform_slugs:
@@ -662,6 +670,119 @@ class RetroArch(FileAdapter):
         return self.root / folder / key
 
 
+class Citra(DirectoryAdapter):
+    """Citra (3DS) running under RetroArch.
+
+    Citra emulates the 3DS filesystem, so a save is a DIRECTORY sitting at
+    sdmc/Nintendo 3DS/<id0>/<id1>/title/<high>/<low>/data/00000001 -- keyed by
+    title id, with nothing anywhere in the path naming the game. The title id
+    is in the ROM's own NCSD header, so unlike every other adapter here this
+    one has to read the library to know what it is looking at.
+
+    Only the title's savedata is carried. Some games keep extra state in
+    extdata, which is keyed by a different id that doesn't map cleanly onto a
+    rom, so it is left alone rather than guessed at.
+    """
+
+    name = "citra"
+    platform_slugs = ("3ds",)
+    # Citra is a libretro core, so the process to look for is its frontend.
+    processes = RETROARCH_PROCESSES
+
+    def __init__(self) -> None:
+        self._titles: dict[str, int] | None = None
+
+    @property
+    def root(self) -> Path:
+        # Citra appends "Citra/" to whatever save directory the frontend hands
+        # it, and with per-content sorting on that directory is <saves>/3ds.
+        return retroarch_saves_root() / "3ds" / "Citra" / "sdmc" / "Nintendo 3DS"
+
+    def discover(self, library: Library) -> list[LocalSave]:
+        root = self.root
+        if not root.is_dir():
+            return []
+
+        saves = []
+        for path in sorted(root.glob("*/*/title/*/*/data/00000001")):
+            if not path.is_dir():
+                continue
+            low = path.parent.parent.name
+            high = path.parent.parent.parent.name
+            if not re.fullmatch(r"[0-9A-Fa-f]{8}", high) or not re.fullmatch(
+                r"[0-9A-Fa-f]{8}", low
+            ):
+                continue
+            saves.append(LocalSave("3ds", f"{high}{low}".upper(), path))
+        return saves
+
+    def _title_ids(self, roms: list[dict]) -> dict[str, int]:
+        """Title id -> rom id, read out of the dumps in the ROM library."""
+        if self._titles is not None:
+            return self._titles
+
+        self._titles = {}
+        directory = os.environ.get("ROMM_SAVE_SYNC_ROMS")
+        if not directory:
+            debug("citra: ROMM_SAVE_SYNC_ROMS is unset, cannot identify title ids")
+            return self._titles
+
+        by_name = {rom.get("fs_name"): rom["id"] for rom in roms}
+        for path in sorted((Path(directory) / "3ds").glob("*")):
+            rom_id = by_name.get(path.name)
+            if rom_id is None or not path.is_file():
+                continue
+            title = ncsd_title_id(path)
+            if title:
+                self._titles[title] = rom_id
+        return self._titles
+
+    def resolve(self, save: LocalSave, roms: list[dict]) -> int | None:
+        return self._title_ids(roms).get(save.key)
+
+    def target_for(self, slug: str, key: str, rom: dict | None) -> Path | None:
+        # id0/id1 come from the emulated SD card and are only created once a
+        # game has actually run. Inventing them would put the save somewhere
+        # Citra never looks, so a restore waits for the profile to exist.
+        profiles = sorted(p for p in self.root.glob("*/*") if p.is_dir())
+        if not profiles:
+            return None
+        return (
+            profiles[-1]
+            / "title"
+            / key[:8].lower()
+            / key[8:].lower()
+            / "data"
+            / "00000001"
+        )
+
+
+def ncsd_title_id(path: Path) -> str | None:
+    """Title id from a 3DS dump, straight or inside a zip.
+
+    NCSD (a .cci/.3ds cart dump) carries "NCSD" at 0x100 and the media/title id
+    as a little-endian u64 at 0x108. Only the header is read, so a 4 GiB dump
+    costs almost nothing to identify.
+    """
+    try:
+        if path.suffix.lower() == ".zip":
+            with zipfile.ZipFile(path) as archive:
+                names = [n for n in archive.namelist() if not n.endswith("/")]
+                if not names:
+                    return None
+                with archive.open(names[0]) as handle:
+                    head = handle.read(0x200)
+        else:
+            with open(path, "rb") as handle:
+                head = handle.read(0x200)
+    except (OSError, zipfile.BadZipFile):
+        return None
+
+    if len(head) < 0x110 or head[0x100:0x104] != b"NCSD":
+        return None
+    return f"{struct.unpack_from('<Q', head, 0x108)[0]:016X}"
+
+
 # PARAM.SFO's TITLE names the SAVE, not the game -- "Dragon's Crown Save Data"
 # for a ROM RomM simply calls "Dragon's Crown". Longest suffix first, so
 # "savedata" wins over the "data" that also matches it.
@@ -701,7 +822,9 @@ def sfo_title(path: Path) -> str | None:
     return None
 
 
-ADAPTERS = {adapter.name: adapter for adapter in (Eden(), RetroArch(), Rpcs3())}
+ADAPTERS = {
+    adapter.name: adapter for adapter in (Citra(), Eden(), RetroArch(), Rpcs3())
+}
 
 
 # --------------------------------------------------------------------------
@@ -750,10 +873,16 @@ def load_state() -> dict:
 
 
 def write_state(state: dict) -> None:
+    # Keys are emulator/platform/key, and none of the three segments can
+    # contain a slash. Anything else is a leftover from the two-segment format
+    # that predates multi-platform adapters: never read again, so drop it
+    # rather than carry it forever.
+    live = {k: v for k, v in state.items() if k.count("/") == 2}
+
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     path = STATE_DIR / "state.json"
     tmp = path.with_suffix(".json.tmp")
-    tmp.write_text(json.dumps(state, indent=2, sort_keys=True))
+    tmp.write_text(json.dumps(live, indent=2, sort_keys=True))
     tmp.replace(path)
 
 
@@ -927,7 +1056,7 @@ def main() -> int:
 
     parser = argparse.ArgumentParser(
         prog="romm-save-sync",
-        description="Sync Eden, RetroArch and RPCS3 saves with RomM.",
+        description="Sync Citra, Eden, RetroArch and RPCS3 saves with RomM.",
     )
     parser.add_argument(
         "--only",

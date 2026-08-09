@@ -196,6 +196,15 @@ in
                 description = "Whether or not to enable console emulators (RetroArch, RPCS3, Eden)";
                 parent = cfg.desktop.gaming.enable;
               };
+
+              # Two consumers: RetroArch browses it, and romm-save-sync reads
+              # 3DS title ids out of the dumps there (Citra names its saves by
+              # title id, and nothing else on disk knows which game that is).
+              romsDirectory = mkOption {
+                type = types.str;
+                description = "RomM's ROM library as checked out on this machine";
+                default = "${config.dusk.folders.code}/cfcosta/homelab.nix/data/media/Roms/roms";
+              };
             };
 
             moonshine = {
