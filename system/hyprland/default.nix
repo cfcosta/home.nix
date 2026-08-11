@@ -56,6 +56,7 @@ in
         obs-studio
         obsidian
         pinta
+        slack
         telegram-desktop
         todoist-electron
         transmission_4-gtk

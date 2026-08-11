@@ -232,6 +232,10 @@ in
         exec = launchWeb "https://web.whatsapp.com" "Whatsapp Web" "whatsapp-web";
       }
       {
+        key = "${mod} + S";
+        exec = "${pkgs.slack}/bin/slack";
+      }
+      {
         key = "${mod} + X";
         exec = launchWeb "https://x.com/compose/post" "X" "x.com";
       }
