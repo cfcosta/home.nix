@@ -193,13 +193,14 @@ in
 
             emulation = {
               enable = mkEnabledOption {
-                description = "Whether or not to enable console emulators (RetroArch, RPCS3, Eden)";
+                description = "Whether or not to enable console emulators (RetroArch, RPCS3, Eden, Dolphin)";
                 parent = cfg.desktop.gaming.enable;
               };
 
               # Two consumers: RetroArch browses it, and romm-save-sync reads
-              # 3DS title ids out of the dumps there (Citra names its saves by
-              # title id, and nothing else on disk knows which game that is).
+              # the dumps there to identify saves that name their game by an id
+              # nothing else on disk resolves -- 3DS title ids for Citra,
+              # GameCube and Wii game ids for Dolphin.
               romsDirectory = mkOption {
                 type = types.str;
                 description = "RomM's ROM library as checked out on this machine";

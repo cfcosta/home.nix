@@ -27,6 +27,7 @@ let
   retroarch = "/run/current-system/sw/bin/retroarch";
   eden = "/run/current-system/sw/bin/eden";
   rpcs3 = "/run/current-system/sw/bin/rpcs3";
+  dolphin = "/run/current-system/sw/bin/dolphin-emu";
   bash = "/run/current-system/sw/bin/bash";
 
   # Steam is single-instance per user. When moonshine starts Steam inside its
@@ -107,16 +108,16 @@ in
               launch_timeout_secs = steamLaunchTimeout;
             }
           ]
-          # The emulators emulation.nix installs, when it is on. All three
+          # The emulators emulation.nix installs, when it is on. All four
           # are launched bare, which brings up their own game-list UI on the
           # streamed display: moonshine ships no emulator scanner (only
           # Steam, Desktop, Lutris and Heroic), and no ROM library is
           # described anywhere in this config, so per-game entries cannot be
           # generated from here. RetroArch is comfortable that way — its menu
           # is gamepad-driven and emulation.nix already points its browser at
-          # the ROM library, so a controller alone reaches a game. Eden and
-          # RPCS3 are not: picking a game in either means driving a desktop
-          # UI, so the client needs a pointer for those two.
+          # the ROM library, so a controller alone reaches a game. Eden, RPCS3
+          # and Dolphin are not: picking a game in any of them means driving a
+          # desktop UI, so the client needs a pointer for those three.
           ++ optionals emulation.enable [
             {
               title = "RetroArch";
@@ -129,6 +130,10 @@ in
             {
               title = "RPCS3";
               command = [ rpcs3 ];
+            }
+            {
+              title = "Dolphin";
+              command = [ dolphin ];
             }
           ];
 

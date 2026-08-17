@@ -8,18 +8,19 @@ level of regular files.
 
 Two save shapes are handled, because the emulators disagree:
 
-  * Eden (Switch), RPCS3 (PS3) and Citra (3DS, under RetroArch) keep a
-    DIRECTORY per save, which RomM has no concept of. Those are shipped as a
-    zip. RomM hashes zip uploads member-wise rather than over the container
-    bytes (`_compute_zip_hash` in handler/filesystem/assets_handler.py), which
-    is what makes this work: the server-side content_hash is reproducible
-    here, so both sides compare for equality without downloading anything, and
-    a rebuilt-but-identical archive doesn't look like a change just because
-    its container bytes shifted.
-  * RetroArch writes a single flat file per game. Those go up verbatim -- no
-    zip -- so the save stays readable by anything else that speaks the format,
-    RomM's own web player included. RomM hashes those as a plain md5
-    (`_compute_file_hash`), which is reproduced here for the same reason.
+  * Eden (Switch), RPCS3 (PS3), Citra (3DS, under RetroArch) and Dolphin's Wii
+    half keep a DIRECTORY per save, which RomM has no concept of. Those are
+    shipped as a zip. RomM hashes zip uploads member-wise rather than over the
+    container bytes (`_compute_zip_hash` in
+    handler/filesystem/assets_handler.py), which is what makes this work: the
+    server-side content_hash is reproducible here, so both sides compare for
+    equality without downloading anything, and a rebuilt-but-identical archive
+    doesn't look like a change just because its container bytes shifted.
+  * RetroArch and Dolphin's GameCube half write a single flat file per game.
+    Those go up verbatim -- no zip -- so the save stays readable by anything
+    else that speaks the format, RomM's own web player included. RomM hashes
+    those as a plain md5 (`_compute_file_hash`), which is reproduced here for
+    the same reason.
 
 Safety rules this follows, in order of importance:
 
@@ -407,6 +408,18 @@ class Packed:
     size: int
 
 
+def pack_tree(path: Path) -> Packed:
+    members = read_tree(path)
+    blob = build_zip(members) if members else b""
+    size = sum(len(data) for _, data in members)
+    return Packed(blob, zip_content_hash(members), len(members), size)
+
+
+def pack_file(path: Path) -> Packed:
+    blob = path.read_bytes()
+    return Packed(blob, file_content_hash(blob), 1, len(blob))
+
+
 class Adapter:
     name: str
     processes: tuple[str, ...]
@@ -440,10 +453,7 @@ class DirectoryAdapter(Adapter):
     """Saves are directories, so RomM gets one zip per save."""
 
     def pack(self, path: Path) -> Packed:
-        members = read_tree(path)
-        blob = build_zip(members) if members else b""
-        size = sum(len(data) for _, data in members)
-        return Packed(blob, zip_content_hash(members), len(members), size)
+        return pack_tree(path)
 
     def unpack(self, blob: bytes, target: Path) -> None:
         replace_tree(blob, target)
@@ -465,8 +475,7 @@ class FileAdapter(Adapter):
     """
 
     def pack(self, path: Path) -> Packed:
-        blob = path.read_bytes()
-        return Packed(blob, file_content_hash(blob), 1, len(blob))
+        return pack_file(path)
 
     def unpack(self, blob: bytes, target: Path) -> None:
         replace_file(blob, target)
@@ -586,15 +595,17 @@ class RetroArch(FileAdapter):
 
     name = "retroarch"
     processes = RETROARCH_PROCESSES
-    # Every platform RomM holds ROMs for that libretro has a core for. Switch
-    # and PS3 are absent because no core exists; eden and rpcs3 cover them.
+    # Every platform RomM holds ROMs for that RetroArch emulates here. Switch
+    # and PS3 are absent because libretro has no core for either; GameCube and
+    # Wii because the core that does exist writes one memory card image for the
+    # whole library, with no way back from a save to a game. eden, rpcs3 and
+    # dolphin cover all four.
     platform_slugs = (
         "3ds",
         "gb",
         "gba",
         "gbc",
         "nds",
-        "ngc",
         "psx",
         "segacd",
         "snes",
@@ -610,8 +621,9 @@ class RetroArch(FileAdapter):
         # Not a platform, so this is a game that lives in a directory of its
         # own -- a multi-track disc rip -- and the folder is the rom's fs_name.
         # Search by name instead of scanning every platform's rom list: an
-        # unmatched folder (Dolphin's shared memory cards, say) is permanent,
-        # and paying thousands of rom records for it on every tick is not.
+        # unmatched folder (one left behind by a core this no longer syncs,
+        # say) is permanent, and paying thousands of rom records for it on
+        # every tick is not.
         for rom in library.search(folder):
             if (rom.get("fs_name") or "") != folder:
                 continue
@@ -757,12 +769,12 @@ class Citra(DirectoryAdapter):
         )
 
 
-def ncsd_title_id(path: Path) -> str | None:
-    """Title id from a 3DS dump, straight or inside a zip.
+def read_head(path: Path, size: int) -> bytes | None:
+    """The first `size` bytes of a dump, straight or inside a zip.
 
-    NCSD (a .cci/.3ds cart dump) carries "NCSD" at 0x100 and the media/title id
-    as a little-endian u64 at 0x108. Only the header is read, so a 4 GiB dump
-    costs almost nothing to identify.
+    Identifying a dump never needs more than its header, so a 4 GiB cart costs
+    the same as a small one -- and inside a zip, only as much as decompressing
+    that prefix.
     """
     try:
         if path.suffix.lower() == ".zip":
@@ -771,16 +783,252 @@ def ncsd_title_id(path: Path) -> str | None:
                 if not names:
                     return None
                 with archive.open(names[0]) as handle:
-                    head = handle.read(0x200)
-        else:
-            with open(path, "rb") as handle:
-                head = handle.read(0x200)
+                    return handle.read(size)
+        with open(path, "rb") as handle:
+            return handle.read(size)
     except (OSError, zipfile.BadZipFile):
         return None
 
-    if len(head) < 0x110 or head[0x100:0x104] != b"NCSD":
+
+def ncsd_title_id(path: Path) -> str | None:
+    """Title id from a 3DS dump.
+
+    NCSD (a .cci/.3ds cart dump) carries "NCSD" at 0x100 and the media/title id
+    as a little-endian u64 at 0x108.
+    """
+    head = read_head(path, 0x200)
+    if head is None or len(head) < 0x110 or head[0x100:0x104] != b"NCSD":
         return None
     return f"{struct.unpack_from('<Q', head, 0x108)[0]:016X}"
+
+
+class Dolphin(Adapter):
+    """Dolphin (GameCube and Wii), whose two consoles save differently.
+
+      * A GameCube save is a single .gci file in the folder Dolphin exposes to
+        the console as memory card slot A: GC/<REGION>/Card A/. The alternative
+        Dolphin offers -- a .raw memory card image -- is ONE file holding every
+        game's saves at once, which no amount of work would tie back to a
+        single rom. That shape is what the libretro Dolphin core writes, and
+        why GameCube saves were never synced before; emulation.nix pins slot A
+        to the folder so this one can't silently turn back into that one.
+      * A Wii save is a DIRECTORY in the emulated NAND, at
+        Wii/title/00010000/<game code in hex>/data. 00010000 is the range for
+        disc-based games, which is all RomM's wii platform holds -- channels
+        and WiiWare live under their own ranges and belong to no rom here.
+
+    Neither path names the game, and RomM stores no serial to match against, so
+    the link back to a rom is the disc's own game id, read out of the dumps in
+    the ROM library exactly as Citra's title ids are.
+    """
+
+    name = "dolphin"
+    platform_slugs = ("ngc", "wii")
+    # Neither of these is what /proc/<pid>/comm reports, because nixpkgs ships
+    # Dolphin wrapped -- see process_names(), which is what makes them match.
+    processes = ("dolphin-emu", "dolphin-emu-nogui")
+    root = HOME / ".local/share/dolphin-emu"
+
+    def __init__(self) -> None:
+        self._ids: dict[str, dict[str, int]] = {}
+
+    def discover(self, library: Library) -> list[LocalSave]:
+        saves = []
+        # Slot A only: it is the one slot Dolphin fits a card into by default,
+        # and a game writes to whichever card it was told about, not both.
+        for path in sorted(self.root.glob("GC/*/Card A/*.gci")):
+            if path.is_file():
+                saves.append(LocalSave("ngc", path.name, path))
+        for path in sorted(self.root.glob("Wii/title/00010000/*/data")):
+            title = path.parent.name
+            if path.is_dir() and re.fullmatch(r"[0-9A-Fa-f]{8}", title):
+                saves.append(LocalSave("wii", title.upper(), path))
+        return saves
+
+    def resolve(self, save: LocalSave, roms: list[dict]) -> int | None:
+        wanted = game_id_from_key(save.platform_slug, save.key)
+        if wanted is None:
+            debug(f"dolphin: {save.key!r} carries no game id")
+            return None
+        return self._game_ids(save.platform_slug, roms).get(wanted)
+
+    def _game_ids(self, slug: str, roms: list[dict]) -> dict[str, int]:
+        """Game id -> rom id, read out of the dumps in the ROM library.
+
+        Keyed by the full six-character id for GameCube, whose .gci filenames
+        carry both the game code and the maker code, and by the four-character
+        game code alone for the Wii, whose NAND path carries only that.
+        """
+        if slug in self._ids:
+            return self._ids[slug]
+
+        index: dict[str, int] = {}
+        self._ids[slug] = index
+
+        directory = os.environ.get("ROMM_SAVE_SYNC_ROMS")
+        if not directory:
+            debug("dolphin: ROMM_SAVE_SYNC_ROMS is unset, cannot identify game ids")
+            return index
+
+        width = 4 if slug == "wii" else 6
+        by_name = {rom.get("fs_name"): rom["id"] for rom in roms}
+        for path in sorted((Path(directory) / slug).glob("*")):
+            rom_id = by_name.get(path.name)
+            if rom_id is None or not path.is_file():
+                continue
+            game_id = disc_game_id(path)
+            if game_id:
+                index[game_id[:width]] = rom_id
+        return index
+
+    def target_for(self, slug: str, key: str, rom: dict | None) -> Path | None:
+        # Unlike Eden's profiles or Citra's emulated SD card, both of these
+        # paths follow from the game alone, and Dolphin creates them itself
+        # when it needs them. So a save that exists only on the server can be
+        # restored before the game has ever been launched here.
+        if slug == "wii":
+            return self.root / "Wii/title/00010000" / key.lower() / "data"
+
+        game_code = gci_game_code(key)
+        if game_code is None:
+            return None
+        region = GC_REGIONS.get(game_code[3])
+        if region is None:
+            warn(f"dolphin: {game_code} has no region Dolphin keeps a card for")
+            return None
+        return self.root / "GC" / region / "Card A" / key
+
+    def pack(self, path: Path) -> Packed:
+        return pack_tree(path) if path.is_dir() else pack_file(path)
+
+    def unpack(self, blob: bytes, target: Path) -> None:
+        # What came back says which console it belongs to: a zip is a Wii save
+        # directory, anything else the bytes of a GameCube .gci. Reading it off
+        # the archive rather than off the key keeps this honest if RomM ever
+        # hands back something the key didn't predict.
+        if blob[:2] == b"PK":
+            replace_tree(blob, target)
+        else:
+            replace_file(blob, target)
+
+    def remote_name(self, key: str) -> str:
+        return key if key.lower().endswith(".gci") else f"{key}.zip"
+
+    def key_for(self, remote_name: str) -> str:
+        stem = strip_datetime_tag(remote_name)
+        return stem[:-4] if stem.lower().endswith(".zip") else stem
+
+
+# Dolphin writes a .gci as "<maker code>-<game code>-<the name the game gave
+# the save>.gci", and only the first two fields are fixed-width -- the third is
+# whatever the game called it, dashes and all.
+GCI_NAME = re.compile(r"^(?P<maker>..)-(?P<game>....)-.*\.gci$", re.IGNORECASE)
+
+# The country is the fourth character of the game code, and decides which
+# region's memory card folder Dolphin keeps a game's saves in. Dolphin's own
+# mapping consults the disc's expected region to settle a handful of Korean and
+# store-exclusive releases; that is skipped here, because this table only
+# decides where a restore lands and both readings of those releases name a
+# folder Dolphin will look in for some region of the same game.
+GC_REGIONS = {
+    "B": "USA",
+    "E": "USA",
+    "N": "USA",
+    "J": "JAP",
+    "K": "JAP",
+    "Q": "JAP",
+    "T": "JAP",
+    "W": "JAP",
+    "D": "EUR",
+    "F": "EUR",
+    "H": "EUR",
+    "I": "EUR",
+    "L": "EUR",
+    "M": "EUR",
+    "P": "EUR",
+    "R": "EUR",
+    "S": "EUR",
+    "U": "EUR",
+    "V": "EUR",
+    "X": "EUR",
+    "Y": "EUR",
+    "Z": "EUR",
+}
+
+
+def gci_game_code(key: str) -> str | None:
+    match = GCI_NAME.match(key)
+    return match.group("game").upper() if match else None
+
+
+def game_id_from_key(slug: str, key: str) -> str | None:
+    """The game id a Dolphin save key identifies its game by.
+
+    Six characters for GameCube, whose .gci filename holds the game code and
+    the maker code; four for the Wii, whose title id is the game code spelled
+    out in hex and carries no maker code to match on.
+    """
+    if slug == "wii":
+        try:
+            return bytes.fromhex(key).decode("ascii").upper()
+        except (ValueError, UnicodeDecodeError):
+            return None
+
+    match = GCI_NAME.match(key)
+    if not match:
+        return None
+    return (match.group("game") + match.group("maker")).upper()
+
+
+# GameCube and Wii discs open with the same six-character game id, and are told
+# apart by a magic word later in that header. Both are in its first 0x20 bytes.
+GC_MAGIC = b"\xc2\x33\x9f\x3d"
+WII_MAGIC = b"\x5d\x1c\x9e\xa3"
+
+# Far enough into a dump to reach the disc header in every container below --
+# which means past a CISO's 0x8000-byte block map, the deepest of them.
+DISC_PREFIX = 0x8020
+
+
+def disc_header(head: bytes) -> bytes:
+    """Find the disc header in the front of whatever container it arrived in."""
+    if head[:4] == b"CISO":
+        # Compact ISO: a fixed 0x8000-byte header (magic, block size, then one
+        # flag per block) and then the blocks that survived, so the disc itself
+        # starts exactly where the map ends.
+        return head[0x8000:0x8020]
+
+    if head[:4] == b"WBFS" and len(head) > 8:
+        # A WBFS partition copies the disc header to the start of its second
+        # hardware sector, whose size the file header gives as a power of two.
+        offset = 1 << head[8]
+        return head[offset : offset + 0x20]
+
+    if head[:3] in (b"WIA", b"RVZ") and head[3:4] == b"\x01":
+        # RVZ and the WIA it grew out of both keep a copy of the disc's first
+        # 0x80 bytes at a fixed spot in their second header, which follows the
+        # 0x48-byte first one.
+        return head[0x58:0x78]
+
+    # Everything else is read as a plain image: .iso and .gcm, and the NKit
+    # rewrites of both, which leave the original header at the front.
+    return head[:0x20]
+
+
+def disc_game_id(path: Path) -> str | None:
+    """Game id from a GameCube or Wii dump."""
+    head = read_head(path, DISC_PREFIX)
+    if head is None or len(head) < 0x20:
+        return None
+
+    header = disc_header(head)
+    if len(header) < 0x20:
+        return None
+    if header[0x1C:0x20] != GC_MAGIC and header[0x18:0x1C] != WII_MAGIC:
+        return None
+
+    game_id = header[:6].decode("ascii", "replace")
+    return game_id.upper() if game_id.isalnum() else None
 
 
 # PARAM.SFO's TITLE names the SAVE, not the game -- "Dragon's Crown Save Data"
@@ -823,7 +1071,8 @@ def sfo_title(path: Path) -> str | None:
 
 
 ADAPTERS = {
-    adapter.name: adapter for adapter in (Citra(), Eden(), RetroArch(), Rpcs3())
+    adapter.name: adapter
+    for adapter in (Citra(), Dolphin(), Eden(), RetroArch(), Rpcs3())
 }
 
 
@@ -842,16 +1091,40 @@ class Context:
     roms: list[dict] = field(default_factory=list)
 
 
+# nixpkgs ships some programs -- Dolphin among them -- behind a launcher that
+# execs ".<name>-wrapped" beside it, and /proc/<pid>/comm is that file's name
+# cut to 15 characters, so a running Dolphin calls itself ".dolphin-emu-wr".
+# Reading the executable back off the process and undoing the decoration is
+# what lets an emulator be named here the way a person would name it.
+WRAPPED = re.compile(r"^\.(.+)-wrapped$")
+
+
+def process_names(entry: Path) -> set[str]:
+    """Every name the process at /proc/<entry> answers to."""
+    names = set()
+    try:
+        names.add((entry / "comm").read_text().strip())
+    except OSError:
+        pass  # exited between listing and reading
+
+    try:
+        executable = PurePosixPath(os.readlink(entry / "exe")).name
+    except OSError:
+        return names  # exited, or belongs to another user
+
+    match = WRAPPED.match(executable)
+    names.add(match.group(1) if match else executable)
+    return names
+
+
 def emulator_running(names: tuple[str, ...]) -> str | None:
+    wanted = set(names)
     for entry in Path("/proc").iterdir():
         if not entry.name.isdigit():
             continue
-        try:
-            comm = (entry / "comm").read_text().strip()
-        except OSError:
-            continue  # process exited between listing and reading
-        if comm in names:
-            return comm
+        found = wanted & process_names(entry)
+        if found:
+            return min(found)
     return None
 
 
@@ -1056,7 +1329,7 @@ def main() -> int:
 
     parser = argparse.ArgumentParser(
         prog="romm-save-sync",
-        description="Sync Citra, Eden, RetroArch and RPCS3 saves with RomM.",
+        description="Sync Citra, Dolphin, Eden, RetroArch and RPCS3 saves with RomM.",
     )
     parser.add_argument(
         "--only",

@@ -11,14 +11,16 @@ let
 
   inherit (config.dusk.folders) home;
 
-  # One core per system RomM actually holds ROMs for. Switch and PS3 are absent
-  # on purpose -- libretro has no core for either, which is why eden and rpcs3
-  # are separate packages below.
+  # One core per system RomM actually holds ROMs for. Switch, PS3, GameCube and
+  # Wii are absent on purpose: libretro has no core for the first two, and the
+  # Dolphin core that would cover the other two writes GameCube saves into a
+  # single memory card image shared by the whole library, which no save sync
+  # can trace back to a game. Standalone eden, rpcs3 and dolphin below cover
+  # all four.
   retroarch = pkgs.retroarch-bare.wrapper {
     cores = with pkgs.libretro; [
       beetle-psx-hw # psx
       citra # 3ds
-      dolphin # ngc
       gambatte # gb, gbc
       genesis-plus-gx # segacd
       melonds # nds
@@ -62,6 +64,31 @@ let
       rgui_browser_directory = cfg.romsDirectory;
     };
   };
+
+  # GameCube and Wii, from the standalone Dolphin instead of the libretro core
+  # left out above.
+  #
+  # -C sets a value in Dolphin's command-line config layer, which sits above
+  # the base layer Dolphin.ini is read from and written back to. Same trick as
+  # RetroArch's --appendconfig: this holds on every launch while the rest of
+  # the config stays editable from the GUI.
+  #
+  # SlotA=8 is EXIDeviceType::MemoryCardFolder, a directory holding one .gci
+  # per save named after the game that wrote it. The alternative is a .raw
+  # memory card image: one file carrying every game's saves at once, with no
+  # way back from a save to the game it belongs to, which romm-save-sync can
+  # therefore do nothing with. Dolphin has defaulted to the folder for years,
+  # but nothing announces it if that ever flips -- saves keep working locally
+  # and quietly stop reaching RomM -- so it is pinned rather than assumed.
+  dolphin = pkgs.symlinkJoin {
+    name = "dolphin-emu-${pkgs.dolphin-emu.version}";
+    paths = [ pkgs.dolphin-emu ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/dolphin-emu --add-flags "-C Dolphin.Core.SlotA=8"
+    '';
+    inherit (pkgs.dolphin-emu) meta;
+  };
 in
 {
   config = mkIf cfg.enable {
@@ -88,6 +115,15 @@ in
       # compiles from source on every version bump. PS3 firmware (PS3UPDAT.PUP)
       # is user-supplied and installed through RPCS3's own UI.
       rpcs3
+
+      # GameCube and Wii, wrapped above. Two things are user-supplied here for
+      # the same reason as eden's keys and RPCS3's firmware: the ROM library
+      # has to be added once under Config -> Paths, since Dolphin rewrites
+      # Dolphin.ini on exit and there is no layered way to declare a path list
+      # that stays editable; and the dumps themselves have to be unpacked,
+      # because Dolphin reads .iso/.gcm/.ciso/.rvz/.wbfs and friends but has no
+      # notion of a zip, which is how RomM stores most of this library.
+      dolphin
     ];
 
     # RPCS3 reproduces the PS3's memory layout with a very large number of
