@@ -197,10 +197,11 @@ in
                 parent = cfg.desktop.gaming.enable;
               };
 
-              # Two consumers: RetroArch browses it, and romm-save-sync reads
-              # the dumps there to identify saves that name their game by an id
-              # nothing else on disk resolves -- 3DS title ids for Citra,
-              # GameCube and Wii game ids for Dolphin.
+              # Three consumers: RetroArch browses it, Dolphin lists it as its
+              # only ISO path, and romm-save-sync reads the dumps there to
+              # identify saves that name their game by an id nothing else on
+              # disk resolves -- 3DS title ids for Citra, GameCube and Wii game
+              # ids for Dolphin.
               romsDirectory = mkOption {
                 type = types.str;
                 description = "RomM's ROM library as checked out on this machine";

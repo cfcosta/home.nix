@@ -68,10 +68,12 @@ let
   # GameCube and Wii, from the standalone Dolphin instead of the libretro core
   # left out above.
   #
-  # -C sets a value in Dolphin's command-line config layer, which sits above
-  # the base layer Dolphin.ini is read from and written back to. Same trick as
-  # RetroArch's --appendconfig: this holds on every launch while the rest of
-  # the config stays editable from the GUI.
+  # --config writes into Dolphin's command-line config layer, which is searched
+  # ahead of the base layer Dolphin.ini is read from, and whose Save() is a
+  # no-op. Same trick as RetroArch's --appendconfig above: these hold on every
+  # launch, never land in Dolphin.ini, and leave the rest of the config
+  # editable from the GUI. One argument each rather than "-C k=v", so a
+  # romsDirectory with a space in it survives the wrapper's word splitting.
   #
   # SlotA=8 is EXIDeviceType::MemoryCardFolder, a directory holding one .gci
   # per save named after the game that wrote it. The alternative is a .raw
@@ -80,12 +82,24 @@ let
   # therefore do nothing with. Dolphin has defaulted to the folder for years,
   # but nothing announces it if that ever flips -- saves keep working locally
   # and quietly stop reaching RomM -- so it is pinned rather than assumed.
+  #
+  # The ISO path is the ROM library, searched recursively so the per-platform
+  # folders under it (ngc/, wii/) are what actually gets listed. Know the
+  # trade: Config::GetIsoPaths reads the COUNT from the winning layer too, so
+  # pinning it to one means a folder added from Config -> Paths is shadowed and
+  # silently does nothing, and the pinned entry can't be removed there either.
+  # That is the whole library in one root, so the cost is theoretical -- but if
+  # a second root is ever wanted, it has to be added here, not in the GUI.
   dolphin = pkgs.symlinkJoin {
     name = "dolphin-emu-${pkgs.dolphin-emu.version}";
     paths = [ pkgs.dolphin-emu ];
     nativeBuildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
-      wrapProgram $out/bin/dolphin-emu --add-flags "-C Dolphin.Core.SlotA=8"
+      wrapProgram $out/bin/dolphin-emu \
+        --add-flag "--config=Dolphin.Core.SlotA=8" \
+        --add-flag "--config=Dolphin.General.ISOPaths=1" \
+        --add-flag "--config=Dolphin.General.ISOPath0=${cfg.romsDirectory}" \
+        --add-flag "--config=Dolphin.General.RecursiveISOPaths=True"
     '';
     inherit (pkgs.dolphin-emu) meta;
   };
@@ -116,13 +130,12 @@ in
       # is user-supplied and installed through RPCS3's own UI.
       rpcs3
 
-      # GameCube and Wii, wrapped above. Two things are user-supplied here for
-      # the same reason as eden's keys and RPCS3's firmware: the ROM library
-      # has to be added once under Config -> Paths, since Dolphin rewrites
-      # Dolphin.ini on exit and there is no layered way to declare a path list
-      # that stays editable; and the dumps themselves have to be unpacked,
-      # because Dolphin reads .iso/.gcm/.ciso/.rvz/.wbfs and friends but has no
-      # notion of a zip, which is how RomM stores most of this library.
+      # GameCube and Wii, wrapped above with the ROM library and the save
+      # layout already pointed at. What is still user-supplied -- same deal as
+      # eden's keys and RPCS3's firmware -- is the dumps themselves being
+      # unpacked: Dolphin reads .iso/.gcm/.ciso/.rvz/.wbfs and friends but has
+      # no notion of a zip, which is how RomM stores most of this library, so a
+      # zipped dump is invisible to the game list no matter where it points.
       dolphin
     ];
 
