@@ -11,12 +11,12 @@ let
 
   inherit (config.dusk.folders) home;
 
-  # One core per system RomM actually holds ROMs for. Switch, PS3, GameCube and
-  # Wii are absent on purpose: libretro has no core for the first two, and the
-  # Dolphin core that would cover the other two writes GameCube saves into a
-  # single memory card image shared by the whole library, which no save sync
-  # can trace back to a game. Standalone eden, rpcs3 and dolphin below cover
-  # all four.
+  # One core per system RomM actually holds ROMs for. Switch, Wii U, PS3,
+  # GameCube and Wii are absent on purpose: libretro has no core for the first
+  # three, and the Dolphin core that would cover the other two writes GameCube
+  # saves into a single memory card image shared by the whole library, which no
+  # save sync can trace back to a game. Standalone eden, cemu, rpcs3 and
+  # dolphin below cover all five.
   retroarch = pkgs.retroarch-bare.wrapper {
     cores = with pkgs.libretro; [
       beetle-psx-hw # psx
@@ -90,6 +90,16 @@ let
   # silently does nothing, and the pinned entry can't be removed there either.
   # That is the whole library in one root, so the cost is theoretical -- but if
   # a second root is ever wanted, it has to be added here, not in the GUI.
+  # Wii U, from Cemu. Which folder it gets matters: Dolphin above is handed the
+  # whole library because it only ever opens formats no other platform here
+  # uses, but Cemu's CafeTitleList::ScanGamePath recurses into every
+  # subdirectory that is not itself a title folder and treats any `.iso` it
+  # meets as a Wii U disc -- so the library root would walk all ~3800 files and
+  # try to open the GameCube and PS3 images under ngc/ and ps3/ as Wii U
+  # titles. One level down is also all that is needed, since that recursion
+  # finds the base game plus the update/ and dlc/ folders beside it on its own.
+  cemuGamePath = "${cfg.romsDirectory}/wiiu";
+
   dolphin = pkgs.symlinkJoin {
     name = "dolphin-emu-${pkgs.dolphin-emu.version}";
     paths = [ pkgs.dolphin-emu ];
@@ -137,7 +147,27 @@ in
       # no notion of a zip, which is how RomM stores most of this library, so a
       # zipped dump is invisible to the game list no matter where it points.
       dolphin
+
+      # Wii U. Same user-supplied caveat again, and a sharper one: Cemu reads
+      # .wud/.wux/.iso/.wua/.wuhb and extracted content/code/meta title
+      # folders, and nothing else -- the .7z the Wii U dumps ship in is not on
+      # that list, so those have to be unpacked in the library to be visible.
+      # No keys or firmware needed; unlike eden and rpcs3, Cemu decrypts retail
+      # titles on its own.
+      cemu
     ];
+
+    # Cemu is the one emulator here whose settings cannot be pinned from a
+    # config layer, so its game path is written into settings.xml on
+    # activation instead -- see the script for why, and cemuGamePath above for
+    # why it is the wiiu/ subfolder rather than the whole library.
+    home-manager.users.${config.dusk.username} = { lib, ... }: {
+      home.activation.cemuGamePath = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        ${pkgs.python3}/bin/python3 ${./cemu-game-path.py} \
+          "''${XDG_CONFIG_HOME:-$HOME/.config}/Cemu/settings.xml" \
+          ${lib.escapeShellArg cemuGamePath}
+      '';
+    };
 
     # RPCS3 reproduces the PS3's memory layout with a very large number of
     # small mappings and fails to boot games once it exhausts them; the kernel

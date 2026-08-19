@@ -193,15 +193,15 @@ in
 
             emulation = {
               enable = mkEnabledOption {
-                description = "Whether or not to enable console emulators (RetroArch, RPCS3, Eden, Dolphin)";
+                description = "Whether or not to enable console emulators (RetroArch, RPCS3, Eden, Dolphin, Cemu)";
                 parent = cfg.desktop.gaming.enable;
               };
 
-              # Three consumers: RetroArch browses it, Dolphin lists it as its
-              # only ISO path, and romm-save-sync reads the dumps there to
-              # identify saves that name their game by an id nothing else on
-              # disk resolves -- 3DS title ids for Citra, GameCube and Wii game
-              # ids for Dolphin.
+              # Four consumers: RetroArch browses it, Dolphin lists it as its
+              # only ISO path, Cemu scans its wiiu/ subfolder, and
+              # romm-save-sync reads the dumps there to identify saves that
+              # name their game by an id nothing else on disk resolves -- 3DS
+              # title ids for Citra, GameCube and Wii game ids for Dolphin.
               romsDirectory = mkOption {
                 type = types.str;
                 description = "RomM's ROM library as checked out on this machine";
