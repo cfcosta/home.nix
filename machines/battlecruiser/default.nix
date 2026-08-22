@@ -3,7 +3,6 @@
     ./desktop.nix
     ./hardware.nix
     ./homelab-vm.nix
-    ./jobcrawler.nix
     ./keyboard.nix
     ./monitors.nix
     ./networking.nix
