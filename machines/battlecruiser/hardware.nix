@@ -5,10 +5,7 @@
   ];
 
   config = {
-    boot = {
-      initrd.kernelModules = [ "kvm-amd" ];
-      # kernelPackages = pkgs.linuxPackages_xanmod_latest;
-    };
+    boot.initrd.kernelModules = [ "kvm-amd" ];
 
     fileSystems = {
       "/" = {

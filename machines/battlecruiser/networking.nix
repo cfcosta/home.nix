@@ -26,20 +26,5 @@
         }
       ];
     };
-
-    systemd.services.disable-eno1-eee = {
-      description = "Disable EEE/offloads on eno1 (Intel I225-V silent-stall workaround)";
-      after = [ "sys-subsystem-net-devices-eno1.device" ];
-      bindsTo = [ "sys-subsystem-net-devices-eno1.device" ];
-      wantedBy = [ "sys-subsystem-net-devices-eno1.device" ];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-      };
-      script = ''
-        ${pkgs.ethtool}/bin/ethtool --set-eee eno1 eee off || true
-        ${pkgs.ethtool}/bin/ethtool -K eno1 tso off gso off gro off || true
-      '';
-    };
   };
 }
