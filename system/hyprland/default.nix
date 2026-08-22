@@ -53,6 +53,7 @@ in
         gnome-calculator
         gparted-full
         imv
+        localsend
         obs-studio
         obsidian
         pinta

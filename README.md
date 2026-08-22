@@ -40,6 +40,7 @@ The shortcut list below is for the Hyprland setup on Linux. The macOS side is in
 | `Super + T` | Open Todoist |
 | `Super + Shift + C` | Open Calculator |
 | `Super + Shift + S` | Open Steam when gaming is enabled |
+| `Super + Ctrl + S` | Open Local Send |
 | `Super + Shift + T` | Open Streamlink Twitch GUI |
 
 ### Web apps
@@ -66,7 +67,6 @@ The shortcut list below is for the Hyprland setup on Linux. The macOS side is in
 | `Super + Ctrl + Esc` | Open the power menu |
 | `Super + Ctrl + N` | Open the network editor |
 | `Super + Ctrl + P` | Open the PipeWire patchbay |
-| `Super + Ctrl + S` | Open btop |
 | `Super + Ctrl + W` | Open the Wi-Fi manager |
 
 ### Media and hardware keys

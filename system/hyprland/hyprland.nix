@@ -272,6 +272,10 @@ in
         exec = "${pkgs.gnome-calculator}/bin/gnome-calculator";
       }
       {
+        key = "${mod} + CTRL + S";
+        exec = "${pkgs.localsend}/bin/localsend_app";
+      }
+      {
         key = "${mod} + SHIFT + T";
         exec = "${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui";
       }
@@ -298,10 +302,6 @@ in
       {
         key = "${mod} + CTRL + P";
         exec = "${pkgs.crosspipe}/bin/crosspipe";
-      }
-      {
-        key = "${mod} + CTRL + S";
-        exec = launchTerm "${pkgs.btop}/bin/btop";
       }
       {
         key = "${mod} + CTRL + W";
