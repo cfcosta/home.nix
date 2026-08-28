@@ -193,11 +193,11 @@ in
       # Pin the uid instead of letting activation allocate it. 1000 is what the
       # allocator hands the first normal user anyway (and what battlecruiser
       # already has), so this changes nothing in practice, but it makes the uid
-      # visible at evaluation time — which the moonshine module needs, since it
-      # locates the user's runtime dir (/run/user/<uid>) and session bus and
-      # orders itself after user@<uid>.service. Declared users are allocated
-      # before auto-assigned ones, so the installer image's own `nixos` account
-      # (which declares no uid) simply moves out of the way.
+      # visible at evaluation time — which hyprland/moonshine.nix needs, to
+      # order the streaming service after this user's user@<uid>.service.
+      # Declared users are allocated before auto-assigned ones, so the
+      # installer image's own `nixos` account (which declares no uid) simply
+      # moves out of the way.
       uid = 1000;
     };
 
