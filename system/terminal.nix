@@ -15,6 +15,8 @@ let
 
     font-family = ${cfg.font-family}
     font-size = ${toString cfg.font-size}
+
+    confirm-close-surface = false
   '';
 in
 {
