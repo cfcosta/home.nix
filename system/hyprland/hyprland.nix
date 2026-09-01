@@ -277,6 +277,16 @@ in
         match.class = ".*";
         set.suppress_event = "maximize";
       }
+
+      # `launchTerm` tags its one-shot terminals with a dedicated class so they
+      # can be floated, but the rule that did the floating disappeared long ago
+      # and nothing has matched the class since. Restore it, so the transient
+      # TUIs on SUPER+CTRL+{D,E,W} stop shoving the tiled layout around.
+      {
+        name = "float-scratch-terminals";
+        match.class = ''^com\.mitchellh\.ghostty\.floating$'';
+        set.float = true;
+      }
     ];
 
     dusk.system.nixos.desktop.hyprland.binds = [
