@@ -116,7 +116,7 @@ in
       printing.enable = mkForce false;
 
       # Cap the systemd journal so it can't fill the root filesystem.
-      journald.extraConfig = "SystemMaxUse=200M";
+      journald.settings.Journal.SystemMaxUse = "200M";
 
       openssh = {
         enable = true;
