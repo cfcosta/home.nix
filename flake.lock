@@ -1213,15 +1213,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1788554441,
-        "narHash": "sha256-YcjaU5YwywUeFGOQnWd28lFoZgJhd8OP1fIS6P0JdU8=",
-        "owner": "hgaiser",
+        "lastModified": 1788660263,
+        "narHash": "sha256-aHCee/cnF7rtXPHDzy5blHxxZYm8/7fx8QXPpaG7kkc=",
+        "owner": "cfcosta",
         "repo": "moonshine",
-        "rev": "a60807d3b2915a2359da15747424a5e3ef9dd766",
+        "rev": "2632bccc3ac231de265701e13b1f0461cb85579c",
         "type": "github"
       },
       "original": {
-        "owner": "hgaiser",
+        "owner": "cfcosta",
         "repo": "moonshine",
         "type": "github"
       }
