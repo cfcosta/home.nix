@@ -4,7 +4,7 @@ let
 in
 {
   inherit (inputs.docbert.packages.${system}) docbert docbert-cuda;
-  inherit (inputs.llm-agents.packages.${system}) claude-code crush;
+  inherit (inputs.llm-agents.packages.${system}) claude-code codex;
 
   bun2nix = inputs.bun2nix.packages.${system}.default;
   dusk-apply = super.callPackage ./dusk-apply { };
