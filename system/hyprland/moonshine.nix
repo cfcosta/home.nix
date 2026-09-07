@@ -220,6 +220,10 @@ in
     # Two things upstream's flake module did that the nixpkgs one does not,
     # restored here so the service behaves as it did before the switch.
     systemd.services.moonshine = {
+      # The cgroup-aware Xwayland launcher needs a shell. This host uses the
+      # nixpkgs service module, not the fork's module with its expanded PATH.
+      path = [ pkgs.bash ];
+
       # The user manager owns the runtime dir, the session bus, and the
       # transient units moonshine launches applications as. nixpkgs orders the
       # service after network.target only and resolves the runtime dir inside
