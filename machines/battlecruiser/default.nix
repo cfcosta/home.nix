@@ -6,6 +6,7 @@
     ./keyboard.nix
     ./monitors.nix
     ./networking.nix
+    ./romm-moonshine.nix
     ./romm-save-sync.nix
   ];
 

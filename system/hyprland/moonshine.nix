@@ -120,24 +120,12 @@ in
               launch_timeout_secs = steamLaunchTimeout;
             }
           ]
-          # The emulators emulation.nix installs, when it is on. All four
-          # are launched bare, which brings up their own game-list UI on the
-          # streamed display: moonshine ships no emulator scanner (only
-          # Steam, Desktop, Lutris and Heroic), and no ROM library is
-          # described anywhere in this config, so per-game entries cannot be
-          # generated from here. RetroArch is comfortable that way — its menu
-          # is gamepad-driven and emulation.nix already points its browser at
-          # the ROM library, so a controller alone reaches a game. Eden, RPCS3
-          # and Dolphin are not: picking a game in any of them means driving a
-          # desktop UI, so the client needs a pointer for those three.
+          # Standalone emulator library UIs. Hosts with per-game Eden entries
+          # can hide that launcher without affecting other installations.
           ++ optionals emulation.enable [
             {
               title = "RetroArch";
               command = [ retroarch ];
-            }
-            {
-              title = "Eden";
-              command = withStreamingAudio [ eden ];
             }
             {
               title = "RPCS3";
@@ -147,13 +135,18 @@ in
               title = "Dolphin";
               command = [ dolphin ];
             }
+          ]
+          ++ optionals (emulation.enable && cfg.edenLauncher.enable) [
+            {
+              title = "Eden";
+              command = withStreamingAudio [ eden ];
+            }
           ];
 
         # Scanners keep the Moonlight app list in sync with what is actually
         # installed, so games do not have to be enumerated here by hand. Only
-        # the launchers gaming.nix installs are scanned; the desktop scanner is
-        # deliberately left out, since it would list every .desktop file on the
-        # system (Blender, Firefox, ...) as a streamable "game".
+        # the launchers gaming.nix installs are scanned here. A host can add a
+        # desktop scanner pointed at a directory of generated game launchers.
         application_scanner =
           optionals config.programs.steam.enable [
             {

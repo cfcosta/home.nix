@@ -210,6 +210,12 @@ in
             };
 
             moonshine = {
+              edenLauncher.enable = mkOption {
+                type = types.bool;
+                default = true;
+                description = "Include the Eden library UI in Moonlight, unless a host supplies per-game launchers";
+              };
+
               enable = mkEnabledOption {
                 description = "Whether or not to stream games to Moonlight clients (Moonshine)";
                 parent = cfg.desktop.gaming.enable;
