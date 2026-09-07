@@ -58,7 +58,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     moonshine = {
-      url = "github:cfcosta/moonshine";
+      url = "github:cfcosta/moonshine?ref=develop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     neovim = {
