@@ -30,6 +30,18 @@ let
   dolphin = "/run/current-system/sw/bin/dolphin-emu";
   bash = "/run/current-system/sw/bin/bash";
 
+  # SDL2-compat/SDL3 can select native PipeWire and bypass PULSE_SERVER.
+  # Set both driver spellings on the streamed process, so Steam's children
+  # inherit them too; the daemon's environment does not reach transient units.
+  withStreamingAudio =
+    command:
+    [
+      "/run/current-system/sw/bin/env"
+      "SDL_AUDIODRIVER=pulseaudio"
+      "SDL_AUDIO_DRIVER=pulseaudio"
+    ]
+    ++ command;
+
   # Steam is single-instance per user. When moonshine starts Steam inside its
   # own compositor while a desktop Steam is already running, the steam:// URL is
   # handed to that existing instance instead: Big Picture opens on the host's
@@ -100,7 +112,7 @@ in
           optionals config.programs.steam.enable [
             {
               title = "Steam";
-              command = [
+              command = withStreamingAudio [
                 steam
                 "steam://open/bigpicture"
               ];
@@ -125,7 +137,7 @@ in
             }
             {
               title = "Eden";
-              command = [ eden ];
+              command = withStreamingAudio [ eden ];
             }
             {
               title = "RPCS3";
@@ -148,7 +160,7 @@ in
               type = "steam";
               # NixOS's Steam uses the default library location.
               library = "$HOME/.local/share/Steam";
-              command = [
+              command = withStreamingAudio [
                 steam
                 "-bigpicture"
                 "steam://rungameid/{game_id}"
