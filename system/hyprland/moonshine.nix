@@ -120,16 +120,12 @@ in
               launch_timeout_secs = steamLaunchTimeout;
             }
           ]
-          # Standalone emulator library UIs. Hosts with per-game Eden entries
-          # can hide that launcher without affecting other installations.
+          # Standalone emulator library UIs. Hosts with per-game entries can
+          # hide Eden/RPCS3 without affecting other installations.
           ++ optionals emulation.enable [
             {
               title = "RetroArch";
               command = [ retroarch ];
-            }
-            {
-              title = "RPCS3";
-              command = [ rpcs3 ];
             }
             {
               title = "Dolphin";
@@ -140,6 +136,12 @@ in
             {
               title = "Eden";
               command = withStreamingAudio [ eden ];
+            }
+          ]
+          ++ optionals (emulation.enable && cfg.rpcs3Launcher.enable) [
+            {
+              title = "RPCS3";
+              command = [ rpcs3 ];
             }
           ];
 

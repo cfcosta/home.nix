@@ -16,8 +16,8 @@ class FakeRomm:
         self.items = roms
         self.downloads = 0
 
-    def switch_roms(self):
-        return self.items
+    def roms(self, platform):
+        return [rom for rom in self.items if rom["platform_fs_slug"] == platform]
 
     def get(self, path):
         self.downloads += 1
@@ -31,6 +31,8 @@ class ExportTests(unittest.TestCase):
         self.root = Path(self.temp.name) / "roms"
         self.switch = self.root / "switch"
         self.switch.mkdir(parents=True)
+        self.ps3 = self.root / "ps3"
+        self.ps3.mkdir()
         self.output = Path(self.temp.name) / "export"
 
     def game(self, name="Game", ident=1, title_id="0100152000022000"):
@@ -49,6 +51,102 @@ class ExportTests(unittest.TestCase):
 
     def entries(self):
         return sorted((self.output / "current").glob("*.desktop"))
+
+    def ps3_game(self, name="Dragon's Crown", ident=2, nested=False):
+        location = self.ps3 / name if nested else self.ps3
+        location.mkdir(exist_ok=True)
+        iso = location / f"{name}.iso"
+        iso.touch()
+        return {
+            "id": ident,
+            "name": name,
+            "fs_name": location.name if nested else iso.name,
+            "platform_fs_slug": "ps3",
+            "path_cover_large": f"/assets/{ident}/big.png?ts=1",
+        }, iso
+
+    def test_exports_switch_and_ps3_with_their_own_launchers_and_covers(self):
+        switch, _ = self.game()
+        ps3, iso = self.ps3_game()
+        self.assertEqual(
+            sync.refresh(FakeRomm([switch, ps3]), self.root, self.output), 2
+        )
+        entry = (self.output / "current" / "2.desktop").read_text()
+        self.assertIn("Name=Dragon's Crown (PS3)", entry)
+        raw = next(line[5:] for line in entry.splitlines() if line.startswith("Exec="))
+        self.assertEqual(
+            shlex.split(raw),
+            [
+                "/run/current-system/sw/bin/env",
+                "SDL_AUDIODRIVER=pulseaudio",
+                "SDL_AUDIO_DRIVER=pulseaudio",
+                "/run/current-system/sw/bin/rpcs3",
+                "--no-gui",
+                "--fullscreen",
+                str(iso),
+            ],
+        )
+        icon = Path(
+            next(line[5:] for line in entry.splitlines() if line.startswith("Icon="))
+        )
+        self.assertEqual(icon.read_bytes(), JPEG)
+
+    def test_ps3_nested_iso_ignores_update_packages(self):
+        rom, iso = self.ps3_game(nested=True)
+        updates = iso.parent / "update"
+        updates.mkdir()
+        (updates / "patch.pkg").touch()
+        self.assertEqual(sync.local_game(rom, self.root), iso)
+        iso.unlink()
+        self.assertIsNone(sync.local_game(rom, self.root))
+
+    def test_ps3_extracted_disc_and_ambiguous_dumps(self):
+        rom, iso = self.ps3_game(nested=True)
+        disc = iso.parent / "disc"
+        boot = disc / "PS3_GAME/USRDIR/EBOOT.BIN"
+        boot.parent.mkdir(parents=True)
+        boot.touch()
+        (disc / "PS3_GAME/PARAM.SFO").touch()
+        self.assertIsNone(sync.local_game(rom, self.root))
+        iso.unlink()
+        self.assertEqual(sync.local_game(rom, self.root), disc)
+        boot.unlink()
+        self.assertIsNone(sync.local_game(rom, self.root))
+
+    def test_ps3_escaping_paths_and_installer_are_not_launched(self):
+        rom, iso = self.ps3_game()
+        for name in ("../outside.iso", str(iso), "install.pkg"):
+            with self.subTest(name=name):
+                self.assertIsNone(sync.local_game({**rom, "fs_name": name}, self.root))
+        outside = Path(self.temp.name) / "outside.iso"
+        outside.touch()
+        iso.unlink()
+        iso.symlink_to(outside)
+        self.assertIsNone(sync.local_game(rom, self.root))
+
+    def test_unavailable_ps3_library_preserves_combined_listing(self):
+        switch, _ = self.game()
+        ps3, iso = self.ps3_game()
+        api = FakeRomm([switch, ps3])
+        sync.refresh(api, self.root, self.output)
+        previous = (self.output / "current").resolve()
+        iso.unlink()
+        self.ps3.rmdir()
+        with self.assertRaises(OSError):
+            sync.refresh(api, self.root, self.output)
+        self.assertEqual((self.output / "current").resolve(), previous)
+        self.assertEqual(len(self.entries()), 2)
+
+    def test_same_title_on_different_platforms_keeps_switch_title_stable(self):
+        switch, _ = self.game()
+        ps3, _ = self.ps3_game(name="Game")
+        sync.refresh(FakeRomm([switch, ps3]), self.root, self.output)
+        self.assertIn(
+            "Name=Game (Switch)\n", (self.output / "current/1.desktop").read_text()
+        )
+        self.assertIn(
+            "Name=Game (PS3)\n", (self.output / "current/2.desktop").read_text()
+        )
 
     def test_launches_base_game_with_cover_fullscreen_and_stream_audio(self):
         rom, base = self.game("Pokémon: Let's Go! 100%")
@@ -168,7 +266,7 @@ class ApiTests(unittest.TestCase):
                 json.dumps({"items": [{"id": 2}], "total": 2}).encode(),
             ],
         ) as get:
-            self.assertEqual([r["id"] for r in api.switch_roms()], [1, 2])
+            self.assertEqual([r["id"] for r in api.roms("switch")], [1, 2])
             self.assertIn("offset=1", get.call_args.args[0])
 
     def test_incomplete_page_is_failure(self):
@@ -184,7 +282,7 @@ class ApiTests(unittest.TestCase):
             ),
             self.assertRaises(ValueError),
         ):
-            api.switch_roms()
+            api.roms("switch")
 
     def test_missing_platform_is_failure(self):
         api = sync.Romm("https://romm.example", "secret")
@@ -192,7 +290,20 @@ class ApiTests(unittest.TestCase):
             patch.object(api, "get", return_value=b"[]"),
             self.assertRaises(ValueError),
         ):
-            api.switch_roms()
+            api.roms("switch")
+
+    def test_selects_ps3_platform_id_for_requests(self):
+        api = sync.Romm("https://romm.example", "secret")
+        with patch.object(
+            api,
+            "get",
+            side_effect=[
+                b'[{"id":21,"fs_slug":"switch"},{"id":29,"fs_slug":"ps3"}]',
+                b'{"items":[{"id":2}],"total":1}',
+            ],
+        ) as get:
+            self.assertEqual(api.roms("ps3"), [{"id": 2}])
+            self.assertIn("platform_ids=29", get.call_args.args[0])
 
     def test_cross_origin_requests_and_redirects_are_rejected(self):
         api = sync.Romm("https://romm.example", "secret")

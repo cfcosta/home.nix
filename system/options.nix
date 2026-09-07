@@ -210,6 +210,12 @@ in
             };
 
             moonshine = {
+              rpcs3Launcher.enable = mkOption {
+                type = types.bool;
+                default = true;
+                description = "Include the RPCS3 library UI in Moonlight, unless a host supplies per-game launchers";
+              };
+
               edenLauncher.enable = mkOption {
                 type = types.bool;
                 default = true;

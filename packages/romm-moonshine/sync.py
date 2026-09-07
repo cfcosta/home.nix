@@ -1,4 +1,4 @@
-"""Export locally available RomM Switch games for Moonshine's desktop scanner."""
+"""Export local RomM Switch and PS3 games for Moonshine's desktop scanner."""
 
 import argparse
 import fcntl
@@ -13,6 +13,8 @@ import urllib.parse
 import urllib.request
 from collections import Counter
 from pathlib import Path
+
+PLATFORM_NAMES = {"switch": "Switch", "ps3": "PS3"}
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -48,12 +50,12 @@ class Romm:
             raise ValueError("RomM response exceeds 32 MiB")
         return data
 
-    def switch_roms(self):
+    def roms(self, slug):
         platforms = json.loads(self.get("api/platforms"))
-        platform = next((p for p in platforms if p["fs_slug"] == "switch"), None)
+        platform = next((p for p in platforms if p["fs_slug"] == slug), None)
         if platform is None:
             raise ValueError(
-                "RomM has no Switch platform; retaining the previous export"
+                f"RomM has no {slug} platform; retaining the previous export"
             )
         items = []
         seen = set()
@@ -86,12 +88,15 @@ def local_game(rom, root):
     name = Path(rom["fs_name"])
     if name.is_absolute() or ".." in name.parts or not name.parts:
         return None
-    if rom.get("platform_fs_slug", "switch") != "switch":
+    platform = rom.get("platform_fs_slug", "switch")
+    if platform not in PLATFORM_NAMES:
         return None
-    switch = (root / "switch").resolve()
-    location = (switch / name).resolve()
-    if not location.is_relative_to(switch):
+    library = (root / platform).resolve()
+    location = (library / name).resolve()
+    if not location.is_relative_to(library):
         return None
+    if platform == "ps3":
+        return local_ps3_game(location, library)
     candidates = []
     for path in location.rglob("*") if location.is_dir() else [location]:
         if path.suffix.lower() not in {".xci", ".nsp"} or not path.is_file():
@@ -103,8 +108,25 @@ def local_game(rom, root):
         if len(ids) != 1 or not ids[0].startswith("010") or not ids[0].endswith("000"):
             continue
         resolved = path.resolve()
-        if resolved.is_relative_to(switch):
+        if resolved.is_relative_to(library):
             candidates.append(resolved)
+    return candidates[0] if len(candidates) == 1 else None
+
+
+def local_ps3_game(location, library):
+    candidates = []
+    for path in location.rglob("*") if location.is_dir() else [location]:
+        if not path.is_file() or not path.resolve().is_relative_to(library):
+            continue
+        if path.suffix.lower() == ".iso":
+            candidates.append(path.resolve())
+        elif path.parts[-3:] == ("PS3_GAME", "USRDIR", "EBOOT.BIN"):
+            disc = path.parents[2].resolve()
+            metadata = disc / "PS3_GAME/PARAM.SFO"
+            if metadata.is_file() and metadata.resolve().is_relative_to(library):
+                # Boot the disc root so RPCS3 retains its disc/update context.
+                candidates.append(disc)
+    # PKG files are installers, including patches and DLC, not boot targets.
     return candidates[0] if len(candidates) == 1 else None
 
 
@@ -117,14 +139,16 @@ def desktop_value(value):
     )
 
 
-def desktop_entry(title, game, cover):
+def desktop_entry(title, game, cover, platform="switch"):
+    command = {
+        "switch": ["/run/current-system/sw/bin/eden", "-f", "-g"],
+        "ps3": ["/run/current-system/sw/bin/rpcs3", "--no-gui", "--fullscreen"],
+    }[platform]
     args = [
         "/run/current-system/sw/bin/env",
         "SDL_AUDIODRIVER=pulseaudio",
         "SDL_AUDIO_DRIVER=pulseaudio",
-        "/run/current-system/sw/bin/eden",
-        "-f",
-        "-g",
+        *command,
         str(game),
     ]
     # Exec has two escaping layers: desktop strings, then quoted argv and
@@ -174,29 +198,35 @@ def cover_file(api, rom, output):
 def refresh(api, root, output):
     # A missing library mount must not turn the last good listing into an empty
     # one. Individual deleted games, however, disappear on a successful refresh.
-    if not (root / "switch").is_dir():
-        raise OSError("Local Switch library is unavailable")
+    for platform, label in PLATFORM_NAMES.items():
+        if not (root / platform).is_dir():
+            raise OSError(f"Local {label} library is unavailable")
     output = output.resolve()
     output.mkdir(parents=True, exist_ok=True)
     games = []
-    for rom in api.switch_roms():
-        game = local_game(rom, root)
-        if game is None:
-            print(
-                f"Skipping RomM game {rom['id']}: no unambiguous local base dump",
-                file=sys.stderr,
-            )
-            continue
-        games.append((rom, game))
-    names = Counter(rom["name"] for rom, _ in games)
+    for platform in PLATFORM_NAMES:
+        for rom in api.roms(platform):
+            if rom.get("platform_fs_slug", platform) != platform:
+                raise ValueError("RomM returned a game from the wrong platform")
+            rom = {**rom, "platform_fs_slug": platform}
+            game = local_game(rom, root)
+            if game is None:
+                print(
+                    f"Skipping RomM game {rom['id']}: no unambiguous local base dump",
+                    file=sys.stderr,
+                )
+                continue
+            games.append((platform, rom, game))
+    names = Counter((platform, rom["name"]) for platform, rom, _ in games)
     entries = {}
-    for rom, game in games:
+    for platform, rom, game in games:
         ident = int(rom["id"])
-        title = f"{rom['name']} (Switch)"
-        if names[rom["name"]] > 1:
-            title = f"{rom['name']} (Switch, RomM {ident})"
+        label = PLATFORM_NAMES[platform]
+        title = f"{rom['name']} ({label})"
+        if names[platform, rom["name"]] > 1:
+            title = f"{rom['name']} ({label}, RomM {ident})"
         entries[f"{ident}.desktop"] = desktop_entry(
-            title, game, cover_file(api, rom, output)
+            title, game, cover_file(api, rom, output), platform
         )
     digest = hashlib.sha256(json.dumps(entries, sort_keys=True).encode()).hexdigest()
     generations = output / "generations"
@@ -234,9 +264,7 @@ def main():
                 return 0
             api = Romm(os.environ["ROMM_URL"], os.environ["ROMM_TOKEN"])
             count = refresh(api, args.roms_directory, args.output_directory)
-            print(
-                f"Exported {count} Switch games; Moonshine reads them on its next start"
-            )
+            print(f"Exported {count} games; Moonshine reads them on its next start")
         return 0
     except (OSError, ValueError, KeyError) as error:
         print(f"RomM export failed; keeping previous listing: {error}", file=sys.stderr)

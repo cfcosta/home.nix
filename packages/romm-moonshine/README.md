@@ -1,25 +1,37 @@
 # RomM launchers for Moonshine
 
 Only `machines/battlecruiser/romm-moonshine.nix` enables this exporter. Other
-installations keep their standalone Eden launcher and need no RomM server.
+installations keep their standalone Eden/RPCS3 launchers and need no RomM server.
 
 The system service `moonshine-romm-library` reads `ROMM_URL` and `ROMM_TOKEN`
 from the existing `~/.config/romm-save-sync/config.env`. It only reads RomM's
 platform, ROM and cover endpoints. Credentials and ROMs never enter the Nix
 store. The local library is `dusk.system.nixos.desktop.emulation.romsDirectory`.
 
-Each locally available Switch base game becomes a desktop entry with its
-RomM title and cached cover. Eden starts fullscreen with `-f -g`, and both SDL
-audio-driver variables force PulseAudio for streaming. Base dumps must have a
+Each locally available Switch or PS3 base game becomes a desktop entry with its
+RomM title and cached cover. Eden starts fullscreen with `-f -g`; RPCS3 uses
+`--no-gui --fullscreen` with the game's ISO or extracted disc directory. Both
+SDL audio-driver variables force PulseAudio for streaming SDL backends.
+
+Switch base dumps must have a
 bracketed 16-digit Switch title ID ending in `000` in their filename. Updates,
 DLC, missing dumps and ambiguous folders are skipped and logged. A folder
 containing both an NSP and an XCI base dump is ambiguous; retain one base dump
 there to export it. Missing covers abort the refresh, preserving the previous
 complete listing.
 
+PS3 supports a single ISO (directly or in a game folder), or an extracted disc
+containing `PS3_GAME/USRDIR/EBOOT.BIN` and `PS3_GAME/PARAM.SFO`. Folders with more
+than one boot target are skipped. PKG installers, updates and DLC are never
+launched or installed by the exporter. Existing RPCS3 firmware, keys, installed
+updates and per-game settings remain in use. PSN games available only as PKG
+installers are not exported.
+
 Refresh runs before Moonshine starts and every six hours. A failed or timed-out
 refresh does not prevent Moonshine starting with its cached listing. On the
-first run, RomM and the local library must be available to populate that cache.
+first run, both RomM platforms and the local `switch` and `ps3` directories
+must be available to populate that cache. Failure on either platform preserves
+the previous combined listing.
 The exporter never restarts Moonshine or launches games itself. Moonshine scans
 only at startup, so new/removed games appear after its next restart.
 

@@ -14,6 +14,7 @@ in
 {
   config = lib.mkIf (desktop.moonshine.enable && desktop.emulation.enable) {
     dusk.system.nixos.desktop.moonshine.edenLauncher.enable = false;
+    dusk.system.nixos.desktop.moonshine.rpcs3Launcher.enable = false;
 
     services.moonshine.settings.application_scanner = [
       {
@@ -29,7 +30,7 @@ in
     };
 
     systemd.services.moonshine-romm-library = {
-      description = "Export RomM Switch games and covers for Moonshine";
+      description = "Export RomM Switch and PS3 games and covers for Moonshine";
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
       serviceConfig = {
