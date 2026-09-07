@@ -2,7 +2,6 @@
   config,
   inputs,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -13,9 +12,6 @@ let
   gaming = config.dusk.system.nixos.desktop.gaming;
 
   inherit (config.dusk) username;
-
-  # Declared in system/nixos/default.nix, so it is known at evaluation time.
-  uid = config.users.users.${username}.uid;
 
   # Launchers are named by their /run/current-system/sw/bin path rather than a
   # store path, for two reasons. Moonshine resolves commands against the system
@@ -79,23 +75,13 @@ let
   ];
 in
 {
-  # No import: services.moonshine is a nixpkgs module now
-  # (nixos/modules/services/networking/moonshine.nix), so it is already in the
-  # default module list. The flake input is kept only for its package build,
-  # see `package` below.
+  # Keep the module and package on the same Moonshine revision. The module
+  # disables the nixpkgs service module and defaults to its own flake package.
+  imports = [ inputs.moonshine.nixosModules.default ];
+
   config = mkIf cfg.enable {
     services.moonshine = {
       enable = true;
-
-      # nixpkgs packages the v0.15.0 release; the flake input is pinned past
-      # it, and the commits in between carry fixes this host runs on — a
-      # PulseAudio client crash that took the whole session down, an audio
-      # timerfd wakeup fix, Heroic library discovery plus GOG install-state
-      # reading (which the heroic scanner below depends on), and low-latency
-      # Vulkan encoding. Drop this line and the flake input once nixpkgs
-      # carries a release containing them; everything else here is upstream's
-      # module unmodified.
-      package = inputs.moonshine.packages.${pkgs.stdenv.hostPlatform.system}.moonshine;
 
       # Streamed applications are launched inside this user's systemd instance,
       # so it has to be the user owning the Steam library.
@@ -192,52 +178,10 @@ in
       # handshake WARN. Silencing that one target keeps the journal readable
       # without lowering the rest of moonshine's logging. This overrides the
       # module's own MOONSHINE_LOG default.
-      environment.MOONSHINE_LOG = "moonshine=info,moonshine_core::tls=error";
-    };
+      logFilter = "moonshine=info,moonshine_core::tls=error";
 
-    # The GameStream ports: pairing/HTTPS/RTSP over TCP, video/control/audio
-    # over UDP. Opened globally rather than through the module's
-    # firewallInterfaces, which would mean naming battlecruiser's links
-    # (eno1/wlp7s0) in a file every gaming host shares. GameStream traffic is
-    # not fully encrypted, so this is only acceptable behind the home router —
-    # the same posture gaming.nix already takes with Steam remote play and
-    # local network game transfers. Streaming over Tailscale needs none of it:
-    # networking.nix already trusts tailscale0 outright. The numbers are the
-    # daemon's defaults, which `settings` above leaves alone.
-    networking.firewall = {
-      allowedTCPPorts = [
-        47984
-        47989
-        48010
-      ];
-      allowedUDPPorts = [
-        47998
-        47999
-        48000
-      ];
-    };
-
-    # Two things upstream's flake module did that the nixpkgs one does not,
-    # restored here so the service behaves as it did before the switch.
-    systemd.services.moonshine = {
-      # The cgroup-aware Xwayland launcher needs a shell. This host uses the
-      # nixpkgs service module, not the fork's module with its expanded PATH.
-      path = [ pkgs.bash ];
-
-      # The user manager owns the runtime dir, the session bus, and the
-      # transient units moonshine launches applications as. nixpkgs orders the
-      # service after network.target only and resolves the runtime dir inside
-      # ExecStart, which leaves a boot race: lingering brings user@<uid>.service
-      # up as well, but nothing sequences the two, so moonshine can start before
-      # /run/user/<uid>/bus exists and fall into its restart loop.
-      requires = optionals (uid != null) [ "user@${toString uid}.service" ];
-      after = optionals (uid != null) [ "user@${toString uid}.service" ];
-
-      # /dev/dri/card* is video-group on NixOS and this user is deliberately not
-      # in that group, so the service would otherwise lose access it had before.
-      # This merges with, rather than replaces, the module's own
-      # SupplementaryGroups: systemd's option type concatenates lists.
-      serviceConfig.SupplementaryGroups = [ "video" ];
+      # Keep the existing LAN GameStream ports open through the module.
+      openFirewall = true;
     };
 
     # Scoped by the polkit rule shipped in the package: lets moonshine hold a
@@ -248,10 +192,11 @@ in
     # resolves subject.isInGroup() through NSS rather than the process's own
     # credentials — the module's SupplementaryGroups entry alone would not
     # satisfy the rule.
-    #
-    # The `input` group (read access to /dev/input/event*, needed when
-    # streaming with no desktop session, since the streamed game has to read
-    # the virtual gamepad moonshine creates) comes from the module itself now.
-    users.users.${username}.extraGroups = [ "moonshine" ];
+    # Streamed games also need the user's real input-group membership;
+    # SupplementaryGroups on the daemon do not reach transient user units.
+    users.users.${username}.extraGroups = [
+      "moonshine"
+      "input"
+    ];
   };
 }
