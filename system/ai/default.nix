@@ -36,7 +36,7 @@ in
           recursive = true;
         };
 
-        ".codex/skills" = {
+        ".agents/skills" = {
           source = "${pkgs.duskpi.out}/skills";
           recursive = true;
         };
