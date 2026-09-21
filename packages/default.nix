@@ -1,6 +1,7 @@
 inputs: _: super:
 let
-  inherit (super.stdenv.hostPlatform) system;
+  inherit (super) lib;
+  inherit (super.stdenv.hostPlatform) isLinux system;
 in
 {
   inherit (inputs.docbert.packages.${system}) docbert docbert-cuda;
@@ -21,4 +22,7 @@ in
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
   romm-save-sync = super.callPackage ./romm-save-sync { };
+}
+// lib.optionalAttrs isLinux {
+  inherit (inputs.codex-desktop-linux.packages.${system}) codex-desktop;
 }

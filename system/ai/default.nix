@@ -10,7 +10,10 @@ let
   };
 in
 {
-  imports = [ ./playwright.nix ];
+  imports = [
+    ./codex-desktop.nix
+    ./playwright.nix
+  ];
 
   config = {
     environment.systemPackages = with pkgs; [
