@@ -6,9 +6,13 @@ on:
 jobs:
   build_image:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/determinate-nix-action@v3
+      - uses: DeterminateSystems/flakehub-cache-action@v3
       - run: nix build .#iso
       - run: cp result/iso/*.iso dusk.iso
       - uses: actions/upload-artifact@v4

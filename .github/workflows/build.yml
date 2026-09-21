@@ -36,6 +36,8 @@ jobs:
           docker-images: true
           swap-storage: true
 
-      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/determinate-nix-action@v3
+
+      - uses: DeterminateSystems/flakehub-cache-action@v3
 
       - run: nix build ${{ matrix.items.parent }}."$NIX_TARGET"
