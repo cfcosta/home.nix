@@ -380,10 +380,6 @@ in
         exec = "${pkgs.localsend}/bin/localsend_app";
       }
       {
-        key = "${mod} + SHIFT + T";
-        exec = "${pkgs.streamlink-twitch-gui-bin}/bin/streamlink-twitch-gui";
-      }
-      {
         key = "${mod} + CTRL + A";
         exec = "${pkgs.pavucontrol}/bin/pavucontrol";
       }

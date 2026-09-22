@@ -41,7 +41,6 @@ The shortcut list below is for the Hyprland setup on Linux. The macOS side is in
 | `Super + Shift + C` | Open Calculator |
 | `Super + Shift + S` | Open Steam when gaming is enabled |
 | `Super + Ctrl + S` | Open Local Send |
-| `Super + Shift + T` | Open Streamlink Twitch GUI |
 
 ### Web apps
 
