@@ -23,7 +23,6 @@
         nixpkgs.follows = "nixpkgs";
         rust-overlay.follows = "rust-overlay";
         treefmt-nix.follows = "treefmt-nix";
-        bun2nix.follows = "bun2nix";
       };
     };
     duskpi = {
@@ -31,7 +30,6 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         llm-agents.follows = "llm-agents";
-        skill-hunk.follows = "hunk";
       };
     };
     gitignore = {
@@ -41,17 +39,6 @@
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    bun2nix = {
-      url = "github:cfcosta/bun2nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        treefmt-nix.follows = "treefmt-nix";
-      };
-    };
-    hunk = {
-      url = "github:modem-dev/hunk";
-      flake = false;
     };
     hyprland = {
       url = "github:hyprwm/Hyprland";

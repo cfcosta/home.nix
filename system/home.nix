@@ -82,9 +82,8 @@ in
           htop = "btop";
           j = "jj";
           jc = "jj commit";
-          jd = "jj d";
+          jd = "jj diff";
           jl = "jj log --no-pager --ignore-working-copy";
-          js = "jj sh";
           ll = mkForce "lsd -l -A";
           ls = mkForce "lsd -l";
           vi = "nvim";

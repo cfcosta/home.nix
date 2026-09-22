@@ -2,7 +2,6 @@
 let
   inherit (pkgs)
     dusk-treefmt
-    hunk
     makeWrapper
     symlinkJoin
     writeShellApplication
@@ -107,33 +106,19 @@ in
 {
   config = {
     home = {
-      file = {
-        ".config/rustfmt/rustfmt.toml".text = ''
-          edition = "2024"
+      file.".config/rustfmt/rustfmt.toml".text = ''
+        edition = "2024"
 
-          reorder_imports = true
-          imports_granularity = "Crate"
-          imports_layout = "HorizontalVertical"
-          max_width = 102
-          group_imports = "StdExternalCrate"
-          trailing_comma = "Vertical"
-          trailing_semicolon = true
-        '';
+        reorder_imports = true
+        imports_granularity = "Crate"
+        imports_layout = "HorizontalVertical"
+        max_width = 102
+        group_imports = "StdExternalCrate"
+        trailing_comma = "Vertical"
+        trailing_semicolon = true
+      '';
 
-        ".config/hunk/config.toml".text = ''
-          theme = "graphite"
-          mode = "auto"
-          exclude_untracked = false
-          line_numbers = true
-          wrap_lines = false
-          agent_notes = true
-        '';
-      };
-
-      packages = with pkgs; [
-        hunk
-        jjui
-      ];
+      packages = with pkgs; [ jjui ];
     };
 
     programs.jujutsu = {
@@ -142,18 +127,6 @@ in
       settings = {
         aliases = {
           amend = [ "squash" ];
-
-          d = [
-            "--config"
-            ''ui.pager=["${hunk}/bin/hunk", "pager"]''
-            "diff"
-          ];
-
-          sh = [
-            "--config"
-            ''ui.pager=["${hunk}/bin/hunk", "pager"]''
-            "show"
-          ];
 
           my-remotes = [
             "log"
