@@ -51,7 +51,7 @@ diff -ruN a/modules/notifications/Notification.qml b/modules/notifications/Notif
 diff -ruN a/modules/sidebar/Notif.qml b/modules/sidebar/Notif.qml
 --- a/modules/sidebar/Notif.qml
 +++ b/modules/sidebar/Notif.qml
-@@ -134,7 +134,16 @@
+@@ -135,7 +135,16 @@
              id: bodyText
  
              Layout.fillWidth: true
@@ -66,6 +66,6 @@ diff -ruN a/modules/sidebar/Notif.qml b/modules/sidebar/Notif.qml
 +                    return Text.MarkdownText;
 +                return Text.PlainText;
 +            }
-             text: String(root.modelData?.body ?? "").replace(/(.)\n(?!\n)/g, "$1\n\n") || qsTr("No body here! :/")
+             text: String(root.modelData?.body ?? "").replace(/(.)\n(?!\n)/g, "$1\n\n") || Tr.tr("No body here! :/")
              color: root.modelData?.urgency === "critical" ? Colours.palette.m3secondary : Colours.palette.m3outline
              wrapMode: Text.WordWrap

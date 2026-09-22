@@ -31,6 +31,23 @@ let
   # package. If a flake bump moves the patched lines the build fails loudly;
   # regenerate the patch then.
   #
+  # The drawers window (modules/drawers/ContentWindow.qml) is a fullscreen
+  # layer-shell surface on `top`, above every window; only the parts inside its
+  # input mask belong to the shell, the rest passes through. `dragMaskPadding`
+  # widens that mask inward from all four screen edges to arm the drag-to-open
+  # gestures, and is meant to do so only on an empty workspace — the guard reads
+  # `monitor?.activeWorkspace?...windows > 0`. When battlecruiser's Samsung panel
+  # is powered off, the NVIDIA driver drops HPD and the output disappears;
+  # quickshell logs "attempted to use dangling screen object" and `monitor` goes
+  # null for good, because `Hypr.monitorFor` never resolves the dangling screen
+  # again. `undefined > 0` is false, so neither branch returned 0 and the band
+  # latched on: clicks landing in a strip along the screen edges were swallowed
+  # by the shell instead of reaching the window. Chromium and Discord took the
+  # worst of it (their tab strip/titlebar sits at the very top of the window),
+  # while tiled native windows only clipped it intermittently thanks to the gap.
+  # The patch fails safe — no monitor means no padding — so the gesture degrades
+  # instead of the desktop losing clicks until caelestia is restarted.
+  #
   # caelestia's flake declares no hyprland input; its package resolves the
   # `hyprland` callPackage arg from its own overlay-free nixpkgs, which lands on
   # the release build (0.56.1) that fails to build here. Override it with the
@@ -41,7 +58,10 @@ let
       inherit (pkgs) hyprland;
     }).overrideAttrs
       (old: {
-        patches = (old.patches or [ ]) ++ [ ./caelestia-notifications-html.patch ];
+        patches = (old.patches or [ ]) ++ [
+          ./caelestia-notifications-html.patch
+          ./caelestia-drawers-mask-null-monitor.patch
+        ];
       });
 
   # Repo-bundled wallpapers, copied into the store. caelestia owns the

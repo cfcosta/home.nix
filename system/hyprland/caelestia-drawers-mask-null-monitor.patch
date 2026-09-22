@@ -1,0 +1,30 @@
+diff -ruN a/modules/drawers/ContentWindow.qml b/modules/drawers/ContentWindow.qml
+--- a/modules/drawers/ContentWindow.qml
++++ b/modules/drawers/ContentWindow.qml
+@@ -48,7 +48,25 @@
+         if (focusGrab.active || panels.popouts.isDetached)
+             return 0;
+ 
+-        if (monitor?.lastIpcObject.specialWorkspace?.name || monitor?.activeWorkspace?.lastIpcObject.windows > 0)
++        // Arming the edge drag zones widens this window's input mask inward from
++        // all four screen edges, and this is a fullscreen layer on `top`: inside
++        // that band the shell swallows clicks meant for the windows underneath.
++        // It is only supposed to happen on an empty workspace.
++        //
++        // `monitor` is null whenever Hyprland has no output. A DPMS/HPD drop
++        // (Samsung panels on the NVIDIA proprietary driver do this on power-off)
++        // tears the output down, and quickshell is then left holding a dangling
++        // screen object that `Hypr.monitorFor` never resolves again. The
++        // optional chaining below let that case fall through to the thresholds
++        // -- `undefined > 0` is false, so neither branch returned 0 -- latching
++        // the dead band until the shell was restarted. Without a monitor we
++        // cannot tell whether the workspace is empty, so fail safe: an unarmed
++        // drag zone costs a gesture, a latched one costs every click at the
++        // screen edge.
++        if (!monitor || !monitor.activeWorkspace)
++            return 0;
++
++        if (monitor.lastIpcObject.specialWorkspace?.name || monitor.activeWorkspace.lastIpcObject.windows > 0)
+             return 0;
+ 
+         const thresholds = [];
