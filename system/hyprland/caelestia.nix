@@ -48,6 +48,17 @@ let
   # The patch fails safe — no monitor means no padding — so the gesture degrades
   # instead of the desktop losing clicks until caelestia is restarted.
   #
+  # Upstream keeps notification history unbounded (services/Notifs.qml): every
+  # notification ever received stays a live NotifData object, is re-persisted
+  # to notifs.json on every change, and each sidebar group re-filters the full
+  # list whenever it changes. Each arrival also reassigns the whole list. A
+  # burst of a thousand-plus notifications turns into quadratic churn, and the
+  # dock's lazy list views end up stuck mid-animation: rows overlap inside a
+  # group and groups spill into each other. The patch batches arrivals into one
+  # list update every 50ms, keeps at most 50 notifications per app and 300 in
+  # total (the oldest are evicted, both on arrival and when loading
+  # notifs.json), and limits popups to the 5 newest.
+  #
   # caelestia's flake declares no hyprland input; its package resolves the
   # `hyprland` callPackage arg from its own overlay-free nixpkgs, which lands on
   # the release build (0.56.1) that fails to build here. Override it with the
@@ -61,6 +72,7 @@ let
         patches = (old.patches or [ ]) ++ [
           ./caelestia-notifications-html.patch
           ./caelestia-drawers-mask-null-monitor.patch
+          ./caelestia-notifications-limit.patch
         ];
       });
 
