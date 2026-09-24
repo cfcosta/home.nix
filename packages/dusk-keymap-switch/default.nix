@@ -1,7 +1,6 @@
 {
   dusk-stdlib,
   writeShellApplication,
-  fcitx5,
   hyprland,
   jq,
 }:
@@ -13,7 +12,6 @@ writeShellApplication {
 
   runtimeInputs = [
     dusk-stdlib.entrypoint
-    fcitx5
     hyprland
     jq
   ];

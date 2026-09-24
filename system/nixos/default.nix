@@ -102,11 +102,6 @@ in
         LC_TELEPHONE = locale;
         LC_TIME = locale;
       };
-
-      inputMethod = {
-        enable = true;
-        type = "fcitx5";
-      };
     };
 
     time.timeZone = timezone;
