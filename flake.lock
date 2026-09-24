@@ -185,10 +185,10 @@
     "caelestia-cli": {
       "inputs": {
         "caelestia-shell": [
-          "caelestia-shell"
+          "dusk-shell"
         ],
         "nixpkgs": [
-          "caelestia-shell",
+          "dusk-shell",
           "nixpkgs"
         ]
       },
@@ -203,29 +203,6 @@
       "original": {
         "owner": "caelestia-dots",
         "repo": "cli",
-        "type": "github"
-      }
-    },
-    "caelestia-shell": {
-      "inputs": {
-        "caelestia-cli": "caelestia-cli",
-        "m3shapes": "m3shapes",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "quickshell": "quickshell"
-      },
-      "locked": {
-        "lastModified": 1789883688,
-        "narHash": "sha256-aqL6V2OAnojfKZA3710jROb1eqbrXpMzDFOqhYFemlQ=",
-        "owner": "caelestia-dots",
-        "repo": "shell",
-        "rev": "20e625d6bf1a9d0bb7625a4bb814797d187b075d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "caelestia-dots",
-        "repo": "shell",
         "type": "github"
       }
     },
@@ -415,6 +392,32 @@
       "original": {
         "owner": "cfcosta",
         "repo": "docbert",
+        "type": "github"
+      }
+    },
+    "dusk-shell": {
+      "inputs": {
+        "caelestia-cli": "caelestia-cli",
+        "hyprland": [
+          "hyprland"
+        ],
+        "m3shapes": "m3shapes",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "quickshell": "quickshell"
+      },
+      "locked": {
+        "lastModified": 1790272750,
+        "narHash": "sha256-pSLsY2vEF4E+8EEOQCaQarYALAc7l2wr0R2RA7SrGfw=",
+        "owner": "cfcosta",
+        "repo": "dusk-shell",
+        "rev": "86f6af7d010a533aff8e3ea02e954326909938b8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cfcosta",
+        "repo": "dusk-shell",
         "type": "github"
       }
     },
@@ -1205,7 +1208,7 @@
     "m3shapes": {
       "inputs": {
         "nixpkgs": [
-          "caelestia-shell",
+          "dusk-shell",
           "nixpkgs"
         ]
       },
@@ -1766,7 +1769,7 @@
     "quickshell": {
       "inputs": {
         "nixpkgs": [
-          "caelestia-shell",
+          "dusk-shell",
           "nixpkgs"
         ]
       },
@@ -1818,11 +1821,11 @@
     },
     "root": {
       "inputs": {
-        "caelestia-shell": "caelestia-shell",
         "catppuccin": "catppuccin",
         "codex-desktop-linux": "codex-desktop-linux",
         "determinate": "determinate",
         "docbert": "docbert",
+        "dusk-shell": "dusk-shell",
         "duskpi": "duskpi",
         "gitignore": "gitignore",
         "home-manager": "home-manager",

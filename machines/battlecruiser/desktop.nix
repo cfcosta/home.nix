@@ -24,7 +24,7 @@
     };
 
     home-manager.users.${config.dusk.username} = {
-      programs.caelestia.settings = {
+      programs.dusk-shell.settings = {
         # Desktop — no battery, so hide caelestia's bar battery indicator.
         bar.status.showBattery = lib.mkForce false;
 

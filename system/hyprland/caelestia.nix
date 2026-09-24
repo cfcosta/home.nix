@@ -12,69 +12,8 @@ let
 
   mod = "SUPER";
 
-  cli =
-    inputs.caelestia-shell.inputs.caelestia-cli.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  cli = inputs.dusk-shell.inputs.caelestia-cli.packages.${pkgs.stdenv.hostPlatform.system}.default;
   caelestia = "${cli}/bin/caelestia";
-
-  # caelestia renders notification bodies through Qt's Markdown engine whenever
-  # the body contains a `<` (see modules/notifications/Notification.qml upstream).
-  # But the freedesktop spec — which caelestia advertises support for via
-  # `bodyMarkupSupported`/`bodyHyperlinksSupported` — defines body markup as an
-  # HTML subset (<b> <i> <u> <a> <img>). The Markdown path mishandles that two
-  # ways: HTML links render in Qt's default blue (invisible on our dark surface),
-  # and any stray angle-bracket text (e.g. "<nick>", "a < b") is parsed as a tag
-  # and silently dropped — so the notification body vanishes. The patch routes
-  # real HTML markup to RichText, keeps genuine Markdown as Markdown, leaves
-  # everything else as PlainText, and gives links a legible accent colour. This
-  # is purely a QML source patch (the shell's QML is copied verbatim into the
-  # store), so it applies cleanly over `with-cli` — the HM module's default
-  # package. If a flake bump moves the patched lines the build fails loudly;
-  # regenerate the patch then.
-  #
-  # The drawers window (modules/drawers/ContentWindow.qml) is a fullscreen
-  # layer-shell surface on `top`, above every window; only the parts inside its
-  # input mask belong to the shell, the rest passes through. `dragMaskPadding`
-  # widens that mask inward from all four screen edges to arm the drag-to-open
-  # gestures, and is meant to do so only on an empty workspace — the guard reads
-  # `monitor?.activeWorkspace?...windows > 0`. When battlecruiser's Samsung panel
-  # is powered off, the NVIDIA driver drops HPD and the output disappears;
-  # quickshell logs "attempted to use dangling screen object" and `monitor` goes
-  # null for good, because `Hypr.monitorFor` never resolves the dangling screen
-  # again. `undefined > 0` is false, so neither branch returned 0 and the band
-  # latched on: clicks landing in a strip along the screen edges were swallowed
-  # by the shell instead of reaching the window. Chromium and Discord took the
-  # worst of it (their tab strip/titlebar sits at the very top of the window),
-  # while tiled native windows only clipped it intermittently thanks to the gap.
-  # The patch fails safe — no monitor means no padding — so the gesture degrades
-  # instead of the desktop losing clicks until caelestia is restarted.
-  #
-  # Upstream keeps notification history unbounded (services/Notifs.qml): every
-  # notification ever received stays a live NotifData object, is re-persisted
-  # to notifs.json on every change, and each sidebar group re-filters the full
-  # list whenever it changes. Each arrival also reassigns the whole list. A
-  # burst of a thousand-plus notifications turns into quadratic churn, and the
-  # dock's lazy list views end up stuck mid-animation: rows overlap inside a
-  # group and groups spill into each other. The patch batches arrivals into one
-  # list update every 50ms, keeps at most 50 notifications per app and 300 in
-  # total (the oldest are evicted, both on arrival and when loading
-  # notifs.json), and limits popups to the 5 newest.
-  #
-  # caelestia's flake declares no hyprland input; its package resolves the
-  # `hyprland` callPackage arg from its own overlay-free nixpkgs, which lands on
-  # the release build (0.56.1) that fails to build here. Override it with the
-  # flake hyprland (pkgs.hyprland is pinned to inputs.hyprland by packages/) so
-  # caelestia builds against — and puts on PATH — the same compositor we run.
-  caelestiaShell =
-    (inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.with-cli.override {
-      inherit (pkgs) hyprland;
-    }).overrideAttrs
-      (old: {
-        patches = (old.patches or [ ]) ++ [
-          ./caelestia-notifications-html.patch
-          ./caelestia-drawers-mask-null-monitor.patch
-          ./caelestia-notifications-limit.patch
-        ];
-      });
 
   # Repo-bundled wallpapers, copied into the store. caelestia owns the
   # background now that hyprpaper is retired.
@@ -200,14 +139,13 @@ in
     environment.sessionVariables.CAELESTIA_WALLPAPERS_DIR = "${wallpapers}";
 
     home-manager.users.${config.dusk.username} = { lib, ... }: {
-      imports = [ inputs.caelestia-shell.homeManagerModules.default ];
+      imports = [ inputs.dusk-shell.homeManagerModules.default ];
 
-      programs.caelestia = {
+      # dusk-shell is our fork of caelestia-shell (github:cfcosta/dusk-shell).
+      # Fixes that used to live here as patches are commits there, and it
+      # builds against our Hyprland through the `follows` in flake.nix.
+      programs.dusk-shell = {
         enable = true;
-
-        # Shell built from the same upstream input, with our notification
-        # HTML-rendering fix patched into its QML (see `caelestiaShell` above).
-        package = caelestiaShell;
 
         # Started as a systemd user service bound to graphical-session.target,
         # which UWSM sets up for the Hyprland session (see hyprland.nix).

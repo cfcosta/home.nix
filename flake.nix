@@ -4,10 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    caelestia-shell = {
-      url = "github:caelestia-dots/shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,6 +20,11 @@
         rust-overlay.follows = "rust-overlay";
         treefmt-nix.follows = "treefmt-nix";
       };
+    };
+    dusk-shell = {
+      url = "github:cfcosta/dusk-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.hyprland.follows = "hyprland";
     };
     duskpi = {
       url = "github:cfcosta/duskpi";
