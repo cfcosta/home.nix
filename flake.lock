@@ -437,11 +437,11 @@
         "skill-visual-explainer": "skill-visual-explainer"
       },
       "locked": {
-        "lastModified": 1790109926,
-        "narHash": "sha256-ZDy6JRDP/Yk78ePzbBZnOBL4RPilf0nJfVkwFq4T9iU=",
+        "lastModified": 1790267423,
+        "narHash": "sha256-ImNEN3vBD1MbE3WBOVv2i3m+HOeoYkqEBXvZBL7s9xI=",
         "owner": "cfcosta",
         "repo": "duskpi",
-        "rev": "f68413fd5fe888fefcc7d6de0526367effc7c9a5",
+        "rev": "df942ef4dd3b57ad1f3f3d85ede1db2c114ded7d",
         "type": "github"
       },
       "original": {
