@@ -17,6 +17,7 @@ in
   nightvim = inputs.neovim.packages.${system}.default;
   nm-wifi = inputs.nm-wifi.packages.${system}.default;
   romm-save-sync = super.callPackage ./romm-save-sync { };
+  tau-agent = inputs.tau-agent.packages.${system}.default;
 }
 // lib.optionalAttrs isLinux {
   inherit (inputs.codex-desktop-linux.packages.${system}) codex-desktop;

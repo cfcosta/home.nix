@@ -20,6 +20,7 @@ in
       claude-code
       codex
       duskpi
+      tau-agent
     ];
 
     home-manager.users.${config.dusk.username} = _: {
