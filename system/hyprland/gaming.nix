@@ -67,6 +67,8 @@ in
           bundle = "${hytale}";
         }
       ];
+
+      overrides."com.hypixel.HytaleLauncher".Context.devices = [ "all" ];
     };
 
     users.users.${config.dusk.username}.extraGroups = [ "gamemode" ];
