@@ -61,6 +61,7 @@ in
         telegram-desktop
         todoist-electron
         transmission_4-gtk
+        unityhub
         vlc
         wl-clipboard-rs
         zathura

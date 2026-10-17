@@ -399,11 +399,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790189806,
-        "narHash": "sha256-Wp/raPgyXbaWaGHJIF6aVDLoVqgcA5636GaLHiXKrHc=",
+        "lastModified": 1792215820,
+        "narHash": "sha256-yZnTxUwZKUClnAejM1YCcoVUpuQIWOdZ/PoFKLwBUX8=",
         "owner": "cfcosta",
         "repo": "docbert",
-        "rev": "3a8c760bd9906c8797794abb220406481fa8315f",
+        "rev": "aebd6eee65403bce0cd6121896df8bc48c27e4da",
         "type": "github"
       },
       "original": {
