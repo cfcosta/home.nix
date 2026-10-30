@@ -57,6 +57,7 @@ in
         obs-studio
         obsidian
         pinta
+        scrcpy
         slack
         telegram-desktop
         todoist-electron
