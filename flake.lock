@@ -467,11 +467,11 @@
         "skill-duckdb-skills": "skill-duckdb-skills"
       },
       "locked": {
-        "lastModified": 1792178112,
-        "narHash": "sha256-a3NPhiJg/E5Qw8h6oxvnJY0CfNC+kxhpkdrYpA2NQp0=",
+        "lastModified": 1793382486,
+        "narHash": "sha256-1l7qALtrj1XyJwCNwPC6zdkK87NKB1ee5Rh1TT8Zvns=",
         "owner": "cfcosta",
         "repo": "duskpi",
-        "rev": "32b3302a569c2aedb27d9027532b4af6dce6d687",
+        "rev": "cd585114061901c21363957a881b0be7a3e3dbc0",
         "type": "github"
       },
       "original": {
@@ -2140,11 +2140,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792275775,
-        "narHash": "sha256-CqJQc/DaYgq/BDR4FhmQD1nwWAjkB8Q6CeGkQTJBZKA=",
+        "lastModified": 1793382490,
+        "narHash": "sha256-GrJia1lMb1hCPFqwg/s/fiqDU18nf7LIZBoeYHAs/t0=",
         "owner": "cfcosta",
         "repo": "tau-agent",
-        "rev": "ec87dba8ea2e8dbd0a2148a2b0a9eb94fc32fc5b",
+        "rev": "090bf60f0691f255c5e7c80f186ffe39c655aaa9",
         "type": "github"
       },
       "original": {

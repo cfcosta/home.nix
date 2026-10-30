@@ -550,6 +550,7 @@ in
       dconf.enable = true;
 
       home.pointerCursor = {
+        enable = true;
         hyprcursor.enable = true;
 
         name = "Adwaita";

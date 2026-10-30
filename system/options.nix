@@ -7,7 +7,7 @@
 }:
 let
   inherit (lib) mkOption types;
-  inherit (pkgs.stdenv) isLinux;
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
 
   mkEnabledOption =
     {

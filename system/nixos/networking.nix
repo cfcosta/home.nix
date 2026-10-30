@@ -28,26 +28,24 @@ in
     };
 
     services = {
-      avahi =
-        let
-          net = config.dusk.system.nixos.networking;
-        in
-        {
-          enable = true;
+      avahi = {
+        enable = true;
 
-          allowInterfaces = optionals net.tailscale.enable [ "tailscale0" ];
+        settings = {
+          server.allow-interfaces = if cfg.tailscale.enable then [ "tailscale0" ] else null;
 
           publish = {
-            enable = true;
-
-            domain = true;
-            userServices = true;
-            workstation = true;
+            disable-publishing = false;
+            disable-user-service-publishing = false;
+            publish-addresses = true;
+            publish-domain = true;
+            publish-workstation = true;
           };
-
-          nssmdns4 = true;
-          nssmdns6 = true;
         };
+
+        nssmdns4 = true;
+        nssmdns6 = true;
+      };
 
       tailscale = { inherit (cfg.tailscale) enable; };
     };
