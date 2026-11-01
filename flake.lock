@@ -66,6 +66,22 @@
         "type": "github"
       }
     },
+    "beads-rs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786059434,
+        "narHash": "sha256-XIi342/Vnf7VnhKnbtKAN4LXwBEtsztcvgtJq+Bp21U=",
+        "owner": "delightful-ai",
+        "repo": "beads-rs",
+        "rev": "39c83a36091fbb149506cd8189da3cdc747cc7b2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "delightful-ai",
+        "repo": "beads-rs",
+        "type": "github"
+      }
+    },
     "beancount-nvim": {
       "flake": false,
       "locked": {
@@ -1907,6 +1923,7 @@
     },
     "root": {
       "inputs": {
+        "beads-rs": "beads-rs",
         "catppuccin": "catppuccin",
         "codex-desktop-linux": "codex-desktop-linux",
         "determinate": "determinate",

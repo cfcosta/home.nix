@@ -17,6 +17,7 @@ in
 
   config = {
     environment.systemPackages = with pkgs; [
+      beads-rs
       claude-code
       codex
       duskpi

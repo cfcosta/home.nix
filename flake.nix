@@ -4,6 +4,12 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    beads-rs = {
+      # Only a devShell upstream, no package, so this is just the source tree
+      # for packages/beads-rs.
+      url = "github:delightful-ai/beads-rs";
+      flake = false;
+    };
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
